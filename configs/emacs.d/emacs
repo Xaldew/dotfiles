@@ -1,0 +1,26 @@
+;; Load initial include-file functions.
+(load (expand-file-name "~/.emacs.d/init.el"))
+
+(load-user-file "keybinds.el")
+(load-user-file "settings.el")
+(load-user-file "file-assoc.el")
+(load-user-file "func.el")
+(load-user-file "cmode.el")
+(load-user-file "cppmode.el")
+(load-user-file "latexmode.el")
+(load-user-file "addons.el")
+
+;; CUSTOM COMMANDS
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(inhibit-startup-screen t))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(font-lock-comment-face
+   ((((class color) (min-colors 8) (background dark)) (:foreground "red")))))

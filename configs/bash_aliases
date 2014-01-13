@@ -1,0 +1,104 @@
+# Alias definitions for the bash-shell.
+# This list will be filled in automatically by scripts later on.
+
+# enable color support of ls and also add handy aliases
+if [ -x /usr/bin/dircolors ]; then
+    test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
+    alias ls='ls --color=auto'
+    #alias dir='dir --color=auto'
+    #alias vdir='vdir --color=auto'
+
+    alias grep='grep --color=auto'
+    alias fgrep='fgrep --color=auto'
+    alias egrep='egrep --color=auto'
+fi
+
+alias ssh-lth="ssh dt09gw1@login.student.lth.se"
+
+
+alias sl=ls
+alias ll="ls -lFh"
+alias la="ls -Alh"
+alias l="ls -CF"
+
+alias maek=make
+alias mkae=make
+alias mkea=make
+alias amke=make
+alias akem=make
+alias amek=make
+alias meka=make
+
+alias svnst="svn st"
+alias snv=svn
+
+alias emacs="emacs -nw"
+alias em=emacs
+alias ema=emacs
+alias emac=emacs
+
+
+# Function to compile and run any of the project euler files.
+function euler ()
+{
+    for arg in "$@"
+    do
+	filename=$(basename $arg);
+	extension="${filename##*.}";
+	case $extension in
+	    c)
+		cc -std=c99 -pedantic -Wall -Wextra $filename -lm && ./a.out;;
+	    c[cp])
+		g++ $filename && ./a.out;;
+	    py)
+		python $filename
+	esac
+    done
+    return 0
+}
+
+# Function to extract a range of pdf-pages using ghostscript.
+# Courtesy of Kurt Pfeifle @ Linux Journal.
+function pdfpextr()
+{
+    # this function uses 3 arguments:
+    #     $1 is the input file
+    #     $2 is the first page of the range to extract
+    #     $3 is the last page of the range to extract
+    #     output file will be named "inputfile_pXX-pYY.pdf"
+    gs -sDEVICE=pdfwrite -dNOPAUSE -dBATCH -dSAFER \
+	-dFirstPage=${2} \
+	-dLastPage=${3} \
+	-sOutputFile=${1%.pdf}_p${2}-p${3}.pdf \
+	${1}
+}
+
+# Function to find the dropbox folder.
+function find_dropbox()
+{
+    if [ -d $HOME/Dropbox ]; then
+	echo $HOME/Dropbox
+    elif [ -d $(tail -n 1 $HOME/.dropbox/host.db | base64 -d) ]; then
+	echo $(tail -n 1 $HOME/.dropbox/host.db | base64 -d)
+    fi
+}
+
+# Function to print a useful and funny ascii art.
+function greet_user()
+{
+    if [ -n "$(command -v cowsay)" ]; then
+	cowfiles=($(cowsay -l | tail -n +2))
+	cowfile=${cowfiles[$RANDOM % ${#cowfiles[@]} ]}
+	BINARY=2
+	T=1
+	number=$RANDOM
+	let "number %= $BINARY"
+	if [ "$number" -eq $T ]; then
+	    cowthink -f $cowfile $(whatis $(ls /bin) 2>/dev/null | shuf -n 1)
+	else
+	    cowsay -f $cowfile $(whatis $(ls /bin) 2>/dev/null | shuf -n 1)
+	fi
+    else
+	echo "Did you know that:" && whatis $(ls /bin | shuf -n 1)
+    fi
+}

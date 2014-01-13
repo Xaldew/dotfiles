@@ -1,0 +1,22 @@
+[user]
+	name = Gustaf Waldemarson
+	email = gustaf.waldemarson@gmail.com
+[core]
+	editor = "emacs -nw"
+	excludesfile = ~/.gitignore
+[merge]
+	tool = vimdiff
+[alias]
+	co = checkout
+	st = status
+	ci = commit
+	br = branch
+	unstage = reset HEAD --
+	last = log -1 HEAD
+	hist = log --pretty=format:\"%h %ad  | %s%d [%an]\" --graph --date=short
+	lol = log --graph --decorate --pretty=oneline --abbrev-commit
+	lola = log --graph --decorate --pretty=oneline --abbrev-commit --all
+[color]
+	branch = auto
+	statue = auto
+	diff   = auto

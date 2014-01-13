@@ -1,0 +1,85 @@
+""""""""""""""""""""""""""""""""""""""""
+""" General settings
+""""""""""""""""""""""""""""""""""""""""
+" Make settings incompatible with older vims.
+set nocompatible
+
+" Setup undo files.
+set undofile
+set undodir=/tmp/.vimundo
+set undolevels=2048
+
+" Insert the most common completion, show menu.
+set completeopt=longest,menu
+
+" Set unicode (UTF-8) for all editing. 
+set encoding=utf-8
+set fileencoding=utf-8
+
+" Setup spelling support.
+"set spelllang=en,sv
+"set spell
+
+" Setup X-clipboard support.
+set clipboard=unnamedplus
+
+" Turn of bell.
+set noerrorbells
+set novisualbell
+
+
+""""""""""""""""""""""""""""""""""""""""
+""" User Interface Settigns
+""""""""""""""""""""""""""""""""""""""""
+" Enable temporary folding (hiding) of parts of the file.
+set foldenable
+
+" Enable line numbering
+set number
+
+" Show partial command in status line.
+set showcmd
+" Show current mode on the last line.
+set showmode
+" Highlight matching bracket when found.
+set showmatch
+
+" Enable syntax highlighting
+syntax enable
+
+" Set background colour.
+set background=dark
+" Set colour theme.
+color desert
+
+" Set the maximum number of tabs.
+set tabpagemax=32
+
+" Make backspace properly indent.
+set backspace=indent,eol,start
+
+" Enable tab-completion menu.
+set wildmenu
+set wildmode=full
+
+" Set jumping distance when scrolling at the end of the screen.
+set scrolljump=5
+" Minimum lines to keep above and below cursor.
+set scrolloff=3
+
+" Highlight the current line.
+"set cursorline
+
+""""""""""""""""""""""""""""""""""""""""
+""" C coding style.
+""""""""""""""""""""""""""""""""""""""""
+
+""""""""""""""""""""""""""""""""""""""""
+""" C++ coding style.
+""""""""""""""""""""""""""""""""""""""""
+
+""""""""""""""""""""""""""""""""""""""""
+""" Python coding style.
+""""""""""""""""""""""""""""""""""""""""
+
+

@@ -1,0 +1,9 @@
+[Desktop Entry]
+Name=Caps-to-Ctrl
+GenericName=Remaps deprecated keys
+Comment=Remaps the caps-lock key to a second control key
+Exec=/usr/bin/setxkbmap -option '' -option 'ctrl:nocaps'
+Terminal=false
+Type=Application
+Categories=Settings;
+StartupNotify=false

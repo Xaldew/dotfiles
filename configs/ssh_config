@@ -1,0 +1,10 @@
+host tommyosrv
+     HostName tommyolofsson.se
+     User gitolite
+     IdentityFile ~/.ssh/xaldew_vm_rsa
+
+host meldanyasrv
+     HostName meldanya.se
+     Port 27148
+     User gitolite
+     IdentityFile ~/.ssh/xaldew_vm_rsa

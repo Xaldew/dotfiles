@@ -1,0 +1,21 @@
+# Global gitignore configuration file.
+
+# Ignore editor files.
+*~
+\#*#
+*.swp
+
+# Ignore OS-specific files
+.DS_Store	     # Mac Desktop Service metadata.
+.thumbs.db	     # Windows image thumbnails.
+desktop.ini	     # Windows desktop variables.
+
+# Ignore Version Management metadata folders.
+.svn
+.git
+
+# Ignore certain configuration files.
+.emacs.d/
+
+# Ignore c/cpp binaries.
+*.out
