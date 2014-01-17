@@ -8,7 +8,7 @@ packages=()
 ############################################################
 function is_installed ()
 {
-    dpkg -s "$1" >/dev/null 2>&1
+    dpkg --status "$1" > /dev/null 2>&1
     return $?
 }
 
@@ -33,10 +33,10 @@ function install_packages ()
 add_package git subversion
 
 # Install editors and terminal multiplexers.
-add_package tmux emacs vim ssh xclip
+add_package tmux vim ssh xclip
 
 # Install C/C++ Compilers, Python Interpreter, build tools.
-add_package gcc clang valgrind python cmake
+add_package gcc g++ clang valgrind python cmake
 
 # Install GL development packages.
 add_package freeglut3 freeglut3-dev libgl1-mesa-dev libglu1-mesa libglu1-mesa-dev
