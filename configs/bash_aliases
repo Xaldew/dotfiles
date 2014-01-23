@@ -36,7 +36,9 @@ alias emacs="emacs -nw"
 alias em=emacs
 alias ema=emacs
 alias emac=emacs
-
+alias emas=emacs
+alias emasc=emacs
+alias emascs=emacs
 
 # Function to compile and run any of the project euler files.
 function euler ()
