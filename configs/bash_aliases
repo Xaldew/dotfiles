@@ -40,6 +40,10 @@ alias emas=emacs
 alias emasc=emacs
 alias emascs=emacs
 
+alias gti=git
+
+alias qemu-arm="qemu-arm -L /usr/arm-linux-gnueabihf"
+
 # Function to compile and run any of the project euler files.
 function euler ()
 {
