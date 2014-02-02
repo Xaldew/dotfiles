@@ -45,9 +45,8 @@ export TERM=xterm-256color
 
 #################################################################
 # Add useful shell-tools
-export PATH=$PATH:$UTILS_DIR/scripts
-source $UTILS_DIR/scripts/prompt.sh
-source $UTILS_DIR/scripts/bashmarks.sh
+source $DOTFILES_DIR/scripts/prompt.sh
+source $DOTFILES_DIR/scripts/bashmarks.sh
 
 # Set XDG_CONFIG_HOME variable if not set.
 if [ -n "$XDG_CONFIG_HOME" -a -d "$HOME/.config" ]; then
