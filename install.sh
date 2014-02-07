@@ -61,7 +61,7 @@ function test-options()
     arg=$1
     for ((i=0; i < $nlinked_options; ++i));
     do
-	if [ $arg != ${short_options[i]} -a $arg != ${long_options[i]} ]; then
+	if [ $arg == ${short_options[i]} -o $arg == ${long_options[i]} ]; then
 	    $(expr substr ${long_options[i]} 3 ${#long_options[i]})
 	    return 0
 	fi
