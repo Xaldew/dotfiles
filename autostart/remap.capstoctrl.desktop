@@ -2,7 +2,7 @@
 Name=Caps-to-Ctrl
 GenericName=Remaps deprecated capslock key.
 Comment=Remaps the caps-lock key to a second control key
-Exec=/usr/bin/setxkbmap -option '' -option 'ctrl:nocaps' -option 'ctrl:swapcaps'
+Exec=/usr/bin/setxkbmap -option 'ctrl:nocaps'
 Terminal=false
 Type=Application
 Categories=Settings;
