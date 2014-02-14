@@ -80,6 +80,7 @@ ln -fs $DOTFILES_DIR/configs/vimrc $HOME/.vimrc
 
 # Setup aspell configuration and additional dictionaries.
 if [ ! -e $DOTFILES_DIR/configs/.dicts ]; then
+    rm -rf $HOME/.dicts
     ln -fs $DOTFILES_DIR/configs/dicts $HOME/.dicts
 fi
 
