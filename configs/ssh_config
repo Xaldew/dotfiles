@@ -8,3 +8,8 @@ host meldanyasrv
      Port 27148
      User gitolite
      IdentityFile ~/.ssh/xaldew_vm_rsa
+
+host waldesrv
+     HostName walde.dyndns-server.com
+     User git
+     IdentityFile ~/.ssh/xaldew_vm_rsa
