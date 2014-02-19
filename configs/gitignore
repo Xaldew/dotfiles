@@ -4,13 +4,14 @@
 *~
 \#*#
 *.swp
+*.bkp
 
 # Ignore OS-specific files
 .DS_Store	     # Mac Desktop Service metadata.
 .thumbs.db	     # Windows image thumbnails.
 desktop.ini	     # Windows desktop variables.
 
-# Ignore Version Management metadata folders.
+# Ignore version management metadata folders.
 .svn
 .git
 
@@ -19,3 +20,11 @@ desktop.ini	     # Windows desktop variables.
 
 # Ignore c/cpp binaries.
 *.out
+*.o
+
+# Ignore python precompiled/optimized binaries
+*.pyc
+*.pyo
+
+# Ignore out-of-source build folders.
+/*build*/
