@@ -47,6 +47,8 @@ alias gi=git
 alias qemu-arm="qemu-arm -L /usr/arm-linux-gnueabihf"
 
 alias open=xdg-open
+alias latexmk="latexmk -pdf"
+
 
 # Function to compile and run any of the project euler files.
 function euler ()

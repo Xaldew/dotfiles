@@ -7,7 +7,7 @@
 (load-user-file "func.el")
 (load-user-file "cmode.el")
 (load-user-file "cppmode.el")
-(load-user-file "latexmode.el")
+;;(load-user-file "latexmode.el")
 (load-user-file "addons.el")
 
 ;; CUSTOM COMMANDS
