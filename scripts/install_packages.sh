@@ -35,7 +35,7 @@ add_package git git-bzr subversion
 add_package tmux vim ssh xclip
 
 # Install C/C++ Compilers, Python Interpreter, build tools.
-add_package gcc g++ clang valgrind python cmake
+add_package gcc g++ clang valgrind python pylint cmake
 
 # Install GL development packages.
 add_package freeglut3 freeglut3-dev libgl1-mesa-dev libglu1-mesa
