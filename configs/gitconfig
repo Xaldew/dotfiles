@@ -20,3 +20,5 @@
 	branch = auto
 	statue = auto
 	diff   = auto
+[push]
+	default = simple
