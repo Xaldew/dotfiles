@@ -85,9 +85,9 @@ if [ ! -e $DOTFILES_DIR/configs/.dicts ]; then
 fi
 
 # Change terminal colors to the solarized theme.
-git clone https://github.com/sgerrand/xfce4-terminal-colors-solarized.git \
-    /tmp/solarized-theme
-cp /tmp/solarized-theme/dark/terminalrc $HOME/.config/xfce4/terminal/terminalrc
+# git clone https://github.com/sgerrand/xfce4-terminal-colors-solarized.git \
+#     /tmp/solarized-theme
+# cp /tmp/solarized-theme/dark/terminalrc $HOME/.config/xfce4/terminal/terminalrc
 
 
 # Create a bashrc file with links to the script directories.
