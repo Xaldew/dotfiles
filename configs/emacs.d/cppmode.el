@@ -8,14 +8,17 @@ the directories in the list. The directories must also exist."
     (and
      (file-directory-p filedir)
      (member-if (lambda (x) ; Check directory prefix matches
-		  (string-match (substring x 0 (min(length filedir) (length x))) filedir))
+		  (string-match
+		   (substring x 0 (min(length filedir) (length x))) filedir))
 		dirs))))
 
 (defun buffer-standard-include-p ()
   "Returns true if the current buffer is contained within one of
 the directories in the INCLUDE environment variable."
   (and (getenv "INCLUDE")
-       (file-in-directory-list-p buffer-file-name (split-string (getenv "INCLUDE") path-separator))))
+       (file-in-directory-list-p buffer-file-name
+				 (split-string
+				  (getenv "INCLUDE") path-separator))))
 
 ;; C++ Style.
 (c-add-style "my-style"
@@ -29,7 +32,8 @@ the directories in the INCLUDE environment variable."
 (defun my-c++-mode-hook ()
   (c-set-style "my-style")        ; use my-style defined above
   (auto-fill-mode)
-  (c-toggle-auto-hungry-state 1))
+  (flycheck-mode)
+  )
 
 (add-hook 'c++-mode-hook 'my-c++-mode-hook)
 (add-to-list 'magic-fallback-mode-alist '(buffer-standard-include-p . c++-mode))

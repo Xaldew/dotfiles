@@ -8,8 +8,11 @@
 (setq vc-follow-symlinks t)
 
 ;; Set the colour theme to something better. (emacs 24+)
-(if (>= emacs-major-version 24)
-    (load-theme 'tango-dark t))
+(when (>= emacs-major-version 24)
+  ;;(setq solarized-termcolors 256)
+  ;;(load-theme 'solarized-dark t)
+  (load-theme 'tango-dark t)
+  )
 
 ;; Place all backups in system temp instead.
 (setq backup-directory-alist

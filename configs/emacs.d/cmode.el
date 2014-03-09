@@ -22,4 +22,5 @@
           (lambda ()
 	    ;; Enable kernel mode for the appropriate files
 	    (setq indent-tabs-mode t)
+	    (flycheck-mode)
 	    (c-set-style "linux-tabs-only")))
