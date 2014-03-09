@@ -29,7 +29,7 @@ function install_packages ()
 #############################################################
 
 # Install version management
-add_package git git-bzr subversion
+add_package git git-bzr subversion bzr mercurial
 
 # Install editors and terminal multiplexers.
 add_package tmux vim ssh xclip
