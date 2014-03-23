@@ -1,15 +1,26 @@
 #!/usr/bin/env bash
 # This script install many of the software packages used for day to day
 # development on linux computers.
-# @TODO: Make this script also work on RPM based distributions.
 
+dist=$(get_distribution | awk 'NR == 1 { print }')
 packages=()
 # Declare some useful functions.
 ############################################################
 function is_installed ()
 {
-    dpkg --status "$1" > /dev/null 2>&1
-    return $?
+    status=1
+    if [ dist == "ubuntu" -o dist == "debian" ]; then
+	dpkg --status "$1" > /dev/null 2>&1
+	status=$?
+    elif [ dist == "fedora" ]; then
+	if [ -z "$(rpm -qa | grep "$1")" ]; then
+	    status=1
+	else
+	    status=0
+	fi
+    fi
+
+    return $status
 }
 
 function add_package ()
@@ -24,7 +35,11 @@ function add_package ()
 
 function install_packages ()
 {
-    sudo apt-get --quiet install ${packages[*]}
+    if [ dist == "ubuntu" -o dist == "debian" ]; then
+	sudo apt-get --quiet install ${packages[*]}
+    elif [ dist == "fedora" ]; then
+	sudo yum --quiet --assumeyes install ${packages[*]}
+    fi
 }
 #############################################################
 

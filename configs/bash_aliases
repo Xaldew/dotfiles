@@ -114,3 +114,8 @@ function greet_user()
 	echo "Did you know that:" && whatis $(ls /bin | shuf -n 1)
     fi
 }
+
+# Add useful shell-functions.
+source $DOTFILES_DIR/scripts/prompt.sh
+source $DOTFILES_DIR/scripts/bashmarks.sh
+source $DOTFILES_DIR/scripts/get_distribution.sh
