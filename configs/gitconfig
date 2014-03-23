@@ -16,6 +16,8 @@
 	hist = log --pretty=format:\"%h %ad  | %s%d [%an]\" --graph --date=short
 	lol = log --graph --decorate --pretty=oneline --abbrev-commit
 	lola = log --graph --decorate --pretty=oneline --abbrev-commit --all
+	sub-pull = "!f() { cd $1 && git checkout master && git pull && \
+		    	   git submodule update --init --recursive; }; f"
 [color]
 	branch = auto
 	statue = auto
