@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# @TODO: Actually install the autostart files.
+# Installs all dotfiles into the autostart folder specified by XDG.
 
 function add_autostart_files()
 {

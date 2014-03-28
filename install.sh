@@ -18,19 +18,21 @@ declare -a long_defaults=(
 )
 
 # Linked options.
-nlinked_options=4
-declare -a short_options=(-h -i -d -a)
+nlinked_options=5
+declare -a short_options=(-h -i -d -a -f)
 declare -a long_options=(
     --help
     --install-packages
     --dotfiles
     --autostart
+    --install-fonts
 )
 declare -a descriptions=(
     "Display this help screen."
     "Enable installation of software packages."
     "Enable installation of dotfiles. (Enabled by default.)"
     "Enable installation of autostart files."
+    "Enable installation of font files."
 )
 
 # linked options lengths.
@@ -101,6 +103,13 @@ function autostart()
 {
     echo "Adding autostart files."
     source $DOTFILES_DIR/scripts/install_autostart.sh
+    return 0
+}
+
+function install-fonts()
+{
+    echo "Installing fonts."
+    source $DOTFILES_DIR/scripts/install_fonts.sh
     return 0
 }
 
