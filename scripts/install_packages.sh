@@ -2,6 +2,7 @@
 # This script install many of the software packages used for day to day
 # development on linux computers.
 
+source get_distribution.sh
 dist=$(get_distribution | awk 'NR == 1 { print }')
 packages=()
 # Declare some useful functions.
