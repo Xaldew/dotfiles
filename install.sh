@@ -10,13 +10,6 @@ DOTFILES_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 # Put all arguments in a proper array for processing.
 arguments=("$@")
 
-# Default options.
-ndefaults=1
-declare -a short_defaults=(-d)
-declare -a long_defaults=(
-    --dotfiles
-)
-
 # Linked options.
 nlinked_options=5
 declare -a short_options=(-h -i -d -a -f)
@@ -40,22 +33,19 @@ short_length=5
 long_length=25
 desc_length=50
 
-function add-default-options()
+function convert-options()
 {
-    for ((i=0; i < $ndefaults; ++i));
+    for ((i=0; i < $nlinked_options; ++i));
     do
-	found=false
-	for arg in ${arguments[@]};
+	arg=${arguments[i]}
+	for ((j=0; j < $nlinked_options; ++j));
 	do
-	    if [ $arg == ${short_defaults[i]} -o \
-		    $arg == ${long_defaults[i]} ]; then
-		found=true
-	    fi
+    	    if [ "$arg" == "${short_options[j]}" ]; then
+    		arguments[i]=${long_options[j]}
+    	    fi
 	done
-	if [ $found == false ]; then
-	    arguments+=(${long_defaults[i]})
-	fi
     done
+    return 0
 }
 
 function test-options()
@@ -63,12 +53,11 @@ function test-options()
     arg=$1
     for ((i=0; i < $nlinked_options; ++i));
     do
-	if [ $arg == ${short_options[i]} -o $arg == ${long_options[i]} ]; then
+	if [ $arg == ${long_options[i]} ]; then
 	    $(expr substr ${long_options[i]} 3 ${#long_options[i]})
 	    return 0
 	fi
     done
-
     printf "Unrecognized argument: %s.\n" ${arg}
     exit 1
 }
@@ -113,11 +102,14 @@ function install-fonts()
     return 0
 }
 
-add-default-options
+# Convert the short options to the equivalent long ones.
+convert-options
 
+# Loop over the arguments and execute the appropriate function.
 for arg in ${arguments[@]};
 do
     test-options $arg
 done
 
 echo "Installation finished successfully."
+exit 0

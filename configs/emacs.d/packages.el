@@ -17,6 +17,7 @@
 (setq package-list '(company
 		     flycheck
 		     google-c-style
+		     hide-comnt
 		     ))
 
 (or (file-exists-p package-user-dir)
