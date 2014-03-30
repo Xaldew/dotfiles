@@ -14,9 +14,9 @@ function get_distribution ()
 
 	# If the lsb_release command exists, use it.
     	content=$(lsb_release -a 2>/dev/null)
-    	dist=$(echo "$content" | awk 'NR == 1 { print $3 }')
-    	release=$(echo "$content" | awk 'NR == 3 { print $2 }')
-    	code_name=$(echo "$content" | awk 'NR == 4 { print $2 }')
+    	dist=$(echo "$content" | awk 'NR == 1 { print tolower($3) }')
+    	release=$(echo "$content" | awk 'NR == 3 { print tolower($2) }')
+    	code_name=$(echo "$content" | awk 'NR == 4 { print tolower($2) }')
 
 
     elif [ -r /etc/lsb-release ]; then
@@ -31,9 +31,9 @@ function get_distribution ()
 
 	# Check if we are on a redhat distribution.
 	content=$(cat /etc/redhat-release)
-	dist=$(echo "$content" | awk '{ print $1 }')
-	release=$(echo "$content" | awk '{ print $3 }')
-	code_name=$(echo "$content" | awk '{ print $4 }')
+	dist=$(echo "$content" | awk '{ print tolower($1) }')
+	release=$(echo "$content" | awk '{ print tolower($3) }')
+	code_name=$(echo "$content" | awk '{ print tolower($4) }')
 	# Remove parantheses.
 	code_name=${code_name:1:-1}
 
@@ -43,7 +43,7 @@ function get_distribution ()
 	source /etc/os-release
 	dist=$ID
 	release=$VERSION_ID
-	code_name=$(echo $PRETTY_NAME | awk '{ print $3 }')
+	code_name=$(echo $PRETTY_NAME | awk '{ print tolower($3) }')
 	code_name=${code_name:1:-1}
 
     fi
