@@ -10,7 +10,7 @@ packages=()
 function is_installed ()
 {
     status=1
-    if [ dist == "ubuntu" -o dist == "debian" ]; then
+    if [ $dist == "ubuntu" -o $dist == "debian" ]; then
 	dpkg --status "$1" > /dev/null 2>&1
 	status=$?
     elif [ dist == "fedora" ]; then
@@ -36,9 +36,10 @@ function add_package ()
 
 function install_packages ()
 {
-    if [ dist == "ubuntu" -o dist == "debian" ]; then
+    if [ $dist == "ubuntu" -o $dist == "debian" ]; then
+	echo "blarg"
 	sudo apt-get --quiet install ${packages[*]}
-    elif [ dist == "fedora" ]; then
+    elif [ $dist == "fedora" ]; then
 	sudo yum --quiet --assumeyes install ${packages[*]}
     fi
 }
