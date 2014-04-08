@@ -16,12 +16,9 @@
 	hist = log --pretty=format:\"%h %ad  | %s%d [%an]\" --graph --date=short
 	lol = log --graph --decorate --pretty=oneline --abbrev-commit
 	lola = log --graph --decorate --pretty=oneline --abbrev-commit --all
-	sub-pull = "!f() { cd $1 && git checkout master && git pull && \
-		    	   git submodule update --init --recursive; }; f"
-	pull-all = "!f() { cd $1 && git checkout master && git pull && \
-		    	   git submodule update --init --recursive; }; f"
-	pulla = "!f() { cd $1 && git checkout master && git pull && \
-		    	   git submodule update --init --recursive; }; f"
+	sub-pull = pull --recurse-submodules
+	pull-all = pull --recurse-submodules
+	pulla = pull --recurse-submodules
 	dif = diff
 [color]
 	branch = auto
