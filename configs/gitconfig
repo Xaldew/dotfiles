@@ -18,6 +18,11 @@
 	lola = log --graph --decorate --pretty=oneline --abbrev-commit --all
 	sub-pull = "!f() { cd $1 && git checkout master && git pull && \
 		    	   git submodule update --init --recursive; }; f"
+	pull-all = "!f() { cd $1 && git checkout master && git pull && \
+		    	   git submodule update --init --recursive; }; f"
+	pulla = "!f() { cd $1 && git checkout master && git pull && \
+		    	   git submodule update --init --recursive; }; f"
+	dif = diff
 [color]
 	branch = auto
 	statue = auto
