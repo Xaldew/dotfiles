@@ -9,8 +9,13 @@
 [alias]
 	co = checkout
 	st = status
+	sts = status -s
 	ci = commit
 	br = branch
+	cl = clone
+	cp = cherry-pick
+	cloner = clone --recursive
+	dlc = diff --cached HEAD^
 	unstage = reset HEAD --
 	last = log -1 HEAD
 	hist = log --pretty=format:\"%h %ad  | %s%d [%an]\" --graph --date=short
@@ -19,7 +24,13 @@
 	sub-pull = pull --recurse-submodules
 	pull-all = pull --recurse-submodules
 	pulla = pull --recurse-submodules
-	dif = diff
+	dif = diff --word-diff
+	wdiff = diff --word-diff
+	wdif = diff --word-diff
+	la = "!git config -l | grep alias | cut -c 7-"
+	sl = stash list
+	sa = stash apply
+	ss = stash save
 [color]
 	branch = auto
 	statue = auto
