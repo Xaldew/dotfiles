@@ -5,6 +5,7 @@
 \#*#
 *.swp
 *.bkp
+.\#*
 
 # Ignore OS-specific files
 .DS_Store	     # Mac Desktop Service metadata.
