@@ -32,14 +32,21 @@ alias meka=make
 alias svnst="svn st"
 alias snv=svn
 
-alias emacs="emacs -nw"
-alias em=emacs
-alias ema=emacs
-alias emac=emacs
-alias emas=emacs
-alias emasc=emacs
-alias emascs=emacs
-alias eam=emacs
+# Terminal emacs (xemacs)
+alias em="emacs --no-window-system"
+alias ema="emacs --no-window-system"
+alias emac="emacs --no-window-system"
+alias emas="emacs --no-window-system"
+alias emasc="emacs --no-window-system"
+alias emascs="emacs --no-window-system"
+alias eam="emacs --no-window-system"
+
+# Graphical emacs.
+alias ge="emacs --maximized"
+alias gem="emacs --maximized"
+alias gema="emacs --maximized"
+alias gemac="emacs --maximized"
+alias gemacs="emacs --maximized"
 
 alias gti=git
 alias gi=git
