@@ -25,6 +25,7 @@
  '(background-mode dark)
  '(cursor-color "#5c5cff")
  '(custom-safe-themes (quote ("8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" "fc5fcb6f1f1c1bc01305694c59a1a861b008c534cae8d0e48e4d5e81ad718bc6" default)))
+ '(ecb-options-version "2.40")
  '(foreground-color "#5c5cff")
  '(inhibit-startup-screen t))
 (custom-set-faces
