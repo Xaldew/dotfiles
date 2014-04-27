@@ -18,6 +18,7 @@
 		     flycheck
 		     google-c-style
 		     hide-comnt
+		     ecb
 		     ))
 
 (or (file-exists-p package-user-dir)
