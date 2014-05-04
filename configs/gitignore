@@ -29,3 +29,6 @@ desktop.ini	     # Windows desktop variables.
 
 # Ignore out-of-source build folders.
 /*build*/
+
+# Ignore flycheck temporaries.
+flycheck*
