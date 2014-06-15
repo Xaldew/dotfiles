@@ -19,6 +19,7 @@
 		     google-c-style
 		     hide-comnt
 		     ecb
+		     glsl-mode
 		     ))
 
 (or (file-exists-p package-user-dir)
