@@ -48,6 +48,7 @@ alias gema="emacs --maximized"
 alias gemac="emacs --maximized"
 alias gemacs="emacs --maximized"
 
+alias tgi=git
 alias gti=git
 alias gi=git
 
@@ -85,12 +86,39 @@ function pdfpextr()
     #     $1 is the input file
     #     $2 is the first page of the range to extract
     #     $3 is the last page of the range to extract
-    #     output file will be named "inputfile_pXX-pYY.pdf"
-    gs -sDEVICE=pdfwrite -dNOPAUSE -dBATCH -dSAFER \
-	-dFirstPage=${2} \
-	-dLastPage=${3} \
-	-sOutputFile=${1%.pdf}_p${2}-p${3}.pdf \
-	${1}
+    #     The output file will be named "inputfile_pXX-pYY.pdf"
+
+    input=${1}
+    start=${2}
+    end=${3}
+    shift 3
+    gs  "$@" \
+	-sDEVICE=pdfwrite -dNOPAUSE -dBATCH -dSAFER \
+	-dFirstPage=${start} \
+	-dLastPage=${end} \
+	-sOutputFile=${input%.pdf}_p${2}-p${3}.pdf \
+	${input}
+}
+
+# Function to convert a PDF to grayscale.
+function pdfgray()
+{
+    # this function uses 3 arguments:
+    #     $1 is the input pdf file.
+    #     The output file will be named "'inputfile'_grayscale.pdf"
+
+    input=${1}
+    output=$(basename ${1} .pdf)_grayscale.pdf
+    shift 1
+    gs  "$@" \
+	-sOutputFile=${output} \
+	-sDEVICE=pdfwrite \
+	-sColorConversionStrategy=Gray \
+	-dProcessColorModel=/DeviceGray \
+	-dCompatibilityLevel=1.4 \
+	-dNOPAUSE \
+	-dBATCH \
+	${input}
 }
 
 # Function to find the dropbox folder.
