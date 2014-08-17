@@ -36,6 +36,7 @@
 (require 'ethan-wspace)
 (global-ethan-wspace-mode 1)
 (set-default 'ethan-wspace-errors (remove 'tabs ethan-wspace-errors))
+(setq mode-require-final-newline nil)
 
 
 ;; Activate autopairs addon. I.e. enable autopair in all buffers.

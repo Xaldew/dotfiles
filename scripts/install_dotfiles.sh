@@ -12,6 +12,9 @@ ln -fs $DOTFILES_DIR/configs/gitignore $HOME/.gitignore
 # Install tmux configuration.
 ln -fs $DOTFILES_DIR/configs/tmux.conf $HOME/.tmux.conf
 
+# Install latexmk configuration.
+ln -fs $DOTFILES_DIR/configs/latexmkrc $HOME/.latexmkrc
+
 # Install emacs configuration.
 mkdir -p $HOME/.emacs.d
 for elisp_file in $DOTFILES_DIR/configs/emacs.d/*.el
