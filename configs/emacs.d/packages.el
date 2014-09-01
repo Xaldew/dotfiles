@@ -20,6 +20,11 @@
 		     hide-comnt
 		     ecb
 		     glsl-mode
+		     ethan-wspace
+		     autopair
+		     graphviz-dot-mode
+		     cmake-mode
+		     xclip
 		     ))
 
 (or (file-exists-p package-user-dir)
