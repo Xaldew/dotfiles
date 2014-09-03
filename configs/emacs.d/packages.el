@@ -18,6 +18,7 @@
 		     flycheck
 		     google-c-style
 		     hide-comnt
+		     rainbow-mode
 		     ecb
 		     glsl-mode
 		     ethan-wspace
