@@ -1,11 +1,11 @@
 ;; Load initial include-file functions.
 (load (expand-file-name "~/.emacs.d/init.el"))
 
-(load-user-file "addons.el")
 (when (>= emacs-major-version 24)
   (load-user-file "packages.el")
   )
 
+(load-user-file "addons.el")
 (load-user-file "keybinds.el")
 (load-user-file "settings.el")
 (load-user-file "file-assoc.el")
