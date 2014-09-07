@@ -33,6 +33,7 @@ the directories in the INCLUDE environment variable."
   (c-set-style "my-style")        ; use my-style defined above
   (auto-fill-mode)
   (flycheck-mode)
+  (setq flycheck-clang-language-standard "c++11")
   )
 
 (add-hook 'c++-mode-hook 'my-c++-mode-hook)
