@@ -12,3 +12,6 @@
 (add-to-list 'auto-mode-alist '("\\.frag\\'" . glsl-mode))
 (add-to-list 'auto-mode-alist '("\\.vs\\'" . glsl-mode))
 (add-to-list 'auto-mode-alist '("\\.fs\\'" . glsl-mode))
+
+;; Add makefile modes.
+(add-to-list 'auto-mode-alist '("\\.mak\\'" . makefile-mode))
