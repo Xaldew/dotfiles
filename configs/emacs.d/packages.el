@@ -26,6 +26,8 @@
 		     graphviz-dot-mode
 		     cmake-mode
 		     xclip
+		     auto-complete
+		     yasnippet
 		     ))
 
 (or (file-exists-p package-user-dir)
