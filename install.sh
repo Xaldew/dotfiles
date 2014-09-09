@@ -11,21 +11,23 @@ DOTFILES_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 arguments=("$@")
 
 # Linked options.
-nlinked_options=5
-declare -a short_options=(-h -i -d -a -f)
+nlinked_options=6
+declare -a short_options=(-h -i -d -a -f -w)
 declare -a long_options=(
     --help
     --install-packages
     --dotfiles
     --autostart
     --install-fonts
+    --work-config
 )
 declare -a descriptions=(
     "Display this help screen."
     "Enable installation of software packages."
-    "Enable installation of dotfiles. (Enabled by default.)"
+    "Enable installation of dotfiles."
     "Enable installation of autostart files."
     "Enable installation of font files."
+    "Enable installation of work configuration."
 )
 
 # linked options lengths.
@@ -99,6 +101,13 @@ function install-fonts()
 {
     echo "Installing fonts."
     source $DOTFILES_DIR/scripts/install_fonts.sh
+    return 0
+}
+
+function work-config()
+{
+    echo "Installing (ARM) work configuration."
+    source $DOTFILES_DIR/scripts/install_arm.sh
     return 0
 }
 
