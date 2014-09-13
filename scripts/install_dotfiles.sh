@@ -22,6 +22,8 @@ do
     ln -fs $elisp_file $HOME/.emacs.d/$(basename $elisp_file)
 done
 ln -fs $DOTFILES_DIR/configs/emacs.d/emacs $HOME/.emacs
+rm -f $HOME/.emacs.d/snippets
+ln -fs $DOTFILES_DIR/snippets $HOME/.emacs.d/snippets
 
 # Create vim data and plugin directories.
 mkdir -p $HOME/.vim/
@@ -32,16 +34,8 @@ fi
 ln -fs $DOTFILES_DIR/configs/vimrc $HOME/.vimrc
 
 # Setup aspell configuration and additional dictionaries.
-if [ ! -e $DOTFILES_DIR/configs/.dicts ]; then
-    rm -rf $HOME/.dicts
-    ln -fs $DOTFILES_DIR/configs/dicts $HOME/.dicts
-fi
-
-# Change terminal colors to the solarized theme.
-# git clone https://github.com/sgerrand/xfce4-terminal-colors-solarized.git \
-#     /tmp/solarized-theme
-# cp /tmp/solarized-theme/dark/terminalrc $HOME/.config/xfce4/terminal/terminalrc
-
+rm -f $HOME/.dicts
+ln -fs $DOTFILES_DIR/configs/dicts $HOME/.dicts
 
 # Create a bashrc file with links to the script directories.
 echo "# Don't edit this file, rerun install_utils.sh to update." > $HOME/.bashrc
