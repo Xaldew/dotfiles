@@ -58,6 +58,9 @@ alias open=xdg-open
 alias latexmk="latexmk -pdf"
 alias gcc-defines="gcc -dM -E - < /dev/null"
 alias g++-defines="g++ -dM -E - < /dev/null"
+alias xfce-shortcuts="xfconf-query -c xfce4-keyboard-shortcuts -l -v | \
+cut -d'/' -f4 | awk '{printf \"%-30s\", \$2 ; print \"\\t\" \$1 }' | \
+sort | uniq"
 
 # Function to compile and run any of the project euler files.
 function euler ()

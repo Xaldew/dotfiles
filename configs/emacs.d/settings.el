@@ -37,3 +37,6 @@
 
 ;; Activate certain DocView settings.
 (setq doc-view-continuous t)
+
+;; Activate terminal mouse-mode.
+(xterm-mouse-mode t)
