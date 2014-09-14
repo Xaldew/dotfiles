@@ -27,7 +27,11 @@
 		     cmake-mode
 		     xclip
 		     auto-complete
+		     auto-complete-clang
 		     yasnippet
+		     gitignore-mode
+		     gitconfig-mode
+		     evil
 		     ))
 
 (or (file-exists-p package-user-dir)

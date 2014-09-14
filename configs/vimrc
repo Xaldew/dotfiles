@@ -12,7 +12,7 @@ set undolevels=2048
 " Insert the most common completion, show menu.
 set completeopt=longest,menu
 
-" Set unicode (UTF-8) for all editing. 
+" Set unicode (UTF-8) for all editing.
 set encoding=utf-8
 set fileencoding=utf-8
 
@@ -81,5 +81,3 @@ set scrolloff=3
 """"""""""""""""""""""""""""""""""""""""
 """ Python coding style.
 """"""""""""""""""""""""""""""""""""""""
-
-

@@ -43,6 +43,16 @@
 (require 'yasnippet)
 (yas-global-mode t)
 
+
+;; Activate Evil mode to allow Vim users to use my editors.
+(require 'evil)
+
+;; Activate auto-complete add-on.
+;(add-to-list 'ac-dictionary-directories "~/.emacs.d/dict")
+(require 'auto-complete-config)
+(require 'auto-complete-clang)
+(ac-config-default)
+
 ;; Activate company-mode for all buffers.
 ;; (add-hook 'after-init-hook 'global-company-mode)
 
