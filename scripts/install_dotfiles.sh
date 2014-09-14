@@ -12,6 +12,9 @@ ln -fs $DOTFILES_DIR/configs/gitignore $HOME/.gitignore
 # Install tmux configuration.
 ln -fs $DOTFILES_DIR/configs/tmux.conf $HOME/.tmux.conf
 
+# Install Xresources
+ln -fs $DOTFILES_DIR/configs/Xresources $HOME/.Xresources
+
 # Install latexmk configuration.
 ln -fs $DOTFILES_DIR/configs/latexmkrc $HOME/.latexmkrc
 

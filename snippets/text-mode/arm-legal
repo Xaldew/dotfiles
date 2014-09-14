@@ -9,10 +9,11 @@
  * ----------------------------------------------------------------------------
  * This confidential and proprietary software may be used only as authorized
  * by a licensing agreement from ARM Limited.
- *      (C) COPYRIGHT ${0:`(insert (format-time-string "%Y"))`} ARM Limited, ALL RIGHTS RESERVED
+ *      (C) COPYRIGHT ${1:`(insert (format-time-string "%Y"))`} ARM Limited, ALL RIGHTS RESERVED
  * The entire notice above must be reproduced on all authorized copies and
  * copies may only be made to the extent permitted by a licensing agreement
  * from ARM Limited.
  * ----------------------------------------------------------------------------
  *
  */
+$0
