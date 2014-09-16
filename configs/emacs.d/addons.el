@@ -39,8 +39,12 @@
 (global-whitespace-mode t)
 
 
-;; Activate Yasnippet
+;; Activate Yasnippet, and bind to C-i rather than tab.
 (require 'yasnippet)
+(define-key yas-minor-mode-map (kbd "<tab>") nil)
+(define-key yas-minor-mode-map (kbd "TAB") nil)
+(define-key yas-minor-mode-map (kbd "C-o") 'yas-expand)
+;(setq yas-prompt-functions '(yas-x-prompt yas-dropdown-prompt))
 (yas-global-mode t)
 
 
@@ -52,6 +56,11 @@
 (require 'auto-complete-config)
 (require 'auto-complete-clang)
 (ac-config-default)
+(setq ac-auto-show-menu 0.4)
+(setq ac-delay 0.1)
+(define-key ac-menu-map (kbd "M-n") 'ac-next)
+(define-key ac-menu-map (kbd "M-p") 'ac-previous)
+
 
 ;; Activate company-mode for all buffers.
 ;; (add-hook 'after-init-hook 'global-company-mode)
