@@ -36,7 +36,9 @@ to it or nil if not found."
   "Create tags file."
   (interactive "DDirectory: ")
   (shell-command
-   (format "ctags -e -R %s" directory-file-name dir-name)))
+   (format
+    "find %s -name \"*.c\" -print -or -name \"*.h\" -print -or -name \"*.cpp\" |
+ xargs etags --append" dir-name)))
 
 ;; (defun find-next-func ()
 ;;   "Returns a list describing next function declaration, or nil if not found.

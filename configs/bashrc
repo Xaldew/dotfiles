@@ -52,6 +52,9 @@ fi
 # Set the terminal to ignore filename completion for more suffixes.
 export FIGNORE=$FIGNORE:svn:.o:.~:\#*\#:.pyc:.pyo
 
+# Add default grep options
+export GREP_OPTIONS='--exclude-dir=.{svn,git}'
+
 # Setup emacs as the default editor.
 if [[ ! $EDITOR =~ .*emacs.* ]]; then
    export EDITOR="emacs"
