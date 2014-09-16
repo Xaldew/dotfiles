@@ -41,7 +41,7 @@ rm -f $HOME/.dicts
 ln -fs $DOTFILES_DIR/configs/dicts $HOME/.dicts
 
 # Create a bashrc file with links to the script directories.
-echo "# Don't edit this file, rerun install_utils.sh to update." > $HOME/.bashrc
+echo "# Don't edit this file, rerun install.sh to update." > $HOME/.bashrc
 echo "DOTFILES_DIR="${DOTFILES_DIR} >> $HOME/.bashrc
 echo "source \$DOTFILES_DIR/configs/bashrc" >> $HOME/.bashrc
 echo "export PATH=\$DOTFILES_DIR/scripts:\$PATH" >> $HOME/.bashrc
