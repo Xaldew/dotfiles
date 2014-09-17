@@ -7,6 +7,9 @@
 ;; Automatically follow symlink without prompting.
 (setq vc-follow-symlinks t)
 
+;; Change large-file threshold to 1GB rather than ~10MB.
+(setq large-file-warning-threshold 1073741824)
+
 ;; Set the colour theme to something better. (emacs 24+)
 (when (>= emacs-major-version 24)
   ;;(setq solarized-termcolors 256)

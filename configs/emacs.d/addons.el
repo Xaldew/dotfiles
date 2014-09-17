@@ -39,12 +39,13 @@
 (global-whitespace-mode t)
 
 
-;; Activate Yasnippet, and bind to C-i rather than tab.
+;; Activate Yasnippet
+;; binds trigger to C-o to explicitly use yasnippet.
 (require 'yasnippet)
-(define-key yas-minor-mode-map (kbd "<tab>") nil)
-(define-key yas-minor-mode-map (kbd "TAB") nil)
 (define-key yas-minor-mode-map (kbd "C-o") 'yas-expand)
-;(setq yas-prompt-functions '(yas-x-prompt yas-dropdown-prompt))
+(define-key yas-keymap (kbd "C-o") 'yas-next-field-or-maybe-expand)
+(define-key yas-keymap (kbd "M-n") 'yas-next-field-or-maybe-expand)
+(define-key yas-keymap (kbd "M-p") 'yas-prev-field)
 (yas-global-mode t)
 
 
@@ -55,22 +56,17 @@
 ;(add-to-list 'ac-dictionary-directories "~/.emacs.d/dict")
 (require 'auto-complete-config)
 (require 'auto-complete-clang)
-(ac-config-default)
 (setq ac-auto-show-menu 0.4)
 (setq ac-delay 0.1)
 (define-key ac-menu-map (kbd "M-n") 'ac-next)
 (define-key ac-menu-map (kbd "M-p") 'ac-previous)
+(ac-config-default)
 
+;; Activate auto-complete-etags.
+(custom-set-variables '(ac-etags-requires 1))
+(eval-after-load "etags" '(progn (ac-etags-setup)))
+(add-hook 'cc-mode-common-hook 'ac-etags-ac-setup)
 
-;; Activate company-mode for all buffers.
-;; (add-hook 'after-init-hook 'global-company-mode)
-
-;; Flymake is deprecated, flycheck is far superior.
-;; ;; Flymake creates source code copies in temp directories.
-;; (setq flymake-run-in-place nil)
-
-;; ;; I want to see at most the first 4 errors for a line.
-;; (setq flymake-number-of-errors-to-display 4)
-
-;; ;; No limit on number of parallel checks for flymake.
-;; (setq flymake-max-parallel-syntax-checks nil)
+;; Activate Powerline.
+(require 'powerline)
+(powerline-default-theme)

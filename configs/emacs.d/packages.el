@@ -27,11 +27,17 @@
 		     cmake-mode
 		     xclip
 		     auto-complete
+		     ac-etags
 		     auto-complete-clang
 		     yasnippet
 		     gitignore-mode
 		     gitconfig-mode
+		     ssh-config-mode
 		     evil
+		     powerline
+		     elpy
+		     web-mode
+		     dart-mode
 		     ))
 
 (or (file-exists-p package-user-dir)

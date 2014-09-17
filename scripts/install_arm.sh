@@ -1,6 +1,14 @@
 #!/usr/bin/env bash
 # This script adds some additional utilities used within ARM.
 
+
+# Install the Android "repo" tool if not done already.
+if [ ! -f /work/bin/repo ]; then
+    mkdir --parents /work/bin
+    curl https://storage.googleapis.com/git-repo-downloads/repo > /work/bin/repo
+    chmod a+x work/bin/repo
+fi
+
 # Append the work configuration (below) to the .bashrc file.
 # Note that doing this elsewhere will likely break things.
 cat >> ~/.bashrc <<EOF
@@ -66,9 +74,10 @@ module load gnu/emacs/24.2
 module load gnu/gdb/7.5
 module load gnu/valgrind/3.8.1
 module load gnu/cmake/2.8.9
-module load python/python/2.7.1
+
 module load scons/scons/2.3.0
 module load swig/swig/2.0.0
+#module load python/python/2.7.1 issues with the android repo client.
 #module load git/git/1.7.9.2 # Issues with android repo client.
 #module load git/git/v2.0.0 # Missing git-svn.
 module load apache/subversion/1.7.3
@@ -107,10 +116,13 @@ goto_repo(){
 export MPDTI_V2_USER=guswal01
 export MPDTI_V2_PIC_SERVER=lun-mpdti2.lund.arm.com:55300
 export MPDTI_V2_PROJECT=PJ00640
-export PATH=\$PATH:~/.local/bin
+
+# Add some paths for work based utilities.
+export PATH=\$HOME/.local/bin:\$PATH
+export PATH=/work/bin:\$PATH
+export BASE_PATH=ssh://\$USER@login2.euhpc.arm.com/arm/mpd/thirdparty/bsp/android/midgard
 
 # Sets a more 'modern' termcap file for use with emacs, otherwise colors will be
 # messed up. Only needed at work.
 export TERMCAP=\$HOME/.termcap
-
 EOF
