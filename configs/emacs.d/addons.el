@@ -68,5 +68,9 @@
 (add-hook 'cc-mode-common-hook 'ac-etags-ac-setup)
 
 ;; Activate Powerline.
+;; TODO: Figure out how to create the neat looking separators.
 (require 'powerline)
 (powerline-default-theme)
+
+;; Activate Magit.
+(require 'magit)

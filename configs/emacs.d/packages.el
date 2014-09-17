@@ -38,6 +38,8 @@
 		     elpy
 		     web-mode
 		     dart-mode
+		     xcscope
+		     magit
 		     ))
 
 (or (file-exists-p package-user-dir)
