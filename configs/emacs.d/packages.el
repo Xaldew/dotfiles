@@ -14,21 +14,18 @@
 ;; Activate all packages.
 (package-initialize)
 
-(setq package-list '(company
+(setq package-list '(ecb
 		     flycheck
 		     google-c-style
 		     hide-comnt
-		     rainbow-mode
-		     ecb
-		     glsl-mode
 		     ethan-wspace
-		     autopair
+		     company
+		     rainbow-mode
 		     graphviz-dot-mode
+		     glsl-mode
+		     autopair
 		     cmake-mode
 		     xclip
-		     auto-complete
-		     ac-etags
-		     auto-complete-clang
 		     yasnippet
 		     gitignore-mode
 		     gitconfig-mode
@@ -38,8 +35,12 @@
 		     elpy
 		     web-mode
 		     dart-mode
-		     xcscope
 		     magit
+		     auto-complete
+		     ac-etags
+		     ac-anaconda
+		     auto-complete-clang
+		     auto-complete-c-headers
 		     ))
 
 (or (file-exists-p package-user-dir)
