@@ -96,21 +96,40 @@ alias lg="log --graph --pretty=format:'%Cred%h%Creset - %C(bold blue)%an%Creset 
 
 
 #### Functions
-runtest(){
-  (goto_repo && cd test/system/; ./runtest \$@)
+function runtest()
+{
+    (goto_repo && cd test/system/; ./runtest \$@)
 }
 
 ## Goto the nearest the mve6 repo. If none is found, goto the default one
-goto_repo(){
-  pwd=\$(pwd)
-  if [[ \$pwd == *mve6* ]]
-  then
-  repo=\$(pwd | sed 's/mve6.*//')
-    cd \$repo/mve6
-  else
-    cd \$WORKSPACE_DIR/mve6
-  fi
+function goto_repo()
+{
+    pwd=\$(pwd)
+    if [[ \$pwd == *mve6* ]]; then
+	repo=\$(pwd | sed 's/mve6.*//')
+	cd \$repo/mve6
+    else
+	cd \$WORKSPACE_DIR/mve6
+    fi
 }
+
+# Setup environment for building android/android-kernel stuff.
+function android_env()
+{
+    export ANDROID_BASE=/work/mydroid
+    export MYDROID=/work/mydroid/android
+    export KDIR=/work/mydroid
+    export MVE_VERSION=V500_R0P0_00REL0
+    export ARCH=arm
+    export CROSS_COMPILE=arm-eabi-
+    export PATH=\$PATH:/work/mydroid/android/prebuilts/gcc/linux-x86/arm/arm-eabi-4.7/bin
+    module unload sun/jdk/1.8.0_11
+}
+
+function strip_h264() {
+    in=$1
+    avconv -i "$in" -vcodec copy -an -bsf:v h264_mp4toannexb "${in%.*}.h264"
+ }
 
 # Setup of TI2 (VIDEO) Environment Variables
 export MPDTI_V2_USER=guswal01
