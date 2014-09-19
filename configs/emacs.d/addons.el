@@ -21,16 +21,9 @@
 (setq mode-require-final-newline nil)
 
 
-;; Activate autopairs addon. I.e. enable autopair in all buffers.
-;; Activate cl-lib.
-(when (>= emacs-major-version 24)
-  (require 'cl)
-  (require 'autopair)
-  (autopair-global-mode))
-
-
-;; Activate graphviz-dot-mode.
-(require 'graphviz-dot-mode)
+;; Activate autopairs with dependencies.
+(require 'autopair)
+(autopair-global-mode)
 
 
 ;; Activate whitespace: mark lines longer than 80 columns.
@@ -42,35 +35,47 @@
 ;; Activate Yasnippet
 ;; binds trigger to C-o to explicitly use yasnippet.
 (require 'yasnippet)
+(define-key yas-minor-mode-map (kbd "<tab>") nil)
+(define-key yas-minor-mode-map (kbd "TAB") nil)
 (define-key yas-minor-mode-map (kbd "C-o") 'yas-expand)
+
+(define-key yas-keymap [(tab)]       nil)
+(define-key yas-keymap (kbd "TAB")   nil)
+(define-key yas-keymap [(shift tab)] nil)
+(define-key yas-keymap [backtab]     nil)
 (define-key yas-keymap (kbd "C-o") 'yas-next-field-or-maybe-expand)
-(define-key yas-keymap (kbd "M-n") 'yas-next-field-or-maybe-expand)
-(define-key yas-keymap (kbd "M-p") 'yas-prev-field)
+(define-key yas-keymap (kbd "C-u") 'yas-prev-field)
 (yas-global-mode t)
+
+
+;; Activate Auto-complete.
+(require 'auto-complete-config)
+(require 'auto-complete-clang)
+(setq ac-auto-show-menu 0.1)
+(setq ac-delay 0.1)
+(define-key ac-menu-map (kbd "M-n") 'ac-next)
+(define-key ac-menu-map (kbd "M-p") 'ac-previous)
+(setq-default ac-sources (push 'ac-source-yasnippet ac-sources))
+(ac-config-default)
+(global-auto-complete-mode t)
+(add-hook 'python-mode-hook 'ac-anaconda-setup)
+
+(defun my:ac-c-headers-init ()
+  (require 'auto-complete-c-headers)
+  (add-to-list 'ac-sources 'ac-source-c-headers))
+
+(add-hook 'c++-mode-hook 'my:ac-c-headers-init)
+(add-hook 'c-mode-hook 'my:ac-c-headers-init)
 
 
 ;; Activate Evil mode to allow Vim users to use my editors.
 (require 'evil)
 
-;; Activate auto-complete add-on.
-;(add-to-list 'ac-dictionary-directories "~/.emacs.d/dict")
-(require 'auto-complete-config)
-(require 'auto-complete-clang)
-(setq ac-auto-show-menu 0.4)
-(setq ac-delay 0.1)
-(define-key ac-menu-map (kbd "M-n") 'ac-next)
-(define-key ac-menu-map (kbd "M-p") 'ac-previous)
-(ac-config-default)
-
-;; Activate auto-complete-etags.
-(custom-set-variables '(ac-etags-requires 1))
-(eval-after-load "etags" '(progn (ac-etags-setup)))
-(add-hook 'cc-mode-common-hook 'ac-etags-ac-setup)
 
 ;; Activate Powerline.
-;; TODO: Figure out how to create the neat looking separators.
 (require 'powerline)
 (powerline-default-theme)
+
 
 ;; Activate Magit.
 (require 'magit)
