@@ -4,6 +4,7 @@
 ;; Misra style used in ARM MVE Model/Firmware/Driver
 (defconst misra-c-style
   '("bsd"
+    (my-coding-style . "misra")
     (indent-tabs-mode . nil)
     (tab-width . 4)
     (c-basic-offset . 4)
@@ -25,6 +26,7 @@
 
 (defconst linux-tabs-style
   '("linux"
+    (my-coding-style . "linux")
     (indent-tabs-mode . t)
     (c-offsets-alist
      (arglist-cont-nonempty
@@ -32,7 +34,6 @@
       c-lineup-arglist-tabs-only))))
 
 (c-add-style "linux-tabs-style" linux-tabs-style)
-
 
 
 ;; Setup functions and variables to guess the style to use.
@@ -53,12 +54,11 @@
 
 
 (defun my-c-mode-hook ()
-  "My c-mode hook"
+  "My personal c-mode hook."
   (interactive)
   (message "In my-c-mode-hook")
   (flycheck-mode)
   (turn-on-auto-fill)
-
  ; Set the c-style if we can. I think mmm-mode gets in the way of
  ; buffer-file-name for setting sub-modes, so check we have one first
   (when buffer-file-name
@@ -67,8 +67,18 @@
       (when style
 	(message (format "my-c-mode-hook: found style %s" style))
 	(c-set-style style))))
-  (if I-am-emacs-21+
-      (cwarn-mode)))
+  )
 
-;(add-hook 'c-mode-common-hook "'add-function-here")
+(defun my-brace-placement ()
+  "Place the braces based on the currently active c-style."
+  (cond ((string-equal my-coding-style "linux")
+	 (insert " {"))
+	((string-equal my-coding-style "misra")
+	 (newline-and-indent)
+	 (insert "{"))
+	)
+  )
+
+
+;; Add personal c-mode setup function to c-mode-hook.
 (add-hook 'c-mode-hook 'my-c-mode-hook)
