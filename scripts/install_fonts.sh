@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/usr/bin/env sh
 # Installs some nice fonts.
 
 # Create font directory and a working directory.

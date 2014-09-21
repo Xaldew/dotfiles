@@ -11,8 +11,8 @@ DOTFILES_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 arguments=("$@")
 
 # Linked options.
-nlinked_options=6
-declare -a short_options=(-h -i -d -a -f -w)
+nlinked_options=7
+declare -a short_options=(-h -i -d -a -f -w -c)
 declare -a long_options=(
     --help
     --install-packages
@@ -20,6 +20,7 @@ declare -a long_options=(
     --autostart
     --install-fonts
     --work-config
+    --clean
 )
 declare -a descriptions=(
     "Display this help screen."
@@ -28,6 +29,7 @@ declare -a descriptions=(
     "Enable installation of autostart files."
     "Enable installation of font files."
     "Enable installation of work configuration."
+    "Clean up all the previously installed configurations."
 )
 
 # linked options lengths.
@@ -108,6 +110,13 @@ function work-config()
 {
     echo "Installing (ARM) work configuration."
     source $DOTFILES_DIR/scripts/install_arm.sh
+    return 0
+}
+
+function clean()
+{
+    echo "Cleaning up installed configuration."
+    source $DOTFILES_DIR/scripts/clean_dotfiles.sh
     return 0
 }
 

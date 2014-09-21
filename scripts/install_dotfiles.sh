@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/usr/bin/env sh
 # Install links and files for configuring my configuration.
 
 # Install all configuration files and plugins.
