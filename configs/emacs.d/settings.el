@@ -43,3 +43,6 @@
 
 ;; Activate terminal mouse-mode.
 (xterm-mouse-mode t)
+
+;; Automatically update buffers to reflect changes on disk.
+(global-auto-revert-mode t)

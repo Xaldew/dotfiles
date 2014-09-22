@@ -9,8 +9,8 @@
     (tab-width . 4)
     (c-basic-offset . 4)
     )
+  "Misra coding style with modifications for the ARM MVE model/firmware/driver."
   )
-
 (c-add-style "misra" misra-c-style)
 
 
@@ -31,8 +31,10 @@
     (c-offsets-alist
      (arglist-cont-nonempty
       c-lineup-gcc-asm-reg
-      c-lineup-arglist-tabs-only))))
-
+      c-lineup-arglist-tabs-only))
+    )
+  "Linux kernel coding style forbidding use of spaces as whitespace."
+  )
 (c-add-style "linux-tabs-style" linux-tabs-style)
 
 
@@ -58,6 +60,7 @@
   (interactive)
   (message "In my-c-mode-hook")
   (flycheck-mode)
+  (setq flycheck-clang-language-standard "c99")
   (turn-on-auto-fill)
  ; Set the c-style if we can. I think mmm-mode gets in the way of
  ; buffer-file-name for setting sub-modes, so check we have one first
