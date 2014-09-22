@@ -118,7 +118,8 @@ function android_env()
 {
     export ANDROID_BASE=/work/mydroid
     export MYDROID=/work/mydroid/android
-    export KDIR=/work/mydroid
+    export KDIR=/work/mydroid/kernel
+    export ROOTFS=/work/mydroid/rootfs
     export MVE_VERSION=V500_R0P0_00REL0
     export ARCH=arm
     export CROSS_COMPILE=arm-eabi-
