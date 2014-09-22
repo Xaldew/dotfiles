@@ -94,6 +94,9 @@ alias makeutil=" (goto_repo && cd test/system/ && make util -j12)"
 alias bi="bsub -Is -P PJ00640 -R 'rhe6 && os64'" # bjobs/bwhat to monitor queue
 alias lg="log --graph --pretty=format:'%Cred%h%Creset - %C(bold blue)%an%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr)' --abbrev-commit"
 
+# Preserve path when entering (fake) sudo.
+alias sudo='sudo env PATH=$PATH'
+
 
 #### Functions
 function runtest()
@@ -129,7 +132,7 @@ function android_env()
 
 function strip_h264() {
     in=$1
-    avconv -i "$in" -vcodec copy -an -bsf:v h264_mp4toannexb "${in%.*}.h264"
+    ffmpeg -i "$in" -vcodec copy -an -bsf:v h264_mp4toannexb "${in%.*}.h264"
  }
 
 # Setup of TI2 (VIDEO) Environment Variables
