@@ -1,0 +1,6 @@
+# -*- mode: snippet -*-
+# name: env_sh_bang
+# key: !s
+# --
+#!/usr/bin/env sh
+$0

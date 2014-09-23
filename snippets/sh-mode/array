@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: Bash Array
+# key: ar
+# --
+declare -a ${1:array-name}=($0)
