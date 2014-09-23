@@ -128,12 +128,16 @@ function android_env()
     export CROSS_COMPILE=arm-eabi-
     export PATH=\$PATH:/work/mydroid/android/prebuilts/gcc/linux-x86/arm/arm-eabi-4.7/bin
     module unload sun/jdk/1.8.0_11
+    if [ -d "\$MYDROID" ]; then
+        source \$MYDROID/build/envsetup.sh
+        (cd \$MYDROID && lunch armboard_v7a-eng)
+    fi
 }
 
 function strip_h264() {
-    in=$1
-    ffmpeg -i "$in" -vcodec copy -an -bsf:v h264_mp4toannexb "${in%.*}.h264"
- }
+    in=\${1}
+    avconv -i "\$in" -vcodec copy -an -bsf:v h264_mp4toannexb "\${in%.*}.h264"
+}
 
 # Setup of TI2 (VIDEO) Environment Variables
 export MPDTI_V2_USER=guswal01
