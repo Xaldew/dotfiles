@@ -31,6 +31,11 @@
 (setq whitespace-style '(face empty lines-tail trailing))
 (global-whitespace-mode t)
 
+;; Disable whitespace and ethan-wspace mode in yasnippets mode.
+(add-hook 'snippet-mode-hook (lambda ()
+			       (whitespace-mode -1)
+			       (ethan-wspace-mode -1)))
+
 
 ;; Activate Yasnippet
 ;; binds trigger to C-o to avoid stateful behaviours.
