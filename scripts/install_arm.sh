@@ -121,10 +121,14 @@ function android_env()
 {
     export ANDROID_BASE=/work/mydroid
     export MYDROID=/work/mydroid/android
+    export TOP=/work/mydroid/android
     export KDIR=/work/mydroid/kernel
     export ROOTFS=/work/mydroid/rootfs
+    export ANDROID_PRODUCT_OUT=/work/mydroid/android/out/target/product/armboard_v7a
+    export ANDROID_HOST_OUT=/work/mydroid/android/out/host/linux-x86/
     export MVE_VERSION=V500_R0P0_00REL0
     export ARCH=arm
+    export HW=1
     export CROSS_COMPILE=arm-eabi-
     export PATH=\$PATH:/work/mydroid/android/prebuilts/gcc/linux-x86/arm/arm-eabi-4.7/bin
     module unload sun/jdk/1.8.0_11
@@ -132,6 +136,41 @@ function android_env()
         source \$MYDROID/build/envsetup.sh
         (cd \$MYDROID && lunch armboard_v7a-eng)
     fi
+}
+
+function android_fix_permissions()
+{
+    # Move to top directory.
+    if [ -z "\$TOP" ]; then
+	android_env
+    fi
+    cd \$TOP
+
+    # Make required tools that setup correct file/folder permissions.
+    pushd build/tools/fs_get_stats/
+    mm
+    popd
+
+    # Create rootfs folder.
+    cp -rf \$ANDROID_PRODUCT_OUT/root/ . && \
+	mv root/ fs && \
+	cp -rf \$ANDROID_PRODUCT_OUT/system fs/
+
+    # Use android mktarball to create rootfs tarball.
+    sudo build/tools/mktarball.sh \$ANDROID_HOST_OUT/bin/fs_get_stats fs "*" \
+	rootfs  rootfs.tar.bz2
+
+    # Copy rootfs.tar.bz2 to your rootfs.
+    sudo cp rootfs.tar.bz2 \$ROOTFS
+
+    # Decompress and untar with root permissions to keep permissions intact.
+    cd \$ROOTFS
+    sudo bzip2 -d rootfs.tar.bz2
+    sudo tar -xvf rootfs.tar
+
+    # Clean up.
+    sudo rm rootfs.tar
+    rm -rf \$TOP/root \$TOP/fs
 }
 
 function strip_h264() {
