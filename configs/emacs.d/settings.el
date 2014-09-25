@@ -46,3 +46,15 @@
 
 ;; Automatically update buffers to reflect changes on disk.
 (global-auto-revert-mode t)
+
+;; Allow movement to the windows using a prefixed arrow key.
+(global-set-key (kbd "C-c <left>")  'windmove-left)
+(global-set-key (kbd "C-c <right>") 'windmove-right)
+(global-set-key (kbd "C-c <up>")    'windmove-up)
+(global-set-key (kbd "C-c <down>")  'windmove-down)
+
+;; Allow shrinking of the windows using
+(global-set-key (kbd "C-<left>")  'shrink-window-horizontally)
+(global-set-key (kbd "C-<right>") 'enlarge-window-horizontally)
+(global-set-key (kbd "C-<down>")  'shrink-window)
+(global-set-key (kbd "C-<up>")    'enlarge-window)
