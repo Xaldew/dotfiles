@@ -130,11 +130,14 @@ function android_env()
     export ARCH=arm
     export HW=1
     export CROSS_COMPILE=arm-eabi-
+    export BASE_PATH=ssh://\$USER@login2.euhpc.arm.com/arm/mpd/thirdparty/bsp/android/midgard
     export PATH=\$PATH:/work/mydroid/android/prebuilts/gcc/linux-x86/arm/arm-eabi-4.7/bin
     module unload sun/jdk/1.8.0_11
     if [ -d "\$MYDROID" ]; then
         source \$MYDROID/build/envsetup.sh
-        (cd \$MYDROID && lunch armboard_v7a-eng)
+        my_pwd=\$(pwd)
+        cd \$MYDROID && lunch armboard_v7a-eng
+        cd \$(my_pwd)
     fi
 }
 
@@ -186,7 +189,6 @@ export MPDTI_V2_PROJECT=PJ00640
 # Add some paths for work based utilities.
 export PATH=\$HOME/.local/bin:\$PATH
 export PATH=/work/bin:\$PATH
-export BASE_PATH=ssh://\$USER@login2.euhpc.arm.com/arm/mpd/thirdparty/bsp/android/midgard
 
 # Sets a more 'modern' termcap file for use with emacs, otherwise colors will be
 # messed up. Only needed at work.
