@@ -1,0 +1,19 @@
+# -*- mode: snippet -*-
+# Insert ARM-legal snippet for python.
+# name: Python ARM Legal
+# key: legal
+# type: snippet
+# contributer: Gustaf Waldemarson
+# --
+#
+# Copyright:
+# ----------------------------------------------------------------------------
+# This confidential and proprietary software may be used only as authorized
+# by a licensing agreement from ARM Limited.
+#      (C) COPYRIGHT ${1:`(insert (format-time-string "%Y"))`} ARM Limited, ALL RIGHTS RESERVED
+# The entire notice above must be reproduced on all authorized copies and
+# copies may only be made to the extent permitted by a licensing agreement
+# from ARM Limited.
+# ----------------------------------------------------------------------------
+#
+$0
