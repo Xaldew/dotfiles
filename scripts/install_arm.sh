@@ -116,6 +116,12 @@ function goto_repo()
     fi
 }
 
+function count_h264_frames()
+{
+    /work/bin/ffprobe -count_frames -show_frames -hide_banner "\$1" | \
+        grep pict_type | sort | uniq -c
+}
+
 # Setup environment for building android/android-kernel stuff.
 function android_env()
 {
