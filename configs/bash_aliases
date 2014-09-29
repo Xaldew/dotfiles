@@ -19,6 +19,8 @@ alias ssh-lth="ssh dt09gw1@login.student.lth.se"
 alias sl=ls
 alias ll="ls -lFh"
 alias la="ls -Alh"
+alias lh="ls -hl"
+alias lah="ls -hal"
 alias l="ls -CF"
 
 alias maek=make

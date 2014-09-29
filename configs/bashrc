@@ -53,7 +53,7 @@ fi
 export FIGNORE=$FIGNORE:svn:.o:.~:\#*\#:.pyc:.pyo
 
 # Add default grep options
-export GREP_OPTIONS='--exclude-dir=\.{svn,git,repo}'
+export GREP_OPTIONS="--exclude-dir={.svn,.git,.repo}"
 
 # Setup emacs as the default editor.
 if [[ ! $EDITOR =~ .*emacs.* ]]; then
