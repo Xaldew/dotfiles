@@ -51,6 +51,9 @@ export PATH=\$WORKSPACE_DIR/mve6/test/util/yuvtools:\$PATH
 
 
 #### Load a few modules from /arm/tools/modulefiles
+## Unload defective modules.
+module unload gnu/gcc/4.5.2
+
 # Run 'module avail' for full list
 ## These do not work on Ubuntu 12.04.
 # module load coverity/static-analysis/5.2.1
@@ -85,17 +88,25 @@ module load doxygen/doxygen/1.8.2
 module load codesourcery/linuxeabi/arm-2011q1
 module load smartbear/codecollab/8.1.8100
 
+
 #### Aliases
-alias maketest=" (goto_repo && cd test/system/ && make -j12 MVE_VERSION=V500_R0P1_00REL0 && make virtex7 MVE_VERSION=V500_R0P1_00REL0 -j12)"
-alias makerel="  (goto_repo && cd test/system/ && RELEASE=1 make RELEASE=1 MVE_VERSION=V500_R0P1_00REL0 -j12 && make virtex7 RELEASE=1 MVE_VERSION=V500_R0P1_00REL0 -j12)"
-alias makedbg="  (goto_repo && cd test/system/ && DEBUG=1 make DEBUG=1 MVE_VERSION=V500_R0P1_00REL0 -j12)"
+alias maketest=" (goto_repo && cd test/system/ && \
+    make -j12 MVE_VERSION=V500_R0P1_00REL0 && \
+    make virtex7 MVE_VERSION=V500_R0P1_00REL0 -j12)"
+alias makerel="  (goto_repo && cd test/system/ && \
+    RELEASE=1 make RELEASE=1 MVE_VERSION=V500_R0P1_00REL0 -j12 && \
+    make virtex7 RELEASE=1 MVE_VERSION=V500_R0P1_00REL0 -j12)"
+alias makedbg="  (goto_repo && cd test/system/ && \
+    DEBUG=1 make DEBUG=1 MVE_VERSION=V500_R0P1_00REL0 -j12)"
 alias makeclean="(goto_repo && cd test/system/ && make clean)"
 alias makeutil=" (goto_repo && cd test/system/ && make util -j12)"
 alias bi="bsub -Is -P PJ00640 -R 'rhe6 && os64'" # bjobs/bwhat to monitor queue
-alias lg="log --graph --pretty=format:'%Cred%h%Creset - %C(bold blue)%an%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr)' --abbrev-commit"
+alias lg="log --graph --pretty=format:'%Cred%h%Creset - \
+    %C(bold blue)%an%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr)' \
+    --abbrev-commit"
 
 # Preserve path when entering (fake) sudo.
-alias sudo='sudo env PATH=$PATH'
+alias sudo='sudo env PATH=\$PATH'
 
 
 #### Functions
@@ -118,7 +129,7 @@ function goto_repo()
 
 function count_h264_frames()
 {
-    /work/bin/ffprobe -count_frames -show_frames -hide_banner "\$1" | \
+    ffprobe -count_frames -show_frames -hide_banner "\$1" | \
         grep pict_type | sort | uniq -c
 }
 
@@ -132,7 +143,7 @@ function android_env()
     export ROOTFS=/work/mydroid/rootfs
     export ANDROID_PRODUCT_OUT=/work/mydroid/android/out/target/product/armboard_v7a
     export ANDROID_HOST_OUT=/work/mydroid/android/out/host/linux-x86/
-    export MVE_VERSION=V500_R0P0_00REL0
+    export MVE_VERSION=V500_R0P1_00REL0
     export ARCH=arm
     export HW=1
     export CROSS_COMPILE=arm-eabi-
@@ -143,7 +154,7 @@ function android_env()
         source \$MYDROID/build/envsetup.sh
         my_pwd=\$(pwd)
         cd \$MYDROID && lunch armboard_v7a-eng
-        cd \$(my_pwd)
+        cd \$my_pwd
     fi
 }
 
@@ -184,7 +195,7 @@ function android_fix_permissions()
 
 function strip_h264() {
     in=\${1}
-    avconv -i "\$in" -vcodec copy -an -bsf:v h264_mp4toannexb "\${in%.*}.h264"
+    ffmpeg -i "\$in" -vcodec copy -an -bsf:v h264_mp4toannexb "\${in%.*}.h264"
 }
 
 # Setup of TI2 (VIDEO) Environment Variables
