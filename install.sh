@@ -39,16 +39,39 @@ desc_length=50
 
 function convert-options()
 {
-    for ((i=0; i < $nlinked_options; ++i));
+    # Convert each argument to their long format equivalent.
+    for ((i=0; i < ${#arguments[@]}; ++i));
     do
 	arg=${arguments[i]}
-	for ((j=0; j < $nlinked_options; ++j));
+	for ((j=0; j < ${#short_options[@]}; ++j));
 	do
     	    if [ "$arg" == "${short_options[j]}" ]; then
     		arguments[i]=${long_options[j]}
     	    fi
 	done
     done
+
+    # Verify that all arguments has been converted and exists.
+    for ((i=0; i < ${#arguments[@]}; ++i));
+    do
+	found=0
+	arg=${arguments[i]}
+	for ((j=0; j < ${#long_options}; ++j));
+	do
+    	    if [ "$arg" == "${long_options[j]}" ]; then
+    		arguments[i]=${long_options[j]}
+       		found=1
+    	    fi
+	done
+
+	# Exit if argument wasn't found. not found.
+	if [ $found -eq 0 ]; then
+	    echo "Unrecognized argument: $arg"
+	    help
+	fi
+
+    done
+
     return 0
 }
 
@@ -126,7 +149,7 @@ convert-options
 # Loop over the arguments and execute the appropriate function.
 for arg in ${arguments[@]};
 do
-    test-options $arg
+    $(expr substr $arg 3 ${#arg})
 done
 
 echo "Installation finished successfully."
