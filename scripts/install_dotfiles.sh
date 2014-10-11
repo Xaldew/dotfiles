@@ -15,6 +15,11 @@ ln -fs $DOTFILES_DIR/configs/tmux.conf $HOME/.tmux.conf
 # Install Xresources
 ln -fs $DOTFILES_DIR/configs/Xresources $HOME/.Xresources
 
+# Install .ssh config.
+mkdir -p $HOME/.ssh
+cp --force $DOTFILES_DIR/configs/ssh_config $HOME/.ssh/config
+chmod 600 $HOME/.ssh/config
+
 # Install latexmk configuration.
 ln -fs $DOTFILES_DIR/configs/latexmkrc $HOME/.latexmkrc
 
