@@ -56,7 +56,7 @@ function convert-options()
     do
 	found=0
 	arg=${arguments[i]}
-	for ((j=0; j < ${#long_options}; ++j));
+	for ((j=0; j < ${#long_options[@]}; ++j));
 	do
     	    if [ "$arg" == "${long_options[j]}" ]; then
     		arguments[i]=${long_options[j]}
@@ -73,20 +73,6 @@ function convert-options()
     done
 
     return 0
-}
-
-function test-options()
-{
-    arg=$1
-    for ((i=0; i < $nlinked_options; ++i));
-    do
-	if [ $arg == ${long_options[i]} ]; then
-	    $(expr substr ${long_options[i]} 3 ${#long_options[i]})
-	    return 0
-	fi
-    done
-    printf "Unrecognized argument: %s.\n" ${arg}
-    exit 1
 }
 
 function help()
