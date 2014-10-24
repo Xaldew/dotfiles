@@ -27,6 +27,8 @@
 
 
 ;; Activate whitespace: mark lines longer than 80 columns.
+;; Note that to disable whitespace mode, you must evalute
+;; M-x global-whatespace-mode AND M-x revert-buffer.
 (require 'whitespace)
 (setq whitespace-style '(face empty lines-tail trailing))
 (global-whitespace-mode t)
