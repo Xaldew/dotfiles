@@ -14,16 +14,16 @@
 (setq column-number-mode t)
 
 
-;; Activate Ethan whitespace fixer.
-(require 'ethan-wspace)
-(global-ethan-wspace-mode 1)
-(set-default 'ethan-wspace-errors (remove 'tabs ethan-wspace-errors))
-(setq mode-require-final-newline nil)
-
-
 ;; Activate autopairs with dependencies.
 (require 'autopair)
 (autopair-global-mode)
+
+
+;; Activate Ethan whitespace fixer.
+(require 'ethan-wspace)
+(global-ethan-wspace-mode t)
+(set-default 'ethan-wspace-errors (remove 'tabs ethan-wspace-errors))
+(setq mode-require-final-newline nil)
 
 
 ;; Activate whitespace: mark lines longer than 80 columns.
@@ -33,6 +33,7 @@
 
 ;; Disable whitespace and ethan-wspace mode in yasnippets mode.
 (add-hook 'snippet-mode-hook (lambda ()
+			       (global-whitespace-mode -1)
 			       (whitespace-mode -1)
 			       (ethan-wspace-mode -1)))
 
