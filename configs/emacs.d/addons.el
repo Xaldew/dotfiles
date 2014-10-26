@@ -9,7 +9,6 @@
 (require 'linum)
 (global-linum-mode 1)
 (setq linum-format "%5d ")
-(setq flyspell-issue-welcome-flag nil)
 (setq line-number-mode t)
 (setq column-number-mode t)
 

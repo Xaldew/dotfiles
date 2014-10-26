@@ -1,13 +1,13 @@
 ;; Setup various C-styles for different projects.
 
-
-;; Misra style used in ARM MVE Model/Firmware/Driver
 (defconst misra-c-style
   '("bsd"
     (my-coding-style . "misra")
     (indent-tabs-mode . nil)
     (tab-width . 4)
     (c-basic-offset . 4)
+    (c-hanging-braces-alist
+     (substatement-open . (before after)))
     )
   "Misra coding style with modifications for the ARM MVE model/firmware/driver."
   )
@@ -79,9 +79,15 @@
 	((string-equal my-coding-style "misra")
 	 (newline-and-indent)
 	 (insert "{"))
+	(t (insert " {")) ; Default.
 	)
   )
 
+(defun my-alist-test ()
+  "Various tests with c-hanging-brace-alist."
+  (interactive)
+  (message (symbol-name '(assoc 'substatement-open c-hanging-braces-alist)))
+  )
 
 ;; Add personal c-mode setup function to c-mode-hook.
 (add-hook 'c-mode-hook 'my-c-mode-hook)

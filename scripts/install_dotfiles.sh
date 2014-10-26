@@ -9,8 +9,9 @@ ln -fs $DOTFILES_DIR/configs/bash_aliases $HOME/.bash_aliases
 ln -fs $DOTFILES_DIR/configs/gitconfig $HOME/.gitconfig
 ln -fs $DOTFILES_DIR/configs/gitignore $HOME/.gitignore
 
-# Install tmux configuration.
+# Install tmux configuration and tmux plugin manager.
 ln -fs $DOTFILES_DIR/configs/tmux.conf $HOME/.tmux.conf
+git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 
 # Install Xresources
 ln -fs $DOTFILES_DIR/configs/Xresources $HOME/.Xresources
