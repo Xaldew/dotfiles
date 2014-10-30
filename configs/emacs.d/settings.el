@@ -58,3 +58,10 @@
 (global-set-key (kbd "C-<right>") 'enlarge-window-horizontally)
 (global-set-key (kbd "C-<down>")  'shrink-window)
 (global-set-key (kbd "C-<up>")    'enlarge-window)
+
+;; Make scrolling smoother.
+(setq mouse-wheel-scroll-amount '(1 ((shift) . 1)))
+(setq mouse-wheel-progressive-speed nil)
+(setq mouse-wheel-follow-mouse 't)
+(setq scroll-step 1)
+(setq scroll-conservatively 10000)
