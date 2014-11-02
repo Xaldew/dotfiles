@@ -6,8 +6,8 @@ if [ -x /usr/bin/dircolors ]; then
     test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || \
 	eval "$(dircolors -b)"
     alias ls='ls --color=auto'
-    #alias dir='dir --color=auto'
-    #alias vdir='vdir --color=auto'
+    alias dir='dir --color=auto'
+    alias vdir='vdir --color=auto'
     alias grep='grep --color=auto'
     alias fgrep='fgrep --color=auto'
     alias egrep='egrep --color=auto'
@@ -15,6 +15,9 @@ fi
 
 alias ssh-lth="ssh dt09gw1@login.student.lth.se"
 
+alias ..='cd ..'
+alias ....='cd ../..'
+alias ......='cd ../../..'
 
 alias sl=ls
 alias ll="ls -lFh"
@@ -155,8 +158,3 @@ function greet_user()
 	echo "Did you know that:" && whatis $(ls /bin | shuf -n 1)
     fi
 }
-
-# Add useful shell-functions.
-source $DOTFILES_DIR/scripts/prompt.sh
-source $DOTFILES_DIR/scripts/bashmarks.sh
-source $DOTFILES_DIR/scripts/get_distribution.sh
