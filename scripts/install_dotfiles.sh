@@ -11,13 +11,15 @@ ln -fs $DOTFILES_DIR/configs/gitignore $HOME/.gitignore
 
 # Install tmux configuration and tmux plugin manager.
 ln -fs $DOTFILES_DIR/configs/tmux.conf $HOME/.tmux.conf
-git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+if [ ! -d "$HOME/.tmux/plugins/tpm" ]; then
+    git clone https://github.com/tmux-plugins/tpm $HOME/.tmux/plugins/tpm
+fi
 
 # Install Xresources
 ln -fs $DOTFILES_DIR/configs/Xresources $HOME/.Xresources
 
 # Install .ssh config.
-mkdir -p $HOME/.ssh
+mkdir --parents $HOME/.ssh
 cp --force $DOTFILES_DIR/configs/ssh_config $HOME/.ssh/config
 chmod 600 $HOME/.ssh/config
 
@@ -25,7 +27,7 @@ chmod 600 $HOME/.ssh/config
 ln -fs $DOTFILES_DIR/configs/latexmkrc $HOME/.latexmkrc
 
 # Install emacs configuration.
-mkdir -p $HOME/.emacs.d
+mkdir --parents $HOME/.emacs.d
 for elisp_file in $DOTFILES_DIR/configs/emacs.d/*.el
 do
     ln -fs $elisp_file $HOME/.emacs.d/$(basename $elisp_file)
@@ -35,7 +37,7 @@ rm -f $HOME/.emacs.d/snippets
 ln -fs $DOTFILES_DIR/snippets $HOME/.emacs.d/snippets
 
 # Create vim data and plugin directories.
-mkdir -p $HOME/.vim/
+mkdir --parents $HOME/.vim/
 if [ ! -d "$HOME/.vim/autoload" ]; then
     git clone https://github.com/tpope/vim-pathogen.git /tmp/vim-pathogen
     cp -r /tmp/vim-pathogen/autoload $HOME/.vim/autoload
@@ -51,3 +53,23 @@ echo "# Don't edit this file, rerun install.sh to update." > $HOME/.bashrc
 echo "DOTFILES_DIR="${DOTFILES_DIR} >> $HOME/.bashrc
 echo "source \$DOTFILES_DIR/configs/bashrc" >> $HOME/.bashrc
 echo "export PATH=\$DOTFILES_DIR/scripts:\$PATH" >> $HOME/.bashrc
+
+# Create a zshrc file with links to the script directories.
+echo "# Don't edit this file, rerun install.sh to update." > $HOME/.zshenv
+echo "DOTFILES_DIR="${DOTFILES_DIR} >> $HOME/.zshenv
+echo "ZDOTDIR=\$HOME/.zsh" >> $HOME/.zshenv
+echo "export PATH=\$DOTFILES_DIR/scripts:\$PATH" >> $HOME/.zshenv
+echo "source \$DOTFILES_DIR/configs/zsh/zshenv" >> $HOME/.zshenv
+
+# Install Prezto.
+mkdir --parents $HOME/.zsh
+if [ ! -d "$HOME/.zsh/.zprezto" ]; then
+    git clone --recursive https://github.com/sorin-ionescu/prezto.git \
+	$HOME/.zsh/.zprezto
+fi
+
+# Create symlinks to configuration files.
+for rc in $DOTFILES_DIR/configs/zsh/*;
+do
+    ln -fs "$rc" "$HOME/.zsh/.$(basename $rc)"
+done
