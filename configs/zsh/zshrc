@@ -1,0 +1,68 @@
+#!/usr/bin/env zsh
+# ~/.zshrc: executed by zsh(1) for non-login shells.
+
+# If not running interactively, don't do anything
+case $- in
+    *i*) ;;
+    *) return;;
+esac
+
+# Initialize Prezto.
+if [[ -s "${ZDOTDIR}/.zprezto/init.zsh" ]]; then
+    source "${ZDOTDIR}/.zprezto/init.zsh"
+fi
+
+# The following lines were added by compinstall
+zstyle ':completion:*' completer _complete _ignored _approximate
+zstyle ':completion:*' completions 1
+zstyle ':completion:*' expand prefix suffix
+zstyle ':completion:*' glob 0
+zstyle ':completion:*' ignore-parents parent
+zstyle ':completion:*' list-colors ''
+zstyle ':completion:*' list-suffixes true
+zstyle ':completion:*' matcher-list 'm:{[:lower:]}={[:upper:]}' 'm:{[:lower:]}={[:upper:]}'
+zstyle ':completion:*' max-errors 3 numeric
+zstyle ':completion:*' original true
+zstyle ':completion:*' squeeze-slashes true
+zstyle ':completion:*' substitute 1
+zstyle :compinstall filename '/home/xaldew/.zsh/.zshrc'
+
+autoload -Uz compinit
+compinit
+# End of lines added by compinstall
+# Lines configured by zsh-newuser-install
+HISTFILE=~/.histfile
+HISTSIZE=10000
+SAVEHIST=10000
+setopt appendhistory autocd extendedglob nomatch notify
+unsetopt beep
+# End of lines configured by zsh-newuser-install
+
+autoload -U colors && colors
+
+# make less more friendly for non-text input files, see lesspipe(1)
+[ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
+
+# Import alias definitions.
+if [ -f ~/.bash_aliases ]; then
+    source ~/.bash_aliases
+fi
+
+# Add 256 colour support for the xterm emulators.
+export TERM='xterm-256color'
+
+# Set XDG_CONFIG_HOME variable if not set.
+if [ -n "$XDG_CONFIG_HOME" -a -d "$HOME/.config" ]; then
+    export XDG_CONFIG_HOME=$HOME/.config
+fi
+
+# Set the terminal to ignore filename completion for more suffixes.
+export FIGNORE="$FIGNORE:.svn:.o:.~:\#*\#:.pyc::.pyo"
+
+# Add default grep options
+export GREP_OPTIONS="--exclude-dir={.svn,.git,.repo}"
+
+# Setup emacs as the default editor.
+if [[ ! $EDITOR =~ .*emacs.* ]]; then
+    export EDITOR="emacs"
+fi

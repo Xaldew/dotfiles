@@ -1,0 +1,3 @@
+#!/usr/bin/env zsh
+# Commands executed upon logout from a login shell.
+echo "Good Bye!"
