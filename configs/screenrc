@@ -1,0 +1,78 @@
+startup_message off
+#termcapinfo xterm*|Eterm|mlterm|rxvt 'hs:ts=\E]0;:fs=\007:ds=\E]0;screen\007'
+termcapinfo rxvt-unicode ti@:te@     #enable SHIFT-PGUP / SHIFT-PGDOWN scroll
+#termcapinfo wy* CS=\E[?1h:CE=\E[?1l:vi=\E[?25l:ve=\E[?25h:VR=\E[?5h:VN=\E[?5l:cb=\E[1K:CD=\E[1J
+terminfo rxvt-unicode ti@:te@:
+term screen-256color
+setenv LC_CTYPE en_US.UTF-8
+defutf8 on
+setenv DISPLAY ':0'
+nonblock on
+vbell off
+msgwait 10
+
+screen    -t $         1
+screen    -t $         2
+screen    -t $         3
+screen    -t proc      4
+screen    -t im        5
+screen    -t moc       6
+screen    -t down      7
+screen    -t irc       8
+screen    -t log       9 sudo tail -f /var/log/everything.log
+select 0
+
+escape "^T"
+bind = resize =
+bind + resize +1
+bind - resize -1
+bind _ resize max
+
+# Window numbering starts at 1, not 0.
+bind c screen 1
+
+# Prefix + number selects the new window.
+bind 1 select 1
+bind 2 select 2
+bind 3 select 3
+bind 4 select 4
+bind 5 select 5
+bind 6 select 6
+bind 7 select 7
+bind 8 select 8
+bind 9 select 9
+bind 0 select 10
+
+# Make life easier, f1-f10 selects screens 0-9
+bindkey -k k1 select 1
+bindkey -k k2 select 2
+bindkey -k k3 select 3
+bindkey -k k4 select 4
+bindkey -k k5 select 5
+bindkey -k k6 select 6
+bindkey -k k7 select 7
+bindkey -k k8 select 8
+bindkey -k k9 select 9
+bindkey -k k0 select 0
+bindkey "^[Od" prev  # change window with ctrl-left
+bindkey "^[Oc" next  # change window with ctrl-right
+
+# An alternative hardstatus to display a bar at the bottom listing the
+# windownames and highlighting the current windowname in blue. (This is only
+# enabled if there is no hardstatus setting for your terminal)
+hardstatus on
+hardstatus alwayslastline
+#hardstatus string "%w"
+#hardstatus string "%{.kW}%-w%{.W}%n %t%{-}%{=b kw}%?%+w%?"            #B&W
+hardstatus string "%{.kW}%-w%{.W}%n %t%{-}%{=b kw}%?%+w%? %=%c %d/%m/%Y" #B&W & date&time
+hardstatus string "%{.kW}%-w%{.W}%n %t%{-}%{=b kw}%?%+w%? %=%c %d/%m/%Y" #B&W & date&time
+#hardstatus string '%{= R}[%{w}%H%{R}][%{w}%=%?%-Lw%?%{R}%n*%f%t%?(%u)%? %{w}%?%+Lw%?%?%=%{R}][%{w}%m/%d %{W}%C%A%{R}]'
+#hardstatus string "%{.kW}%-w%{.W}%n %t%{-}%+w %=%C %a "
+#hardstatus string "%{=b kw} %?%-Lw%?%{=br kw}[%n %t]%{=b kw}%?%+Lw%? %="
+#hardstatus alwayslastline '%{bk}[ %{W}%H %{b}][ %{w}%l%{b} ]   %{b}[%{w} %D %d.%m %c:%s%{b} ]'
+#hardstatus alwayslastline '%{bk}[%{W}%H%{b}] %{w} %l %= %n*%t%{-b r}%{w}%+w %= %{w}%d %D %{w}%c'
+#hardstatus alwayslastline '%{wk}[ %{g}][%= %{wk}%?%-Lw%?%{=b kR}(%{W}%n*%f %t%?(%u)%?%{=b kR})%{= kw}%?%+Lw%?%?%= %{g}][%{Y}%l%{g}]%{=b C}[ %m/%d %c ]%{W}'
+sorendition kw
+
+# hardcopydir:  The directory which contains all hardcopies.
+hardcopydir ~/.screen
