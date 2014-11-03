@@ -6,7 +6,7 @@
 #### Install all main packages using the package manager.
 
 # Install version control systems.
-sudo apt-get install \
+sudo apt-get --quiet=2 install \
      git \
      bzr \
      subversion \
@@ -14,13 +14,13 @@ sudo apt-get install \
      git-bzr
 
 # Install editors and terminal mangement packages.
-sudo apt-get install \
+sudo apt-get --quiet=2 install \
      vim \
      ssh \
      xclip
 
 # Install compilers and coding utilities.
-sudo apt-get install \
+sudo apt-get --quiet=2 install \
      build-essential \
      gcc \
      g++ \
@@ -35,7 +35,7 @@ sudo apt-get install \
      silversearcher-ag
 
 # Install Python and utilities.
-sudo apt-get install \
+sudo apt-get --quiet=2 install \
      python \
      python3 \
      python-pil \
@@ -44,7 +44,7 @@ sudo apt-get install \
      pylint
 
 # Install OpenGL development utilities.
-sudo apt-get install \
+sudo apt-get --quiet=2 install \
      freeglut3 \
      freeglut3-dev \
      libgl1-mesa-dev \
@@ -56,31 +56,31 @@ sudo apt-get install \
      mesa-utils
 
 # Install latex and documentation utilities.
-sudo apt-get install \
+sudo apt-get --quiet=2 install \
      texlive-full \
      doxygen-latex
 
 
 # Install virtualization tools and cross compilers.
-sudo apt-get Install \
+sudo apt-get --quiet=2 install \
      qemu \
      gcc-arm-linux-gnueabihf \
      g++-arm-linux-gnueabihf \
      binutils-arm-linux-gnueabihf
 
 # Install graphic design tools.
-sudo apt-get install \
+sudo apt-get --quiet=2 install \
      imagemagick \
      inkscape \
      gimp
 
 # Install miscellaneous packages.
-sudo apt-get install \
+sudo apt-get --quiet=2 install \
      graphviz
 
 
 # Install latest version of Tmux.
-sudo apt-get install libevent-dev libncurses5-dev
+sudo apt-get --quiet=2 install libevent-dev libncurses5-dev
 tmp_dir=$(mktemp --directory)
 trap "{ cd - ; rm -rf $tmp_dir; exit 255; }" SIGINT
 
@@ -94,5 +94,5 @@ sudo make install
 
 
 # Install the latest version of Emacs.
-sudo apt-get install libmagickcore-dev libmagickwand-dev \
+sudo apt-get --quiet=2 install libmagickcore-dev libmagickwand-dev \
      libgtk-3-dev libjpeg-dev libgif-dev libtiff-dev
