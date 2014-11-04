@@ -11,18 +11,7 @@ nonblock on
 vbell off
 msgwait 10
 
-screen    -t $         1
-screen    -t $         2
-screen    -t $         3
-screen    -t proc      4
-screen    -t im        5
-screen    -t moc       6
-screen    -t down      7
-screen    -t irc       8
-screen    -t log       9 sudo tail -f /var/log/everything.log
-select 0
-
-escape "^T"
+escape "^tT"
 bind = resize =
 bind + resize +1
 bind - resize -1
@@ -30,6 +19,9 @@ bind _ resize max
 
 # Window numbering starts at 1, not 0.
 bind c screen 1
+bind c screen 1
+screen 1
+select 1
 
 # Prefix + number selects the new window.
 bind 1 select 1

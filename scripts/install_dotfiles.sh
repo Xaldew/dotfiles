@@ -15,7 +15,10 @@ if [ ! -d "$HOME/.tmux/plugins/tpm" ]; then
     git clone https://github.com/tmux-plugins/tpm $HOME/.tmux/plugins/tpm
 fi
 
-# Install Xresources
+# Install .screenrc.
+ln -fs $DOTFILES_DIR/configs/screenrc $HOME/.screenrc
+
+# Install Xresources.
 ln -fs $DOTFILES_DIR/configs/Xresources $HOME/.Xresources
 
 # Install .ssh config.
