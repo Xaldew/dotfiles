@@ -6,6 +6,8 @@
 	excludesfile = ~/.gitignore
 [merge]
 	tool = vimdiff
+[branch]
+	autosetuprebase = always
 [alias]
 	co = checkout
 	st = status
