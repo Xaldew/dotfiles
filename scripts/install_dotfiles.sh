@@ -17,6 +17,7 @@ fi
 
 # Install .screenrc.
 ln -fs $DOTFILES_DIR/configs/screenrc $HOME/.screenrc
+mkdir --parents $HOME/.screen/
 
 # Install Xresources.
 ln -fs $DOTFILES_DIR/configs/Xresources $HOME/.Xresources
