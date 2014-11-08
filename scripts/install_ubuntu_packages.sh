@@ -41,6 +41,8 @@ sudo apt-get --quiet=2 install \
      python-pil \
      python-scipy \
      python-numpy \
+     python-pygments \
+     python3-pygments \
      pylint
 
 # Install OpenGL development utilities.
@@ -76,7 +78,9 @@ sudo apt-get --quiet=2 install \
 
 # Install miscellaneous packages.
 sudo apt-get --quiet=2 install \
-     graphviz
+     graphviz \
+     remmina \
+     remmina-plugins-nx
 
 
 # Install latest version of Tmux.
