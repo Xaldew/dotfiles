@@ -96,3 +96,9 @@ sudo make install
 # Install the latest version of Emacs.
 sudo apt-get --quiet=2 install libmagickcore-dev libmagickwand-dev \
      libgtk-3-dev libjpeg-dev libgif-dev libtiff-dev
+cd $tmp_dir
+git clone git://git.savannah.gnu.org/emacs.git
+sh autogen.sh
+./configure --enable-link-time-optimization --with-imagemagick
+make -j
+sudo make install
