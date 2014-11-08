@@ -23,6 +23,7 @@ the directories in the INCLUDE environment variable."
 ;; C++ Style.
 (c-add-style "my-style"
 	     '("stroustrup"
+	       (my-coding-style . "linux")
 	       (indent-tabs-mode . nil)        ; use spaces rather than tabs
 	       (c-basic-offset . 4)            ; indent by four spaces
 	       (c-offsets-alist . ((inline-open . 0)  ; custom indentation rules
