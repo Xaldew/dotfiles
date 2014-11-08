@@ -8,9 +8,9 @@ if [ -x /usr/bin/dircolors ]; then
     alias ls='ls --color=auto'
     alias dir='dir --color=auto'
     alias vdir='vdir --color=auto'
-    alias grep='grep --color=auto'
-    alias fgrep='fgrep --color=auto'
-    alias egrep='egrep --color=auto'
+    alias grep='grep --color=auto $GREP_OPTIONS'
+    alias fgrep='fgrep --color=auto $GREP_OPTIONS'
+    alias egrep='egrep --color=auto $GREP_OPTIONS'
 fi
 
 alias ssh-lth="ssh dt09gw1@login.student.lth.se"
@@ -66,6 +66,42 @@ alias g++-defines="g++ -dM -E - < /dev/null"
 alias xfce-shortcuts="xfconf-query -c xfce4-keyboard-shortcuts -l -v | \
 cut -d'/' -f4 | awk '{printf \"%-30s\", \$2 ; print \"\\t\" \$1 }' | \
 sort | uniq"
+
+function dls () {
+    # List directories.
+    echo $(ls -l | grep "^d" | awk '{ print $9 }' | tr -d "/")
+}
+
+function dgrep()
+{
+    # A recursive, case-insensitive grep that excludes binary files.
+    grep -iR "$@" * | grep -v "Binary"
+}
+
+function dfgrep()
+{
+    # A recursive, case-insensitive grep that excludes binary files
+    # and returns only unique filenames.
+    grep -iR "$@" * | grep -v "Binary" | sed 's/:/ /g' | awk '{ print $1 }' | sort | uniq
+}
+
+function psgrep()
+{
+    # Grep for processes.
+    if [ ! -z $1 ] ; then
+        echo "Grepping for processes matching $1..."
+        ps aux | grep $1 | grep -v grep
+    else
+        echo "!! Need name to grep for"
+    fi
+}
+
+function unpatch()
+{
+    # Undo previous patching attempts.
+    find . -name "*.orig" -o -name "*.rej"  -type f -exec rm {} \;
+    find . -name "b" -type d -exec rm -rf {} \;
+}
 
 # Function to compile and run any of the project euler files.
 function euler ()
