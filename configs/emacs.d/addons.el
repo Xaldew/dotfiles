@@ -4,6 +4,7 @@
 
 ;; Activate cmake mode for editting cmake files.
 (require 'cmake-mode)
+;(autoload 'cmake-mode "cmake-mode" "PBRT Mode." t)
 
 ;; Activate linum for neat line- and column numbers.
 (require 'linum)
@@ -86,3 +87,7 @@
 
 ;; Activate Magit.
 (require 'magit)
+
+
+;; Activate pbrt-mode.
+(autoload 'pbrt-mode "pbrt-mode" "PBRT Mode." t)
