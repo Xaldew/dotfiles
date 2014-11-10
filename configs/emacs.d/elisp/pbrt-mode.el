@@ -11,7 +11,7 @@
 ;; Create lists keywords for highlighting.
 (setq pbrt-keywords '("Include" "ActiveTransform" "ObjectInstance"))
 
-(setq pbrt-types '("bool" "integer" "float" "string" "point" "vector ""normal"
+(setq pbrt-types '("bool" "integer" "float" "string" "point" "vector" "normal"
 		   "xyz" "color" "rgb" "texture" "spectrum" "blackbody"))
 
 (setq pbrt-transforms '("Identity" "Translate" "Scale" "Rotate" "LookAt"
@@ -31,9 +31,27 @@
 			   "Texture" "Volume"))
 
 
+;; Transform each of the types, and then concatenate them.
+;; (Saved for future reference.)
+(setq pbrt-types-regexp
+      (mapconcat
+       'identity
+       (mapcar (lambda (a)
+		 (format "\"%s[[:space:]]+[a-zA-Z_]+\"" a)) pbrt-types)
+       "\\|"
+       )
+      )
+
+
+;; Create a regular expression that matches all identifiers.
+(setq pbrt-identifier-regexp
+      (format "\\(%s\\)[[:space:]]+\\([a-zA-Z_]+\\)"
+	      (mapconcat 'identity pbrt-types "\\|")))
+
+
 ;; Create regular expressions from the above lists.
 (setq pbrt-keywords-regexp        (regexp-opt pbrt-keywords        'words))
-(setq pbrt-type-regexp            (regexp-opt pbrt-types           'words))
+(setq pbrt-types-regexp           (regexp-opt pbrt-types           'words))
 (setq pbrt-transforms-regexp      (regexp-opt pbrt-transforms      'words))
 (setq pbrt-states-regexp          (regexp-opt pbrt-states          'words))
 (setq pbrt-render-options-regexp  (regexp-opt pbrt-render-options  'words))
@@ -42,9 +60,12 @@
 
 ;; Create the list for font-lock.
 ;; Each class of keyword is given a particular face.
+;; Note that sexps with 4 values use the matchgroup in the second value
+;; and overrides previously defined font-locks if the fourth is non-nil.
 (setq pbrt-font-lock-keywords
       `((,pbrt-keywords-regexp        . font-lock-type-face)
-	(,pbrt-type-regexp            . font-lock-type-face)
+	(,pbrt-types-regexp           0 font-lock-type-face           t)
+	(,pbrt-identifier-regexp      2 font-lock-variable-name-face  t)
 	(,pbrt-transforms-regexp      . font-lock-constant-face)
 	(,pbrt-states-regexp          . font-lock-builtin-face)
 	(,pbrt-render-options-regexp  . font-lock-function-name-face)

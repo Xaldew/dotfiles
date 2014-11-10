@@ -31,7 +31,6 @@
 		     gitconfig-mode
 		     ssh-config-mode
 		     evil
-		     powerline
 		     elpy
 		     web-mode
 		     dart-mode

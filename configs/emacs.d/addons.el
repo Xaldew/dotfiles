@@ -80,11 +80,6 @@
 (require 'evil)
 
 
-;; Activate Powerline.
-(require 'powerline)
-(powerline-default-theme)
-
-
 ;; Activate Magit.
 (require 'magit)
 
