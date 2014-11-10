@@ -1,5 +1,5 @@
 ;; Load initial include-file functions.
-(add-to-list 'load-path "~/.emacs.d/")
+(add-to-list 'load-path "~/.emacs.d/elisp")
 (load (expand-file-name "~/.emacs.d/init.el"))
 
 (when (>= emacs-major-version 24)

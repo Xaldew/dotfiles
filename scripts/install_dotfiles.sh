@@ -39,6 +39,8 @@ done
 ln -fs $DOTFILES_DIR/configs/emacs.d/emacs $HOME/.emacs
 rm -f $HOME/.emacs.d/snippets
 ln -fs $DOTFILES_DIR/snippets $HOME/.emacs.d/snippets
+rm -f $HOME/.emacs.d/elisp
+ln -fs $DOTFILES_DIR/configs/emacs.d/elisp $HOME/.emacs.d/elisp
 
 # Create vim data and plugin directories.
 mkdir --parents $HOME/.vim/
