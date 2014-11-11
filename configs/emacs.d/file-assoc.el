@@ -15,6 +15,7 @@
 
 ;; Add makefile modes.
 (add-to-list 'auto-mode-alist '("\\.mak\\'" . makefile-mode))
+(add-to-list 'auto-mode-alist '("\\.build\\'" . makefile-mode))
 
 ;; Set Scons files to python mode.
 (add-to-list 'auto-mode-alist '("[Ss][Cc]onstruct" . python-mode))
