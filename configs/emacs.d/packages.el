@@ -40,6 +40,7 @@
 		     ac-anaconda
 		     auto-complete-clang
 		     auto-complete-c-headers
+		     ggtags
 		     ))
 
 (or (file-exists-p package-user-dir)

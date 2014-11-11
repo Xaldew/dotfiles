@@ -32,6 +32,7 @@ the directories in the INCLUDE environment variable."
 
 (defun my-c++-mode-hook ()
   (c-set-style "my-style")        ; use my-style defined above
+  (ggtags-mode)
   (auto-fill-mode)
   (flycheck-mode)
   (setq flycheck-clang-language-standard "c++11")

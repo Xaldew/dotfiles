@@ -62,13 +62,14 @@
   (flycheck-mode)
   (setq flycheck-clang-language-standard "c99")
   (turn-on-auto-fill)
- ; Set the c-style if we can. I think mmm-mode gets in the way of
- ; buffer-file-name for setting sub-modes, so check we have one first
+  (ggtags-mode)
+  ;; Set the c-style if we can. Some modes can get in the way of
+  ;; buffer-file-name when setting sub-modes, so check we have one first.
   (when buffer-file-name
     (message (format "looking for style for buffer %s" (buffer-file-name)))
     (let ((style (my-c-style-guesser (buffer-file-name))))
       (when style
-	(message (format "my-c-mode-hook: found style %s" style))
+	(message (format "my-c-mode-hook: Using style %s" style))
 	(c-set-style style))))
   )
 
