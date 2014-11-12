@@ -73,6 +73,82 @@
 	))
 
 
+;; Create an indentation command.
+(defun pbrt-indent-line ()
+  "Indent current line as PBRT code.
+
+PBRT will be indented according to the following rules:
+
+1. If we are at the beginning of the buffer, indent to column 0.
+2. If we are currently at a 'END' line, de-indent to the previous line.
+3. If we first see an 'END' line before our current line, we should indent the
+   current line similarly to it.
+4. If we see a 'BEGIN' line before our current line, we should increase our
+   indentation relative to the previous line.
+5. If none of the above applies, do not indent at all.
+
+As an example, see the following PBRT file:
+
+LookAt 0 10 100   0 -1 0 0 1 0
+Camera 'perspective' 'float fov' [30]
+Film 'image' 'string filename' ['simple.exr']
+     'integer xresolution' [200] 'integer yresolution' [200] # Rule z.
+
+WorldBegin
+
+TransformBegin
+
+    CoordSysTransform 'camera'            # Rule x.
+    AttributeBegin                        # Rule y.
+
+        LightSource 'distant'
+                    'point from' [0 0 0]
+                    'point to'   [0 0 1]  # Rule z.
+                    'rgb L'    [3 3 3]
+
+    AttributeEnd                 # Rule xx.
+TransformEnd                     # Rule xx.
+
+WorldEnd
+
+"
+  (interactive)
+  (beginning-of-line)
+  (if (bobp)
+      (indent-line-to 0)
+    (let ((not-indented t) cur-indent)
+      (if (looking-at "regex") ; Check for rule "regex1."
+	  (progn
+	    (save-excursion
+	      (forward-line -1)
+	      (setq cur-indent (- (current-indentation) default-tab-width)))
+
+	    (if (< cur-indent 0) ; Safety check - Don't indent past left margin.
+		(setq cur-indent 0)))
+
+	(save-excursion
+	  (while not-indented
+	    (forward-line -1)
+	    (if (looking-at "regex2") ; Check for rule "regex2."
+		(progn
+		  (setq cur-indent (current-indentation))
+		  (setq not-indented nil))
+	      (if (looking-at "regex3") ; Check for rule "regex3."
+		  (progn
+		    (setq cur-indent (+ (current-indentation) default-tab-width))
+		    (setq not-indented nil))
+		)
+	      (if (bobp) ; Check for rule xx.
+		  (setq not-indented nil)
+		)
+	      )
+	    )
+	  )
+	)
+      )
+    )
+  )
+
 ;; Command to comment/uncomment text in PBRT-mode.
 (defun pbrt-comment-dwim (arg)
   "Comment or uncomment current line or region in a smart way.
