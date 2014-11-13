@@ -37,7 +37,7 @@
       (mapconcat
        'identity
        (mapcar (lambda (a)
-		 (format "\"%s[[:space:]]+[a-zA-Z_]+\"" a)) pbrt-types)
+		 (format "%s[[:space:]]+[a-zA-Z_]+" a)) pbrt-types)
        "\\|"
        )
       )
@@ -63,13 +63,16 @@
 ;; Note that sexps with 4 values use the matchgroup in the second value
 ;; and overrides previously defined font-locks if the fourth is non-nil.
 (setq pbrt-font-lock-keywords
-      `((,pbrt-keywords-regexp        . font-lock-type-face)
-	(,pbrt-types-regexp           0 font-lock-type-face           t)
-	(,pbrt-identifier-regexp      2 font-lock-variable-name-face  t)
+      `((,"#.*"                       . font-lock-comment-face)
+	(,pbrt-keywords-regexp        . font-lock-type-face)
+	(,pbrt-types-regexp           0 font-lock-type-face           nil)
+	(,pbrt-identifier-regexp      2 font-lock-variable-name-face  nil)
 	(,pbrt-transforms-regexp      . font-lock-constant-face)
 	(,pbrt-states-regexp          . font-lock-builtin-face)
 	(,pbrt-render-options-regexp  . font-lock-function-name-face)
 	(,pbrt-scene-options-regexp   . font-lock-keyword-face)
+	(,"\"[^\"]*\""                . font-lock-string-face)
+	(,"\""                        . font-lock-string-face)
 	))
 
 
@@ -172,15 +175,18 @@ For detail, see `comment-dwim'."
 
 
 ;; Define the pbrt-mode.
-(define-derived-mode pbrt-mode fundamental-mode
-  "pbrt-mode"
+(define-derived-mode pbrt-mode fundamental-mode "PBRT"
   "Major mode for editing PBRT scene files."
-  :syntax-table pbrt-syntax-table
-
-  (setq mode-name "pbrt")
+  (kill-all-local-variables)
+  (set-syntax-table pbrt-syntax-table)
+  (use-local-map pbrt-mode-map)
 
   ;; Code for syntax highlighting.
-  (setq font-lock-defaults '((pbrt-font-lock-keywords)))
+  (setq-local font-lock-defaults '(pbrt-font-lock-keywords t))
+
+  (setq major-mode 'pbrt-mode)
+  (setq mode-name "pbrt")
+  (run-hooks 'pbrt-mode-hook)
 
 
   ;; Clear memory from redundant variables.
