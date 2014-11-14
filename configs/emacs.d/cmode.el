@@ -68,9 +68,13 @@
   (when buffer-file-name
     (message (format "looking for style for buffer %s" (buffer-file-name)))
     (let ((style (my-c-style-guesser (buffer-file-name))))
-      (when style
-	(message (format "my-c-mode-hook: Using style %s" style))
-	(c-set-style style))))
+      (if style
+	  (progn
+	    (message (format "my-c-mode-hook: Using style %s" style))
+	    (c-set-style style))
+	(c-set-style "linux-tabs-style") ; Default to linux-tab-style.
+	))
+    )
   )
 
 (defun my-brace-placement ()
