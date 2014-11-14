@@ -38,8 +38,7 @@
        'identity
        (mapcar (lambda (a)
 		 (format "%s[[:space:]]+[a-zA-Z_]+" a)) pbrt-types)
-       "\\|"
-       )
+       "\\|")
       )
 
 
@@ -76,6 +75,14 @@
 	))
 
 
+;; Variables for indentation.
+(setq pbrt-block-start '("ObjectBegin" "AttributeBegin" "TransformBegin"))
+(setq pbrt-block-close '("ObjectEnd" "AttributeEnd" "TransformEnd"))
+
+(setq pbrt-block-start-regexp (regexp-opt pbrt-block-start 'word))
+(setq pbrt-block-close-regexp (regexp-opt pbrt-block-close 'word))
+
+
 ;; Create an indentation command.
 (defun pbrt-indent-line ()
   "Indent current line as PBRT code.
@@ -83,7 +90,7 @@
 PBRT will be indented according to the following rules:
 
 1. If we are at the beginning of the buffer, indent to column 0.
-2. If we are currently at a 'END' line, de-indent to the previous line.
+2. If we are currently at an 'END' line, de-indent to the previous line.
 3. If we first see an 'END' line before our current line, we should indent the
    current line similarly to it.
 4. If we see a 'BEGIN' line before our current line, we should increase our
@@ -117,10 +124,10 @@ WorldEnd
 "
   (interactive)
   (beginning-of-line)
-  (if (bobp)
+  (if (bobp) ; Check for rule 1.
       (indent-line-to 0)
     (let ((not-indented t) cur-indent)
-      (if (looking-at "regex") ; Check for rule "regex1."
+      (if (looking-at "^[ \t]*[a-zA-Z]+End") ; Check for rule 2.
 	  (progn
 	    (save-excursion
 	      (forward-line -1)
@@ -132,21 +139,20 @@ WorldEnd
 	(save-excursion
 	  (while not-indented
 	    (forward-line -1)
-	    (if (looking-at "regex2") ; Check for rule "regex2."
+	    (if (looking-at "^[ \t]*[a-zA-Z]+End") ; Check for rule 3.
 		(progn
 		  (setq cur-indent (current-indentation))
 		  (setq not-indented nil))
-	      (if (looking-at "regex3") ; Check for rule "regex3."
+	      (if (looking-at "^[ \t]*\\([a-zA-Z]+Begin\\)") ; Check for rule 4.
 		  (progn
 		    (setq cur-indent (+ (current-indentation) default-tab-width))
 		    (setq not-indented nil))
-		)
-	      (if (bobp) ; Check for rule xx.
-		  (setq not-indented nil)
-		)
-	      )
-	    )
-	  )
+		(if (bobp) ; Check for rule 5.
+		    (setq not-indented nil))) ))))
+
+      (if cur-indent ; Do the actual indentation.
+	  (indent-line-to cur-indent)
+	(indent-line-to 0)
 	)
       )
     )
@@ -183,6 +189,10 @@ For detail, see `comment-dwim'."
 
   ;; Code for syntax highlighting.
   (setq-local font-lock-defaults '(pbrt-font-lock-keywords t))
+
+  ;; Code for automatic indentation.
+  (setq-local indent-line-function 'pbrt-indent-line)
+
 
   (setq major-mode 'pbrt-mode)
   (setq mode-name "pbrt")
