@@ -1,12 +1,14 @@
 ;; Allow users to run their own hooks.
-(defvar pbrt-mode-hook nil)
+(defvar pbrt-mode-hook nil "User hooks for PBRT mode.")
 
 (defvar pbrt-mode-map
-  (let ((map (make-keymap)))
+  (let ((map (make-sparse-keymap)))
     (define-key map "\C-j" 'newline-and-indent)
     (define-key map [remap comment-dwim] 'pbrt-comment-dwim)
     map)
   "Keymap for PBRT major mode")
+
+(defcustom pbrt-indent 4 "PBRT-indentation width")
 
 ;; Create lists keywords for highlighting.
 (setq pbrt-keywords '("Include" "ActiveTransform" "ObjectInstance"))
@@ -75,12 +77,11 @@
 	))
 
 
-;; Variables for indentation.
-(setq pbrt-block-start '("ObjectBegin" "AttributeBegin" "TransformBegin"))
-(setq pbrt-block-close '("ObjectEnd" "AttributeEnd" "TransformEnd"))
-
-(setq pbrt-block-start-regexp (regexp-opt pbrt-block-start 'word))
-(setq pbrt-block-close-regexp (regexp-opt pbrt-block-close 'word))
+;; Regex variables for indentation.
+(setq pbrt-block-start-regexp
+      "[^ \t]*ObjectBegin\\|AttributeBegin\\|TransformBegin")
+(setq pbrt-block-close-regexp
+      "[^ \t]*ObjectEnd\\|AttributeEnd\\|TransformEnd")
 
 
 ;; Create an indentation command.
@@ -97,12 +98,17 @@ PBRT will be indented according to the following rules:
    indentation relative to the previous line.
 5. If none of the above applies, do not indent at all.
 
+TODO:
+6. If we are on a non-whitespace line and a previous line starts with a
+   statement, then line up this line to match the second relative indentation.
+
+
 As an example, see the following PBRT file:
 
 LookAt 0 10 100   0 -1 0 0 1 0
 Camera 'perspective' 'float fov' [30]
 Film 'image' 'string filename' ['simple.exr']
-     'integer xresolution' [200] 'integer yresolution' [200] # Rule z.
+     'integer xresolution' [200] 'integer yresolution' [200] # Rule 6.
 
 WorldBegin
 
@@ -127,11 +133,11 @@ WorldEnd
   (if (bobp) ; Check for rule 1.
       (indent-line-to 0)
     (let ((not-indented t) cur-indent)
-      (if (looking-at "^[ \t]*[a-zA-Z]+End") ; Check for rule 2.
+      (if (looking-at pbrt-block-close-regexp) ; Check for rule 2.
 	  (progn
 	    (save-excursion
 	      (forward-line -1)
-	      (setq cur-indent (- (current-indentation) default-tab-width)))
+	      (setq cur-indent (- (current-indentation) pbrt-indent)))
 
 	    (if (< cur-indent 0) ; Safety check - Don't indent past left margin.
 		(setq cur-indent 0)))
@@ -139,24 +145,21 @@ WorldEnd
 	(save-excursion
 	  (while not-indented
 	    (forward-line -1)
-	    (if (looking-at "^[ \t]*[a-zA-Z]+End") ; Check for rule 3.
+	    (if (looking-at pbrt-block-close-regexp) ; Check for rule 3.
 		(progn
 		  (setq cur-indent (current-indentation))
 		  (setq not-indented nil))
-	      (if (looking-at "^[ \t]*\\([a-zA-Z]+Begin\\)") ; Check for rule 4.
+	      (if (looking-at pbrt-block-start-regexp) ; Check for rule 4.
 		  (progn
-		    (setq cur-indent (+ (current-indentation) default-tab-width))
+		    (setq cur-indent (+ (current-indentation) pbrt-indent))
 		    (setq not-indented nil))
 		(if (bobp) ; Check for rule 5.
 		    (setq not-indented nil))) ))))
 
       (if cur-indent ; Do the actual indentation.
 	  (indent-line-to cur-indent)
-	(indent-line-to 0)
-	)
-      )
-    )
-  )
+	(indent-line-to 0)) )))
+
 
 ;; Command to comment/uncomment text in PBRT-mode.
 (defun pbrt-comment-dwim (arg)
@@ -169,35 +172,38 @@ For detail, see `comment-dwim'."
 
 
 ;; Syntax table.
-(defvar pbrt-syntax-table nil "Syntax table for `pbrt-mode'.")
-(setq pbrt-syntax-table
-      (let ((synTable (make-syntax-table)))
-
-        ;; Shell style comment: “# ...”
-        (modify-syntax-entry ?# "< b" synTable)
-        (modify-syntax-entry ?\n "> b" synTable)
-
-        synTable))
+(defvar pbrt-mode-syntax-table
+  (let ((table (make-syntax-table)))
+    ;; Shell style comment: “# ...”
+    (modify-syntax-entry ?#  "<" table)
+    (modify-syntax-entry ?\n ">" table)
+    ;; Dash and underscores are word constituents.
+    (modify-syntax-entry ?-  "w" table)
+    (modify-syntax-entry ?_  "w" table)
+    ;; Brackets are used to group numbers.
+    (modify-syntax-entry ?\[ "(]")
+    (modify-syntax-entry ?\] ")[")
+    table)
+  "Syntax table for `pbrt-mode'.")
 
 
 ;; Define the pbrt-mode.
 (define-derived-mode pbrt-mode fundamental-mode "PBRT"
   "Major mode for editing PBRT scene files."
   (kill-all-local-variables)
-  (set-syntax-table pbrt-syntax-table)
+  (set-syntax-table pbrt-mode-syntax-table)
   (use-local-map pbrt-mode-map)
 
   ;; Code for syntax highlighting.
   (setq-local font-lock-defaults '(pbrt-font-lock-keywords t))
 
-  ;; Code for automatic indentation.
+  ;; Code for pbrt indentation.
   (setq-local indent-line-function 'pbrt-indent-line)
-
+  (setq-local indent-tabs-mode nil)
 
   (setq major-mode 'pbrt-mode)
   (setq mode-name "pbrt")
   (run-hooks 'pbrt-mode-hook)
-
 
   ;; Clear memory from redundant variables.
   ;; (setq pbrt-keywords-regexp nil)
