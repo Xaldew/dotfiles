@@ -1,3 +1,9 @@
+;;; Code:
+(eval-when-compile
+  (require 'newcomment))
+
+(provide 'pbrt-mode)
+
 ;; Allow users to run their own hooks.
 (defvar pbrt-mode-hook nil "User hooks for PBRT mode.")
 
@@ -11,77 +17,71 @@
 (defcustom pbrt-indent 4 "PBRT-indentation width")
 
 ;; Create lists keywords for highlighting.
-(setq pbrt-keywords '("Include" "ActiveTransform" "ObjectInstance"))
+(defvar pbrt-keywords '("Include" "ActiveTransform" "ObjectInstance"))
 
-(setq pbrt-types '("bool" "integer" "float" "string" "point" "vector" "normal"
-		   "xyz" "color" "rgb" "texture" "spectrum" "blackbody"))
+(defvar pbrt-types '("bool" "integer" "float" "string" "point" "vector" "normal"
+		     "xyz" "color" "rgb" "texture" "spectrum" "blackbody"))
 
-(setq pbrt-transforms '("Identity" "Translate" "Scale" "Rotate" "LookAt"
-			"Transform" "ConcatTransform" "CoordinateSystem"
-			"CoordSysTransform" "ReverseOrientation"))
+(defvar pbrt-transforms '("Identity" "Translate" "Scale" "Rotate" "LookAt"
+			  "Transform" "ConcatTransform" "CoordinateSystem"
+			  "CoordSysTransform" "ReverseOrientation"))
 
-(setq pbrt-states '("WorldBegin" "WorldEnd"
-		    "ObjectBegin" "ObjectEnd"
-		    "AttributeBegin" "AttributeEnd"
-		    "TransformBegin" "TransformEnd"))
+(defvar pbrt-states '("WorldBegin" "WorldEnd"
+		      "ObjectBegin" "ObjectEnd"
+		      "AttributeBegin" "AttributeEnd"
+		      "TransformBegin" "TransformEnd"))
 
-(setq pbrt-render-options '("Camera" "Sampler" "Film" "PixelFilter" "Renderer"
-			    "SurfaceIntegrator" "VolumeIntegrator"
-			    "Accelerator"))
+(defvar pbrt-render-options '("Camera" "Sampler" "Film" "PixelFilter" "Renderer"
+			      "SurfaceIntegrator" "VolumeIntegrator"
+			      "Accelerator"))
 
-(setq pbrt-scene-options '("Shape" "LightSource" "AreaLightSource" "Material"
-			   "Texture" "Volume"))
-
-
-;; Transform each of the types, and then concatenate them.
-;; (Saved for future reference.)
-(setq pbrt-types-regexp
-      (mapconcat
-       'identity
-       (mapcar (lambda (a)
-		 (format "%s[[:space:]]+[a-zA-Z_]+" a)) pbrt-types)
-       "\\|")
-      )
+(defvar pbrt-scene-options '("Shape" "LightSource" "AreaLightSource" "Material"
+			     "Texture" "Volume"))
+(defvar pbrt-statements
+  (append pbrt-transforms pbrt-render-options pbrt-scene-options))
 
 
-;; Create a regular expression that matches all identifiers.
-(setq pbrt-identifier-regexp
-      (format "\\(%s\\)[[:space:]]+\\([a-zA-Z_]+\\)"
-	      (mapconcat 'identity pbrt-types "\\|")))
-
-
-;; Create regular expressions from the above lists.
-(setq pbrt-keywords-regexp        (regexp-opt pbrt-keywords        'words))
-(setq pbrt-types-regexp           (regexp-opt pbrt-types           'words))
-(setq pbrt-transforms-regexp      (regexp-opt pbrt-transforms      'words))
-(setq pbrt-states-regexp          (regexp-opt pbrt-states          'words))
-(setq pbrt-render-options-regexp  (regexp-opt pbrt-render-options  'words))
-(setq pbrt-scene-options-regexp   (regexp-opt pbrt-scene-options   'words))
+;; Create regular expressions for font-locking.
+(defvar pbrt-keywords-regexp        (regexp-opt pbrt-keywords        'words))
+(defvar pbrt-types-regexp           (regexp-opt pbrt-types           'words))
+(defvar pbrt-transforms-regexp      (regexp-opt pbrt-transforms      'words))
+(defvar pbrt-states-regexp          (regexp-opt pbrt-states          'words))
+(defvar pbrt-render-options-regexp  (regexp-opt pbrt-render-options  'words))
+(defvar pbrt-scene-options-regexp   (regexp-opt pbrt-scene-options   'words))
+(defvar pbrt-identifier-regexp
+  (format "\\(%s\\)[[:space:]]+\\([a-zA-Z0-9_]+\\)"
+	  (mapconcat 'identity pbrt-types "\\|"))
+  "A regular expression that can match all PBRT identifiers.")
 
 
 ;; Create the list for font-lock.
 ;; Each class of keyword is given a particular face.
 ;; Note that sexps with 4 values use the matchgroup in the second value
 ;; and overrides previously defined font-locks if the fourth is non-nil.
-(setq pbrt-font-lock-keywords
-      `((,"#.*"                       . font-lock-comment-face)
-	(,pbrt-keywords-regexp        . font-lock-type-face)
-	(,pbrt-types-regexp           0 font-lock-type-face           nil)
-	(,pbrt-identifier-regexp      2 font-lock-variable-name-face  nil)
-	(,pbrt-transforms-regexp      . font-lock-constant-face)
-	(,pbrt-states-regexp          . font-lock-builtin-face)
-	(,pbrt-render-options-regexp  . font-lock-function-name-face)
-	(,pbrt-scene-options-regexp   . font-lock-keyword-face)
-	(,"\"[^\"]*\""                . font-lock-string-face)
-	(,"\""                        . font-lock-string-face)
-	))
+(defvar pbrt-font-lock-keywords
+  `((,"#.*"                       . font-lock-comment-face)
+    (,pbrt-keywords-regexp        . font-lock-keyword-face)
+    (,pbrt-types-regexp           0 font-lock-type-face           nil)
+    (,pbrt-identifier-regexp      2 font-lock-variable-name-face  nil)
+    (,pbrt-transforms-regexp      . font-lock-constant-face)
+    (,pbrt-states-regexp          . font-lock-builtin-face)
+    (,pbrt-render-options-regexp  . font-lock-function-name-face)
+    (,pbrt-scene-options-regexp   . font-lock-keyword-face)
+    (,"\"[^\"]*\""                . font-lock-string-face)
+    (,"\""                        . font-lock-string-face) ))
 
 
 ;; Regex variables for indentation.
-(setq pbrt-block-start-regexp
-      "[^ \t]*ObjectBegin\\|AttributeBegin\\|TransformBegin")
-(setq pbrt-block-close-regexp
-      "[^ \t]*ObjectEnd\\|AttributeEnd\\|TransformEnd")
+(defvar pbrt-block-start-regexp
+  "[ \t]*\\(ObjectBegin\\|AttributeBegin\\|TransformBegin\\)")
+(defvar pbrt-block-close-regexp
+  "[ \t]*\\(ObjectEnd\\|AttributeEnd\\|TransformEnd\\)")
+(defvar pbrt-statement-regexp
+  (format "[ \t]*#?[ \t]*\\(%s\\)" (mapconcat 'identity pbrt-statements "\\|")))
+(defvar pbrt-states-indent-regexp
+  (format "[ \t]*\\(%s\\)" (mapconcat 'identity pbrt-states "\\|")))
+(defvar pbrt-keywords-indent-regexp
+  (format "[ \t]*\\(%s\\)" (mapconcat 'identity pbrt-keywords "\\|")))
 
 
 ;; Create an indentation command.
@@ -91,16 +91,18 @@
 PBRT will be indented according to the following rules:
 
 1. If we are at the beginning of the buffer, indent to column 0.
-2. If we are currently at an 'END' line, de-indent to the previous line.
-3. If we first see an 'END' line before our current line, we should indent the
+2. If we are starting on a line that starts with a comment marker,
+   indent to column 0.
+3. If we are currently at an 'END' line, de-indent to the previous statement
+   line.
+4. If we first see an 'END' line before our current line, we should indent the
    current line similarly to it.
-4. If we see a 'BEGIN' line before our current line, we should increase our
+5. If we see a 'BEGIN' line before our current line, we should increase our
    indentation relative to the previous line.
-5. If none of the above applies, do not indent at all.
-
-TODO:
 6. If we are on a non-whitespace line and a previous line starts with a
-   statement, then line up this line to match the second relative indentation.
+   statement, then add another indentation to mark that it belongs to that
+   statement.
+7. If none of the above applies, do not indent at all.
 
 
 As an example, see the following PBRT file:
@@ -111,62 +113,70 @@ Film 'image' 'string filename' ['simple.exr']
      'integer xresolution' [200] 'integer yresolution' [200] # Rule 6.
 
 WorldBegin
-
 TransformBegin
-
     CoordSysTransform 'camera'            # Rule x.
     AttributeBegin                        # Rule y.
-
-        LightSource 'distant'
-                    'point from' [0 0 0]
-                    'point to'   [0 0 1]  # Rule z.
-                    'rgb L'    [3 3 3]
-
-    AttributeEnd                 # Rule xx.
-TransformEnd                     # Rule xx.
-
+        LightSource 'distant'             # Rule x.
+                    'point from' [0 0 0]  # Rule 6.
+                    'point to'   [0 0 1]  # Rule 6.
+                    'rgb L'    [3 3 3]    # Rule 6.
+    AttributeEnd                          # Rule xx.
+TransformEnd                              # Rule xx.
 WorldEnd
 
 "
   (interactive)
-  (beginning-of-line)
-  (if (bobp) ; Check for rule 1.
-      (indent-line-to 0)
-    (let ((not-indented t) cur-indent)
-      (if (looking-at pbrt-block-close-regexp) ; Check for rule 2.
-	  (progn
-	    (save-excursion
+  (save-excursion
+    (beginning-of-line)
+    ;; Check for rule 1 and 2.
+    (if (or (looking-at-p "#.*\n") (bobp))
+	(indent-line-to 0)
+      (let ((not-indented t)
+	    (cur-indent nil))
+	(if (looking-at-p pbrt-block-close-regexp)           ; Check for rule 3.
+	    (progn
+	      (save-excursion
+		(while (not (looking-at-p pbrt-statement-regexp))
+		  (forward-line -1))
+		(setq cur-indent (max 0 (- (current-indentation) pbrt-indent))))
+	      )
+	  (save-excursion
+	    (while (and not-indented (not (bobp)))           ; Check for rule 7.
 	      (forward-line -1)
-	      (setq cur-indent (- (current-indentation) pbrt-indent)))
-
-	    (if (< cur-indent 0) ; Safety check - Don't indent past left margin.
-		(setq cur-indent 0)))
-
+	      (cond ((looking-at-p pbrt-block-close-regexp)  ; Check for rule 4.
+		     (setq cur-indent (current-indentation))
+		     (setq not-indented nil))
+		    ((looking-at-p pbrt-block-start-regexp)  ; Check for rule 5.
+		     (setq cur-indent (+ (current-indentation) pbrt-indent))
+		     (setq not-indented nil)))
+	      )))
+	;; Check for rule 5.
 	(save-excursion
-	  (while not-indented
+	  (while (and (not (bobp))
+		      (not (looking-at-p "[ \t]*\n"))
+		      (not (looking-at-p pbrt-statement-regexp))
+		      (not (looking-at-p pbrt-states-indent-regexp))
+		      (not (looking-at-p pbrt-keywords-indent-regexp)))
 	    (forward-line -1)
-	    (if (looking-at pbrt-block-close-regexp) ; Check for rule 3.
-		(progn
-		  (setq cur-indent (current-indentation))
-		  (setq not-indented nil))
-	      (if (looking-at pbrt-block-start-regexp) ; Check for rule 4.
-		  (progn
-		    (setq cur-indent (+ (current-indentation) pbrt-indent))
-		    (setq not-indented nil))
-		(if (bobp) ; Check for rule 5.
-		    (setq not-indented nil))) ))))
-
-      (if cur-indent ; Do the actual indentation.
-	  (indent-line-to cur-indent)
-	(indent-line-to 0)) )))
+	    (when (looking-at-p pbrt-statement-regexp)
+	      (if not-indented
+		  (setq cur-indent (+ (current-indentation) pbrt-indent))
+		(setq cur-indent (+ cur-indent pbrt-indent))))
+	    ))
+	;; Do the actual indentation.
+	(if cur-indent
+	    (indent-line-to cur-indent)
+	  (indent-line-to 0)) )))
+  ;; Move to the start of the indentation.
+  (when (looking-at "[ \t]+")
+    (move-to-column (current-indentation)) ))
 
 
 ;; Command to comment/uncomment text in PBRT-mode.
 (defun pbrt-comment-dwim (arg)
   "Comment or uncomment current line or region in a smart way.
-For detail, see `comment-dwim'."
+   For detail, see `comment-dwim'."
   (interactive "*P")
-  (require 'newcomment)
   (let ((comment-start "#") (comment-end ""))
     (comment-dwim arg)))
 
@@ -187,7 +197,13 @@ For detail, see `comment-dwim'."
   "Syntax table for `pbrt-mode'.")
 
 
-;; Define the pbrt-mode.
+;; Associate PBRT files with pbrt mode.
+;;;###autoload
+(progn
+  (add-to-list 'auto-mode-alist '("\\.pbrt\\'" . pbrt-mode)))
+
+
+;;;###autoload
 (define-derived-mode pbrt-mode fundamental-mode "PBRT"
   "Major mode for editing PBRT scene files."
   (kill-all-local-variables)
@@ -200,17 +216,10 @@ For detail, see `comment-dwim'."
   ;; Code for pbrt indentation.
   (setq-local indent-line-function 'pbrt-indent-line)
   (setq-local indent-tabs-mode nil)
+  (setq-local ff-other-file-alist)
 
   (setq major-mode 'pbrt-mode)
   (setq mode-name "pbrt")
-  (run-hooks 'pbrt-mode-hook)
+  (run-hooks 'pbrt-mode-hook))
 
-  ;; Clear memory from redundant variables.
-  ;; (setq pbrt-keywords-regexp nil)
-  ;; (setq pbrt-types-regexp nil)
-  ;; (setq pbrt-constants-regexp nil)
-  ;; (setq pbrt-events-regexp nil)
-  ;; (setq pbrt-functions-regexp nil)
-  )
-
-(provide 'pbrt-mode)
+;;; pbrt-mode.el ends here
