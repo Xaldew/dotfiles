@@ -12,8 +12,6 @@
 
 ;; Set the colour theme to something better. (emacs 24+)
 (when (>= emacs-major-version 24)
-  ;;(setq solarized-termcolors 256)
-  ;;(load-theme 'solarized-dark t)
   (load-theme 'tango-dark t))
 
 ;; Place all backups in system temp instead.
@@ -65,3 +63,6 @@
 (setq mouse-wheel-follow-mouse 't)
 (setq scroll-step 1)
 (setq scroll-conservatively 10000)
+
+;; Show the matching parenthesis.
+(show-paren-mode t)
