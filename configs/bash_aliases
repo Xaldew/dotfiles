@@ -56,6 +56,7 @@ alias gemacs="emacs --maximized"
 alias tgi=git
 alias gti=git
 alias gi=git
+alias gt=git
 
 alias qemu-arm="qemu-arm -L /usr/arm-linux-gnueabihf"
 
@@ -69,7 +70,7 @@ sort | uniq"
 
 function dls () {
     # List directories.
-    echo $(ls -l | grep "^d" | awk '{ print $9 }' | tr -d "/")
+    echo $(ls -l --color | grep "^d" | awk '{ print $9 }' | tr -d "/")
 }
 
 function dgrep()
