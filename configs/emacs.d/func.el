@@ -7,6 +7,18 @@
   (delete-trailing-whitespace)
   (indent-region (point-min) (point-max) nil))
 
+(defun wst ()
+  "White Space Toggling when in terminals."
+  (interactive)
+  (global-whitespace-mode -1)
+  (revert-buffer nil t))
+
+(defun hardcopy ()
+  "Make a hardcopy of the current buffer. I.e., print it."
+  (interactive)
+  (ps-print-buffer-with-faces))
+
+
 ;; (defun find-file-upwards (file-to-find)
 ;;   "Recursively searches each parent directory starting from the
 ;; default-directory. looking for a file with name file-to-find.  Returns the path
