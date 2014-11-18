@@ -3,10 +3,11 @@
 
 
 # Install the Android "repo" tool if not done already.
-if [ ! -f /work/bin/repo ]; then
-    mkdir --parents /work/bin
-    curl https://storage.googleapis.com/git-repo-downloads/repo > /work/bin/repo
-    chmod a+x work/bin/repo
+if [ ! -f /work/local/bin/repo ]; then
+    mkdir --parents /work/local/bin
+    curl https://storage.googleapis.com/git-repo-downloads/repo \
+	> /work/local/bin/repo
+    chmod a+x /work/local/bin/repo
 fi
 
 # Append the work configuration (below) to the .bashrc file.
@@ -73,7 +74,6 @@ module load util
 module load vim/vim/7.3
 module load arm/rascdevkit/1.1.4
 module load ccache/ccache/3.1.4
-module load gnu/emacs/24.2
 module load gnu/gdb/7.5
 module load gnu/valgrind/3.8.1
 module load gnu/cmake/2.8.9
@@ -205,7 +205,7 @@ export MPDTI_V2_PROJECT=PJ00640
 
 # Add some paths for work based utilities.
 export PATH=\$HOME/.local/bin:\$PATH
-export PATH=/work/bin:\$PATH
+export PATH=/work/local/bin:\$PATH
 
 # Sets a more 'modern' termcap file for use with emacs, otherwise colors will be
 # messed up. Only needed at work.
