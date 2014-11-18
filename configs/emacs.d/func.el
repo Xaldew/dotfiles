@@ -10,7 +10,14 @@
 (defun wst ()
   "White Space Toggling when in terminals."
   (interactive)
-  (global-whitespace-mode -1)
+  (if (and (boundp 'global-whitespace-mode) (boundp 'global-whitespace-mode))
+      (if (and global-whitespace-mode global-ethan-wspace-mode)
+	  (progn
+	    (global-whitespace-mode -1)
+	    (global-ethan-wspace-mode -1))
+	(progn
+	  (global-whitespace-mode)
+	  (global-ethan-wspace-mode)) ))
   (revert-buffer nil t))
 
 (defun hardcopy ()
