@@ -58,9 +58,8 @@
 (defun my-c-mode-hook ()
   "My personal c-mode hook."
   (interactive)
-  (message "In my-c-mode-hook")
   (flycheck-mode)
-  (setq flycheck-clang-language-standard "c99")
+  (setq flycheck-clang-language-standard "c11")
   (turn-on-auto-fill)
   (ggtags-mode)
   ;; Set the c-style if we can. Some modes can get in the way of
@@ -73,8 +72,7 @@
 	    (message (format "my-c-mode-hook: Using style %s" style))
 	    (c-set-style style))
 	(c-set-style "linux-tabs-style") ; Default to linux-tab-style.
-	))
-    )
+	)) )
   )
 
 (defun my-brace-placement ()
@@ -85,8 +83,7 @@
 	 (newline-and-indent)
 	 (insert "{"))
 	(t (insert " {")) ; Default.
-	)
-  )
+	))
 
 (defun my-alist-test ()
   "Various tests with c-hanging-brace-alist."
