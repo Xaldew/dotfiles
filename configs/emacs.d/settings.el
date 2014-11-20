@@ -66,3 +66,6 @@
 
 ;; Show the matching parenthesis.
 (show-paren-mode t)
+
+;; Globally enable subword-mode, i.e., allow CamelCase word traversal.
+(global-subword-mode t)
