@@ -25,7 +25,11 @@ zstyle ':completion:*' max-errors 3 numeric
 zstyle ':completion:*' original true
 zstyle ':completion:*' squeeze-slashes true
 zstyle ':completion:*' substitute 1
+zstyle ':completion:*' insert-unambiguous true
+zstyle ':completion:*' insert true
 zstyle :compinstall filename '/home/xaldew/.zsh/.zshrc'
+
+
 
 autoload -Uz compinit
 compinit
@@ -66,3 +70,6 @@ export GREP_OPTIONS="--exclude-dir={.svn,.git,.repo}"
 if [[ ! $EDITOR =~ .*emacs.* ]]; then
     export EDITOR="emacs"
 fi
+
+# Add Meta-h to backward-kill-word.
+bindkey -M emacs '^[h' backward-kill-word
