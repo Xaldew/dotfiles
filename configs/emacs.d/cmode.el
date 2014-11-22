@@ -1,39 +1,5 @@
 ;; Setup various C-styles for different projects.
 
-;; Activate Javadoc comment highlighting for C and C++.
-(defun my-cc-init-hook ()
-  "Initialization hook for CC-mode runs before any other hooks."
-  (setq c-doc-comment-style
-	'((java-mode . javadoc)
-	  (pike-mode . autodoc)
-	  (c-mode    . javadoc)
-	  (c++-mode  . javadoc)))
-  (set-face-foreground 'font-lock-doc-face
-		       (face-foreground font-lock-comment-face)))
-(add-hook 'c-initialization-hook 'my-cc-init-hook)
-
-(defvar font-lock-format-specifier-face
-  'font-lock-format-specifier-face
-  "Face name to use for format specifiers.")
-
-(defface font-lock-format-specifier-face
-  '((t (:foreground "OrangeRed1")))
-  "Font Lock mode face used to highlight format specifiers."
-  :group 'font-lock-faces)
-
-;; Customizations for all modes in CC Mode.
-(defun my-cc-mode-common-hook ()
-  (font-lock-add-keywords
-   nil
-   '(("\\<\\(FIXME\\|TODO\\):" 1 font-lock-warning-face prepend)
-     ;; Add a printf() modifier highlighter.
-     ("[^%]\\(%\\([[:digit:]]+\\$\\)?[-+' #0*]*\\([[:digit:]]*\\|\\*\\|\\*[[:digit:]]+\\$\\)\\(\\.\\([[:digit:]]*\\|\\*\\|\\*[[:digit:]]+\\$\\)\\)?\\([hlLjzt]\\|ll\\|hh\\)?\\([aAbdiuoxXDOUfFeEgGcCsSpn]\\|\\[\\^?.[^]]*\\]\\)\\)"
-      1 font-lock-format-specifier-face prepend)))
-  )
-
-(add-hook 'c-mode-common-hook 'my-cc-mode-common-hook)
-
-
 (defconst misra-c-style
   '("bsd"
     (my-coding-style . "misra")
@@ -65,10 +31,8 @@
     (c-offsets-alist
      (arglist-cont-nonempty
       c-lineup-gcc-asm-reg
-      c-lineup-arglist-tabs-only))
-    )
-  "Linux kernel coding style forbidding use of spaces as whitespace."
-  )
+      c-lineup-arglist-tabs-only)) )
+  "Linux kernel coding style forbidding use of spaces as whitespace.")
 (c-add-style "linux-tabs-style" linux-tabs-style)
 
 
@@ -85,7 +49,6 @@
 
 (defun my-c-style-guesser (filename)
   "Guess the C style we should use based on the path of the buffer"
-  (message (concat "my-c-style-guesser " filename))
   (assoc-default filename my-c-styles-alist 'string-match))
 
 
@@ -93,6 +56,7 @@
   "My personal c-mode hook."
   (interactive)
   (flycheck-mode)
+  (setq flycheck-gcc-language-standard   "c11")
   (setq flycheck-clang-language-standard "c11")
   (turn-on-auto-fill)
   (ggtags-mode)
@@ -103,7 +67,7 @@
     (let ((style (my-c-style-guesser (buffer-file-name))))
       (if style
 	  (progn
-	    (message (format "my-c-mode-hook: Using style %s" style))
+	    (message (format "Using style: %s." style))
 	    (c-set-style style))
 	(c-set-style "linux-tabs-style") ; Default to linux-tab-style.
 	)) )
@@ -122,7 +86,7 @@
 (defun my-alist-test ()
   "Various tests with c-hanging-brace-alist."
   (interactive)
-  (message (symbol-name '(assoc 'substatement-open c-hanging-braces-alist)))
+  (print c-hanging-braces-alist)
   )
 
 ;; Add personal c-mode setup function to c-mode-hook.
