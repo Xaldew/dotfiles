@@ -216,10 +216,9 @@ WorldEnd
   ;; Code for pbrt indentation.
   (setq-local indent-line-function 'pbrt-indent-line)
   (setq-local indent-tabs-mode nil)
-  (setq-local ff-other-file-alist)
 
   (setq major-mode 'pbrt-mode)
-  (setq mode-name "pbrt")
+  (setq mode-name "PBRT")
   (run-hooks 'pbrt-mode-hook))
 
 ;;; pbrt-mode.el ends here
