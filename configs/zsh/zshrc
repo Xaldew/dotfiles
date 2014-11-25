@@ -27,18 +27,20 @@ zstyle ':completion:*' squeeze-slashes true
 zstyle ':completion:*' substitute 1
 zstyle ':completion:*' insert-unambiguous true
 zstyle ':completion:*' insert true
+zstyle ':completion:*' insert-tab false
 zstyle :compinstall filename '/home/xaldew/.zsh/.zshrc'
 
 
-
-autoload -Uz compinit
+autoload -Uz compinit complist
 compinit
+
 # End of lines added by compinstall
 # Lines configured by zsh-newuser-install
 HISTFILE=~/.histfile
 HISTSIZE=10000
 SAVEHIST=10000
 setopt appendhistory autocd extendedglob nomatch notify
+setopt nocdablevars
 unsetopt beep
 # End of lines configured by zsh-newuser-install
 
@@ -73,3 +75,7 @@ fi
 
 # Add Meta-h to backward-kill-word.
 bindkey -M emacs '^[h' backward-kill-word
+
+# Enter accepts the menu entry and inserts the command.
+zmodload zsh/complist
+bindkey -M menuselect '^M' .accept-line
