@@ -35,6 +35,8 @@
     (c-basic-offset   . 4)       ; Indent with 4 spaces.
     (c-offsets-alist  . ((inline-open         . 0)
 			 (brace-list-open     . 0)
+			 (inextern-lang       . 0)
+			 (innamespace         . 0)
 			 (statement-case-open . +))) ))
 (c-add-style "my-c++-style" my-c++-style)
 

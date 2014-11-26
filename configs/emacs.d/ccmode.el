@@ -28,7 +28,6 @@
    '(("\\<\\(FIXME\\|TODO\\):" 1 font-lock-warning-face prepend)
      ;; Add a printf() modifier highlighter.
      ("[^%]\\(%\\([[:digit:]]+\\$\\)?[-+' #0*]*\\([[:digit:]]*\\|\\*\\|\\*[[:digit:]]+\\$\\)\\(\\.\\([[:digit:]]*\\|\\*\\|\\*[[:digit:]]+\\$\\)\\)?\\([hlLjzt]\\|ll\\|hh\\)?\\([aAbdiuoxXDOUfFeEgGcCsSpn]\\|\\[\\^?.[^]]*\\]\\)\\)"
-      1 font-lock-format-specifier-face prepend)))
-  )
+      1 font-lock-format-specifier-face prepend))) )
 
 (add-hook 'c-mode-common-hook 'my-cc-mode-common-hook)

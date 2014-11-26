@@ -6,9 +6,9 @@
     (indent-tabs-mode . nil)
     (tab-width . 4)
     (c-basic-offset . 4)
-    (c-hanging-braces-alist
-     (substatement-open . (before after)))
-    )
+    (c-hanging-braces-alist . ((substatement-open . (before after))))
+    (c-offsets-alist . ((inextern-lang  . 0)
+			(innamespace    . 0))) )
   "Misra coding style with modifications for the ARM MVE model/firmware/driver."
   )
 (c-add-style "misra" misra-c-style)
@@ -26,12 +26,11 @@
 
 (defconst linux-tabs-style
   '("linux"
-    (my-coding-style . "linux")
+    (my-coding-style  . "linux")
     (indent-tabs-mode . t)
-    (c-offsets-alist
-     (arglist-cont-nonempty
-      c-lineup-gcc-asm-reg
-      c-lineup-arglist-tabs-only)) )
+    (c-offsets-alist  . ((inextern-lang         . 0)
+			 (arglist-cont-nonempty . c-lineup-arglist-tabs-only)
+			 (c-lineup-gcc-asm-reg  . c-lineup-arglist-tabs-only))))
   "Linux kernel coding style forbidding use of spaces as whitespace.")
 (c-add-style "linux-tabs-style" linux-tabs-style)
 
@@ -40,12 +39,12 @@
 (defvar my-c-styles-alist
   (mapc (lambda (elt)
 	  (cons (purecopy (car elt)) (cdr elt)))
-	'((".*/linux.*/.*\\.[ch]$" . "linux-tabs-style")
+	'((".*/linux.*/.*\\.[ch]$"    . "linux-tabs-style")
 	  (".*/.*kernel.*/.*\\.[ch]$" . "linux-tabs-style")
-	  (".*/.*linux/.*\\.[ch]$" . "linux-tabs-style")
-	  (".*/.*mve*.*\\.[ch]$" . "misra")
-	  (".*c-utils.*\\.[ch]$" . "linux-tabs-style")))
-  "A list of reg-ex to styles for my-c-style-guesser")
+	  (".*/.*linux/.*\\.[ch]$"    . "linux-tabs-style")
+	  (".*/.*mve*.*\\.[ch]$"      . "misra")
+	  (".*c-utils.*\\.[ch]$"      . "linux-tabs-style")))
+  "A list of regular expressions to match styles for the c-style guesser.")
 
 (defun my-c-style-guesser (filename)
   "Guess the C style we should use based on the path of the buffer"
