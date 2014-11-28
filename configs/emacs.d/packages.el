@@ -41,7 +41,8 @@
 		     auto-complete-clang
 		     auto-complete-c-headers
 		     ggtags
-		     ))
+		     csv-mode
+		     cuda-mode))
 
 (or (file-exists-p package-user-dir)
     (package-refresh-contents))
