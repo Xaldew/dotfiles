@@ -82,7 +82,15 @@ sudo apt-get --quiet=2 install \
     remmina \
     remmina-plugins-nx \
     redshift \
-    redshift-gtk
+    redshift-gtk \
+    gphoto2 \
+    darktable \
+    deluge \
+    nautilus-dropbox \
+    steam \
+    skype \
+    vlc \
+    meld
 
 
 # Install latest version of Tmux.
