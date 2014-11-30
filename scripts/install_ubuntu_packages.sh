@@ -2,6 +2,12 @@
 # This script install packages used in my day to day work on Ubuntu and debian
 # like distributions.
 
+#### Install partner repositories
+sudo add-apt-repository ppa:xorg-edgers/ppa
+sudo add-apt-repository \
+     "deb http://archive.canonical.com/ $(lsb_release -sc) partner"
+
+sudo apt-get update
 
 #### Install all main packages using the package manager.
 
@@ -80,7 +86,9 @@ sudo apt-get --quiet=2 install \
 sudo apt-get --quiet=2 install \
     graphviz \
     remmina \
-    remmina-plugins-nx \
+    remmina-plugin-vnc \
+    remmina-plugin-gnome \
+    remmina-plugin-nx \
     redshift \
     redshift-gtk \
     gphoto2 \
@@ -88,31 +96,8 @@ sudo apt-get --quiet=2 install \
     deluge \
     nautilus-dropbox \
     steam \
+    wine \
     skype \
     vlc \
-    meld
-
-
-# Install latest version of Tmux.
-sudo apt-get --quiet=2 install libevent-dev libncurses5-dev
-tmp_dir=$(mktemp --directory)
-trap "{ cd - ; rm -rf $tmp_dir; exit 255; }" SIGINT
-
-cd $tmp_dir
-git clone git://git.code.sf.net/p/tmux/tmux-code tmux
-cd tmux
-sh autogen.sh
-./configure
-make -j
-sudo make install
-
-
-# Install the latest version of Emacs.
-sudo apt-get --quiet=2 install libmagickcore-dev libmagickwand-dev \
-    libgtk-3-dev libjpeg-dev libgif-dev libtiff-dev
-cd $tmp_dir
-git clone git://git.savannah.gnu.org/emacs.git
-sh autogen.sh
-./configure --enable-link-time-optimization --with-imagemagick
-make -j
-sudo make install
+    meld \
+    gksu
