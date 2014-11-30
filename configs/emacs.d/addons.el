@@ -86,3 +86,9 @@
 
 ;; Activate pbrt-mode.
 (autoload 'pbrt-mode "pbrt-mode" "PBRT Mode." t)
+
+;; Activate cg-mode.
+(autoload 'pbrt-mode "cg-mode" "CG Mode." t)
+
+;; Activate hlsl-mode.
+(autoload 'hlsl-mode "hlsl-mode" "HLSL Mode." t)
