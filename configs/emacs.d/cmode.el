@@ -29,8 +29,9 @@
     (my-coding-style  . "linux")
     (indent-tabs-mode . t)
     (c-offsets-alist  . ((inextern-lang         . 0)
-			 (arglist-cont-nonempty . c-lineup-arglist-tabs-only)
-			 (c-lineup-gcc-asm-reg  . c-lineup-arglist-tabs-only))))
+			 (arglist-cont-nonempty . (c-lineup-gcc-asm-reg
+						   c-lineup-arglist-tabs-only)))
+		      ))
   "Linux kernel coding style forbidding use of spaces as whitespace.")
 (c-add-style "linux-tabs-style" linux-tabs-style)
 
