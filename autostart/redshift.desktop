@@ -1,0 +1,12 @@
+[Desktop Entry]
+Name=Redshift
+Icon=redshift
+GenericName=Redshift
+Comment=Shifts the blue colors of the screen into the red spectrum.
+Type=Application
+Categories=Utility;
+Exec=redshift-gtk -l 55.7029:13.1929 -m randr -t 6500:4000
+Terminal=false
+StartupNotify=false
+Hidden=false
+X-GNOME-Autostart-enabled=true
