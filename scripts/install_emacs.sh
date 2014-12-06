@@ -12,7 +12,14 @@ sudo apt-get --quiet=2 install \
 
 mkdir -p $HOME/git/installs
 cd $HOME/git/installs
-git clone git://git.savannah.gnu.org/emacs.git emacs
+
+if [ -d $HOME/git/installs/emacs ]; then
+    git clone git://git.savannah.gnu.org/emacs.git emacs
+else
+    cd $HOME/git/installs/emacs
+    git pull
+fi
+
 cd $HOME/git/installs/emacs
 sh autogen.sh
 ./configure --enable-link-time-optimization --with-imagemagick

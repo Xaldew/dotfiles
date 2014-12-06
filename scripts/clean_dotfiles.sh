@@ -5,9 +5,9 @@ echo "Removing autostart files..."
 if [ -d "$XDG_CONFIG_HOME/autostart" ]; then
     rm $XDG_CONFIG_HOME/autostart/*
 elif [ -d $HOME/.config/autostart ]; then
-    rm $HOME/.config/autostart/*
+    rm -f $HOME/.config/autostart/*
 else
-    rm $HOME/.config/autostart/*
+    rm -f $HOME/.config/autostart/*
 fi
 
 echo "Removing installed fonts..."

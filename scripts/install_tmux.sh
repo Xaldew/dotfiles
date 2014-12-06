@@ -5,7 +5,14 @@
 sudo apt-get --quiet=2 install libevent-dev libncurses5-dev
 mkdir -p $HOME/git/installs
 cd $HOME/git/installs
-git clone git://git.code.sf.net/p/tmux/tmux-code tmux
+
+if [ -d $HOME/git/installs/emacs ]; then
+    git clone git://git.code.sf.net/p/tmux/tmux-code tmux
+else
+    cd $HOME/git/installs/tmux
+    git pull
+fi
+
 cd $HOME/git/installs/tmux
 sh autogen.sh
 ./configure
