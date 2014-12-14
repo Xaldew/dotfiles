@@ -25,6 +25,20 @@
   (interactive)
   (ps-print-buffer-with-faces))
 
+(defun dos2unix ()
+  "Convert the coding system to unix style line-endings."
+  (interactive)
+  (set-buffer-file-coding-system 'unix 't))
+
+(defun create-tags (dir-name)
+  "Create tags file."
+  (interactive "DDirectory: ")
+  (shell-command
+   (format
+    "find %s -name \"*.c\" -print -or -name \"*.h\" -print -or -name \"*.cpp\" |
+ xargs etags --append" dir-name)))
+
+
 
 ;; (defun find-file-upwards (file-to-find)
 ;;   "Recursively searches each parent directory starting from the
@@ -50,14 +64,6 @@
 ;;     (message "Loading tags file: %s" my-tags-file)
 ;;     (visit-tags-table my-tags-file)))
 
-
-(defun create-tags (dir-name)
-  "Create tags file."
-  (interactive "DDirectory: ")
-  (shell-command
-   (format
-    "find %s -name \"*.c\" -print -or -name \"*.h\" -print -or -name \"*.cpp\" |
- xargs etags --append" dir-name)))
 
 ;; (defun find-next-func ()
 ;;   "Returns a list describing next function declaration, or nil if not found.
