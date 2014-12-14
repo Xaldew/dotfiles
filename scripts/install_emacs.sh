@@ -14,10 +14,10 @@ mkdir -p $HOME/git/installs
 cd $HOME/git/installs
 
 if [ -d $HOME/git/installs/emacs ]; then
-    git clone git://git.savannah.gnu.org/emacs.git emacs
-else
     cd $HOME/git/installs/emacs
     git pull
+else
+    git clone git://git.savannah.gnu.org/emacs.git emacs
 fi
 
 cd $HOME/git/installs/emacs

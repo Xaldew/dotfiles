@@ -7,10 +7,10 @@ mkdir -p $HOME/git/installs
 cd $HOME/git/installs
 
 if [ -d $HOME/git/installs/emacs ]; then
-    git clone git://git.code.sf.net/p/tmux/tmux-code tmux
-else
     cd $HOME/git/installs/tmux
     git pull
+else
+    git clone git://git.code.sf.net/p/tmux/tmux-code tmux
 fi
 
 cd $HOME/git/installs/tmux
