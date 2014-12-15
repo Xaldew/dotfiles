@@ -42,6 +42,12 @@ ln -fs $DOTFILES_DIR/snippets $HOME/.emacs.d/snippets
 rm -f $HOME/.emacs.d/elisp
 ln -fs $DOTFILES_DIR/configs/emacs.d/elisp $HOME/.emacs.d/elisp
 
+# Download the gitolite-conf-mode file.
+if [ ! -r $HOME/.emacs.d/elisp/gl-conf-mode.el ]; then
+    git clone git://github.com/llloret/gitolite-emacs.git /tmp/gitolite-emacs
+    cp -r /tmp/gitolite-emacs/gl-conf-mode.el $HOME/.emacs.d/elisp/
+fi
+
 # Create vim data and plugin directories.
 mkdir --parents $HOME/.vim/
 if [ ! -d "$HOME/.vim/autoload" ]; then
