@@ -230,6 +230,7 @@ function my-shell()
     ps | grep `echo $$` | awk '{ print $4 }'
 }
 
+# Setup the firefox addon development environment.
 function firefox_dev()
 {
     if [ ! -d $HOME/git/installs/addon-sdk ]; then
@@ -243,4 +244,22 @@ function firefox_dev()
     cd $HOME/git/installs/addon-sdk
     source bin/activate
     cd $cwd
+}
+
+# Output a random signed integer.
+# Optional argument is the number of bytes to use for the number.
+function rand_int()
+{
+    bytes=${1-4}
+    od --address-radix=n --format=d --read-bytes=$bytes /dev/urandom | \
+	sed -e 's/^[ \t]*//'
+}
+
+# Output a random signed integer.
+# Optional argument is the number of bytes to use for the number.
+function rand_uint()
+{
+    bytes=${1-4}
+    od --address-radix=n --format=u --read-bytes=$bytes /dev/urandom | \
+	sed -e 's/^[ \t]*//'
 }
