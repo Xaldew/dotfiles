@@ -69,3 +69,8 @@
 
 ;; Globally enable subword-mode, i.e., allow CamelCase word traversal.
 (global-subword-mode t)
+
+;; Ignore case when looking for files and buffers.
+(setq read-buffer-completion-ignore-case t)
+(setq read-file-name-completion-ignore-case t)
+(setq completion-ignore-case t)
