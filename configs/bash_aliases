@@ -58,6 +58,8 @@ function emacspipe()
 {
     tmp=$(mktemp) && cat > $tmp && emacs $tmp ; rm $tmp
 }
+alias ep=emacspipe
+alias emp=emacspipe
 
 alias tgi=git
 alias gti=git
