@@ -53,6 +53,12 @@ alias gema="emacs --maximized"
 alias gemac="emacs --maximized"
 alias gemacs="emacs --maximized"
 
+# Minor hack to pipe stdout to an emacs buffer.
+function emacspipe()
+{
+    tmp=$(mktemp) && cat > $tmp && emacs $tmp ; rm $tmp
+}
+
 alias tgi=git
 alias gti=git
 alias gi=git
