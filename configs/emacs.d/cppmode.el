@@ -26,7 +26,8 @@
       (while (and (not (eobp)) (not is-c++-header))
 	(if (looking-at "[ \t]*\\(class\\|namespace\\|template\\)")
 	    (setq is-c++-header t)
-	  (forward-line))) )))
+	  (forward-line))))
+    (setq is-c++-header is-c++-header)))
 
 (defconst my-c++-style
   '("stroustrup"
