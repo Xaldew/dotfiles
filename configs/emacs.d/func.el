@@ -30,6 +30,17 @@
   (interactive)
   (set-buffer-file-coding-system 'unix 't))
 
+(defun eol-append (str p0 p1)
+  "prompt for string, add it to end of lines in the region"
+  (interactive "sWhat shall we append? \nr")
+  (goto-char p1)
+  (forward-line -1)
+  (while (> (point) p0)
+    (end-of-line)
+    (insert str)
+    (forward-line -1)))
+
+
 (defun create-tags (dir-name)
   "Create tags file."
   (interactive "DDirectory: ")
