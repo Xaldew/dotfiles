@@ -32,3 +32,9 @@ desktop.ini	     # Windows desktop variables.
 
 # Ignore flycheck temporaries.
 flycheck*
+
+# Ignore various GNU global/ctags/etags file formats.
+TAGS
+GPATH
+GTAGS
+GRTAGS
