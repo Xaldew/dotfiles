@@ -156,6 +156,8 @@ function android_env()
         cd \$MYDROID && lunch armboard_v7a-eng
         cd \$my_pwd
     fi
+    # Currently, the demobox resides on this IP.
+    export ADBHOST=10.44.11.150
 }
 
 function android_fix_permissions()
