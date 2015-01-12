@@ -42,7 +42,9 @@
 		     auto-complete-c-headers
 		     ggtags
 		     csv-mode
-		     cuda-mode))
+		     cuda-mode
+		     coffee-mode
+		     ))
 
 (or (file-exists-p package-user-dir)
     (package-refresh-contents))

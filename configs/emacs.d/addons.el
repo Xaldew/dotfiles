@@ -96,3 +96,7 @@
 ;; Add C-c h as toggle command for hide/show-comments.
 (require 'hide-comnt)
 (global-set-key "\C-ch" 'hide/show-comments-toggle)
+
+;; Activate hlsl-mode.
+(autoload 'coffee-mode "coffee-mode" "Coffee Mode." t)
+(setq coffee-tab-width 4)
