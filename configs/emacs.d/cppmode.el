@@ -17,7 +17,8 @@
        (concat (file-name-sans-extension (buffer-file-name)) ".c++"))
       (file-exists-p
        (concat (file-name-sans-extension (buffer-file-name)) ".cpp"))
-      (c++-scan-header-p)))
+      (and (string= (file-name-extension (buffer-file-name)) ".h")
+	   c++-scan-header-p)))
 
 (defun c++-scan-header-p ()
   "Scan the header and return true if any C++ exclusive keywords are detected."
