@@ -1,0 +1,20 @@
+# -*- mode: snippet -*-
+# Insert default Android.mk strings for AOSP and NDK development.
+# name: Android.mk Template
+# key: android
+# type: snippet
+# contributer: Gustaf Waldemarson
+# --
+LOCAL_PATH := \$(call my-dir)
+include \$(CLEAR_VARS)
+
+LOCAL_MODULE := ${1:`(file-name-base
+			 (substring (file-name-directory (buffer-file-name))
+			  0 -1))`}
+
+LOCAL_SRC_FILES := \\
+	 ${2:`(mapconcat 'identity (c/c++-list-files) " \\\n")`}
+
+include \$(${3:$$(yas-choose-value '("BUILD_EXECUTABLE"
+				     "BUILD_STATIC_LIBRARY"
+				     "BUILD_SHARED_LIBRARY"))})
