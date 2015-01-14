@@ -17,8 +17,8 @@
        (concat (file-name-sans-extension (buffer-file-name)) ".c++"))
       (file-exists-p
        (concat (file-name-sans-extension (buffer-file-name)) ".cpp"))
-      (and (string= (file-name-extension (buffer-file-name)) ".h")
-	   c++-scan-header-p)))
+      (and (string= (file-name-extension (buffer-file-name)) "h")
+	   (c++-scan-header-p))))
 
 (defun c++-scan-header-p ()
   "Scan the header and return true if any C++ exclusive keywords are detected."
@@ -41,6 +41,11 @@
 			 (innamespace         . 0)
 			 (statement-case-open . +))) ))
 (c-add-style "my-c++-style" my-c++-style)
+
+(defun c/c++-list-files ()
+  "List all C/C++ files in the current folder."
+  (directory-files (file-name-directory (buffer-file-name)) nil
+		   ".+\.\\(c\\|C\\|cc\\|cxx\\|cpp\\|c\+\+\\)\\'"))
 
 (defun my-c++-mode-hook ()
   (c-set-style "my-c++-style")
