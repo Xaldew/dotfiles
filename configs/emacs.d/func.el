@@ -25,10 +25,14 @@
   (interactive)
   (ps-print-buffer-with-faces))
 
-(defun dos2unix ()
+(defun dos2unix (buffer)
   "Convert the coding system to unix style line-endings."
-  (interactive)
-  (set-buffer-file-coding-system 'unix 't))
+  (interactive "*b")
+  (save-excursion
+    (goto-char (point-min))
+    (while (search-forward "\r" nil t)
+      (replace-match "")))
+  (set-buffer-file-coding-system 'utf-8-unix 't))
 
 (defun eol-append (str p0 p1)
   "prompt for string, add it to end of lines in the region"
