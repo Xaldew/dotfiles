@@ -31,7 +31,7 @@ chmod 600 $HOME/.ssh/config
 ln -fs $DOTFILES_DIR/configs/latexmkrc $HOME/.latexmkrc
 
 # Install emacs configuration.
-mkdir --parents $HOME/.emacs.d
+mkdir --parents $HOME/.emacs.d $HOME/.emacs.d/downloads
 for elisp_file in $DOTFILES_DIR/configs/emacs.d/*.el
 do
     ln -fs $elisp_file $HOME/.emacs.d/$(basename $elisp_file)
@@ -43,9 +43,9 @@ rm -f $HOME/.emacs.d/elisp
 ln -fs $DOTFILES_DIR/configs/emacs.d/elisp $HOME/.emacs.d/elisp
 
 # Download the gitolite-conf-mode file.
-if [ ! -r $HOME/.emacs.d/elisp/gl-conf-mode.el ]; then
+if [ ! -r $HOME/.emacs.d/downloads/gl-conf-mode.el ]; then
     git clone git://github.com/llloret/gitolite-emacs.git /tmp/gitolite-emacs
-    cp -r /tmp/gitolite-emacs/gl-conf-mode.el $HOME/.emacs.d/elisp/
+    cp -r /tmp/gitolite-emacs/gl-conf-mode.el $HOME/.emacs.d/downloads/
 fi
 
 # Create vim data and plugin directories.
