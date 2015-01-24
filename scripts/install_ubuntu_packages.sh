@@ -101,4 +101,8 @@ sudo apt-get --quiet=2 install \
      skype \
      vlc \
      meld \
+     baobab \
+     smartmontools \
+     gnome-disk-utility \
+     unetbootin \
      gksu
