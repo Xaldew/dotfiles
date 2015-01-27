@@ -6,7 +6,7 @@ sudo apt-get --quiet=2 install \
      flex \
      gperf
 
-mkdir -p $HOME/git/installs
+mkdir --p $HOME/git/installs $HOME/.local
 cd $HOME/git/installs
 
 CVSROOT=:pserver:anonymous@cvs.savannah.gnu.org:/sources/global
@@ -23,6 +23,6 @@ fi
 
 cd $HOME/git/installs/global
 sh reconf.sh
-./configure
+./configure --prefix=$HOME/.local
 make -j
-sudo make install
+make install

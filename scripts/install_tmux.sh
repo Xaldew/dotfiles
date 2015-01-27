@@ -3,7 +3,7 @@
 # then compiles and installs it.
 
 sudo apt-get --quiet=2 install libevent-dev libncurses5-dev
-mkdir -p $HOME/git/installs
+mkdir --parents $HOME/git/installs $HOME/.local
 cd $HOME/git/installs
 
 if [ -d $HOME/git/installs/emacs ]; then
@@ -15,6 +15,6 @@ fi
 
 cd $HOME/git/installs/tmux
 sh autogen.sh
-./configure
+./configure --prefix=$HOME/.local
 make -j
-sudo make install
+make install

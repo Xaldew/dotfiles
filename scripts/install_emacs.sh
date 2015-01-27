@@ -10,7 +10,7 @@ sudo apt-get --quiet=2 install \
      libtiff-dev \
      libxpm-dev
 
-mkdir -p $HOME/git/installs
+mkdir --parents $HOME/git/installs $HOME/.local
 cd $HOME/git/installs
 
 if [ -d $HOME/git/installs/emacs ]; then
@@ -22,6 +22,6 @@ fi
 
 cd $HOME/git/installs/emacs
 sh autogen.sh
-./configure --enable-link-time-optimization --with-imagemagick
+./configure --prefix=$HOME/.local --enable-link-time-optimization --with-imagemagick
 make -j
-sudo make install
+make install
