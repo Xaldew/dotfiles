@@ -143,7 +143,6 @@ function android_env()
     export ROOTFS=/work/mydroid/rootfs
     export ANDROID_PRODUCT_OUT=/work/mydroid/android/out/target/product/armboard_v7a
     export ANDROID_HOST_OUT=/work/mydroid/android/out/host/linux-x86/
-    export MVE_VERSION=V500_R0P1_00REL0
     export ARCH=arm
     export HW=1
     export CROSS_COMPILE=arm-eabi-
@@ -157,7 +156,7 @@ function android_env()
         cd \$my_pwd
     fi
     # Currently, the demobox resides on this IP.
-    export ADBHOST=10.44.11.150
+    export ADBHOST=10.44.11.54
 }
 
 function android_fix_permissions()
