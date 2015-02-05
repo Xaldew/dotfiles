@@ -75,14 +75,8 @@
 (add-hook 'c++-mode-hook 'my:ac-c-headers-init)
 (add-hook 'c-mode-hook 'my:ac-c-headers-init)
 
-
-;; Activate Evil mode to allow Vim users to use my editors.
-(require 'evil)
-
-
 ;; Activate Magit.
 (require 'magit)
-
 
 ;; Activate pbrt-mode.
 (autoload 'pbrt-mode "pbrt-mode" "PBRT Mode." t)
@@ -97,6 +91,6 @@
 (require 'hide-comnt)
 (global-set-key "\C-ch" 'hide/show-comments-toggle)
 
-;; Activate hlsl-mode.
+;; Activate coffee-mode.
 (autoload 'coffee-mode "coffee-mode" "Coffee Mode." t)
 (setq coffee-tab-width 4)
