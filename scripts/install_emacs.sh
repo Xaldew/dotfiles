@@ -22,6 +22,9 @@ fi
 
 cd $HOME/git/installs/emacs
 sh autogen.sh
-./configure --prefix=$HOME/.local --enable-link-time-optimization --with-imagemagick
+./configure --prefix=$HOME/.local \
+	    --enable-link-time-optimization \
+	    --with-imagemagick \
+	    --with-x-toolkit=lucid
 make -j
 make install
