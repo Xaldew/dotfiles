@@ -60,11 +60,14 @@ ln -fs $DOTFILES_DIR/configs/vimrc $HOME/.vimrc
 rm -f $HOME/.dicts
 ln -fs $DOTFILES_DIR/configs/dicts $HOME/.dicts
 
+# Create directories for local utilities.
+mkdir --parents \
+      $HOME/.local \
+      $HOME/.local/share/man
+
 # Create a bashrc file with links to the script directories.
 echo "# Don't edit this file, rerun install.sh to update." > $HOME/.bashrc
 echo "DOTFILES_DIR="${DOTFILES_DIR} >> $HOME/.bashrc
-echo "export PATH=\$DOTFILES_DIR/scripts:\$PATH" >> $HOME/.bashrc
-echo "export PATH=\$HOME/.local/bin:\$PATH" >> $HOME/.bashrc
 echo "source \$DOTFILES_DIR/configs/bashrc" >> $HOME/.bashrc
 
 # Create a zshrc file with links to the script directories.
@@ -72,7 +75,6 @@ echo "# Don't edit this file, rerun install.sh to update." > $HOME/.zshenv
 echo "DOTFILES_DIR="${DOTFILES_DIR} >> $HOME/.zshenv
 echo "ZDOTDIR=\$HOME/.zsh" >> $HOME/.zshenv
 echo "export PATH=\$DOTFILES_DIR/scripts:\$PATH" >> $HOME/.zshenv
-echo "export PATH=\$HOME/.local/bin:\$PATH" >> $HOME/.zshenv
 echo "source \$DOTFILES_DIR/configs/zsh/zshenv" >> $HOME/.zshenv
 
 # Install Prezto.

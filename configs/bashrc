@@ -88,3 +88,12 @@ export LESS_TERMCAP_se=$'\E[0m'           # end standout-mode
 export LESS_TERMCAP_so=$'\E[38;5;246m'    # begin standout-mode - info box
 export LESS_TERMCAP_ue=$'\E[0m'           # end underline
 export LESS_TERMCAP_us=$'\E[04;38;5;146m' # begin underline
+
+# Add extra paths to various utilities.
+export PATH=$HOME/git/installs/android_sdk/tools:$PATH
+export PATH=$HOME/git/installs/android_sdk/platform-tools:$PATH
+export PATH=$DOTFILES_DIR/scripts:$PATH
+export PATH=$HOME/.local/bin:$PATH
+
+# Add extra man-page directory in .local.
+export MANPATH=$HOME/.local/share/man:$MANPATH
