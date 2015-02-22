@@ -74,7 +74,6 @@ echo "source \$DOTFILES_DIR/configs/bashrc" >> $HOME/.bashrc
 echo "# Don't edit this file, rerun install.sh to update." > $HOME/.zshenv
 echo "DOTFILES_DIR="${DOTFILES_DIR} >> $HOME/.zshenv
 echo "ZDOTDIR=\$HOME/.zsh" >> $HOME/.zshenv
-echo "export PATH=\$DOTFILES_DIR/scripts:\$PATH" >> $HOME/.zshenv
 echo "source \$DOTFILES_DIR/configs/zsh/zshenv" >> $HOME/.zshenv
 
 # Install Prezto.
