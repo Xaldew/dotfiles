@@ -2,14 +2,11 @@
 (require 'xclip)
 (xclip-mode 1)
 
-;; Activate cmake mode for editting cmake files.
-(require 'cmake-mode)
-;(autoload 'cmake-mode "cmake-mode" "PBRT Mode." t)
 
 ;; Activate linum for neat line- and column numbers.
-(require 'linum)
-(global-linum-mode 1)
-(setq linum-format "%5d ")
+(require 'nlinum)
+(global-nlinum-mode t)
+(setq nlinum-format "%5d ")
 (setq line-number-mode t)
 (setq column-number-mode t)
 
@@ -26,9 +23,10 @@
 (setq mode-require-final-newline nil)
 
 
-;; Activate whitespace: mark lines longer than 80 columns.
-;; Note that to disable whitespace mode, you must evalute
-;; M-x global-whatespace-mode AND M-x revert-buffer.
+;; Activate whitespace: Mark lines longer than 80 columns.
+;; Note that to disable whitespace mode while in a terminal, you must evalute
+;; M-x global-whatespace-mode _AND_ M-x revert-buffer. A wrapper function in
+;; `func.el' does this automatically.
 (require 'whitespace)
 (setq whitespace-style '(face empty lines-tail trailing))
 (global-whitespace-mode t)
@@ -78,6 +76,10 @@
 ;; Activate Magit.
 (require 'magit)
 
+;; Add C-c h as toggle command for hide/show-comments.
+(require 'hide-comnt)
+(global-set-key "\C-ch" 'hide/show-comments-toggle)
+
 ;; Activate pbrt-mode.
 (autoload 'pbrt-mode "pbrt-mode" "PBRT Mode." t)
 
@@ -87,9 +89,8 @@
 ;; Activate hlsl-mode.
 (autoload 'hlsl-mode "hlsl-mode" "HLSL Mode." t)
 
-;; Add C-c h as toggle command for hide/show-comments.
-(require 'hide-comnt)
-(global-set-key "\C-ch" 'hide/show-comments-toggle)
+;; Activate cmake mode for editting cmake files.
+(autoload 'cmake-mode "cmake-mode" "CMake Mode." t)
 
 ;; Activate coffee-mode.
 (autoload 'coffee-mode "coffee-mode" "Coffee Mode." t)

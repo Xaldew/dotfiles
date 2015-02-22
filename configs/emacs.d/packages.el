@@ -19,6 +19,7 @@
 ;; Create a list of packages we want to be installed.
 (setq package-list '(ecb
 		     flycheck
+		     nlinum
 		     google-c-style
 		     hide-comnt
 		     ethan-wspace
