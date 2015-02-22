@@ -1,5 +1,5 @@
 #!/usr/bin/env sh
-# Install the latest development relase of Emacs.
+# Install the latest development release of Emacs.
 
 sudo apt-get --quiet=2 install \
      libmagickcore-dev \
@@ -8,9 +8,10 @@ sudo apt-get --quiet=2 install \
      libjpeg-dev \
      libgif-dev \
      libtiff-dev \
-     libxpm-dev
+     libxpm-dev \
+     libxaw7-dev
 
-mkdir --parents $HOME/git/installs $HOME/.local
+mkdir --parents $HOME/git/installs
 cd $HOME/git/installs
 
 if [ -d $HOME/git/installs/emacs ]; then
@@ -23,6 +24,7 @@ fi
 cd $HOME/git/installs/emacs
 sh autogen.sh
 ./configure --prefix=$HOME/.local \
+	    --mandir=$HOME/.local/share/man \
 	    --enable-link-time-optimization \
 	    --with-imagemagick \
 	    --with-x-toolkit=lucid
