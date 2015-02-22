@@ -41,6 +41,7 @@ rm -f $HOME/.emacs.d/snippets
 ln -fs $DOTFILES_DIR/snippets $HOME/.emacs.d/snippets
 rm -f $HOME/.emacs.d/elisp
 ln -fs $DOTFILES_DIR/configs/emacs.d/elisp $HOME/.emacs.d/elisp
+touch $HOME/.emacs.d/custom.el
 
 # Download the gitolite-conf-mode file.
 if [ ! -r $HOME/.emacs.d/downloads/gl-conf-mode.el ]; then
