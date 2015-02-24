@@ -2,7 +2,7 @@
 	name = Gustaf Waldemarson
 	email = gustaf.waldemarson@gmail.com
 [core]
-	editor = "emacs -nw"
+	editor = emacsclient --tty --socket-name=default --alternate-editor="" "$@"
 	excludesfile = ~/.gitignore
 [merge]
 	tool = vimdiff
