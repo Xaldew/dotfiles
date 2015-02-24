@@ -4,7 +4,7 @@
 # enable color support of ls and also add handy aliases
 if [ -x /usr/bin/dircolors ]; then
     test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || \
-	eval "$(dircolors -b)"
+	    eval "$(dircolors -b)"
     alias ls='ls --color=auto'
     alias dir='dir --color=auto'
     alias vdir='vdir --color=auto'
@@ -37,30 +37,80 @@ alias meka=make
 alias svnst="svn st"
 alias snv=svn
 
-# Terminal emacs (xemacs)
-alias em="emacs --no-window-system"
-alias ema="emacs --no-window-system"
-alias emac="emacs --no-window-system"
-alias emas="emacs --no-window-system"
-alias emasc="emacs --no-window-system"
-alias emascs="emacs --no-window-system"
-alias eam="emacs --no-window-system"
-
-# Graphical emacs.
-alias ge="emacs --maximized"
-alias gem="emacs --maximized"
-alias gema="emacs --maximized"
-alias gemac="emacs --maximized"
-alias gemacs="emacs --maximized"
-
-# Minor hack to pipe stdout to an emacs buffer.
-function emacspipe()
+# Terminal Emacsclient.
+function nx-emacs-client()
 {
-    tmp=$(mktemp) && cat > $tmp && emacs $tmp ; rm $tmp
+    # Start the Emacs client toward the default Emacs daemon socket.
+    # Append a new socket name to the arguments to use a different one.
+    emacsclient --tty --socket-name=default --alternate-editor="" "$@"
 }
-alias ep=emacspipe
-alias emp=emacspipe
+alias em="nx-emacs-client"
+alias ema="nx-emacs-client"
+alias emac="nx-emacs-client"
+alias emas="nx-emacs-client"
+alias emasc="nx-emacs-client"
+alias emascs="nx-emacs-client"
+alias eam="nx-emacs-client"
 
+# Graphical Emacsclient.
+function graphical-emacs-client()
+{
+    # Start the Emacs client toward the default Emacs daemon socket.
+    # Append a new socket name to the arguments to use a different one.
+    emacsclient --create-frame --socket-name=default --alternate-editor="" "$@"
+}
+alias ge="graphical-emacs-client"
+alias gem="graphical-emacs-client"
+alias gema="graphical-emacs-client"
+alias gemac="graphical-emacs-client"
+alias gemacs="graphical-emacs-client"
+
+# Start new non-client nx-Emacs instances.
+alias nem="emacs --no-window-system"
+alias nema="emacs --no-window-system"
+alias neam="emacs --no-window-system"
+alias nemac="emacs --no-window-system"
+alias nemas="emacs --no-window-system"
+alias nemacs="emacs --no-window-system"
+alias nemasc="emacs --no-window-system"
+
+# Start new non-client graphical-Emacs instances.
+alias ngem="emacs --maximized"
+alias ngema="emacs --maximized"
+alias ngeam="emacs --maximized"
+alias ngemac="emacs --maximized"
+alias ngemas="emacs --maximized"
+alias ngemacs="emacs --maximized"
+alias ngemasc="emacs --maximized"
+
+# Minor hack to pipe stdout to an Emacs buffer.
+function nx-emacspipe()
+{
+    tmp=$(mktemp) && cat > $tmp && nx-emacs-client $tmp ; rm $tmp
+}
+alias ep="nx-emacspipe"
+alias emp="nx-emacspipe"
+function graphical-emacspipe()
+{
+    tmp=$(mktemp) && cat > $tmp && graphical-emacs-client $tmp ; rm $tmp
+}
+alias gep="graphical-emacspipe"
+alias gemp="graphical-emacspipe"
+
+# Start a new Emacs daemon.
+function emacs-daemon()
+{
+    server=${1-default}
+    shift
+    \emacs --daemon=$server "$@"
+}
+alias emd=emacs-daemon
+alias emad=emacs-daemon
+alias emacd=emacs-daemon
+alias emacsd=emacs-daemon
+
+
+# Aliases for git.
 alias tgi=git
 alias gti=git
 alias gi=git

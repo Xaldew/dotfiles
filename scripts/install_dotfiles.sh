@@ -71,6 +71,11 @@ echo "# Don't edit this file, rerun install.sh to update." > $HOME/.bashrc
 echo "DOTFILES_DIR="${DOTFILES_DIR} >> $HOME/.bashrc
 echo "source \$DOTFILES_DIR/configs/bashrc" >> $HOME/.bashrc
 
+# Create a profile file with links to the dotfile version.
+echo "# Don't edit this file, rerun install.sh to update." > $HOME/.profile
+echo "DOTFILES_DIR="${DOTFILES_DIR} >> $HOME/.profile
+echo ". \$DOTFILES_DIR/configs/profile" >> $HOME/.profile
+
 # Create a zshrc file with links to the script directories.
 echo "# Don't edit this file, rerun install.sh to update." > $HOME/.zshenv
 echo "DOTFILES_DIR="${DOTFILES_DIR} >> $HOME/.zshenv
