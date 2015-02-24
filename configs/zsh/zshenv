@@ -1,12 +1,6 @@
 #!/usr/bin/env zsh
 # Defines environment variables for all shells.
 
-# Define variables to local binaries.
-export PATH=$HOME/git/installs/android_sdk/tools:$PATH
-export PATH=$HOME/git/installs/android_sdk/platform-tools:$PATH
-export PATH=$DOTFILES_DIR/scripts:$PATH
-export PATH=$HOME/.local/bin:$PATH
-
 # Define variables to local man-pages.
 export MANPATH=$HOME/.local/share/man:$MANPATH
 

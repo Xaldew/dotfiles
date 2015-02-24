@@ -70,8 +70,12 @@ export GREP_OPTIONS="--exclude-dir={.svn,.git,.repo}"
 
 # Setup emacs as the default editor.
 if [[ ! $EDITOR =~ .*emacs.* ]]; then
-    export EDITOR="emacs"
+    export EDITOR=nx-emacs-client
 fi
+if [[ ! $VISUAL =~ .*emacs.* ]]; then
+    export VISUAL=graphical-emacs-client
+fi
+
 
 # Add Meta-h to backward-kill-word.
 bindkey -M emacs '^[h' backward-kill-word
