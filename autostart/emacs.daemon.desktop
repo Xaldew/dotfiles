@@ -1,0 +1,12 @@
+[Desktop Entry]
+Type=Application
+Icon=emacs
+Name=Emacs
+GenericName=Editor
+Comment=Emacs: the extensible, self-documenting text editor.
+Hidden=false
+Exec=emacs --daemon=default
+Terminal=false
+Categories=Development;Office;Graphics;
+Keywords=emacs;editor;text;
+StartupNotify=false
