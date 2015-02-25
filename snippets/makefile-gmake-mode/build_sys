@@ -1,0 +1,20 @@
+# -*- mode: snippet -*-
+# Insert default Module.mk strings for my custom GNU Makefile build system.
+# name: Module.mk Template
+# key: mod
+# type: snippet
+# contributer: Gustaf Waldemarson
+# --
+local_dir := \$(my-dir)
+include \$(CLEAR_VARS)
+
+local_module := ${1:`(file-name-base
+                       (substring (file-name-directory (buffer-file-name)) 0 -1))`}
+
+local_srcs := \\
+	 ${2:`(mapconcat 'identity (c/c++-list-files) " \\\n")`}
+
+include \$(${3:$$(yas-choose-value '("BUILD_EXECUTABLE"
+				     "BUILD_TEST"
+				     "BUILD_STATIC_LIBRARY"
+				     "BUILD_SHARED_LIBRARY"))})
