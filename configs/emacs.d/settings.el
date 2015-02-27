@@ -45,6 +45,9 @@
 ;; Automatically update buffers to reflect changes on disk.
 (global-auto-revert-mode t)
 
+;; When cursor is on edge, move to the other side, as in a toroidal space.
+(setq windmove-wrap-around t)
+
 ;; Allow movement to the windows using a prefixed arrow key.
 (global-set-key (kbd "C-c <left>")  'windmove-left)
 (global-set-key (kbd "C-c <right>") 'windmove-right)
