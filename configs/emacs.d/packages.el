@@ -48,6 +48,7 @@
 		     csv-mode
 		     cuda-mode
 		     coffee-mode
+		     markdown-mode
 		     ))
 
 ;; Create an alist of where we should retrieve certain packages.
