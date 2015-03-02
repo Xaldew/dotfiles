@@ -39,7 +39,7 @@
   (interactive "sWhat shall we append? \nr")
   (goto-char p1)
   (forward-line -1)
-  (while (> (point) p0)
+  (while (>= (point) p0)
     (end-of-line)
     (insert str)
     (forward-line -1)))
