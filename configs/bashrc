@@ -74,9 +74,6 @@ shopt -s histappend
 # Avoid duplicates and erase if found.
 export HISTCONTROL=ignoredups:erasedups
 
-# Add Meta-h to backward-kill-word.
-bind '"\eh": backward-kill-word'
-
 # Add useful bash specific shell-functions.
 source $DOTFILES_DIR/scripts/prompt.sh
 source $DOTFILES_DIR/scripts/bashmarks.sh
