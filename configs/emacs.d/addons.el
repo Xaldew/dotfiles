@@ -23,21 +23,6 @@
 (setq mode-require-final-newline nil)
 
 
-;; Activate whitespace: Mark lines longer than 80 columns.
-;; Note that to disable whitespace mode while in a terminal, you must evalute
-;; M-x global-whatespace-mode _AND_ M-x revert-buffer. A wrapper function in
-;; `func.el' does this automatically.
-(require 'whitespace)
-(setq whitespace-style '(face empty lines-tail trailing))
-(global-whitespace-mode t)
-
-;; Disable whitespace and ethan-wspace mode in yasnippets mode.
-(add-hook 'snippet-mode-hook (lambda ()
-			       (global-whitespace-mode -1)
-			       (whitespace-mode -1)
-			       (ethan-wspace-mode -1)))
-
-
 ;; Activate Yasnippet
 ;; binds trigger to C-o to avoid stateful behaviours.
 (require 'yasnippet)
@@ -52,6 +37,17 @@
 (define-key yas-keymap (kbd "C-o") 'yas-next-field-or-maybe-expand)
 (define-key yas-keymap (kbd "C-u") 'yas-prev-field)
 (yas-global-mode t)
+
+;; Disable whitespace and ethan-wspace mode in yasnippets mode.
+(add-hook 'snippet-mode-hook
+	  (lambda ()
+	    (setq whitespace-style '(face
+				     newline
+				     newline-mark
+				     tabs
+				     tab-mark
+				     trailing))
+	    (ethan-wspace-mode -1)))
 
 
 ;; Activate Auto-complete.
