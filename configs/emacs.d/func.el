@@ -7,6 +7,7 @@
   (delete-trailing-whitespace)
   (indent-region (point-min) (point-max) nil))
 
+
 (defun wst ()
   "White Space Toggling when in terminals."
   (interactive)
@@ -20,10 +21,12 @@
 	  (global-ethan-wspace-mode)) ))
   (revert-buffer nil t))
 
+
 (defun hardcopy ()
   "Make a hardcopy of the current buffer. I.e., print it."
   (interactive)
   (ps-print-buffer-with-faces))
+
 
 (defun dos2unix (buffer)
   "Convert the coding system to unix style line-endings."
@@ -34,6 +37,7 @@
       (replace-match "")))
   (set-buffer-file-coding-system 'utf-8-unix 't))
 
+
 (defun eol-append (str p0 p1)
   "prompt for string, add it to end of lines in the region"
   (interactive "sWhat shall we append? \nr")
@@ -43,6 +47,34 @@
     (end-of-line)
     (insert str)
     (forward-line -1)))
+
+
+(defun upcase-rectangle (b e)
+  "Change all characters in a rectangle to uppercase."
+  (interactive "r")
+  (apply-on-rectangle 'upcase-rectangle-line b e))
+
+
+(defun upcase-rectangle-line (startcol endcol)
+  "Change all characters on a line to uppercase."
+  (when (= (move-to-column startcol) startcol)
+    (upcase-region (point)
+		   (progn (move-to-column endcol 'coerce)
+			  (point)))))
+
+
+(defun downcase-rectangle (b e)
+  "Change all characters in a rectangle to uppercase."
+  (interactive "r")
+  (apply-on-rectangle 'downcase-rectangle-line b e))
+
+
+(defun downcase-rectangle-line (startcol endcol)
+  "Change all characters on a line to uppercase."
+  (when (= (move-to-column startcol) startcol)
+    (downcase-region (point)
+		     (progn (move-to-column endcol 'coerce)
+			    (point)))))
 
 
 (defun create-tags (dir-name)
