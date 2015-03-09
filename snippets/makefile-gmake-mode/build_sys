@@ -3,6 +3,7 @@
 # name: Module.mk Template
 # key: mod
 # type: snippet
+# expand-env: ((yas-indent-line 'fixed) (yas-wrap-around-region 'nil))
 # contributer: Gustaf Waldemarson
 # --
 local_dir := \$(my-dir)
@@ -12,9 +13,9 @@ local_module := ${1:`(file-name-base
                        (substring (file-name-directory (buffer-file-name)) 0 -1))`}
 
 local_srcs := \\
-	 ${2:`(mapconcat 'identity (c/c++-list-files) " \\\n")`}
+	${2:`(mapconcat 'identity (c/c++-list-files) " \\\n\t")`}
 
 include \$(${3:$$(yas-choose-value '("BUILD_EXECUTABLE"
 				     "BUILD_TEST"
 				     "BUILD_STATIC_LIBRARY"
-				     "BUILD_SHARED_LIBRARY"))})
+				     "BUILD_SHARED_LIBRARY"))})$0

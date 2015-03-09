@@ -3,6 +3,7 @@
 # name: Android.mk Template
 # key: android
 # type: snippet
+# expand-env: ((yas-indent-line 'fixed) (yas-wrap-around-region 'nil))
 # contributer: Gustaf Waldemarson
 # --
 LOCAL_PATH := \$(call my-dir)
@@ -13,8 +14,8 @@ LOCAL_MODULE := ${1:`(file-name-base
 			  0 -1))`}
 
 LOCAL_SRC_FILES := \\
-	 ${2:`(mapconcat 'identity (c/c++-list-files) " \\\n")`}
+	${2:`(mapconcat 'identity (c/c++-list-files) " \\\n\t")`}
 
 include \$(${3:$$(yas-choose-value '("BUILD_EXECUTABLE"
 				     "BUILD_STATIC_LIBRARY"
-				     "BUILD_SHARED_LIBRARY"))})
+				     "BUILD_SHARED_LIBRARY"))})$0
