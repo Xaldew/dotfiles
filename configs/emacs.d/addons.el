@@ -41,12 +41,12 @@
 ;; Disable whitespace and ethan-wspace mode in yasnippets mode.
 (add-hook 'snippet-mode-hook
 	  (lambda ()
-	    (setq whitespace-style '(face
-				     newline
-				     newline-mark
-				     tabs
-				     tab-mark
-				     trailing))
+	    (setq-local whitespace-style '(face
+					   newline
+					   newline-mark
+					   tabs
+					   tab-mark
+					   trailing))
 	    (ethan-wspace-mode -1)))
 
 

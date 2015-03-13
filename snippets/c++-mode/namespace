@@ -1,0 +1,12 @@
+# -*- mode: snippet -*-
+# Insert the C++ namespace definitions.
+# name: Namespace C++
+# key: ns
+# type: snippet
+# contributer: Gustaf Waldemarson
+# --
+namespace ${1:Namespace}
+{
+    `yas/selected-text`
+$0
+} /* namespace $1 */
