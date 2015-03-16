@@ -1,12 +1,13 @@
 # -*- mode: snippet -*-
 # Insert the C++ namespace definitions.
 # name: Namespace C++
-# key: ns
+# key: nsp
 # type: snippet
 # contributer: Gustaf Waldemarson
 # --
 namespace ${1:Namespace}
 {
-    `yas/selected-text`
+
+    `(or yas/selected-text (car kill-ring))`
 $0
 } /* namespace $1 */
