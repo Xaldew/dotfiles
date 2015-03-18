@@ -52,22 +52,32 @@
 
 ;; Activate Auto-complete.
 (require 'auto-complete-config)
+(require 'auto-complete-c-headers)
 (require 'auto-complete-clang)
-(setq ac-auto-show-menu 0.1)
-(setq ac-delay 0.1)
-(define-key ac-menu-map (kbd "M-n") 'ac-next)
-(define-key ac-menu-map (kbd "M-p") 'ac-previous)
-(setq-default ac-sources (push 'ac-source-yasnippet ac-sources))
 (ac-config-default)
-(global-auto-complete-mode t)
-(add-hook 'python-mode-hook 'ac-anaconda-setup)
 
-(defun my:ac-c-headers-init ()
-  (require 'auto-complete-c-headers)
+(defun my/ac-setup-hook ()
+  "A hook for my global Autocomplete setup."
+  (setq ac-auto-show-menu 0.1)
+  (setq ac-delay 0.1)
+  (define-key ac-menu-map (kbd "M-n") 'ac-next)
+  (define-key ac-menu-map (kbd "M-p") 'ac-previous)
+  (add-to-list 'ac-sources 'ac-source-yasnippet))
+
+(defun my/ac-cc-setup-hook ()
+  "A hook for Autocomplete settings in any C-like mode."
   (add-to-list 'ac-sources 'ac-source-c-headers))
 
-(add-hook 'c++-mode-hook 'my:ac-c-headers-init)
-(add-hook 'c-mode-hook 'my:ac-c-headers-init)
+(defun my/ac-c++-setup-hook ()
+  "A hook for Autocomplete settings in C++-mode."
+  (add-to-list 'ac-sources 'ac-source-clang))
+
+(add-hook 'auto-complete-mode-hook 'my/ac-setup-hook)
+(add-hook 'cc-mode-hook 'ac-cc-mode-setup)
+(add-hook 'cc-mode-hook 'my/ac-cc-setup-hook)
+(add-hook 'c++-mode-hook 'my/ac-c++-setup-hook)
+(add-hook 'python-mode-hook 'ac-anaconda-setup)
+(global-auto-complete-mode t)
 
 ;; Activate Magit.
 (require 'magit)
