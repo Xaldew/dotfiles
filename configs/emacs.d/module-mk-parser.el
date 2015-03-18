@@ -16,6 +16,10 @@
   "Parse an include path. Uses and modifies point."
   )
 
+(defun module-mk-get-make-var (var-name)
+  "Attempt to find the contents of the content of a Makefile variable."
+  )
+
 
 (defun makefile-parser (mk)
   "Parse a Module.mk file and set flycheck options."
@@ -50,4 +54,14 @@
     (let (top-mk)
       (setq top-mk (module-mk-find-top path))
       (when top-mk
-	(makefile-parser top-mk))) ))
+	;; Add The top-level directory to the include paths.
+	(add-to-list 'flycheck-clang-include-path
+		     (file-name-directory top-mk))
+	(add-to-list 'flycheck-clang-includes
+		     (file-name-directory top-mk))
+	(add-to-list 'flycheck-gcc-include-path
+		     (file-name-directory top-mk))
+	(add-to-list 'flycheck-gcc-includes
+		     (file-name-directory top-mk))
+	;; Parse the top-level Makefile to set additional include paths.
+	(makefile-parser top-mk) ))))
