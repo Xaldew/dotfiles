@@ -2,7 +2,11 @@
 # A script to download and install the latest ffmpeg and all related libraries.
 
 sudo apt-get install --quiet=2 \
-     nasm
+     nasm \
+     libass-dev \
+     libtheora-dev \
+     libvorbis-dev
+
 
 mkdir --parents \
       $HOME/git/installs/ffmpeg \
@@ -165,10 +169,18 @@ for pid in "${pids[@]}"; do
     wait $pid || let "fails+=1"
 done
 
+if [ ! $fails -eq 0 ]; then
+   printf "Warning: Failed to compile something."
+   exit -1
+fi
 
 # Finally, compile and install ffmpeg.
 cd $HOME/git/installs/ffmpeg
-git clone git://github.com/FFmpeg/FFmpeg.git ffmpeg_sources
+if [ ! -d ffmpeg_sources ]; then
+    git clone git://github.com/FFmpeg/FFmpeg.git ffmpeg_sources
+else
+    git -C ffmpeg_sources pull
+fi
 cd $HOME/git/installs/ffmpeg/ffmpeg_sources
 PKG_CONFIG_PATH=$HOME/git/installs/ffmpeg/ffmpeg_build/lib/pkgconfig \
 	       ./configure \
