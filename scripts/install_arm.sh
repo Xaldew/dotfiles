@@ -194,7 +194,8 @@ function android_fix_permissions()
     rm -rf \$TOP/root \$TOP/fs
 }
 
-function strip_h264() {
+function strip_h264()
+{
     in=\${1}
     ffmpeg -i "\$in" -vcodec copy -an -bsf:v h264_mp4toannexb "\${in%.*}.h264"
 }
