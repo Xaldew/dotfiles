@@ -4,8 +4,14 @@
 # Use Emacs editing mode.
 set editing-mode emacs
 
-# Ignore case on tab-completion.
+# Ignore case on tab-completion and treat "-" and "_" as equivalent.
 set completion-ignore-case on
+set completion-map-case on
+
+# Enable color display for completions and mark symlinked directories.
+set colored-stats on
+set mark-symlinked-directories on
+
 
 # Be 8 bit clean.
 set input-meta on
