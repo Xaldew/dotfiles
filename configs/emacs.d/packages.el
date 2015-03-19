@@ -18,12 +18,12 @@
 
 ;; Create a list of packages we want to be installed.
 (setq package-list '(ecb
-		     flycheck
 		     nlinum
 		     google-c-style
 		     hide-comnt
 		     ethan-wspace
 		     company
+		     company-quickhelp
 		     rainbow-mode
 		     graphviz-dot-mode
 		     glsl-mode
@@ -43,6 +43,11 @@
 		     ac-etags
 		     ac-anaconda
 		     auto-complete-clang
+		     flycheck
+		     flycheck-irony
+		     flycheck-pos-tip
+		     ac-irony
+		     irony
 		     auto-complete-c-headers
 		     ggtags
 		     csv-mode
@@ -62,4 +67,6 @@
 
 (dolist (package package-list)
   (unless (package-installed-p package)
-    (package-install package)))
+    (condition-case nil
+	(package-install package)
+      (error (message "[ERROR]: Failed to install package: %s." package))) ))
