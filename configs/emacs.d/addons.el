@@ -101,3 +101,9 @@
 ;; Activate coffee-mode.
 (autoload 'coffee-mode "coffee-mode" "Coffee Mode." t)
 (setq coffee-tab-width 4)
+
+
+;; Add Pop-ups for Flycheck errors.
+(eval-after-load 'flycheck
+  '(custom-set-variables
+    '(flycheck-display-errors-function #'flycheck-pos-tip-error-messages)))
