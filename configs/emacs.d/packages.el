@@ -23,6 +23,10 @@
 		     hide-comnt
 		     ethan-wspace
 		     company
+		     company-math
+		     company-irony
+		     company-anaconda
+		     company-c-headers
 		     company-quickhelp
 		     rainbow-mode
 		     graphviz-dot-mode
@@ -36,6 +40,7 @@
 		     ssh-config-mode
 		     evil
 		     elpy
+		     anaconda-mode
 		     web-mode
 		     dart-mode
 		     magit
@@ -53,8 +58,7 @@
 		     csv-mode
 		     cuda-mode
 		     coffee-mode
-		     markdown-mode
-		     ))
+		     markdown-mode))
 
 ;; Create an alist of where we should retrieve certain packages.
 (setq package-pinned-packages
