@@ -82,5 +82,6 @@
 ;; Note that to disable whitespace mode while in a terminal, you must evalute
 ;; M-x global-whatespace-mode _AND_ M-x revert-buffer. A wrapper function in
 ;; `func.el' does this automatically.
+(add-hook 'before-save-hook 'delete-trailing-whitespace)
 (setq whitespace-style '(face empty lines-tail trailing))
 (global-whitespace-mode t)

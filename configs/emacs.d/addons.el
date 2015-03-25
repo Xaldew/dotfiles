@@ -16,13 +16,6 @@
 (autopair-global-mode)
 
 
-;; Activate Ethan whitespace fixer.
-(require 'ethan-wspace)
-(global-ethan-wspace-mode t)
-(set-default 'ethan-wspace-errors (remove 'tabs ethan-wspace-errors))
-(setq mode-require-final-newline nil)
-
-
 ;; Activate Yasnippet
 ;; binds trigger to C-o to avoid stateful behaviours.
 (require 'yasnippet)
@@ -38,16 +31,16 @@
 (define-key yas-keymap (kbd "C-u") 'yas-prev-field)
 (yas-global-mode t)
 
-;; Disable whitespace and ethan-wspace mode in yasnippets mode.
-(add-hook 'snippet-mode-hook
-	  (lambda ()
-	    (setq-local whitespace-style '(face
-					   newline
-					   newline-mark
-					   tabs
-					   tab-mark
-					   trailing))
-	    (ethan-wspace-mode -1)))
+;; Change whitespace visualization in yasnippets mode.
+(defun my/snippet-hook ()
+  "Hook for Yasnippet-mode."
+  (setq-local whitespace-style '(face
+				 newline
+				 newline-mark
+				 tabs
+				 tab-mark
+				 trailing)))
+(add-hook 'snippet-mode-hook 'my/snippet-hook)
 
 
 ;; Activate Auto-complete.

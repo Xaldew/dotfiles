@@ -21,7 +21,6 @@
 		     nlinum
 		     google-c-style
 		     hide-comnt
-		     ethan-wspace
 		     company
 		     company-math
 		     company-irony
