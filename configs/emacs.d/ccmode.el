@@ -18,11 +18,11 @@
 ;; Customizations for all modes in CC Mode.
 (defun my-cc-mode-common-hook ()
   "Setup common utilities for all C-like modes."
-  (setq c-doc-comment-style
-	'((java-mode . javadoc)
-	  (pike-mode . autodoc)
-	  (c-mode    . javadoc)
-	  (c++-mode  . javadoc)))
+  (setq-local c-doc-comment-style
+	      '((java-mode . javadoc)
+		(pike-mode . autodoc)
+		(c-mode    . javadoc)
+		(c++-mode  . javadoc)))
   (set-face-foreground 'font-lock-doc-face
 		       (face-foreground font-lock-comment-face))
   (font-lock-add-keywords
