@@ -100,3 +100,14 @@
 (eval-after-load 'flycheck
   '(custom-set-variables
     '(flycheck-display-errors-function #'flycheck-pos-tip-error-messages)))
+
+
+;; Activate anaconda-mode.
+(defun my/python-mode-hook ()
+  "My python mode hook."
+  (anaconda-mode)
+  (eldoc-mode)
+  ;; Define a fix for the re-mapping of find-tag.
+  (define-key anaconda-mode-map
+    [remap xref-find-definitions] 'anaconda-mode-goto))
+(add-hook 'python-mode-hook 'my/python-mode-hook)
