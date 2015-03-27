@@ -200,6 +200,17 @@ function strip_h264()
     ffmpeg -i "\$in" -vcodec copy -an -bsf:v h264_mp4toannexb "\${in%.*}.h264"
 }
 
+# Set the arm git config for ARM project repos.
+# Otherwise, commits will not be pushable.
+function set_arm_gitconfig()
+{
+    for arg in "\$@";
+    do
+	(cd \$arg && git config user.email "gustaf.waldemarson@arm.com")
+    done
+}
+
+
 # Setup of TI2 (VIDEO) Environment Variables
 export MPDTI_V2_USER=guswal01
 export MPDTI_V2_PIC_SERVER=lun-mpdti2.lund.arm.com:55300
