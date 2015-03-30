@@ -64,7 +64,19 @@ ln -fs $DOTFILES_DIR/configs/dicts $HOME/.dicts
 # Create directories for local utilities.
 mkdir --parents \
       $HOME/.local \
+      $HOME/.local/bin \
       $HOME/.local/share/man
+
+# Install git-prompt.sh.
+base_url=https://raw.githubusercontent.com/git/git/master/contrib/completion/
+(
+    url=$base_url/git-prompt.sh
+    wget $url --output-document=$HOME/.local/bin/git-prompt.sh --quiet
+) &
+(
+    url=$base_url/git-completion.bash
+    wget $url --output-document=$HOME/.local/bin/git-completion.bash --quiet
+) &
 
 # Create a bashrc file with links to the script directories.
 echo "# Don't edit this file, rerun install.sh to update." > $HOME/.bashrc
