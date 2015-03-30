@@ -321,3 +321,30 @@ function rand_uint()
     od --address-radix=n --format=u --read-bytes=$bytes /dev/urandom | \
 	sed -e 's/^[ \t]*//'
 }
+
+
+# Download a single file from a git repo.
+# In many cases, it may be more suitable to use wget or curl instead.
+# $1: The URL to the desired repository.
+# $2: The file we would like to extract.
+function git-dl()
+{
+    url="$1"
+    file="$2"
+    base_file="$(basename $2)"
+    repo=$(basename "$url" ".git")
+    dir=$(dirname $file)
+    ret=0
+    git archive --remote=$url HEAD:$dir $file 2> /dev/null | tar -x 2> /dev/null
+    if [ ! $? -eq 0 ]; then
+	tmp_dir=$(mktemp -d)
+	cwd="$(pwd)"
+	cd $tmp_dir
+	git clone --no-checkout --depth 1 $url 2> /dev/null && \
+	    cd $repo && git show HEAD:$file > $cwd/$base_file 2> /dev/null
+	ret=$?
+	cd $cwd
+	rm -rf $tmp_dir
+    fi
+    return $ret
+}
