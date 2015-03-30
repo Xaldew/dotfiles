@@ -49,7 +49,14 @@
 
 
 (defun parse-cdb-find-entry (cdb)
-  "Find the entry corresponding to the given file."
+  "Find the entry corresponding to the given file.
+
+   Iterate through the compilation database vector and find the closest matching
+   input file.
+
+   Headers will use the same database entry as the C-file.
+
+  "
   (let ((i 0)
 	(el nil)
 	(found nil)
@@ -57,8 +64,8 @@
     (while (and (not found) (< i len))
       (setq el (elt cdb i))
       (setq i (1+ i))
-      (when (string= (buffer-file-name) (cdr (assoc 'file el)))
-	(print "Found it!")
+      (when (string= (file-name-sans-extension (buffer-file-name))
+		     (file-name-sans-extension (cdr (assoc 'file el))))
 	(setq found t)))
     (setq el el)))
 
@@ -69,8 +76,9 @@
 	(orig-cmd nil)     ; The original list of compiler commands.
 	(cmd nil)          ; The list of misc. compiler commands.
 	(dir nil)          ; The runtime directory.
-	(sys-incl nil)     ; List of system include paths.
-	(incl nil)         ; List of normal include paths.
+	(sys-incls nil)    ; List of system include paths.
+	(incls nil)        ; List of normal include paths.
+	(misc-args nil)    ; List of misc. arguments.
 	(defs nil))        ; List of definitions.
 
     ;; Extract the Raw command string and runtime directory.
@@ -82,7 +90,36 @@
     (setq cmd (cdr orig-cmd))
 
     ;; Extract include directories.
-    (setq sys-incl (parse-cdb-get-system-includes cmd))
+    (setq sys-incls (parse-cdb-get-system-includes cmd))
+    (setq incls (parse-cdb-get-includes cmd))
+    (setq defs (parse-cdb-get-defines cmd))
+    (remove-used-args cmd '("-isystem" "-iquote" "-include" "-I-" "--sysroot"))
+    (remove-used-args cmd sys-incls)
+    (remove-used-args cmd incls)
+    (remove-used-arg-prefix cmd '("-I" "-D" "-U"))
+
+    (setq misc-args (parse-cdb-get-misc-compiler-args cmd))
+    (remove-used-args cmd misc-args)
+
+    ;; Apply flycheck include paths and definitions.
+    (setq flycheck-clang-include-path
+	  (append flycheck-clang-include-path incls))
+    (setq flycheck-gcc-include-path
+	  (append flycheck-gcc-include-path incls))
+    (setq flycheck-clang-includes
+	  (append flycheck-clang-includes sys-incls))
+    (setq flycheck-gcc-includes
+	  (append flycheck-gcc-includes sys-incls))
+    (setq flycheck-clang-definitions
+	  (append flycheck-clang-definitions defs))
+    (setq flycheck-gcc-definitions
+	  (append flycheck-gcc-definitions defs))
+
+
+    (print defs)
+    (print sys-incls)
+    (print incls)
+    (print misc-args)
 
     (print cmd)))
 
@@ -90,9 +127,29 @@
   "Given the raw compiler path get the symbol for the compiler."
   )
 
-(defun parse-cdb-get-defines (cmd)
+
+(defun parse-cdb-get-defines (cmds)
   "Given a compile command, extract the arguments that are defines."
-  )
+  (let ((li nil)         ; The current list item.
+	(defs nil))      ; Defines created with -D define and not with -U.
+    (while cmds
+      (setq li (pop cmds))
+      (cond ((and (string= li "-D")
+		  (setq li (pop cmds)))
+	     (push li defs))
+
+	    ((and (string-prefix-p "-D" li)
+	    	  (setq li (substring li 2)))
+	     (push li defs))
+
+	    ((and (string= li "-U")
+		  (setq li (pop cmds)))
+	     (setq defs (remove li defs)))
+
+	    ((and (string-prefix-p "-U" li)
+	    	  (setq li (substring cmds 2)))
+	     (setq defs (remove li defs))) ))
+    (nreverse defs)))
 
 
 (defun parse-cdb-get-system-includes (cmds)
@@ -112,21 +169,88 @@
 		  (setq li (pop cmds)))
 	     (push li sys-incls))
 
+	    ((string= li "-I-")
+	     (setq I-incls nil))
+
 	    ((and (string= li "-I")
 	    	  (setq li (pop cmds)))
 	     (push li I-incls))
 
 	    ((and (string-prefix-p "-I" li)
-	    	  (setq li (substring cmds 2)))
-	     (push li I-incls))
-	    )))
-  (append I-incls sys-incls))
+	    	  (setq li (substring li 2)))
+	     (push li I-incls)) ))
+    (append I-incls sys-incls)))
 
 
-(defun parse-cdb-get-includes (cmd)
-  "Given a list of compile command, extract the local include arguments.
+(defun parse-cdb-get-includes (cmds)
+  "Given a list of compile commands, extract the local include arguments.
 
    Local includes are include paths that use quotes instead of angle brackets.
 
   "
-  )
+  (let ((li nil)         ; The current list item.
+	(incls nil)      ; Local includes with -i "header".
+	(I-incls nil)    ; Includes using -I"header" or -I "header".
+	(I-split nil)    ; -I- split present on the command line.
+	(sysroot nil))   ; System header root replacement string.
+    (while cmds
+      (setq li (pop cmds))
+      (cond ((and (string= li "-iquote")
+		  (setq li (pop cmds)))
+	     (push li incls))
+
+	    ((and (string= li "-include")
+		  (setq li (pop cmds)))
+	     (push li incls))
+
+	    ((string= li "-I-")
+	     (setq I-split t))
+
+	    ((and (string= li "-I")
+		  (not I-split)
+	    	  (setq li (pop cmds)))
+	     (push li I-incls))
+
+	    ((and (string-prefix-p "-I" li)
+		  (not I-split)
+	    	  (setq li (substring li 2)))
+	     (push li I-incls)) ))
+    (append incls I-incls)))
+
+(defun parse-cdb-get-misc-compiler-args (cmds)
+  "Given a list of compile commands, extract the local include arguments.
+
+   The -o and -c commands are removed, since they will not affect the parsing.
+
+  "
+  (let ((li nil)          ; The current list item.
+	(misc-args nil))  ; Misc. arguments used for the compilation
+    (while cmds
+      (setq li (pop cmds))
+      (cond ((and (string= li "-c")
+		  (setq li (pop cmds)))
+	     t)
+
+	    ((and (string= li "-o")
+		  (setq li (pop cmds)))
+	     t)
+
+	    ;; Valid misc. compile command. Add it to the list.
+	    (t (push li misc-args)) ))
+    (nreverse misc-args)))
+
+
+(defun remove-used-args (cmds used-args)
+  "Remove the used arguments in the given seqences.
+
+  "
+  (dolist (arg used-args)
+    (delete arg cmds)))
+
+
+(defun remove-used-arg-prefix (cmds prefix)
+  "Remove the used arguments with prefixes in the given seqences.
+
+  "
+  (dolist (p prefix)
+    (delete-if (lambda (str) (string-prefix-p p str)) cmds)))
