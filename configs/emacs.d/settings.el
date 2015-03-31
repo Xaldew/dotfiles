@@ -85,3 +85,6 @@
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
 (setq whitespace-style '(face empty lines-tail trailing))
 (global-whitespace-mode t)
+
+;; Use gdb-many-windows by default and start at the main routine.
+(setq gdb-many-windows t gdb-show-main t)
