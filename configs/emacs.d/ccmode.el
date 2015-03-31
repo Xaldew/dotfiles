@@ -6,16 +6,16 @@
  but only once per Emacs session.")
 (add-hook 'c-initialization-hook 'my-cc-init-hook)
 
-(defvar font-lock-format-specifier-face
-  'font-lock-format-specifier-face
-  "Face name to use for format specifiers.")
 
 (defface font-lock-format-specifier-face
   '((t (:foreground "OrangeRed1")))
   "Font Lock mode face used to highlight format specifiers."
   :group 'font-lock-faces)
+(defvar font-lock-format-specifier-face
+  'font-lock-format-specifier-face
+  "Face name to use for format specifiers.")
 
-;; Customizations for all modes in CC Mode.
+
 (defun my-cc-mode-common-hook ()
   "Setup common utilities for all C-like modes."
   (setq-local c-doc-comment-style
@@ -23,8 +23,8 @@
 		(pike-mode . autodoc)
 		(c-mode    . javadoc)
 		(c++-mode  . javadoc)))
-  (set-face-foreground 'font-lock-doc-face
-		       (face-foreground font-lock-comment-face))
+  (face-remap-add-relative 'font-lock-doc-face
+			   :foreground (face-foreground font-lock-comment-face))
   (font-lock-add-keywords
    nil
    '(("\\<\\(FIXME\\|TODO\\):?" 1 font-lock-warning-face prepend)
