@@ -45,6 +45,7 @@ sudo apt-get --quiet=2 install \
 sudo apt-get --quiet=2 install \
      python \
      python3 \
+     python-pip \
      python-pil \
      python-scipy \
      python-numpy \
