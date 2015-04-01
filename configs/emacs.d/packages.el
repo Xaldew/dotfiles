@@ -53,6 +53,9 @@
 		     ac-irony
 		     irony
 		     auto-complete-c-headers
+		     c-eldoc
+		     css-eldoc
+		     irony-eldoc
 		     ggtags
 		     csv-mode
 		     cuda-mode
