@@ -24,31 +24,30 @@ shopt -s expand_aliases
 export LC_ALL=en_US.utf8
 export LANG=en_US.utf8
 export SCRATCH="/scratch/\$USER"
-export WORKSPACE_DIR="/home/\$USER/git"
+export WORKSPACE_DIR="/work/mve/video"
 
 #source common module load script, located in the project folder:
-source \$WORKSPACE_DIR/mve6/script/bash/module_load.sh 2> /dev/null
+source \$WORKSPACE_DIR/systemtest/script/bash/module_load.sh 2> /dev/null
 
 #### Setup some variables
-export MODELSIM=\$WORKSPACE_DIR/mve6/modelsim.ini
+export MODELSIM=\$WORKSPACE_DIR/hardware/modelsim.ini
 export MTI=\${MODELTECH_HOME}
 export WORK=/work/\${USER}
 export DESIGNKIT=/projects/mpd/designkit/
 export LM_LICENSE_FILE=\$LM_LICENSE_FILE:7010@cam-lic3.cambridge.arm.com ;
-export STYX3_AVESW_PATH="/work/linux"
+export STYX3_AVESW_PATH="/work/mve/linux"
 export ARGUS_IPADDR=10.44.10.244
 
 #### Axi-tester
-export SPYGLASS_POLICIES=\$WORKSPACE_DIR/mve6/spyglass_policies
 export BUILDMAKEFLAGS="--silent -r"
 export PLATFORM=i686-linux
 export SVNROOT=http://lun-svn1.lund.arm.com/svn/mpd/video
 
 #### Put some utils in PATH:
 export PATH=\$WORKSPACE_DIR/asic/util/i686-linux:\$PATH
-export PATH=\$WORKSPACE_DIR/mve6/util/jm/jm14.0/bin:\$PATH
-export PATH=\$WORKSPACE_DIR/mve6/test/system/out/util-linux64:\$PATH
-export PATH=\$WORKSPACE_DIR/mve6/test/util/yuvtools:\$PATH
+export PATH=\$WORKSPACE_DIR/systemtest/util/jm/jm14.0/bin:\$PATH
+export PATH=\$WORKSPACE_DIR/systemtest/test/system/out/util-linux64:\$PATH
+export PATH=\$WORKSPACE_DIR/systemtest/test/util/yuvtools:\$PATH
 
 
 #### Load a few modules from /arm/tools/modulefiles
@@ -210,6 +209,9 @@ function set_arm_gitconfig()
     done
 }
 
+# If git is missing, perform module load git/git/v2.0.0.
+command -v git > /dev/null 2>&1 || module load git/git/1.8.3
+
 
 # Setup of TI2 (VIDEO) Environment Variables
 export MPDTI_V2_USER=guswal01
@@ -223,4 +225,7 @@ export PATH=/work/local/bin:\$PATH
 # Sets a more 'modern' termcap file for use with emacs, otherwise colors will be
 # messed up. Only needed at work.
 export TERMCAP=\$HOME/.termcap
+
+# Override the prompt override.
+source prompt.sh
 EOF
