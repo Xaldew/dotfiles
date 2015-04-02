@@ -227,5 +227,5 @@ export PATH=/work/local/bin:\$PATH
 export TERMCAP=\$HOME/.termcap
 
 # Override the prompt override.
-source prompt.sh
+source $DOTFILES_DIR/scripts/prompt.sh
 EOF
