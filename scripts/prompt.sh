@@ -1,7 +1,7 @@
 #!/bin/bash
 # Adds useful coloration and svn/git information to the prompt.
 
-source git-prompt.sh
+source $HOME/.local/bin/git-prompt.sh
 
 # Reset
 Color_Off='\[\e[0m\]'       # Text Reset
