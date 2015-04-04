@@ -3,8 +3,8 @@
 # like distributions.
 
 #### Install partner repositories
-sudo add-apt-repository ppa:xorg-edgers/ppa
-sudo add-apt-repository \
+sudo add-apt-repository --yes ppa:xorg-edgers/ppa
+sudo add-apt-repository --yes \
      "deb http://archive.canonical.com/ $(lsb_release -sc) partner"
 
 sudo apt-get update

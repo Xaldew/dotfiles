@@ -9,6 +9,7 @@
 [branch]
 	autosetuprebase = always
 [alias]
+	ad = add
 	co = checkout
 	st = status
 	sts = status -s
