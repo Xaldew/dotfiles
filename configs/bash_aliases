@@ -181,11 +181,25 @@ function euler ()
     return 0
 }
 
+
+# Merge the listed files into a single pdf called merged.pdf.
+function pdf-merge()
+{
+    gs \
+	-dBATCH \
+	-dNOPAUSE \
+	-dQUIET \
+	-sDEVICE=pdfwrite \
+	-sOutputFile=merged.pdf \
+	"$@"
+}
+
+
 # Function to extract a range of pdf-pages using ghostscript.
 # Courtesy of Kurt Pfeifle @ Linux Journal.
 function pdfpextr()
 {
-    # this function uses 3 arguments:
+    # This function uses 3 arguments:
     #     $1 is the input file
     #     $2 is the first page of the range to extract
     #     $3 is the last page of the range to extract
@@ -254,7 +268,8 @@ function greet_user()
     fi
 }
 
-function extract () {
+function extract ()
+{
     if [ -f $1 ] ; then
         case $1 in
             *.tar.bz2)        tar xjf $1        ;;
