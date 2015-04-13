@@ -111,3 +111,6 @@
   (define-key anaconda-mode-map
     [remap xref-find-definitions] 'anaconda-mode-goto))
 (add-hook 'python-mode-hook 'my/python-mode-hook)
+
+;; Add CSS-eldoc to the css-hook.
+(add-hook 'css-mode-hook 'turn-on-css-eldoc)
