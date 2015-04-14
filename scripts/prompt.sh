@@ -77,15 +77,23 @@ On_IPurple='\[\e[0;105m\]'  # Purple
 On_ICyan='\[\e[0;106m\]'    # Cyan
 On_IWhite='\[\e[0;107m\]'   # White
 
-parse_git_branch ()
+
+bzr_prompt_info()
 {
-    git name-rev HEAD 2> /dev/null 1> /dev/null && __git_ps1 "(git::%s)"
+    bzr_cb=$(bzr nick 2> /dev/null | \
+		    grep -v "ERROR" | \
+		    cut -d ":" -f2 | \
+		    awk -F / '{print " (bzr::"$1")"}')
+    if [ -n "$bzr_cb" ]; then
+	bzr_dirty=""
+	[[ -n `bzr status` ]] && bzr_dirty="${Red} *"
+	printf "%s" "$bzr_cb$bzr_dirty"
+    fi
 }
 
-parse_svn_branch()
+git_prompt_info()
 {
-    parse_svn_url | sed -e 's#^'"$(parse_svn_repository_root)"'##g' | \
-	awk '{print " (svn::"$1")" }'
+    git name-rev HEAD 2> /dev/null 1> /dev/null && __git_ps1 " (git::%s)"
 }
 
 parse_svn_url()
@@ -98,14 +106,36 @@ parse_svn_repository_root()
     svn info 2>/dev/null | sed -ne 's#^Repository Root: ##p'
 }
 
+parse_svn_branch()
+{
+    parse_svn_url |
+	sed -e 's#^'"$(parse_svn_repository_root)"'##g' |
+	sed "s|^/branches/||" |
+	awk '{print $1}'
+}
+
 parse_svn_rev()
 {
-    svn info 2>/dev/null | sed -ne 's#^Revision: ##p' | awk '{print "(svn::"$1")"}'
+    svn info 2>/dev/null | \
+	sed -ne 's#^Revision: ##p' | \
+	awk '{print $1}'
 }
+
+svn_prompt_info()
+{
+    branch=$(parse_svn_branch)
+    rev=$(parse_svn_rev)
+    if [ -n "$rev" ]; then
+	printf " (svn::%s::%s)" $rev $branch
+    fi
+}
+
+
 
 scm_status()
 {
-    printf "${Green}%s${Color_Off}" "$(parse_git_branch)$(parse_svn_rev)"
+    printf "${Green}%s${Color_Off}" \
+	   "$(git_prompt_info)$(svn_prompt_info)$(bzr_prompt_info)"
 }
 
 
@@ -159,7 +189,7 @@ esac
 set_prompt()
 {
     last_status=$?
-    PS1="[\u@\h(\j) \W "
+    PS1="[\u@\h(\j) \W"
     PS1+=$(scm_status)
     PS1+="]$(cmd_status ${last_status}) "
 }
