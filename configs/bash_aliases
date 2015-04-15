@@ -126,7 +126,9 @@ alias xfce-shortcuts="xfconf-query -c xfce4-keyboard-shortcuts -l -v | \
 cut -d'/' -f4 | awk '{printf \"%-30s\", \$2 ; print \"\\t\" \$1 }' | \
 sort | uniq"
 
-function dls () {
+
+function dls ()
+{
     # List directories.
     echo $(ls -l --color | grep "^d" | awk '{ print $9 }' | tr -d "/")
 }
@@ -217,6 +219,7 @@ function pdfpextr()
 	${input}
 }
 
+
 # Function to convert a PDF to grayscale.
 function pdfgray()
 {
@@ -238,6 +241,7 @@ function pdfgray()
 	${input}
 }
 
+
 # Function to find the dropbox folder.
 function find_dropbox()
 {
@@ -247,6 +251,7 @@ function find_dropbox()
 	echo $(tail -n 1 $HOME/.dropbox/host.db | base64 -d)
     fi
 }
+
 
 # Function to print a useful and funny ascii art.
 function greet_user()
@@ -268,7 +273,8 @@ function greet_user()
     fi
 }
 
-function extract ()
+
+function extract()
 {
     if [ -f $1 ] ; then
         case $1 in
@@ -289,19 +295,22 @@ function extract ()
     fi
 }
 
+
 # Create a tree implementation if not available.
 if [ -z "$(which tree)" ]; then
-    function tree ()
+    function tree()
     {
 	find $@ -print | sed -e 's;[^/]*/;|____;g;s;____|; |;g'
     }
 fi
+
 
 # Get your current shell
 function my-shell()
 {
     ps | grep `echo $$` | awk '{ print $4 }'
 }
+
 
 # Setup the firefox addon development environment.
 function firefox_dev()
@@ -319,6 +328,7 @@ function firefox_dev()
     cd $cwd
 }
 
+
 # Output a random signed integer.
 # Optional argument is the number of bytes to use for the number.
 function rand_int()
@@ -327,6 +337,7 @@ function rand_int()
     od --address-radix=n --format=d --read-bytes=$bytes /dev/urandom | \
 	sed -e 's/^[ \t]*//'
 }
+
 
 # Output a random signed integer.
 # Optional argument is the number of bytes to use for the number.
@@ -363,6 +374,7 @@ function git-dl()
     fi
     return $ret
 }
+
 
 function colors()
 {
