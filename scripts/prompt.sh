@@ -130,12 +130,18 @@ svn_prompt_info()
     fi
 }
 
-
+hg_prompt_info()
+{
+    hg prompt " (hg::{branch}{::{bookmark}}{status})" 2> /dev/null
+}
 
 scm_status()
 {
-    printf "${Green}%s${Color_Off}" \
-	   "$(git_prompt_info)$(svn_prompt_info)$(bzr_prompt_info)"
+    git=$(git_prompt_info)
+    svn=$(svn_prompt_info)
+    bzr=$(bzr_prompt_info)
+    hg=$(hg_prompt_info)
+    printf "${Green}%s${Color_Off}" "${git}${svn}${bzr}${hg}"
 }
 
 
