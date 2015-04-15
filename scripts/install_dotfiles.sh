@@ -15,10 +15,10 @@ ln -fs $DOTFILES_DIR/configs/gitignore $HOME/.gitignore
 rm --force $HOME/.hgrc
 (
     if [ ! -d $HOME/git/installs/hg-prompt ]; then
-	hg --quiet \
-	  clone http://bitbucket.org/sjl/hg-prompt/ $HOME/git/installs/hg-prompt
+	hg --quiet clone \
+	   http://bitbucket.org/sjl/hg-prompt $HOME/git/installs/hg-prompt
     fi
-) &
+)
 ln -fs $DOTFILES_DIR/configs/hgrc $HOME/.hgrc
 
 
