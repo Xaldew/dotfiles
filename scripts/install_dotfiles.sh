@@ -5,9 +5,22 @@
 ln -fs $DOTFILES_DIR/configs/inputrc $HOME/.inputrc
 ln -fs $DOTFILES_DIR/configs/bash_aliases $HOME/.bash_aliases
 
+
 # Install git and setup user gitconfig and gitignore.
 ln -fs $DOTFILES_DIR/configs/gitconfig $HOME/.gitconfig
 ln -fs $DOTFILES_DIR/configs/gitignore $HOME/.gitignore
+
+
+# Install Mercurial configurations.
+rm --force $HOME/.hgrc
+(
+    if [ ! -d $HOME/git/installs/hg-prompt ]; then
+	hg --quiet \
+	  clone http://bitbucket.org/sjl/hg-prompt/ $HOME/git/installs/hg-prompt
+    fi
+) &
+ln -fs $DOTFILES_DIR/configs/hgrc $HOME/.hgrc
+
 
 # Install tmux configuration and tmux plugin manager.
 ln -fs $DOTFILES_DIR/configs/tmux.conf $HOME/.tmux.conf

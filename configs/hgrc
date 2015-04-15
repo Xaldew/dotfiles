@@ -1,0 +1,5 @@
+[ui]
+username = Gustaf Waldemarson <gustaf.waldemarson@gmail.com>
+editor = emacsclient --tty --socket-name=default --alternate-editor="" "$@"
+[extensions]
+prompt = ~/git/installs/hg-prompt/prompt.py
