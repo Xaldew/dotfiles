@@ -210,6 +210,7 @@ function set_arm_gitconfig()
 }
 
 # If git is missing, perform module load git/git/v2.0.0.
+module unload git/git/v2.0.0
 command -v git > /dev/null 2>&1 || module load git/git/1.8.3
 
 
