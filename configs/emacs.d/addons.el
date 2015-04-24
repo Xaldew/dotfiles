@@ -72,8 +72,10 @@
 (add-hook 'python-mode-hook 'ac-anaconda-setup)
 (global-auto-complete-mode t)
 
+
 ;; Activate Magit.
 (require 'magit)
+(setq magit-last-seen-setup-instructions "1.4.0")
 
 ;; Add C-c h as toggle command for hide/show-comments.
 (require 'hide-comnt)
