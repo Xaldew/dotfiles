@@ -2,8 +2,6 @@
 (eval-when-compile
   (require 'newcomment))
 
-(provide 'pbrt-mode)
-
 ;; Allow users to run their own hooks.
 (defvar pbrt-mode-hook nil "User hooks for PBRT mode.")
 
@@ -220,5 +218,8 @@ WorldEnd
   (setq major-mode 'pbrt-mode)
   (setq mode-name "PBRT")
   (run-hooks 'pbrt-mode-hook))
+
+
+(provide 'pbrt-mode)
 
 ;;; pbrt-mode.el ends here

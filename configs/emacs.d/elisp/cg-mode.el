@@ -1,4 +1,4 @@
-;;; cg-mode.el --- mode for editing cg programs
+;;; cg-mode.el --- Mode for editing CG programs
 
 ;; Copyright (C) 2005
 
