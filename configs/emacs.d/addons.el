@@ -1,9 +1,10 @@
-;; Activate xclip addon.
-(require 'xclip)
-(xclip-mode 1)
+;; Activate xclip addon if available.
+(when (executable-find "xclip")
+  (require 'xclip)
+  (xclip-mode 1))
 
 
-;; Activate linum for neat line- and column numbers.
+;; Activate nlinum for line- and column numbers.
 (require 'nlinum)
 (global-nlinum-mode t)
 (setq nlinum-format "%5d ")
