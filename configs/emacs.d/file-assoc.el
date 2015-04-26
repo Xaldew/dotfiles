@@ -23,4 +23,4 @@
 (add-to-list 'auto-mode-alist '("[Ss][Cc]onscript\\'" . python-mode))
 
 ;; Associate PBRT files with pbrt-model.
-(add-to-list 'auto-mode-alist '("\\.pbrt\\'" . pbrt-mode))
+;(add-to-list 'auto-mode-alist '("\\.pbrt\\'" . pbrt-mode))

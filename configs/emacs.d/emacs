@@ -1,6 +1,6 @@
 ;; Load initial include-file functions.
-(add-to-list 'load-path "~/.emacs.d/elisp")
-(add-to-list 'load-path "~/.emacs.d/downloads")
+(add-to-list 'load-path (expand-file-name "~/.emacs.d/elisp"))
+(add-to-list 'load-path (expand-file-name "~/.emacs.d/downloads"))
 
 ;; Set path for Custom variables.
 (setq custom-file "~/.emacs.d/custom.el")
@@ -21,3 +21,9 @@
 (load-user-file "parse-cdb.el")
 ;;(load-user-file "latexmode.el")
 (load custom-file)
+
+;; Update and load autoload cookies for the local files.
+(let ((generated-autoload-file (expand-file-name
+				"~/.emacs.d/elisp/local-autoloads.el")))
+  (update-directory-autoloads (expand-file-name "~/.emacs.d/elisp"))
+  (load generated-autoload-file))

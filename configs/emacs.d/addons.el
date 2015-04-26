@@ -82,22 +82,8 @@
 (require 'hide-comnt)
 (global-set-key "\C-ch" 'hide/show-comments-toggle)
 
-;; Activate pbrt-mode.
-(autoload 'pbrt-mode "pbrt-mode" "PBRT Mode." t)
-
-;; Activate cg-mode.
-(autoload 'cg-mode "cg-mode" "CG Mode." t)
-
-;; Activate hlsl-mode.
-(autoload 'hlsl-mode "hlsl-mode" "HLSL Mode." t)
-
-;; Activate cmake mode for editting cmake files.
-(autoload 'cmake-mode "cmake-mode" "CMake Mode." t)
-
-;; Activate coffee-mode.
-(autoload 'coffee-mode "coffee-mode" "Coffee Mode." t)
+;; Change tab width for coffee-mode.
 (setq coffee-tab-width 4)
-
 
 ;; Add Pop-ups for Flycheck errors.
 (eval-after-load 'flycheck

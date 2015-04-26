@@ -52,8 +52,11 @@ done
 ln -fs $DOTFILES_DIR/configs/emacs.d/emacs $HOME/.emacs
 rm -f $HOME/.emacs.d/snippets
 ln -fs $DOTFILES_DIR/snippets $HOME/.emacs.d/snippets
-rm -f $HOME/.emacs.d/elisp
-ln -fs $DOTFILES_DIR/configs/emacs.d/elisp $HOME/.emacs.d/elisp
+mkdir --parents $HOME/.emacs.d/elisp/
+for elisp_file in $DOTFILES_DIR/configs/emacs.d/elisp/*.el
+do
+    ln -fs $elisp_file $HOME/.emacs.d/elisp/$(basename $elisp_file)
+done
 touch $HOME/.emacs.d/custom.el
 
 # Download the gitolite-conf-mode file.
