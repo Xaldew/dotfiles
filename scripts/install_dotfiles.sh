@@ -44,31 +44,34 @@ chmod 600 $HOME/.ssh/config
 ln -fs $DOTFILES_DIR/configs/latexmkrc $HOME/.latexmkrc
 
 # Install emacs configuration.
-mkdir --parents $HOME/.emacs.d $HOME/.emacs.d/downloads
-for elisp_file in $DOTFILES_DIR/configs/emacs.d/*.el
+mkdir --parents $HOME/.emacs.d $HOME/.emacs.d/elisp/
+for ef in $DOTFILES_DIR/configs/emacs.d/*.el
 do
-    ln -fs $elisp_file $HOME/.emacs.d/$(basename $elisp_file)
+    ln -fs $ef $HOME/.emacs.d/$(basename $ef)
 done
 ln -fs $DOTFILES_DIR/configs/emacs.d/emacs $HOME/.emacs
 rm -f $HOME/.emacs.d/snippets
 ln -fs $DOTFILES_DIR/snippets $HOME/.emacs.d/snippets
-mkdir --parents $HOME/.emacs.d/elisp/
-for elisp_file in $DOTFILES_DIR/configs/emacs.d/elisp/*.el
+for ef in $DOTFILES_DIR/configs/emacs.d/elisp/*.el
 do
-    ln -fs $elisp_file $HOME/.emacs.d/elisp/$(basename $elisp_file)
+    ln -fs $ef $HOME/.emacs.d/elisp/$(basename $ef)
 done
 touch $HOME/.emacs.d/custom.el
 
 # Download the gitolite-conf-mode file.
-if [ ! -r $HOME/.emacs.d/downloads/gl-conf-mode.el ]; then
-    git clone git://github.com/llloret/gitolite-emacs.git /tmp/gitolite-emacs
-    cp -r /tmp/gitolite-emacs/gl-conf-mode.el $HOME/.emacs.d/downloads/
+if [ ! -r "$HOME/.emacs.d/elisp/gl-conf-mode.el" ]; then
+    tmp=$(mktemp --directory)
+    git clone --quiet \
+	git://github.com/llloret/gitolite-emacs.git $tmp/gitolite-emacs
+    cp --force $tmp/gitolite-emacs/gl-conf-mode.el $HOME/.emacs.d/elisp/
 fi
 
 # Create vim data and plugin directories.
 mkdir --parents $HOME/.vim/
 if [ ! -d "$HOME/.vim/autoload" ]; then
-    git clone https://github.com/tpope/vim-pathogen.git /tmp/vim-pathogen
+    tmp=$(mktemp --directory)
+    git clone --quiet \
+	https://github.com/tpope/vim-pathogen.git $tmp/vim-pathogen
     cp -r /tmp/vim-pathogen/autoload $HOME/.vim/autoload
 fi
 ln -fs $DOTFILES_DIR/configs/vimrc $HOME/.vimrc
@@ -113,7 +116,8 @@ echo "source \$DOTFILES_DIR/configs/zsh/zshenv" >> $HOME/.zshenv
 # Install Prezto.
 mkdir --parents $HOME/.zsh
 if [ ! -d "$HOME/.zsh/.zprezto" ]; then
-    git clone --recursive https://github.com/sorin-ionescu/prezto.git \
+    git clone --quiet --recursive \
+	https://github.com/sorin-ionescu/prezto.git \
 	$HOME/.zsh/.zprezto
 fi
 
