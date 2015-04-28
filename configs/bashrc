@@ -78,8 +78,10 @@ export HISTCONTROL=ignoredups:erasedups
 GIT_PS1_SHOWDIRTYSTATE=true
 GIT_PS1_SHOWSTASHSTATE=true
 source $DOTFILES_DIR/scripts/prompt.sh
-source $DOTFILES_DIR/scripts/bashmarks.sh
 source $DOTFILES_DIR/scripts/get_distribution.sh
+source $HOME/.local/bin/bashmarks.sh
+source $HOME/.local/bin/git-completion.bash
+
 
 # Colors for less and man pages.
 export LESS="-r"
