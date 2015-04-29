@@ -49,7 +49,7 @@ for ef in $DOTFILES_DIR/configs/emacs.d/*.el
 do
     ln -fs $ef $HOME/.emacs.d/$(basename $ef)
 done
-ln -fs $DOTFILES_DIR/configs/emacs.d/emacs $HOME/.emacs
+ln -fs $DOTFILES_DIR/configs/emacs.d/init.el $HOME/.emacs
 rm -f $HOME/.emacs.d/snippets
 ln -fs $DOTFILES_DIR/snippets $HOME/.emacs.d/snippets
 for ef in $DOTFILES_DIR/configs/emacs.d/elisp/*.el

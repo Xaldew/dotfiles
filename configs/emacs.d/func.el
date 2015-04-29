@@ -1,8 +1,7 @@
 ;; This file contains various useful functions.
 
-;; This function indents and cleans up the whole buffer.
 (defun iwb ()
-  "Indent the whole buffer."
+  "Indent the whole buffer, fixing indentation and removes whitespace."
   (interactive)
   (delete-trailing-whitespace)
   (indent-region (point-min) (point-max) nil))
@@ -11,14 +10,13 @@
 (defun wst ()
   "White Space Toggling when in terminals."
   (interactive)
-  (if (and (boundp 'global-whitespace-mode) (boundp 'global-whitespace-mode))
-      (if (and global-whitespace-mode global-ethan-wspace-mode)
+  (if (and (boundp 'global-whitespace-mode)
+	   (boundp 'global-whitespace-mode))
+      (if global-whitespace-mode
 	  (progn
-	    (global-whitespace-mode -1)
-	    (global-ethan-wspace-mode -1))
+	    (global-whitespace-mode -1))
 	(progn
-	  (global-whitespace-mode)
-	  (global-ethan-wspace-mode)) ))
+	  (global-whitespace-mode))))
   (revert-buffer nil t))
 
 
@@ -84,32 +82,6 @@
    (format
     "find %s -name \"*.c\" -print -or -name \"*.h\" -print -or -name \"*.cpp\" |
  xargs etags --append" dir-name)))
-
-
-
-;; (defun find-file-upwards (file-to-find)
-;;   "Recursively searches each parent directory starting from the
-;; default-directory. looking for a file with name file-to-find.  Returns the path
-;; to it or nil if not found."
-;;   (labels
-;;       ((find-file-r (path)
-;; 		    (let* ((parent (file-name-directory path))
-;;                            (possible-file (concat parent file-to-find)))
-;;                       (cond
-;;                        ((file-exists-p possible-file) possible-file) ; Found
-;; 		       ;; The parent of ~ is nil and the parent of / is itself.
-;; 		       ;; Thus the terminating condition for not finding the
-;; 		       ;; file accounts for both.
-;; 		       ((or (null parent)
-;; 			    (equal parent (directory-file-name parent))) nil)
-;; 					; Not found
-;;                        (t (find-file-r (directory-file-name parent)))))))
-;; 					; Continue
-;;     (find-file-r default-directory)))
-;; (let ((my-tags-file (find-file-upwards "TAGS")))
-;;   (when my-tags-file
-;;     (message "Loading tags file: %s" my-tags-file)
-;;     (visit-tags-table my-tags-file)))
 
 
 ;; (defun find-next-func ()

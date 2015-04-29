@@ -96,6 +96,12 @@
   "My python mode hook."
   (anaconda-mode)
   (eldoc-mode)
+  (setq-local whitespace-style '(face
+				 tabs
+				 tab-mark
+				 indentation
+				 indentation::space
+				 trailing))
   ;; Define a fix for the re-mapping of find-tag.
   (define-key anaconda-mode-map
     [remap xref-find-definitions] 'anaconda-mode-goto))

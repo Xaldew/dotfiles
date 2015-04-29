@@ -1,5 +1,9 @@
 ;; Do not display the menu-bar.
-(menu-bar-mode 0)
+(menu-bar-mode -1)
+
+;; Don't show the scroll bars.
+(when (fboundp 'scroll-bar-mode)
+  (scroll-bar-mode -1))
 
 ;; Set the default fill-column.
 (setq-default fill-column 80)
@@ -77,6 +81,14 @@
 (setq read-buffer-completion-ignore-case t)
 (setq read-file-name-completion-ignore-case t)
 (setq completion-ignore-case t)
+
+
+;; Set various clipboard management variables.
+(setq x-select-enable-clipboard-manager t)
+(setq x-select-enable-primary t)
+(setq save-interprogram-paste-before-kill t)
+(setq mouse-yank-at-point t)
+
 
 ;; Activate whitespace: Mark lines longer than 80 columns.
 ;; Note that to disable whitespace mode while in a terminal, you must evalute
