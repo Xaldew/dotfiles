@@ -61,6 +61,11 @@
 		     csv-mode
 		     cuda-mode
 		     coffee-mode
+		     projectile
+		     clojure-mode
+		     clojure-mode-extra-font-locking
+		     cider
+		     rainbow-delimiters
 		     markdown-mode))
 
 ;; Create an alist of where we should retrieve certain packages.

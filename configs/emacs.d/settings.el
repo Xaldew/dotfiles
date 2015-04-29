@@ -24,6 +24,10 @@
 (setq auto-save-file-name-transforms
       `((".*" ,temporary-file-directory t)))
 
+;; Changes all yes/no questions to y/n type.
+(fset 'yes-or-no-p 'y-or-n-p)
+
+
 ;; Fix dictionaries for Aspell.
 (setq ispell-program-name "aspell")
 ;; (setq ispell-process-directory (expand-file-name "~/"))

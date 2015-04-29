@@ -110,3 +110,8 @@
 
 ;; Add CSS-eldoc to the css-hook.
 (add-hook 'css-mode-hook 'turn-on-css-eldoc)
+(add-hook 'css-mode-hook 'rainbow-mode)
+
+
+;; Add rainbow-delimiter-mode to most programming modes.
+(add-hook 'prog-mode-hook #'rainbow-delimiters-mode)
