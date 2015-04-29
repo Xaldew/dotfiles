@@ -94,6 +94,7 @@
 ;; Activate anaconda-mode.
 (defun my/python-mode-hook ()
   "My python mode hook."
+  (highlight-indentation-mode)
   (anaconda-mode)
   (eldoc-mode)
   (setq-local whitespace-style '(face
