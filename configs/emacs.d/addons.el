@@ -114,4 +114,7 @@
 
 
 ;; Add rainbow-delimiter-mode to most programming modes.
-(add-hook 'prog-mode-hook #'rainbow-delimiters-mode)
+;;(add-hook 'prog-mode-hook #'rainbow-delimiters-mode)
+(add-hook 'c-mode-common-hook #'rainbow-delimiters-mode)
+(add-hook 'python-mode-hook #'rainbow-delimiters-mode)
+(add-hook 'emacs-lisp-mode-hook #'rainbow-delimiters-mode)
