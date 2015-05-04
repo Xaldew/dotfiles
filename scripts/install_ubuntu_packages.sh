@@ -35,10 +35,11 @@ sudo apt-get --quiet=2 install \
      valgrind \
      automake \
      autoconf \
+     libtool \
+     libtool-bin \
      cmake \
      doxygen \
      ccache \
-     global \
      silversearcher-ag
 
 # Install Python and utilities.

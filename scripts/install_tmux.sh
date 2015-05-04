@@ -6,7 +6,7 @@ sudo apt-get --quiet=2 install libevent-dev libncurses5-dev
 mkdir --parents $HOME/git/installs $HOME/.local
 cd $HOME/git/installs
 
-if [ -d $HOME/git/installs/emacs ]; then
+if [ -d $HOME/git/installs/tmux ]; then
     cd $HOME/git/installs/tmux
     make distclean
     git clean --force
