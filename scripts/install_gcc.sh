@@ -12,15 +12,13 @@ if [ -d $HOME/git/installs/gcc ]; then
     cd $HOME/git/installs/gcc
     git pull
 else
-    git clone git://gcc.gnu.org/git/gcc.git
+    git clone --depth 1000 git://gcc.gnu.org/git/gcc.git
 fi
 
-cd $HOME/git/installs/emacs
-sh autogen.sh
+cd $HOME/git/installs/gcc
 ./configure --prefix=$HOME/.local \
 	    --mandir=$HOME/.local/share/man \
-	    --enable-link-time-optimization \
-	    --with-imagemagick \
-	    --with-x-toolkit=lucid
+	    --enable-gold=yes \
+	    --enable-lto
 make -j
 make install
