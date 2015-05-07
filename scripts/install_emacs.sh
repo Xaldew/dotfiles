@@ -18,6 +18,8 @@ if [ -d $HOME/git/installs/emacs ]; then
     cd $HOME/git/installs/emacs
     make distclean
     git clean --force
+    find -name *.elc -type f -print | xargs rm --force
+    find -name *.loaddefs.el? -type f -print | xargs rm --force
     git checkout -B master remotes/origin/master
     git pull
     git checkout -B emacs-24 remotes/origin/emacs-24
@@ -35,13 +37,15 @@ sh autogen.sh
 	    --enable-link-time-optimization \
 	    --with-imagemagick \
 	    --with-x-toolkit=lucid
-make -j
+make -j4
 make install
 
 
 # Compile and install the latest Emacs.
 make distclean
 git clean --force
+find -name *.elc -type f -print | xargs rm --force
+find -name *.loaddefs.el? -type f -print | xargs rm --force
 git checkout -B master origin/master
 sh autogen.sh
 ./configure --prefix=$HOME/.local \
@@ -49,5 +53,5 @@ sh autogen.sh
 	    --enable-link-time-optimization \
 	    --with-imagemagick \
 	    --with-x-toolkit=lucid
-make -j
+make -j4
 make install
