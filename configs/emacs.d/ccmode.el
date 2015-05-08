@@ -1,9 +1,8 @@
 ;; Setup settings used in C-like languages such as C/C++/Java.
 
-;; Activate Javadoc comment highlighting for C and C++.
 (defun my-cc-init-hook ()
   "Initialization hook for CC-mode runs before any other hooks,
- but only once per Emacs session.")
+   but only once per Emacs session.")
 (add-hook 'c-initialization-hook 'my-cc-init-hook)
 
 
@@ -32,6 +31,5 @@
      ("\\<\\(true\\|false\\|NULL\\)" . font-lock-constant-face)
      ;; Add a printf() modifier highlighter.
      ("[^%]\\(%\\([[:digit:]]+\\$\\)?[-+' #0*]*\\([[:digit:]]*\\|\\*\\|\\*[[:digit:]]+\\$\\)\\(\\.\\([[:digit:]]*\\|\\*\\|\\*[[:digit:]]+\\$\\)\\)?\\([hlLjzt]\\|ll\\|hh\\)?\\([aAbdiuoxXDOUfFeEgGcCsSpn]\\|\\[\\^?.[^]]*\\]\\)\\)"
-      1 font-lock-format-specifier-face prepend))) )
-
+      1 font-lock-format-specifier-face prepend))))
 (add-hook 'c-mode-common-hook 'my-cc-mode-common-hook)
