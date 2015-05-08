@@ -1,13 +1,16 @@
 ;; This file contains various useful functions.
 
-(defun iwb ()
+
+(defun indent-whole-buffer ()
   "Indent the whole buffer, fixing indentation and removes whitespace."
   (interactive)
   (delete-trailing-whitespace)
   (indent-region (point-min) (point-max) nil))
 
+(defalias 'iwb 'indent-whole-buffer)
 
-(defun wst ()
+
+(defun terminal-whitespace-toggle ()
   "White Space Toggling when in terminals."
   (interactive)
   (if (and (boundp 'global-whitespace-mode)
@@ -18,6 +21,8 @@
 	(progn
 	  (global-whitespace-mode))))
   (revert-buffer nil t))
+
+(defalias 'iwb 'terminal-whitespace-toggle)
 
 
 (defun hardcopy ()
