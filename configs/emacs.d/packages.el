@@ -1,20 +1,14 @@
 ;; If we are using an appropriate emacs, install packages from
 ;; repositories.
-(require 'package)
+(add-to-list 'package-archives
+	     '("gnu" . "http://elpa.gnu.org/packages/"))
 (add-to-list 'package-archives
 	     '("marmalade" . "http://marmalade-repo.org/packages/"))
 (add-to-list 'package-archives
 	     '("elpa" . "http://tromey.com/elpa/"))
 (add-to-list 'package-archives
-             '("melpa" . "http://melpa.org/packages/") t)
+             '("melpa" . "http://melpa.org/packages/"))
 
-
-;; Needed for important compatibility libraries like cl-lib.
-(when (< emacs-major-version 24)
-  (add-to-list 'package-archives '("gnu" . "http://elpa.gnu.org/packages/")))
-
-;; Activate package library.
-(package-initialize)
 
 ;; Create a list of packages we want to be installed.
 (setq package-list '(ecb
@@ -66,7 +60,10 @@
 		     clojure-mode-extra-font-locking
 		     cider
 		     rainbow-delimiters
+		     zenburn-theme
+		     sublime-themes
 		     markdown-mode))
+
 
 ;; Create an alist of where we should retrieve certain packages.
 (setq package-pinned-packages
@@ -81,4 +78,4 @@
   (unless (package-installed-p package)
     (condition-case nil
 	(package-install package)
-      (error (message "[ERROR]: Failed to install package: %s." package))) ))
+      (error (message "[ERROR]: Failed to install package: %s." package)))))

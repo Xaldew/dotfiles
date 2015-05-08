@@ -24,6 +24,9 @@
 
 ;; Attempt to load packages and their configuration settings.
 (when (>= emacs-major-version 24)
+  ;; Activate package library.
+  (require 'package)
+  (package-initialize)
   (load-user-file "packages.el")
   (load-user-file "addons.el"))
 
