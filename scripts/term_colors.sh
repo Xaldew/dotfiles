@@ -11,7 +11,7 @@ done
 printf "\e[0m\n\n"
 
 
-printf "6x6x6 Color cube\n"
+printf "6x6x6 Color cube:\n"
 cat <<EOF
 
         _ -> Green
@@ -29,7 +29,7 @@ for i in `seq 0 5`; do
     for j in `seq 0 5`; do
 	for k in `seq 0 5`; do
 	    printf "\e[48;5;%sm  " "$l"
-	    l=$((l + 1))
+	    : $((l = l + 1))
 	done
 	printf "\e[0m "
     done
@@ -43,6 +43,55 @@ for i in `seq 232 255`; do
     printf "\e[48;5;%sm  " "$i"
 done
 printf "\e[0m\n\n"
+
+printf "Red ramp:\n"
+for i in `seq 16 36 196`; do
+    printf "\e[48;5;%sm  " "$i"
+done
+printf "\e[0m\n\n"
+
+printf "Green ramp:\n"
+for i in `seq 16 6 46`; do
+    printf "\e[48;5;%sm  " "$i"
+done
+printf "\e[0m\n\n"
+
+printf "Blue ramp:\n"
+for i in `seq 16 1 21`; do
+    printf "\e[48;5;%sm  " "$i"
+done
+printf "\e[0m\n\n"
+
+
+printf "4x4x4 Color cube:\n"
+l=16
+for i in `seq 0 3`; do
+    for j in `seq 0 3`; do
+	for k in `seq 0 3`; do
+	    printf "\e[48;5;%sm  " "$l"
+	    : $((l = l + 1))
+	done
+	printf "\e[0m "
+    done
+    printf "\e[0m\n"
+done
+printf "\e[0m\n"
+
+
+
+
+
+# printf "Truecolor Test:\n"
+# for r in `seq 0 64 255`; do
+#     for g in `seq 0 64 255`; do
+# 	for b in `seq 0 64 255`; do
+# 	    printf "\e[48;2;%s;%s;%sm " "$i" "$j" "$k"
+# 	done
+# 	printf "\n"
+#     done
+# done
+# printf "\e[0m\n\n"
+
 
 
 lerp()
@@ -68,34 +117,3 @@ rgb2term()
 
 
 printf "%s\n" "$(lerp 0.5 0 1 0 5)"
-
-
-
-printf "Red ramp:\n"
-for i in `seq 16 36 196`; do
-    printf "\e[48;5;%sm  " "$i"
-done
-printf "\e[0m\n\n"
-
-printf "Green ramp:\n"
-for i in `seq 16 6 46`; do
-    printf "\e[48;5;%sm  " "$i"
-done
-printf "\e[0m\n\n"
-
-printf "Blue ramp:\n"
-for i in `seq 16 1 21`; do
-    printf "\e[48;5;%sm  " "$i"
-done
-printf "\e[0m\n\n"
-
-printf "Truecolor Test:\n"
-for r in `seq 0 64 255`; do
-    for g in `seq 0 64 255`; do
-	for b in `seq 0 64 255`; do
-	    printf "\e[48;2;%s;%s;%sm " "$i" "$j" "$k"
-	done
-	printf "\n"
-    done
-done
-printf "\e[0m\n\n"
