@@ -17,6 +17,9 @@ fi
 
 cd $HOME/git/installs/tmux
 sh autogen.sh
-./configure --prefix=$HOME/.local --mandir=$HOME/.local/share/man
-make -j
+./configure \
+    --prefix=$HOME/.local \
+    --mandir=$HOME/.local/share/man \
+    --enable-static
+make -j4
 make install
