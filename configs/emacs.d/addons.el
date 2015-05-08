@@ -77,6 +77,7 @@
 ;; Activate Magit.
 (require 'magit)
 (setq magit-last-seen-setup-instructions "1.4.0")
+(add-to-list 'auto-mode-alist '("gitignore\\'" . gitignore-mode))
 
 ;; Add C-c h as toggle command for hide/show-comments.
 (require 'hide-comnt)
