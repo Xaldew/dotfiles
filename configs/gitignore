@@ -19,7 +19,7 @@ desktop.ini	     # Windows desktop variables.
 # Ignore certain configuration files.
 .emacs.d/
 
-# Ignore c/cpp binaries.
+# Ignore C/C++ binaries.
 *.out
 *.o
 
@@ -29,6 +29,7 @@ desktop.ini	     # Windows desktop variables.
 
 # Ignore out-of-source build folders.
 /*build*/
+out/
 
 # Ignore flycheck temporaries.
 flycheck*
@@ -38,3 +39,7 @@ TAGS
 GPATH
 GTAGS
 GRTAGS
+
+# Ignore compilation database files.
+compile_commands.json
+complete_cdb.json
