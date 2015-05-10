@@ -11,7 +11,7 @@ done
 printf "\e[0m\n\n"
 
 
-printf "6x6x6 Color cube:\n"
+printf "256-colors: 6x6x6 Color cube:\n"
 cat <<EOF
 
         _ -> Green
@@ -38,32 +38,32 @@ done
 printf "\e[0m\n"
 
 
-printf "Greyscale ramp:\n"
+printf "256-colors: Greyscale ramp:\n"
 for i in `seq 232 255`; do
     printf "\e[48;5;%sm  " "$i"
 done
 printf "\e[0m\n\n"
 
-printf "Red ramp:\n"
+printf "256-colors: Red ramp:\n"
 for i in `seq 16 36 196`; do
     printf "\e[48;5;%sm  " "$i"
 done
 printf "\e[0m\n\n"
 
-printf "Green ramp:\n"
+printf "256-colors: Green ramp:\n"
 for i in `seq 16 6 46`; do
     printf "\e[48;5;%sm  " "$i"
 done
 printf "\e[0m\n\n"
 
-printf "Blue ramp:\n"
+printf "256-Colors: Blue ramp:\n"
 for i in `seq 16 1 21`; do
     printf "\e[48;5;%sm  " "$i"
 done
 printf "\e[0m\n\n"
 
 
-printf "4x4x4 Color cube:\n"
+printf "\n88-colors: 4x4x4 Color cube:\n"
 l=16
 for i in `seq 0 3`; do
     for j in `seq 0 3`; do
@@ -78,7 +78,29 @@ done
 printf "\e[0m\n"
 
 
+printf "88-colors: Greyscale ramp:\n"
+for i in `seq 80 88`; do
+    printf "\e[48;5;%sm  " "$i"
+done
+printf "\e[0m\n\n"
 
+printf "88-colors: Red ramp:\n"
+for i in `seq 16 16 79`; do
+    printf "\e[48;5;%sm  " "$i"
+done
+printf "\e[0m\n\n"
+
+printf "88-colors: Green ramp:\n"
+for i in `seq 16 4 31`; do
+    printf "\e[48;5;%sm  " "$i"
+done
+printf "\e[0m\n\n"
+
+printf "88-Colors: Blue ramp:\n"
+for i in `seq 16 1 19`; do
+    printf "\e[48;5;%sm  " "$i"
+done
+printf "\e[0m\n\n"
 
 
 # printf "Truecolor Test:\n"
