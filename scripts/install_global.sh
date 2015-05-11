@@ -21,6 +21,10 @@ fi
 
 cd $HOME/git/installs/global
 sh reconf.sh
-./configure --prefix=$HOME/.local --mandir=$HOME/.local/share/man
+./configure \
+    --prefix=$HOME/.local \
+    --mandir=$HOME/.local/share/man \
+    --with-exuberant-ctags=ex-ctags
+
 make -j
 make install
