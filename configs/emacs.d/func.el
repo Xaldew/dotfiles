@@ -22,7 +22,7 @@
 	  (global-whitespace-mode))))
   (revert-buffer nil t))
 
-(defalias 'iwb 'terminal-whitespace-toggle)
+(defalias 'wst 'terminal-whitespace-toggle)
 
 
 (defun hardcopy ()
