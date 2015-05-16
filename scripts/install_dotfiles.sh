@@ -2,57 +2,57 @@
 # Install links and files for configuring my configuration.
 
 # Install all configuration files and plugins.
-ln -fs $DOTFILES_DIR/configs/inputrc $HOME/.inputrc
-ln -fs $DOTFILES_DIR/configs/bash_aliases $HOME/.bash_aliases
+ln -fs $dotfiles_dir/configs/inputrc $HOME/.inputrc
+ln -fs $dotfiles_dir/configs/bash_aliases $HOME/.bash_aliases
 
 
 # Install git and setup user gitconfig and gitignore.
-ln -fs $DOTFILES_DIR/configs/gitconfig $HOME/.gitconfig
-ln -fs $DOTFILES_DIR/configs/gitignore $HOME/.gitignore
+ln -fs $dotfiles_dir/configs/gitconfig $HOME/.gitconfig
+ln -fs $dotfiles_dir/configs/gitignore $HOME/.gitignore
 
 
 # Install Mercurial configurations.
 rm --force $HOME/.hgrc
 (
-    if [ ! -d $HOME/git/installs/hg-prompt ]; then
+    if [ ! -d $objects_dir/hg-prompt ]; then
 	hg --quiet clone \
-	   http://bitbucket.org/sjl/hg-prompt $HOME/git/installs/hg-prompt
+	   http://bitbucket.org/sjl/hg-prompt $objects_dir/hg-prompt
     fi
 )
-ln -fs $DOTFILES_DIR/configs/hgrc $HOME/.hgrc
+ln -fs $dotfiles_dir/configs/hgrc $HOME/.hgrc
 
 
 # Install tmux configuration and tmux plugin manager.
-ln -fs $DOTFILES_DIR/configs/tmux.conf $HOME/.tmux.conf
+ln -fs $dotfiles_dir/configs/tmux.conf $HOME/.tmux.conf
 if [ ! -d "$HOME/.tmux/plugins/tpm" ]; then
     git clone https://github.com/tmux-plugins/tpm $HOME/.tmux/plugins/tpm
 fi
 
 # Install .screenrc.
-ln -fs $DOTFILES_DIR/configs/screenrc $HOME/.screenrc
+ln -fs $dotfiles_dir/configs/screenrc $HOME/.screenrc
 mkdir --parents $HOME/.screen/
 
 # Install Xresources.
-ln -fs $DOTFILES_DIR/configs/Xresources $HOME/.Xresources
+ln -fs $dotfiles_dir/configs/Xresources $HOME/.Xresources
 
 # Install .ssh config.
 mkdir --parents $HOME/.ssh
-cp --force $DOTFILES_DIR/configs/ssh_config $HOME/.ssh/config
+cp --force $dotfiles_dir/configs/ssh_config $HOME/.ssh/config
 chmod 600 $HOME/.ssh/config
 
 # Install latexmk configuration.
-ln -fs $DOTFILES_DIR/configs/latexmkrc $HOME/.latexmkrc
+ln -fs $dotfiles_dir/configs/latexmkrc $HOME/.latexmkrc
 
 # Install emacs configuration.
 mkdir --parents $HOME/.emacs.d $HOME/.emacs.d/elisp/
-for ef in $DOTFILES_DIR/configs/emacs.d/*.el
+for ef in $dotfiles_dir/configs/emacs.d/*.el
 do
     ln -fs $ef $HOME/.emacs.d/$(basename $ef)
 done
-ln -fs $DOTFILES_DIR/configs/emacs.d/init.el $HOME/.emacs
+ln -fs $dotfiles_dir/configs/emacs.d/init.el $HOME/.emacs
 rm -f $HOME/.emacs.d/snippets
-ln -fs $DOTFILES_DIR/snippets $HOME/.emacs.d/snippets
-for ef in $DOTFILES_DIR/configs/emacs.d/elisp/*.el
+ln -fs $dotfiles_dir/snippets $HOME/.emacs.d/snippets
+for ef in $dotfiles_dir/configs/emacs.d/elisp/*.el
 do
     ln -fs $ef $HOME/.emacs.d/elisp/$(basename $ef)
 done
@@ -74,33 +74,39 @@ if [ ! -d "$HOME/.vim/autoload" ]; then
 	https://github.com/tpope/vim-pathogen.git $tmp/vim-pathogen
     cp -r /tmp/vim-pathogen/autoload $HOME/.vim/autoload
 fi
-ln -fs $DOTFILES_DIR/configs/vimrc $HOME/.vimrc
+ln -fs $dotfiles_dir/configs/vimrc $HOME/.vimrc
 
 # Setup aspell configuration and additional dictionaries.
 rm -f $HOME/.dicts
-ln -fs $DOTFILES_DIR/configs/dicts $HOME/.dicts
+ln -fs $dotfiles_dir/configs/dicts $HOME/.dicts
 
 # Create directories for local utilities.
 mkdir --parents \
-      $HOME/.local \
-      $HOME/.local/bin \
-      $HOME/.local/share/man
+      $objects_dir \
+      $objects_dir/bin \
+      $objects_dir/share/man
 
 # Create a bashrc file with links to the script directories.
 echo "# Don't edit this file, rerun install.sh to update." > $HOME/.bashrc
-echo "DOTFILES_DIR="${DOTFILES_DIR} >> $HOME/.bashrc
-echo "source \$DOTFILES_DIR/configs/bashrc" >> $HOME/.bashrc
+echo "dotfiles_dir="${dotfiles_dir} >> $HOME/.bashrc
+echo "objects_dir="${objects_dir} >> $HOME/.bashrc
+echo "local_prefix_dir="${local_prefix_dir} >> $HOME/.bashrc
+echo "source \$dotfiles_dir/configs/bashrc" >> $HOME/.bashrc
 
 # Create a profile file with links to the dotfile version.
 echo "# Don't edit this file, rerun install.sh to update." > $HOME/.profile
-echo "DOTFILES_DIR="${DOTFILES_DIR} >> $HOME/.profile
-echo ". \$DOTFILES_DIR/configs/profile" >> $HOME/.profile
+echo "dotfiles_dir="${dotfiles_dir} >> $HOME/.profile
+echo "objects_dir="${objects_dir} >> $HOME/.profile
+echo "local_prefix_dir="${local_prefix_dir} >> $HOME/.profile
+echo ". \$dotfiles_dir/configs/profile" >> $HOME/.profile
 
 # Create a zshrc file with links to the script directories.
 echo "# Don't edit this file, rerun install.sh to update." > $HOME/.zshenv
-echo "DOTFILES_DIR="${DOTFILES_DIR} >> $HOME/.zshenv
+echo "dotfiles_dir="${dotfiles_dir} >> $HOME/.zshenv
 echo "ZDOTDIR=\$HOME/.zsh" >> $HOME/.zshenv
-echo "source \$DOTFILES_DIR/configs/zsh/zshenv" >> $HOME/.zshenv
+echo "objects_dir="${objects_dir} >> $HOME/.zshenv
+echo "local_prefix_dir="${local_prefix_dir} >> $HOME/.zshenv
+echo "source \$dotfiles_dir/configs/zsh/zshenv" >> $HOME/.zshenv
 
 # Install Prezto.
 mkdir --parents $HOME/.zsh
@@ -111,7 +117,7 @@ if [ ! -d "$HOME/.zsh/.zprezto" ]; then
 fi
 
 # Create symlinks to configuration files.
-for rc in $DOTFILES_DIR/configs/zsh/*;
+for rc in $dotfiles_dir/configs/zsh/*;
 do
     ln -fs "$rc" "$HOME/.zsh/.$(basename $rc)"
 done

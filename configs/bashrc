@@ -77,10 +77,11 @@ export HISTCONTROL=ignoredups:erasedups
 # Add useful bash specific shell-functions.
 GIT_PS1_SHOWDIRTYSTATE=true
 GIT_PS1_SHOWSTASHSTATE=true
-source $DOTFILES_DIR/scripts/prompt.sh
-source $DOTFILES_DIR/scripts/get_distribution.sh
-source $HOME/.local/bin/bashmarks.sh
-source $HOME/.local/bin/git-completion.bash
+source $dotfiles_dir/scripts/prompt.sh
+source $dotfiles_dir/scripts/get_distribution.sh
+source $dotfiles_dir/scripts/yank_readline.sh
+source $local_prefix_dir/bin/bashmarks.sh
+source $local_prefix_dir/bin/git-completion.bash
 
 
 # Colors for less and man pages.

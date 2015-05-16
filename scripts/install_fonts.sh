@@ -2,7 +2,7 @@
 # Installs some nice fonts.
 
 # Create font directory and a working directory.
-mkdir -p $HOME/.fonts
+mkdir --parents $HOME/.fonts
 tmpdir=$(mktemp --directory)
 
 # Download and install Adobe Source Code Pro.

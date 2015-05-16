@@ -1,142 +1,153 @@
 #!/usr/bin/env bash
 # Install the utility scripts for a new computer or VM.
 # Parse the given arguments, and determine what to do from there.
-# @TODO: Calculate the length of the flags and descriptions.
-# @TODO: Longer descriptions should wrap appropriately.
 
 # Figure out where we have placed the script.
-DOTFILES_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+dotfiles_dir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
 # Put all arguments in a proper array for processing.
-arguments=("$@")
+args=("$@")
 
-# Linked options.
-nlinked_options=7
-declare -a short_options=(-h -i -d -a -f -w -c)
-declare -a long_options=(
-    --help
-    --install-packages
-    --dotfiles
-    --autostart
-    --install-fonts
-    --work-config
-    --clean
-)
-declare -a descriptions=(
-    "Display this help screen."
-    "Enable installation of software packages."
-    "Enable installation of dotfiles."
-    "Enable installation of autostart files."
-    "Enable installation of font files."
-    "Enable installation of work configuration."
-    "Clean up all the previously installed configurations."
-)
-
-# linked options lengths.
-short_length=5
-long_length=25
-desc_length=50
-
-function convert-options()
+print-help()
 {
-    # Convert each argument to their long format equivalent.
-    for ((i=0; i < ${#arguments[@]}; ++i));
-    do
-	arg=${arguments[i]}
-	for ((j=0; j < ${#short_options[@]}; ++j));
-	do
-    	    if [ "$arg" == "${short_options[j]}" ]; then
-    		arguments[i]=${long_options[j]}
-    	    fi
-	done
-    done
+    cat <<EOF
+    -h         --help                Display this help text.
 
-    # Verify that all arguments has been converted and exists.
-    for ((i=0; i < ${#arguments[@]}; ++i));
-    do
-	found=0
-	arg=${arguments[i]}
-	for ((j=0; j < ${#long_options[@]}; ++j));
-	do
-    	    if [ "$arg" == "${long_options[j]}" ]; then
-    		arguments[i]=${long_options[j]}
-       		found=1
-    	    fi
-	done
+    -i         --install-packages    Enable installation of repository software
+                                     packages.
 
-	# Exit if argument wasn't found. not found.
-	if [ $found -eq 0 ]; then
-	    echo "Unrecognized argument: $arg"
-	    help
-	fi
+    -d         --dotfiles            Install all configuration dotfiles."
 
-    done
+    -a         --autostart           Install autostart programs.
 
-    return 0
+    -f         --fonts               Install extra fonts.
+
+    -w         --work                Install the configuration used at work.
+
+    -c         --clean               Clean up all the previously installed
+                                     configuration.
+
+    -o DIR     --objects DIR         Set the directory to use for compiled
+                                     objects and external tools.
+                                     Default: "$HOME/git/installs" or the
+                                     environment variable "objects_dir".
+
+    -l DIR     --local-prefix DIR    Set the local prefix for binaries and man
+                                     pages.
+                                     Default: "$HOME/.local/" or the environment
+                                     variable "local_prefix_dir".
+
+    -tc NUM    --colors NUM          Force the use of 8, 16, 88 or 256 colors
+                                     in the terminal windows. Any other values
+                                     are invalid.
+
+    -r DIR     --ram-disk DIR        Select a directory to setup as a RAMDISK.
+                                     (Not yet implemented.)
+
+EOF
+    exit 1
 }
 
-function help()
+defaults()
 {
-    for ((i=0; i < $nlinked_options; ++i));
-    do
-	printf "%-*s %-*s %-*s\n" \
-	    ${short_length} ${short_options[i]} \
-	    ${long_length} ${long_options[i]}  \
-	    ${desc_length} "${descriptions[i]}"
-    done
-    exit 0
+    objects_dir=${objects_dir-"$HOME/git/installs"}
+    local_prefix_dir=${local_prefix_dir-"$HOME/.local"}
 }
 
-function install-packages()
+
+install-packages()
 {
     echo "Installing software packages."
-    source $DOTFILES_DIR/scripts/install_packages.sh
+    . $dotfiles_dir/scripts/install_packages.sh
     return 0
 }
 
-function dotfiles()
+dotfiles()
 {
     echo "Installing dotfiles."
-    source $DOTFILES_DIR/scripts/install_dotfiles.sh
+    . $dotfiles_dir/scripts/install_dotfiles.sh
     return 0
 }
 
-function autostart()
+autostart()
 {
     echo "Adding autostart files."
-    source $DOTFILES_DIR/scripts/install_autostart.sh
+    . $dotfiles_dir/scripts/install_autostart.sh
     return 0
 }
 
-function install-fonts()
+install-fonts()
 {
     echo "Installing fonts."
-    source $DOTFILES_DIR/scripts/install_fonts.sh
+    . $dotfiles_dir/scripts/install_fonts.sh
     return 0
 }
 
-function work-config()
+work-config()
 {
     echo "Installing (ARM) work configuration."
-    source $DOTFILES_DIR/scripts/install_arm.sh
+    . $dotfiles_dir/scripts/install_arm.sh
     return 0
 }
 
-function clean()
+clean()
 {
     echo "Cleaning up installed configuration."
-    source $DOTFILES_DIR/scripts/clean_dotfiles.sh
+    . $dotfiles_dir/scripts/clean_dotfiles.sh
     return 0
 }
 
-# Convert the short options to the equivalent long ones.
-convert-options
 
-# Loop over the arguments and execute the appropriate function.
-for arg in ${arguments[@]};
-do
-    $(expr substr $arg 3 ${#arg})
+# Set the default options
+defaults
+
+i=0
+cmds=()
+while [ $i -lt ${#args[@]} ]; do
+    a=${args[$i]}
+    if [ $a == "-h" -o $a == "--help" ]; then
+	print-help
+    elif [ $a == "-i" -o $a == "--install-packages" ]; then
+	cmds+=(install-packages)
+    elif [ $a == "-d" -o $a == "--dotfiles" ]; then
+	cmds+=(dotfiles)
+    elif [ $a == "-a" -o $a == "--autostart" ]; then
+	cmds+=(autostart)
+    elif [ $a == "-f" -o $a == "--fonts" ]; then
+	cmds+=(install-fonts)
+    elif [ $a == "-w" -o $a == "--work" ]; then
+	cmds+=(work-config)
+    elif [ $a == "-c" -o $a == "--clean" ]; then
+	cmds+=(clean)
+    elif [ $a == "-o" -o $a == "--objects" ]; then
+	: $(( i = i + 1 ))
+	a=$(readlink --canonicalize ${args[$i]})
+	objects_dir="${a}"
+    elif [ $a == "-l" -o $a == "--local-prefix" ]; then
+	: $(( i = i + 1 ))
+	a=$(readlink --canonicalize ${args[$i]})
+	local_prefix_dir="${a}"
+    elif [ $a == "-tc" -o $a == "--colors" ]; then
+	 : $(( i = i + 1 ))
+	 a=${args[$i]}
+	 if [ $a -eq 8  -o $a -eq 16 -o
+	      $a -eq 88 -o $a -eq 256 ]; then
+	     force_colors="${a}"
+	 else
+	     printf "Invalid color value.\n"
+	     print-help
+	 fi
+    else
+	printf "Unknown argument or flag: %s\n" $a
+	print-help
+    fi
+
+    : $(( i = i + 1 ))
 done
 
-echo "Installation finished successfully."
+
+# Run the actual commands with the arguments.
+for c in  ${cmds[@]}; do
+    $(expr $c)
+done
 exit 0
