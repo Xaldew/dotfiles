@@ -3,15 +3,32 @@
 # given release.
 
 release=${1-trunk}
-mkdir -p $HOME/git/installs
-cd $HOME/git/installs
-svn checkout http://llvm.org/svn/llvm-project/llvm/$release llvm
-if [ $? -eq 0 ]; then
-    (cd llvm/tools &&
-	    svn checkout http://llvm.org/svn/llvm-project/cfe/$release clang)
-    (cd llvm/projects &&
-	    svn checkout http://llvm.org/svn/llvm-project/compiler-rt/$release \
-		compiler-rt)
+cd $objects_dir
+
+if [ -d $objects_dir/llvm ]; then
+    cd $objects_dir/llvm
+    svn update
 else
-    echo "Error: Failed to download LLVM."
+    svn checkout http://llvm.org/svn/llvm-project/llvm/$release llvm
+    if [ $? -eq 0 ]; then
+	(cd llvm/tools &&
+		svn checkout \
+		    http://llvm.org/svn/llvm-project/cfe/$release clang)
+	(cd llvm/projects &&
+		svn checkout \
+		    http://llvm.org/svn/llvm-project/compiler-rt/$release \
+		    compiler-rt)
+    else
+	echo "Error: Failed to download LLVM."
+    fi
 fi
+
+# Compile llvm.
+cd $objects_dir/llvm
+mkdir build
+cd build
+cmake -G "Unix Makefiles" \
+      -DCMAKE_INSTALL_PREFIX=$local_prefix_dir \
+      -DCMAKE_BUILD_TYPE=Release ..
+make -j4
+make install
