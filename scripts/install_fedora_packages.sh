@@ -74,20 +74,10 @@ sudo yum --quiet --assumeyes install \
      graphviz
 
 
-# Install latest version of Tmux.
+# Install packages needed to compile tmux.
 sudo yum --quiet --assumeyes install libevent-dev libncurses5-dev
-tmp_dir=$(mktemp --directory)
-trap "{ cd - ; rm -rf $tmp_dir; exit 255; }" SIGINT
-
-cd $tmp_dir
-git clone git://git.code.sf.net/p/tmux/tmux-code tmux
-cd tmux
-sh autogen.sh
-./configure
-make -j
-sudo make install
 
 
-# Install the latest version of Emacs.
+# Install the packages needed to compile Emacs.
 sudo yum --quiet --assumeyes install libmagickcore-dev libmagickwand-dev \
      libgtk-3-dev libjpeg-dev libgif-dev libtiff-dev
