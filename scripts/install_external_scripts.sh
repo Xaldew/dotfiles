@@ -5,8 +5,8 @@
 # Install cloc.pl
 url="http://sourceforge.net/projects/cloc/files/latest/download?source=files"
 (
-    wget $url --output-document=$HOME/.local/bin/cloc.pl --quiet
-    chmod u+x $HOME/.local/bin/cloc.pl
+    wget --quiet $url --output-document=$local_prefix_dir/bin/cloc.pl
+    chmod u+x $local_prefix_dir/bin/cloc.pl
 ) &
 
 # Install bashmarks.sh
@@ -22,9 +22,16 @@ url="http://sourceforge.net/projects/cloc/files/latest/download?source=files"
 base_url=https://raw.githubusercontent.com/git/git/master/contrib/completion/
 (
     url=$base_url/git-prompt.sh
-    wget $url --output-document=$HOME/.local/bin/git-prompt.sh --quiet
+    wget --quiet $url --output-document=$local_prefix_dir/bin/git-prompt.sh
 ) &
 (
     url=$base_url/git-completion.bash
-    wget $url --output-document=$HOME/.local/bin/git-completion.bash --quiet
+    wget --quiet $url \
+	 --output-document=$local_prefix_dir/bin/git-completion.bash
 ) &
+
+# Install HG prompt.
+if [ ! -d $objects_dir/hg-prompt ]; then
+    hg --quiet clone \
+       http://bitbucket.org/sjl/hg-prompt $objects_dir/hg-prompt
+fi
