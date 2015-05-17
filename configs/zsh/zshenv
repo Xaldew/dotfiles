@@ -2,7 +2,7 @@
 # Defines environment variables for all shells.
 
 # Define variables to local man-pages.
-export MANPATH=$HOME/.local/share/man:$MANPATH
+export MANPATH=$local_prefix_dir/share/man:$MANPATH
 
 # Ensure that a non-login, non-interactive shell has a defined environment.
 if [[ ! -o LOGIN && -s "${ZDOTDIR:-$HOME}/.zprofile" ]]; then

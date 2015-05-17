@@ -17,7 +17,7 @@ function android_ndk()
     url=http://dl.google.com/android/ndk/android-ndk-r10d-linux-x86_64.bin
     if [ ! -d $objects_dir/android_ndk ]; then
 	wget $url --output-document=$objects_dir/android_ndk.bin --quiet
-	(cd $HOME/git/installs &&
+	(cd $objects_dir &&
 		chmod a+x android_ndk.bin &&
 		./android_ndk.bin &&
 		mv android-ndk-linux android_ndk &&

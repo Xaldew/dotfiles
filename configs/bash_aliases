@@ -315,15 +315,15 @@ function my-shell()
 # Setup the firefox addon development environment.
 function firefox_dev()
 {
-    if [ ! -d $HOME/git/installs/addon-sdk ]; then
-	(cd $HOME/git/installs &&
+    if [ ! -d $objects_dir/addon-sdk ]; then
+	(cd $objects_dir &&
 		git clone git://github.com/mozilla/addon-sdk.git &&
 		cd addon-sdk &&
 		git checkout 1.17 &&
 		git archive 1.17 python-lib/cuddlefish/_version.py | tar -xvf -)
     fi
     cwd=$(pwd)
-    cd $HOME/git/installs/addon-sdk
+    cd $objects_dir/addon-sdk
     source bin/activate
     cd $cwd
 }

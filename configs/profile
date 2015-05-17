@@ -11,20 +11,20 @@ fi
 
 #### Add user paths to PATH so it includes private binaries.
 ## Add Android SDK/NDK paths.
-if [ -d "$HOME/git/installs/android_sdk/tools" ]; then
-    PATH=$HOME/git/installs/android_sdk/tools:$PATH
+if [ -d "$objects_dir/android_sdk/tools" ]; then
+    PATH=$objects_dir/android_sdk/tools:$PATH
 fi
-if [ -d "$HOME/git/installs/android_sdk/platform-tools" ]; then
-    PATH=$HOME/git/installs/android_sdk/platform-tools:$PATH
+if [ -d "$objects_dir/android_sdk/platform-tools" ]; then
+    PATH=$objects_dir/android_sdk/platform-tools:$PATH
 fi
-if [ -d "$HOME/git/installs/android_ndk/" ]; then
-    PATH=$HOME/git/installs/android_ndk:$PATH
+if [ -d "$objects_dir/android_ndk/" ]; then
+    PATH=$objects_dir/android_ndk:$PATH
 fi
 
 ## Add private scripts and compiled binaries.
-if [ -d "$DOTFILES_DIR/scripts" ]; then
-    PATH="$DOTFILES_DIR/scripts":$PATH
+if [ -d "$dotfiles_dir/scripts" ]; then
+    PATH="$dotfiles_dir/scripts":$PATH
 fi
-if [ -d "$HOME/.local/bin" ]; then
-    PATH="$HOME/.local/bin":$PATH
+if [ -d "$local_prefix_dir/bin" ]; then
+    PATH="$local_prefix_dir/bin":$PATH
 fi

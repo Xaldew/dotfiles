@@ -17,7 +17,6 @@ cdpath=(
     .
     $cdpath
     $HOME
-    $DOTFILES_DIR
 )
 
 # Set the list of directories that Zsh searches for programs.
