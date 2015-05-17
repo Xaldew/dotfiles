@@ -87,7 +87,7 @@ ln -fs $dotfiles_dir/configs/dicts $HOME/.dicts
 # Create a bashrc file with links to the script directories.
 echo "# Don't edit this file, rerun install.sh to update." > $HOME/.bashrc
 for e in ${env[@]}; do
-    printf "%s\n" $e >> $HOME/.bashrc
+    printf "export %s\n" $e >> $HOME/.bashrc
 done
 echo "source \$dotfiles_dir/configs/bashrc" >> $HOME/.bashrc
 
@@ -95,7 +95,7 @@ echo "source \$dotfiles_dir/configs/bashrc" >> $HOME/.bashrc
 # Create a profile file with links to the dotfile version.
 echo "# Don't edit this file, rerun install.sh to update." > $HOME/.profile
 for e in ${env[@]}; do
-    printf "%s\n" $e >> $HOME/.profile
+    printf "export %s\n" $e >> $HOME/.profile
 done
 echo ". \$dotfiles_dir/configs/profile" >> $HOME/.profile
 
@@ -104,7 +104,7 @@ echo ". \$dotfiles_dir/configs/profile" >> $HOME/.profile
 echo "# Don't edit this file, rerun install.sh to update." > $HOME/.zshenv
 echo "ZDOTDIR=\$HOME/.zsh" >> $HOME/.zshenv
 for e in ${env[@]}; do
-    printf "%s\n" $e >> $HOME/.zshenv
+    printf "export %s\n" $e >> $HOME/.zshenv
 done
 echo "source \$dotfiles_dir/configs/zsh/zshenv" >> $HOME/.zshenv
 
