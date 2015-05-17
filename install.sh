@@ -8,6 +8,10 @@ dotfiles_dir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 # Put all arguments in a proper array for processing.
 args=("$@")
 
+# Setup the environment to create and the commands to run.
+cmds=()
+env=()
+
 print-help()
 {
     cat <<EOF
@@ -52,6 +56,9 @@ defaults()
 {
     objects_dir=${objects_dir-"$HOME/git/installs"}
     local_prefix_dir=${local_prefix_dir-"$HOME/.local"}
+    env+=("dotfiles_dir='${dotfiles_dir}'")
+    env+=("objects_dir='${objects_dir}'")
+    env+=("local_prefix_dir='${local_prefix_dir}'")
 }
 
 
@@ -102,7 +109,6 @@ clean()
 defaults
 
 i=0
-cmds=()
 while [ $i -lt ${#args[@]} ]; do
     a=${args[$i]}
     if [ $a == "-h" -o $a == "--help" ]; then
@@ -123,16 +129,19 @@ while [ $i -lt ${#args[@]} ]; do
 	: $(( i = i + 1 ))
 	a=$(readlink --canonicalize ${args[$i]})
 	objects_dir="${a}"
+	env+=("objects_dir='${a}'")
     elif [ $a == "-l" -o $a == "--local-prefix" ]; then
 	: $(( i = i + 1 ))
 	a=$(readlink --canonicalize ${args[$i]})
 	local_prefix_dir="${a}"
+	env+=("local_prefix_dir='${a}'")
     elif [ $a == "-tc" -o $a == "--colors" ]; then
 	 : $(( i = i + 1 ))
 	 a=${args[$i]}
 	 if [ $a -eq 8  -o $a -eq 16 -o
 	      $a -eq 88 -o $a -eq 256 ]; then
 	     force_colors="${a}"
+	     env+=("force_colors='${a}'")
 	 else
 	     printf "Invalid color value.\n"
 	     print-help
@@ -144,7 +153,6 @@ while [ $i -lt ${#args[@]} ]; do
 
     : $(( i = i + 1 ))
 done
-
 
 # Run the actual commands with the arguments.
 for c in  ${cmds[@]}; do
