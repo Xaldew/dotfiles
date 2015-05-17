@@ -3,11 +3,9 @@
 # then compiles and installs it.
 
 sudo apt-get --quiet=2 install libevent-dev libncurses5-dev
-mkdir --parents $HOME/git/installs $HOME/.local
-cd $HOME/git/installs
-
-if [ -d $HOME/git/installs/tmux ]; then
-    cd $HOME/git/installs/tmux
+cd $objects_dir
+if [ -d $objects_dir/tmux ]; then
+    cd $objects_dir/tmux
     make distclean
     git clean --force
     git pull
@@ -15,11 +13,11 @@ else
     git clone git://git.code.sf.net/p/tmux/tmux-code tmux
 fi
 
-cd $HOME/git/installs/tmux
+cd $objects_dir/tmux
 sh autogen.sh
 ./configure \
-    --prefix=$HOME/.local \
-    --mandir=$HOME/.local/share/man \
+    --prefix=$local_prefix_dir \
+    --mandir=$local_prefix_dir/share/man \
     --enable-static
 make -j4
 make install
