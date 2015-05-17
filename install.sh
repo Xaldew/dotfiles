@@ -20,6 +20,8 @@ print-help()
     -i         --install-packages    Enable installation of repository software
                                      packages.
 
+    -e         --external-programs   Install all external utilities.
+
     -d         --dotfiles            Install all configuration dotfiles."
 
     -a         --autostart           Install autostart programs.
@@ -61,12 +63,24 @@ defaults()
     env+=("local_prefix_dir='${local_prefix_dir}'")
 }
 
-
 install-packages()
 {
     echo "Installing software packages."
     . $dotfiles_dir/scripts/install_packages.sh
     return 0
+}
+
+install-external-programs()
+{
+    echo "Installing all external software packages."
+    sh $dotfiles_dir/scripts/install_global.sh
+    sh $dotfiles_dir/scripts/install_tmux.sh
+    sh $dotfiles_dir/scripts/install_emacs.sh
+    sh $dotfiles_dir/scripts/install_exuberant_ctags.sh
+    sh $dotfiles_dir/scripts/install_android.sh
+    sh $dotfiles_dir/scripts/install_llvm.sh
+    sh $dotfiles_dir/scripts/install_gcc.sh
+    sh $dotfiles_dir/scripts/install_ffmpeg.sh
 }
 
 dotfiles()
@@ -115,6 +129,8 @@ while [ $i -lt ${#args[@]} ]; do
 	print-help
     elif [ $a == "-i" -o $a == "--install-packages" ]; then
 	cmds+=(install-packages)
+    elif [ $a == "-e" -o $a == "--external-programs" ]; then
+	cmds+=(install-external-programs)
     elif [ $a == "-d" -o $a == "--dotfiles" ]; then
 	cmds+=(dotfiles)
     elif [ $a == "-a" -o $a == "--autostart" ]; then
