@@ -6,25 +6,24 @@ sudo apt-get --quiet=2 install \
      flex \
      gperf
 
-cd $HOME/git/installs
+cd $objects_dir
 CVSROOT=:pserver:anonymous@cvs.savannah.gnu.org:/sources/global
-if [ -d $HOME/git/installs/global ]; then
-    cd $HOME/git/installs/global
+if [ -d $objects_dir/global ]; then
+    cd $objects_dir/global
     git cvsimport -d $CVSROOT -r cvs -v -R global \
-	-A $HOME/git/installs/global/.cvs_authors
+	-A $objects_dir/global/.cvs_authors
 else
-    mkdir -p $HOME/git/installs/global
-    touch $HOME/git/installs/global/.cvs_authors
+    mkdir -p $objects_dir/global
+    touch $objects_dir/global/.cvs_authors
     git cvsimport -p "-x" -d $CVSROOT -C global -r cvs -k -z3 -v \
-	-A $HOME/git/installs/global/.cvs_authors -R global
+	-A $objects_dir/global/.cvs_authors -R global
 fi
 
-cd $HOME/git/installs/global
+cd $objects_dir/global
 sh reconf.sh
 ./configure \
-    --prefix=$HOME/.local \
-    --mandir=$HOME/.local/share/man \
+    --prefix=$local_prefix_dir \
+    --mandir=$local_prefix_dir/share/man \
     --with-exuberant-ctags=ex-ctags
-
-make -j
+make -j4
 make install
