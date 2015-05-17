@@ -47,9 +47,10 @@ def create_colormaps():
     plt.register_cmap(cmap=colors.ListedColormap(term88_b,    name="term88_blue"))
     plt.register_cmap(cmap=colors.ListedColormap(term88_gray, name="term88_gray"))
 
-    return ["tc_red", "tc_green", "tc_blue", "tc_gray",
-            "term88_red", "term88_green", "term88_blue", "term88_gray",
-            "term256_red", "term256_green", "term256_blue", "term256_gray"]
+    return ["tc_red", "term256_red", "term88_red",
+            "tc_green", "term256_green", "term88_green",
+            "tc_blue", "term256_blue", "term88_blue",
+            "tc_gray", "term256_gray", "term88_gray"]
 
 cmaps = [('Terminal',     create_colormaps())]
 
