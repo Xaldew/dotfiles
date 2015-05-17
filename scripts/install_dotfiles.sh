@@ -1,6 +1,16 @@
 #!/usr/bin/env sh
 # Install links and files for configuring my configuration.
 
+# Create directories for local utilities.
+mkdir --parents \
+      $objects_dir \
+      $local_prefix_dir/bin \
+      $local_prefix_dir/share/man
+
+# Install various external tools and utilities.
+. $dotfiles_dir/scripts/install_external_scripts.sh
+
+
 # Install all configuration files and plugins.
 ln -fs $dotfiles_dir/configs/inputrc $HOME/.inputrc
 ln -fs $dotfiles_dir/configs/bash_aliases $HOME/.bash_aliases
@@ -12,13 +22,6 @@ ln -fs $dotfiles_dir/configs/gitignore $HOME/.gitignore
 
 
 # Install Mercurial configurations.
-rm --force $HOME/.hgrc
-(
-    if [ ! -d $objects_dir/hg-prompt ]; then
-	hg --quiet clone \
-	   http://bitbucket.org/sjl/hg-prompt $objects_dir/hg-prompt
-    fi
-)
 ln -fs $dotfiles_dir/configs/hgrc $HOME/.hgrc
 
 
@@ -80,32 +83,29 @@ ln -fs $dotfiles_dir/configs/vimrc $HOME/.vimrc
 rm -f $HOME/.dicts
 ln -fs $dotfiles_dir/configs/dicts $HOME/.dicts
 
-# Create directories for local utilities.
-mkdir --parents \
-      $objects_dir \
-      $objects_dir/bin \
-      $objects_dir/share/man
 
 # Create a bashrc file with links to the script directories.
 echo "# Don't edit this file, rerun install.sh to update." > $HOME/.bashrc
-echo "dotfiles_dir="${dotfiles_dir} >> $HOME/.bashrc
-echo "objects_dir="${objects_dir} >> $HOME/.bashrc
-echo "local_prefix_dir="${local_prefix_dir} >> $HOME/.bashrc
+for e in ${env[@]}; do
+    printf "%s\n" $e >> $HOME/.bashrc
+done
 echo "source \$dotfiles_dir/configs/bashrc" >> $HOME/.bashrc
+
 
 # Create a profile file with links to the dotfile version.
 echo "# Don't edit this file, rerun install.sh to update." > $HOME/.profile
-echo "dotfiles_dir="${dotfiles_dir} >> $HOME/.profile
-echo "objects_dir="${objects_dir} >> $HOME/.profile
-echo "local_prefix_dir="${local_prefix_dir} >> $HOME/.profile
+for e in ${env[@]}; do
+    printf "%s\n" $e >> $HOME/.profile
+done
 echo ". \$dotfiles_dir/configs/profile" >> $HOME/.profile
+
 
 # Create a zshrc file with links to the script directories.
 echo "# Don't edit this file, rerun install.sh to update." > $HOME/.zshenv
-echo "dotfiles_dir="${dotfiles_dir} >> $HOME/.zshenv
 echo "ZDOTDIR=\$HOME/.zsh" >> $HOME/.zshenv
-echo "objects_dir="${objects_dir} >> $HOME/.zshenv
-echo "local_prefix_dir="${local_prefix_dir} >> $HOME/.zshenv
+for e in ${env[@]}; do
+    printf "%s\n" $e >> $HOME/.zshenv
+done
 echo "source \$dotfiles_dir/configs/zsh/zshenv" >> $HOME/.zshenv
 
 # Install Prezto.
