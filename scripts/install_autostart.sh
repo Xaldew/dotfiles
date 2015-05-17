@@ -4,7 +4,7 @@
 function add_autostart_files()
 {
     dest=$1
-    for file in $DOTFILES_DIR/autostart/*; do
+    for file in $dotfiles_dir/autostart/*; do
 	cp $file $dest
     done
     return 0
