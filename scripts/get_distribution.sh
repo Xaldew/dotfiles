@@ -2,6 +2,7 @@
 # Try to figure out which distribution is being used.
 # Currently tested on:
 #    Ubuntu 13.10
+#    Ubuntu 15.05
 #    Fedora 20
 
 function get_distribution ()
