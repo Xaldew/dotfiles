@@ -6,19 +6,18 @@ sudo apt-get install \
      libmpfr-dev \
      libmpc-dev
 
-cd $HOME/git/installs
-
-if [ -d $HOME/git/installs/gcc ]; then
-    cd $HOME/git/installs/gcc
+cd $objects_dir
+if [ -d $objects_dir/gcc ]; then
+    cd $objects_dir/gcc
     git pull
 else
     git clone --depth 1000 git://gcc.gnu.org/git/gcc.git
 fi
 
-cd $HOME/git/installs/gcc
-./configure --prefix=$HOME/.local \
-	    --mandir=$HOME/.local/share/man \
+cd $objects_dir/gcc
+./configure --prefix=$local_prefix_dir \
+	    --mandir=$local_prefix_dir/share/man \
 	    --enable-gold=yes \
 	    --enable-lto
-make -j
+make -j4
 make install
