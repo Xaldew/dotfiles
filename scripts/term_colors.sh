@@ -1,14 +1,14 @@
-#!/usr/bin/env bash
+#!/usr/bin/env sh
 
 printf "System colors:\n"
 for i in `seq 0 7`; do
-    printf "\e[4%sm  " "$i"
+    printf "\33[4%sm  " "$i"
 done
-printf "\e[0m\n"
+printf "\33[0m\n"
 for i in `seq 0 7`; do
-    printf "\e[10%sm  " "$i"
+    printf "\33[10%sm  " "$i"
 done
-printf "\e[0m\n\n"
+printf "\33[0m\n\n"
 
 
 printf "256-colors: 6x6x6 Color cube:\n"
@@ -28,39 +28,39 @@ l=16
 for i in `seq 0 5`; do
     for j in `seq 0 5`; do
 	for k in `seq 0 5`; do
-	    printf "\e[48;5;%sm  " "$l"
+	    printf "\33[48;5;%sm  " "$l"
 	    : $((l = l + 1))
 	done
-	printf "\e[0m "
+	printf "\33[0m "
     done
-    printf "\e[0m\n"
+    printf "\33[0m\n"
 done
-printf "\e[0m\n"
+printf "\33[0m\n"
 
 
 printf "256-colors: Greyscale ramp:\n"
 for i in `seq 232 255`; do
-    printf "\e[48;5;%sm  " "$i"
+    printf "\33[48;5;%sm  " "$i"
 done
-printf "\e[0m\n\n"
+printf "\33[0m\n\n"
 
 printf "256-colors: Red ramp:\n"
 for i in `seq 16 36 196`; do
-    printf "\e[48;5;%sm  " "$i"
+    printf "\33[48;5;%sm  " "$i"
 done
-printf "\e[0m\n\n"
+printf "\33[0m\n\n"
 
 printf "256-colors: Green ramp:\n"
 for i in `seq 16 6 46`; do
-    printf "\e[48;5;%sm  " "$i"
+    printf "\33[48;5;%sm  " "$i"
 done
-printf "\e[0m\n\n"
+printf "\33[0m\n\n"
 
 printf "256-Colors: Blue ramp:\n"
 for i in `seq 16 1 21`; do
-    printf "\e[48;5;%sm  " "$i"
+    printf "\33[48;5;%sm  " "$i"
 done
-printf "\e[0m\n\n"
+printf "\33[0m\n\n"
 
 
 printf "\n88-colors: 4x4x4 Color cube:\n"
@@ -68,51 +68,51 @@ l=16
 for i in `seq 0 3`; do
     for j in `seq 0 3`; do
 	for k in `seq 0 3`; do
-	    printf "\e[48;5;%sm  " "$l"
+	    printf "\33[48;5;%sm  " "$l"
 	    : $((l = l + 1))
 	done
-	printf "\e[0m "
+	printf "\33[0m "
     done
-    printf "\e[0m\n"
+    printf "\33[0m\n"
 done
-printf "\e[0m\n"
+printf "\33[0m\n"
 
 
 printf "88-colors: Greyscale ramp:\n"
 for i in `seq 80 88`; do
-    printf "\e[48;5;%sm  " "$i"
+    printf "\33[48;5;%sm  " "$i"
 done
-printf "\e[0m\n\n"
+printf "\33[0m\n\n"
 
 printf "88-colors: Red ramp:\n"
 for i in `seq 16 16 79`; do
-    printf "\e[48;5;%sm  " "$i"
+    printf "\33[48;5;%sm  " "$i"
 done
-printf "\e[0m\n\n"
+printf "\33[0m\n\n"
 
 printf "88-colors: Green ramp:\n"
 for i in `seq 16 4 31`; do
-    printf "\e[48;5;%sm  " "$i"
+    printf "\33[48;5;%sm  " "$i"
 done
-printf "\e[0m\n\n"
+printf "\33[0m\n\n"
 
 printf "88-Colors: Blue ramp:\n"
 for i in `seq 16 1 19`; do
-    printf "\e[48;5;%sm  " "$i"
+    printf "\33[48;5;%sm  " "$i"
 done
-printf "\e[0m\n\n"
+printf "\33[0m\n\n"
 
 
 # printf "Truecolor Test:\n"
 # for r in `seq 0 64 255`; do
 #     for g in `seq 0 64 255`; do
 # 	for b in `seq 0 64 255`; do
-# 	    printf "\e[48;2;%s;%s;%sm " "$i" "$j" "$k"
+# 	    printf "\33[48;2;%s;%s;%sm " "$i" "$j" "$k"
 # 	done
 # 	printf "\n"
 #     done
 # done
-# printf "\e[0m\n\n"
+# printf "\33[0m\n\n"
 
 
 
