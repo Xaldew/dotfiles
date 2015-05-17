@@ -9,23 +9,23 @@ sudo apt-get install --quiet=2 \
 
 
 mkdir --parents \
-      $HOME/git/installs/ffmpeg \
-      $HOME/git/installs/ffmpeg/ffmpeg_build
+      $objects_dir/ffmpeg \
+      $objects_dir/ffmpeg/ffmpeg_build
 
 install_yasm()
 {
     # Compile and install yasm.
-    cd $HOME/git/installs/ffmpeg
+    cd $objects_dir/ffmpeg
     if [ ! -d yasm ]; then
 	git clone git://github.com/yasm/yasm.git
     else
 	git -C yasm pull
     fi
-    cd $HOME/git/installs/ffmpeg/yasm
+    cd $objects_dir/ffmpeg/yasm
     ./autogen.sh
     ./configure \
-	--prefix=$HOME/git/installs/ffmpeg_build \
-	--bindir=$HOME/.local/bin
+	--prefix=$objects_dir/ffmpeg_build \
+	--bindir=$local_prefix_dir/bin
     make
     make install
     make distclean
@@ -34,15 +34,15 @@ install_yasm()
 install_libx264()
 {
     # Compile and install libx264.
-    cd $HOME/git/installs/ffmpeg
+    cd $objects_dir/ffmpeg
     if [ ! -d libx264 ]; then
 	git clone git://git.videolan.org/x264.git
     else
 	git -C libx264 pull
     fi
-    cd $HOME/git/installs/ffmpeg/x264
+    cd $objects_dir/ffmpeg/x264
     ./configure \
-	--prefix=$HOME/git/installs/ffmpeg/ffmpeg_build \
+	--prefix=$objects_dir/ffmpeg/ffmpeg_build \
 	--enable-static
     make
     make install
@@ -52,15 +52,15 @@ install_libx264()
 install_libx265()
 {
     # Compile and install libx265 (HEVC)
-    cd $HOME/git/installs/ffmpeg
+    cd $objects_dir/ffmpeg
     if [ ! -d libx265 ]; then
 	hg clone https://bitbucket.org/multicoreware/x265
     else
 	git -C libx265 pull
     fi
-    cd $HOME/git/installs/ffmpeg/x265/build/linux
+    cd $objects_dir/ffmpeg/x265/build/linux
     cmake \
-	-DCMAKE_INSTALL_PREFIX=$HOME/git/installs/ffmpeg/ffmpeg_build \
+	-DCMAKE_INSTALL_PREFIX=$objects_dir/ffmpeg/ffmpeg_build \
 	-DENABLE_SHARED=off \
 	../../source
     make
@@ -71,7 +71,7 @@ install_libx265()
 install_libvpx()
 {
     # Download, compile and install libvpx.
-    cd $HOME/git/installs/ffmpeg
+    cd $objects_dir/ffmpeg
     if [ ! -d libvpx ]; then
 	git clone git://github.com/webmproject/libvpx.git
     else
@@ -79,7 +79,7 @@ install_libvpx()
     fi
     cd libvpx
     ./configure \
-	--prefix=$HOME/git/installs/ffmpeg/ffmpeg_build \
+	--prefix=$objects_dir/ffmpeg/ffmpeg_build \
 	--disable-examples
     make
     make install
@@ -89,7 +89,7 @@ install_libvpx()
 install_libopus()
 {
     # Install Opus audio codecs.
-    cd $HOME/git/installs/ffmpeg
+    cd $objects_dir/ffmpeg
     if [ ! -d opus ]; then
 	git clone git://git.opus-codec.org/opus.git
     else
@@ -98,7 +98,7 @@ install_libopus()
     cd opus
     ./autogen.sh
     ./configure \
-	--prefix=$HOME/git/installs/ffmpeg/ffmpeg_build \
+	--prefix=$objects_dir/ffmpeg/ffmpeg_build \
 	--disable-shared
     make
     make install
@@ -110,7 +110,7 @@ install_libmp3_lame()
     # Install mp3 lame audio codec.
     url=http://downloads.sourceforge.net/project/
     url+=lame/lame/3.99/lame-3.99.5.tar.gz
-    cd $HOME/git/installs/ffmpeg
+    cd $objects_dir/ffmpeg
     if [ ! -d lame ]; then
 	mkdir --parents lame
 	wget $url --output-document=lame.tar.gz --quiet
@@ -119,7 +119,7 @@ install_libmp3_lame()
     fi
     cd lame
     ./configure \
-	--prefix=$HOME/git/installs/ffmpeg/ffmpeg_build \
+	--prefix=$objects_dir/ffmpeg/ffmpeg_build \
 	--enable-nasm \
 	--disable-shared
     make
@@ -130,7 +130,7 @@ install_libmp3_lame()
 install_fdk_aac()
 {
     # Install fdk-AAC audio codec.
-    cd $HOME/git/installs/ffmpeg
+    cd $objects_dir/ffmpeg
     if [ ! -d fdk-aac ]; then
 	git clone git://github.com/mstorsjo/fdk-aac.git
     else
@@ -139,7 +139,7 @@ install_fdk_aac()
     cd fdk-aac
     autoreconf -fiv
     ./configure \
-	--prefix=$HOME/git/installs/ffmpeg/ffmpeg_build \
+	--prefix=$objects_dir/ffmpeg/ffmpeg_build \
 	--disable-shared
     make
     make install
@@ -175,21 +175,21 @@ if [ ! $fails -eq 0 ]; then
 fi
 
 # Finally, compile and install ffmpeg.
-cd $HOME/git/installs/ffmpeg
+cd $objects_dir/ffmpeg
 if [ ! -d ffmpeg_sources ]; then
     git clone git://github.com/FFmpeg/FFmpeg.git ffmpeg_sources
 else
     git -C ffmpeg_sources pull
 fi
-cd $HOME/git/installs/ffmpeg/ffmpeg_sources
-PKG_CONFIG_PATH=$HOME/git/installs/ffmpeg/ffmpeg_build/lib/pkgconfig \
+cd $objects_dir/ffmpeg/ffmpeg_sources
+PKG_CONFIG_PATH=$objects_dir/ffmpeg/ffmpeg_build/lib/pkgconfig \
 	       ./configure \
-	       --prefix=$HOME/git/installs/ffmpeg/ffmpeg_build \
-	       --bindir=$HOME/.local/bin \
-	       --mandir=$HOME/.local/share/man \
+	       --prefix=$objects_dir/ffmpeg/ffmpeg_build \
+	       --bindir=$local_prefix_dir/bin \
+	       --mandir=$local_prefix_dir/share/man \
 	       --pkg-config-flags="--static" \
-	       --extra-cflags=-I$HOME/git/installs/ffmpeg/ffmpeg_build/include \
-	       --extra-ldflags=-L$HOME/git/installs/ffmpeg/ffmpeg_build/lib \
+	       --extra-cflags=-I$objects_dir/ffmpeg/ffmpeg_build/include \
+	       --extra-ldflags=-L$objects_dir/ffmpeg/ffmpeg_build/lib \
 	       --enable-static \
 	       --disable-shared \
 	       --enable-gpl \
