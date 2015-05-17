@@ -27,3 +27,9 @@ rm -r $HOME/.emacs.d/
 rm $HOME/.vimrc
 rm -r $HOME/.vim
 rm $HOME/.dicts
+
+echo "Removing all objects..."
+rm -rf $objects_dir
+
+echo "Removing all locally installed binaries..."
+rm -rf $local_prefix_dir
