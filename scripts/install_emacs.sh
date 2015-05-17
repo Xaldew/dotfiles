@@ -11,11 +11,10 @@ sudo apt-get --quiet=2 install \
      libxpm-dev \
      libxaw7-dev
 
-mkdir --parents $HOME/git/installs
-cd $HOME/git/installs
+cd $objects_dir
 
-if [ -d $HOME/git/installs/emacs ]; then
-    cd $HOME/git/installs/emacs
+if [ -d $objects_dir/emacs ]; then
+    cd $objects_dir/emacs
     make distclean
     git clean --force
     find -name *.elc -type f -print | xargs rm --force
@@ -29,11 +28,11 @@ else
 fi
 
 # Compile and install Emacs-24.
-cd $HOME/git/installs/emacs
+cd $objects_dir/emacs
 git checkout -B emacs-24 origin/emacs-24
 sh autogen.sh
-./configure --prefix=$HOME/.local \
-	    --mandir=$HOME/.local/share/man \
+./configure --prefix=$local_prefix_dir \
+	    --mandir=$local_prefix_dir/share/man \
 	    --enable-link-time-optimization \
 	    --with-imagemagick \
 	    --with-x-toolkit=lucid
@@ -48,8 +47,8 @@ find -name *.elc -type f -print | xargs rm --force
 find -name *.loaddefs.el? -type f -print | xargs rm --force
 git checkout -B master origin/master
 sh autogen.sh
-./configure --prefix=$HOME/.local \
-	    --mandir=$HOME/.local/share/man \
+./configure --prefix=$local_prefix_dir \
+	    --mandir=$local_prefix_dir/share/man \
 	    --enable-link-time-optimization \
 	    --with-imagemagick \
 	    --with-x-toolkit=lucid
