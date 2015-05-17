@@ -1,15 +1,6 @@
 #!/usr/bin/env bash
 # This script adds some additional utilities used within ARM.
 
-
-# Install the Android "repo" tool if not done already.
-if [ ! -f /work/local/bin/repo ]; then
-    mkdir --parents /work/local/bin
-    curl https://storage.googleapis.com/git-repo-downloads/repo \
-	> /work/local/bin/repo
-    chmod a+x /work/local/bin/repo
-fi
-
 # Append the work configuration (below) to the .bashrc file.
 # Note that doing this elsewhere will likely break things.
 cat >> ~/.bashrc <<EOF
@@ -220,7 +211,7 @@ export MPDTI_V2_PIC_SERVER=lun-mpdti2.lund.arm.com:55300
 export MPDTI_V2_PROJECT=PJ00640
 
 # Add some paths for work based utilities.
-export PATH=\$HOME/.local/bin:\$PATH
+export PATH=\$local_prefix_dir/bin:\$PATH
 export PATH=/work/local/bin:\$PATH
 
 # Sets a more 'modern' termcap file for use with emacs, otherwise colors will be
@@ -228,5 +219,5 @@ export PATH=/work/local/bin:\$PATH
 export TERMCAP=\$HOME/.termcap
 
 # Override the prompt override.
-source $DOTFILES_DIR/scripts/prompt.sh
+source $dotfiles_dir/scripts/prompt.sh
 EOF
