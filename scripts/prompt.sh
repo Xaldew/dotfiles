@@ -1,7 +1,7 @@
-#!/bin/bash
+#!/usr/bin/env sh
 # Adds useful coloration and svn/git information to the prompt.
 
-source $HOME/.local/bin/git-prompt.sh
+. $local_prefix_dir/bin/git-prompt.sh
 
 # Reset
 Color_Off='\[\e[0m\]'       # Text Reset
