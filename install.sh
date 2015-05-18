@@ -10,7 +10,7 @@ args=("$@")
 
 # Setup the environment to create and the commands to run.
 cmds=()
-env=()
+declare -A env
 
 print-help()
 {
@@ -58,9 +58,9 @@ defaults()
 {
     objects_dir=${objects_dir-"$HOME/git/installs"}
     local_prefix_dir=${local_prefix_dir-"$HOME/.local"}
-    env+=("dotfiles_dir='${dotfiles_dir}'")
-    env+=("objects_dir='${objects_dir}'")
-    env+=("local_prefix_dir='${local_prefix_dir}'")
+    env["dotfiles_dir"]="${dotfiles_dir}"
+    env["objects_dir"]="${objects_dir}"
+    env["local_prefix_dir"]="${local_prefix_dir}"
 }
 
 install-packages()
@@ -73,14 +73,14 @@ install-packages()
 install-external-programs()
 {
     echo "Installing all external software packages."
-    sh $dotfiles_dir/scripts/install_global.sh
-    sh $dotfiles_dir/scripts/install_tmux.sh
-    sh $dotfiles_dir/scripts/install_emacs.sh
-    sh $dotfiles_dir/scripts/install_exuberant_ctags.sh
-    sh $dotfiles_dir/scripts/install_android.sh
-    sh $dotfiles_dir/scripts/install_llvm.sh
-    sh $dotfiles_dir/scripts/install_gcc.sh
-    sh $dotfiles_dir/scripts/install_ffmpeg.sh
+    . $dotfiles_dir/scripts/install_global.sh
+    . $dotfiles_dir/scripts/install_tmux.sh
+    . $dotfiles_dir/scripts/install_emacs.sh
+    . $dotfiles_dir/scripts/install_exuberant_ctags.sh
+    . $dotfiles_dir/scripts/install_android.sh
+    . $dotfiles_dir/scripts/install_llvm.sh
+    . $dotfiles_dir/scripts/install_gcc.sh
+    . $dotfiles_dir/scripts/install_ffmpeg.sh
 }
 
 dotfiles()
@@ -145,19 +145,19 @@ while [ $i -lt ${#args[@]} ]; do
 	: $(( i = i + 1 ))
 	a=$(readlink --canonicalize ${args[$i]})
 	objects_dir="${a}"
-	env+=("objects_dir='${a}'")
+	env["objects_dir"]="${a}"
     elif [ $a == "-l" -o $a == "--local-prefix" ]; then
 	: $(( i = i + 1 ))
 	a=$(readlink --canonicalize ${args[$i]})
 	local_prefix_dir="${a}"
-	env+=("local_prefix_dir='${a}'")
+	env["local_prefix_dir"]="${a}"
     elif [ $a == "-tc" -o $a == "--colors" ]; then
 	 : $(( i = i + 1 ))
 	 a=${args[$i]}
 	 if [ $a -eq 8  -o $a -eq 16 -o
 	      $a -eq 88 -o $a -eq 256 ]; then
 	     force_colors="${a}"
-	     env+=("force_colors='${a}'")
+	     env["force_colors"]="${a}"
 	 else
 	     printf "Invalid color value.\n"
 	     print-help
@@ -171,7 +171,7 @@ while [ $i -lt ${#args[@]} ]; do
 done
 
 # Run the actual commands with the arguments.
-for c in  ${cmds[@]}; do
+for c in ${cmds[@]}; do
     $(expr $c)
 done
 exit 0
