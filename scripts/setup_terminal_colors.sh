@@ -56,12 +56,16 @@ tc_to_88()
     printf "$cv"
 }
 
-
 gray_256()
 {
-    v=${1-0}
+    if [ $1 -lt 10 ]; then
+	printf "5;16\n"
+    elif [ $1 -ge 255 ]; then
+	printf "5;255\n"
+    else
+	printf "5;%d\n" $(( 232 + (24*$1/255) ))
+    fi
 }
-
 
 rgb_256()
 {
@@ -71,12 +75,16 @@ rgb_256()
     printf "5;%d\n" $(( $1*36 + $2*6 + $3 + 16))
 }
 
-
 gray_88()
 {
-    :
+    if [ $1 -lt 28 ]; then
+	printf "5;16\n"
+    elif [ $1 -ge 255 ]; then
+	printf "5;88\n"
+    else
+	printf "5;%d\n" $(( 80 + (8*$1/255) ))
+    fi
 }
-
 
 rgb_88()
 {
