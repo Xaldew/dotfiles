@@ -16,7 +16,7 @@ url="http://sourceforge.net/projects/cloc/files/latest/download?source=files"
     git clone --quiet git://github.com/huyng/bashmarks.git
     cd bashmarks
     sed --in-place \
-	"s|^\(INSTALL_DIR\s*=\s*\).local/bin|\1${local_prefix_dir}/bin|g" \
+	"s|^\(INSTALL_DIR\s*=\s*\)~/.local/bin|\1${local_prefix_dir}/bin|g" \
 	Makefile
     make install > /dev/null
 ) &

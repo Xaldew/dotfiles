@@ -3,25 +3,24 @@
 # Set the color support for the terminals.
 if [ -n "$force_colors" ]; then
     # explicitly set the terminal to support 256 in e.g., Emacs.
-    terminal_colors=${force_colors}
+    export terminal_colors=${force_colors}
     export TERM="xterm-${force_colors}color"
-elif command -v tput 1> /dev/null 2>&1 && [ -n "$COLORTERM" ]; then
+elif command -v tput 1> /dev/null 2>&1 &&
+	 [ "$COLORTERM" == "gnome-terminal" -o \
+			"$COLORTERM" == "xfce4-terminal" ]; then
     export TERM='xterm-256color'
+    export terminal_colors=256
 elif command -v tput 1> /dev/null 2>&1; then
     # We have color support; assume it's compliant with Ecma-48 (ISO/IEC-6429).
-    terminal_colors=$(tput -T$TERM colors)
+    export terminal_colors=$(tput -T$TERM colors)
 else
     # Assume no colors are available.
-    terminal_colors=0
+    export terminal_colors=0
 fi
 
 
-gray()
-{
-    v=${1-0}
-}
 
-rgb_256()
+tc_to_256()
 {
     v=$1
     cv=0
@@ -41,7 +40,7 @@ rgb_256()
     printf "$cv"
 }
 
-rgb_88()
+tc_to_88()
 {
     v=$1
     cv=0
@@ -57,6 +56,36 @@ rgb_88()
     printf "$cv"
 }
 
+
+gray_256()
+{
+    v=${1-0}
+}
+
+
+rgb_256()
+{
+    if [ $1 -eq $2 -a $2 -eq $3 ]; then
+	gray_256 $1
+    fi
+    printf "5;%d\n" $(( $1*36 + $2*6 + $3 + 16))
+}
+
+
+gray_88()
+{
+    :
+}
+
+
+rgb_88()
+{
+    if [ $1 -eq $2 -a $2 -eq $3 ]; then
+	gray_88 $1
+    fi
+    printf "5;%d\n" $(( $1*16 + $2*4 + $3 + 16))
+}
+
 rgb_16()
 {
     :
@@ -64,24 +93,28 @@ rgb_16()
 
 rgb()
 {
-    r=${1-0}
-    g=${2-0}
-    b=${3-0}
-
-    # All colors equal - use grayscale instead.
-    if [ $r -eq $g -a $g -eq $b ]; then
-	gray $r
-    fi
-
-    if [ $terminal_colors -eq 256 ]; then
-	rgb_256
+    if [ $terminal_colors == "truecolor" ]; then
+	printf "2;%s;%s;%s" $1 $2 $3
+    elif [ $terminal_colors -eq 256 ]; then
+	rgb_256 $(tc_to_256 $1) $(tc_to_256 $2) $(tc_to_256 $3)
     elif [ $terminal_colors -eq 88 ]; then
-	:
+	rgb_88 $(tc_to_88 $1) $(tc_to_88 $2) $(tc_to_88 $3)
     elif [ $terminal_colors -eq 16 ]; then
-	:
+	: # To-be-implemented.
     elif [ $terminal_colors -eq 8 ]; then
-	:
+	: # To-be-implemented.
     else
-	:
+	: # To-be-implemented.
     fi
+}
+
+# Set a color in the foreground i.e., the text is colored.
+fg_rgb()
+{
+    printf "\33[38;%sm" `rgb $1 $2 $3`
+}
+
+bg_rgb()
+{
+    printf "\33[48;%sm" `rgb $1 $2 $3`
 }
