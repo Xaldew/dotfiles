@@ -1,4 +1,5 @@
 ;; Setup settings used in C-like languages such as C/C++/Java.
+(require 'cc-mode)
 
 (defun my-cc-init-hook ()
   "Initialization hook for CC-mode runs before any other hooks,
@@ -14,14 +15,26 @@
   'font-lock-format-specifier-face
   "Face name to use for format specifiers.")
 
+(defconst doxygen-font-lock-doc-comments
+  `(("\\<\\(FIXME\\|TODO\\):?" 1 font-lock-warning-face prepend)
+    ,@(copy-sequence javadoc-font-lock-doc-comments))
+  "Additional font-lock definitions for doxygen like-fonts.")
+
+
+(defconst doxygen-font-lock-keywords
+  `((,(lambda (limit)
+	(c-font-lock-doc-comments "/\\*\\*" limit
+	  doxygen-font-lock-doc-comments))))
+  "Function to run for doxygen documentation font-locking.")
+
 
 (defun my-cc-mode-common-hook ()
   "Setup common utilities for all C-like modes."
   (setq-local c-doc-comment-style
 	      '((java-mode . javadoc)
 		(pike-mode . autodoc)
-		(c-mode    . javadoc)
-		(c++-mode  . javadoc)))
+		(c-mode    . doxygen)
+		(c++-mode  . doxygen)))
   (face-remap-add-relative 'font-lock-doc-face
 			   :foreground (face-foreground font-lock-comment-face))
   (font-lock-add-keywords
