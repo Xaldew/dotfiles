@@ -19,20 +19,18 @@ else
 fi
 
 
-
 tc_to_256()
 {
-    v=$1
     cv=0
-    if   [ $v -lt 256 -a $v -ge 212 ]; then
+    if   [ $1 -ge 212 ]; then
 	cv=5
-    elif [ $v -lt 212 -a $v -ge 171 ]; then
+    elif [ $1 -lt 212 -a $1 -ge 171 ]; then
 	cv=4
-    elif [ $v -lt 171 -a $v -ge 128 ]; then
+    elif [ $1 -lt 171 -a $1 -ge 128 ]; then
 	cv=3
-    elif [ $v -lt 128 -a $v -ge 85 ]; then
+    elif [ $1 -lt 128 -a $1 -ge 85 ]; then
 	cv=2
-    elif [ $v -lt 85 -a $v -ge 31 ]; then
+    elif [ $1 -lt 85 -a $1 -ge 31 ]; then
 	cv=1
     else
 	cv=0
@@ -42,13 +40,12 @@ tc_to_256()
 
 tc_to_88()
 {
-    v=$1
     cv=0
-    if   [ $v -lt 256 -a $v -ge 192 ]; then
+    if   [ $1 -ge 192 ]; then
 	cv=3
-    elif [ $v -lt 192 -a $v -ge 128 ]; then
+    elif [ $1 -lt 192 -a $1 -ge 128 ]; then
 	cv=2
-    elif [ $v -lt 128 -a $v -ge 45 ]; then
+    elif [ $1 -lt 128 -a $1 -ge 45 ]; then
 	cv=1
     else
 	cv=0
@@ -58,12 +55,12 @@ tc_to_88()
 
 gray_256()
 {
-    if [ $1 -lt 10 ]; then
-	printf "5;16\n"
+    if   [ $1 -lt 10 ]; then
+	printf "5;16"
     elif [ $1 -ge 255 ]; then
-	printf "5;255\n"
+	printf "5;255"
     else
-	printf "5;%d\n" $(( 232 + (24*$1/255) ))
+	printf "5;%d" $(( 232 + (24*$1/255) ))
     fi
 }
 
@@ -71,18 +68,22 @@ rgb_256()
 {
     if [ $1 -eq $2 -a $2 -eq $3 ]; then
 	gray_256 $1
+    else
+	r=$(tc_to_256 $1)
+	g=$(tc_to_256 $2)
+	b=$(tc_to_256 $3)
+	printf "5;%d" $(( $r*36 + $g*6 + $b + 16))
     fi
-    printf "5;%d\n" $(( $1*36 + $2*6 + $3 + 16))
 }
 
 gray_88()
 {
     if [ $1 -lt 28 ]; then
-	printf "5;16\n"
+	printf "5;16"
     elif [ $1 -ge 255 ]; then
-	printf "5;88\n"
+	printf "5;88"
     else
-	printf "5;%d\n" $(( 80 + (8*$1/255) ))
+	printf "5;%d" $(( 80 + (8*$1/255) ))
     fi
 }
 
@@ -90,8 +91,12 @@ rgb_88()
 {
     if [ $1 -eq $2 -a $2 -eq $3 ]; then
 	gray_88 $1
+    else
+	r=$(tc_to_88 $1)
+	g=$(tc_to_88 $2)
+	b=$(tc_to_88 $3)
+	printf "5;%d" $(( $1*16 + $2*4 + $3 + 16))
     fi
-    printf "5;%d\n" $(( $1*16 + $2*4 + $3 + 16))
 }
 
 rgb_16()
@@ -104,9 +109,9 @@ rgb()
     if [ $terminal_colors == "truecolor" ]; then
 	printf "2;%s;%s;%s" $1 $2 $3
     elif [ $terminal_colors -eq 256 ]; then
-	rgb_256 $(tc_to_256 $1) $(tc_to_256 $2) $(tc_to_256 $3)
+	rgb_256 $1 $2 $3
     elif [ $terminal_colors -eq 88 ]; then
-	rgb_88 $(tc_to_88 $1) $(tc_to_88 $2) $(tc_to_88 $3)
+	rgb_88 $1 $2 $3
     elif [ $terminal_colors -eq 16 ]; then
 	: # To-be-implemented.
     elif [ $terminal_colors -eq 8 ]; then
@@ -119,10 +124,34 @@ rgb()
 # Set a color in the foreground i.e., the text is colored.
 fg_rgb()
 {
-    printf "\33[38;%sm" `rgb $1 $2 $3`
+    printf "\[\33[38;%sm\]" `rgb $1 $2 $3`
 }
 
 bg_rgb()
 {
-    printf "\33[48;%sm" `rgb $1 $2 $3`
+    printf "\[\33[48;%sm\]" `rgb $1 $2 $3`
+}
+
+# Make the following text bold-face.
+bold()
+{
+    printf "\[\33[1m\]"
+}
+
+# Make the following text underlined.
+underline()
+{
+    printf "\[\33[4m\]"
+}
+
+# Make the following text displayed in reverse-video.
+reverse-video()
+{
+    printf "\[\33[7m\]"
+}
+
+# Turn off any colored text.
+color_off()
+{
+    printf "\[\33[0m\]"
 }

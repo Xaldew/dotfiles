@@ -2,6 +2,7 @@
 # Adds useful coloration and svn/git information to the prompt.
 
 . $local_prefix_dir/bin/git-prompt.sh
+. $dotfiles_dir/scripts/setup_terminal_colors.sh
 
 # Reset
 Color_Off='\[\e[0m\]'       # Text Reset
@@ -160,9 +161,15 @@ cmd_status()
 set_prompt()
 {
     last_status=$?
-    PS1="[\u@\h(\j) \W"
+    PS1="["
+    PS1+="$(fg_rgb 155 155 155)\u$(color_off)"
+    PS1+="$(fg_rgb 140 0 140)@$(color_off)"
+    PS1+="$(fg_rgb 100 100 100)\h$(color_off)"
+    PS1+="(\j)"
+    PS1+=" \W"
     PS1+=$(scm_status)
-    PS1+="]$(cmd_status ${last_status}) "
+    PS1+="]"
+    PS1+="$(cmd_status ${last_status}) "
 }
 
 if [[ $(tty) =~ .*tty^s.* ]] || [[ "$TERM" =~ ^linux$ ]]; then
