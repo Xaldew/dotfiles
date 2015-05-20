@@ -102,18 +102,18 @@
     (remove-used-args cmd misc-args)
 
     ;; Apply flycheck include paths and definitions.
-    (setq flycheck-clang-include-path
-	  (append flycheck-clang-include-path incls))
-    (setq flycheck-gcc-include-path
-	  (append flycheck-gcc-include-path incls))
-    (setq flycheck-clang-includes
-	  (append flycheck-clang-includes sys-incls))
-    (setq flycheck-gcc-includes
-	  (append flycheck-gcc-includes sys-incls))
-    (setq flycheck-clang-definitions
-	  (append flycheck-clang-definitions defs))
-    (setq flycheck-gcc-definitions
-	  (append flycheck-gcc-definitions defs))
+    (setq-local flycheck-clang-include-path
+		(append flycheck-clang-include-path incls))
+    (setq-local flycheck-gcc-include-path
+		(append flycheck-gcc-include-path incls))
+    (setq-local flycheck-clang-includes
+		(append flycheck-clang-includes sys-incls))
+    (setq-local flycheck-gcc-includes
+		(append flycheck-gcc-includes sys-incls))
+    (setq-local flycheck-clang-definitions
+		(append flycheck-clang-definitions defs))
+    (setq-local flycheck-gcc-definitions
+		(append flycheck-gcc-definitions defs))
 
 
     (print defs)
