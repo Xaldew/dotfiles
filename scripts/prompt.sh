@@ -157,6 +157,15 @@ cmd_status()
     fi
 }
 
+job_count()
+{
+    stopped=$(jobs -sp | wc -l)
+    running=$(jobs -rp | wc -l)
+    ((running+stopped)) &&
+	printf "($(fg_rgb 0 100 0)${running}r$(color_off)/" &&
+	printf "$(fg_rgb 155 40 0)${stopped}s$(color_off))"
+}
+
 # Set the prompt.
 set_prompt()
 {
@@ -165,8 +174,8 @@ set_prompt()
     PS1+="$(fg_rgb 155 155 155)\u$(color_off)"
     PS1+="$(fg_rgb 140 0 140)@$(color_off)"
     PS1+="$(fg_rgb 100 100 100)\h$(color_off)"
-    PS1+="(\j)"
-    PS1+=" \W"
+    PS1+="$(job_count) "
+    PS1+="\W"
     PS1+=$(scm_status)
     PS1+="]"
     PS1+="$(cmd_status ${last_status}) "
