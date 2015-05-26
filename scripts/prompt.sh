@@ -4,79 +4,35 @@
 . $local_prefix_dir/bin/git-prompt.sh
 . $dotfiles_dir/scripts/setup_terminal_colors.sh
 
-# Reset
-Color_Off='\[\e[0m\]'       # Text Reset
+sh_fg_rgb()
+{
+    printf "\[\33[38;%sm\]" `rgb $1 $2 $3`
+}
 
-# Regular Colors
-Black='\[\e[0;30m\]'        # Black
-Red='\[\e[0;31m\]'          # Red
-Green='\[\e[0;32m\]'        # Green
-Yellow='\[\e[0;33m\]'       # Yellow
-Blue='\[\e[0;34m\]'         # Blue
-Purple='\[\e[0;35m\]'       # Purple
-Cyan='\[\e[0;36m\]'         # Cyan
-White='\[\e[0;37m\]'        # White
-Brown='\[\e[0;33m\]'        # Brown
+sh_bg_rgb()
+{
+    printf "\[\33[48;%sm\]" `rgb $1 $2 $3`
+}
 
-# Bold
-BBlack='\[\e[1;30m\]'       # Black
-BRed='\[\e[1;31m\]'         # Red
-BGreen='\[\e[1;32m\]'       # Green
-BYellow='\[\e[1;33m\]'      # Yellow
-BBlue='\[\e[1;34m\]'        # Blue
-BPurple='\[\e[1;35m\]'      # Purple
-BCyan='\[\e[1;36m\]'        # Cyan
-BWhite='\[\e[1;37m\]'       # White
+sh_bold()
+{
+    printf "\[\33[1m\]"
+}
 
-# Underline
-UBlack='\[\e[4;30m\]'       # Black
-URed='\[\e[4;31m\]'         # Red
-UGreen='\[\e[4;32m\]'       # Green
-UYellow='\[\e[4;33m\]'      # Yellow
-UBlue='\[\e[4;34m\]'        # Blue
-UPurple='\[\e[4;35m\]'      # Purple
-UCyan='\[\e[4;36m\]'        # Cyan
-UWhite='\[\e[4;37m\]'       # White
+sh_underline()
+{
+    printf "\[\33[4m\]"
+}
 
-# Background
-On_Black='\[\e[40m\]'       # Black
-On_Red='\[\e[41m\]'         # Red
-On_Green='\[\e[42m\]'       # Green
-On_Yellow='\[\e[43m\]'      # Yellow
-On_Blue='\[\e[44m\]'        # Blue
-On_Purple='\[\e[45m\]'      # Purple
-On_Cyan='\[\e[46m\]'        # Cyan
-On_White='\[\e[47m\]'       # White
+sh_reverse-video()
+{
+    printf "\[\33[7m\]"
+}
 
-# High Intensity
-IBlack='\[\e[0;90m\]'       # Black
-IRed='\[\e[0;91m\]'         # Red
-IGreen='\[\e[0;92m\]'       # Green
-IYellow='\[\e[0;93m\]'      # Yellow
-IBlue='\[\e[0;94m\]'        # Blue
-IPurple='\[\e[0;95m\]'      # Purple
-ICyan='\[\e[0;96m\]'        # Cyan
-IWhite='\[\e[0;97m\]'       # White
-
-# Bold High Intensity
-BIBlack='\[\e[1;90m\]'      # Black
-BIRed='\[\e[1;91m\]'        # Red
-BIGreen='\[\e[1;92m\]'      # Green
-BIYellow='\[\e[1;93m\]'     # Yellow
-BIBlue='\[\e[1;94m\]'       # Blue
-BIPurple='\[\e[1;95m\]'     # Purple
-BICyan='\[\e[1;96m\]'       # Cyan
-BIWhite='\[\e[1;97m\]'      # White
-
-# High Intensity backgrounds
-On_IBlack='\[\e[0;100m\]'   # Black
-On_IRed='\[\e[0;101m\]'     # Red
-On_IGreen='\[\e[0;102m\]'   # Green
-On_IYellow='\[\e[0;103m\]'  # Yellow
-On_IBlue='\[\e[0;104m\]'    # Blue
-On_IPurple='\[\e[0;105m\]'  # Purple
-On_ICyan='\[\e[0;106m\]'    # Cyan
-On_IWhite='\[\e[0;107m\]'   # White
+sh_color_off()
+{
+    printf "\[\33[0m\]"
+}
 
 
 bzr_prompt_info()
@@ -87,7 +43,7 @@ bzr_prompt_info()
 		    awk -F / '{print " (bzr::"$1")"}')
     if [ -n "$bzr_cb" ]; then
 	bzr_dirty=""
-	[[ -n `bzr status` ]] && bzr_dirty="${Red} *"
+	[[ -n `bzr status` ]] && bzr_dirty="$(sh_fg_rgb 155 0 0) *"
 	printf "%s" "$bzr_cb$bzr_dirty"
     fi
 }
@@ -142,7 +98,7 @@ scm_status()
     svn=$(svn_prompt_info)
     bzr=$(bzr_prompt_info)
     hg=$(hg_prompt_info)
-    printf "${Green}%s${Color_Off}" "${git}${svn}${bzr}${hg}"
+    printf "$(sh_fg_rgb 0 155 0)%s$(sh_color_off)" "${git}${svn}${bzr}${hg}"
 }
 
 
@@ -151,9 +107,9 @@ scm_status()
 cmd_status()
 {
     if [ $1 -eq 0 ]; then
-	printf "${Cyan}\$${Color_Off}"
+	printf "$(sh_fg_rgb 0 155 155)\$$(sh_color_off)"
     else
-	printf "${Red}\$${Color_Off}"
+	printf "$(sh_fg_rgb 155 0 0)\$$(sh_color_off)"
     fi
 }
 
@@ -162,8 +118,8 @@ job_count()
     stopped=$(jobs -sp | wc -l)
     running=$(jobs -rp | wc -l)
     ((running+stopped)) &&
-	printf "($(fg_rgb 0 100 0)${running}r$(color_off)/" &&
-	printf "$(fg_rgb 155 40 0)${stopped}s$(color_off))"
+	printf "($(sh_fg_rgb 0 100 0)${running}r$(sh_color_off)/" &&
+	printf "$(sh_fg_rgb 155 40 0)${stopped}s$(sh_color_off))"
 }
 
 # Set the prompt.
@@ -171,9 +127,9 @@ set_prompt()
 {
     last_status=$?
     PS1="["
-    PS1+="$(fg_rgb 155 155 155)\u$(color_off)"
-    PS1+="$(fg_rgb 140 0 140)@$(color_off)"
-    PS1+="$(fg_rgb 100 100 100)\h$(color_off)"
+    PS1+="$(sh_fg_rgb 135 135 135)\u$(sh_color_off)"
+    PS1+="$(sh_fg_rgb 220 220 220)@$(sh_color_off)"
+    PS1+="$(sh_fg_rgb 120 120 120)\h$(sh_color_off)"
     PS1+="$(job_count) "
     PS1+="\W"
     PS1+=$(scm_status)

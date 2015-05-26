@@ -124,34 +124,34 @@ rgb()
 # Set a color in the foreground i.e., the text is colored.
 fg_rgb()
 {
-    printf "\[\33[38;%sm\]" `rgb $1 $2 $3`
+    printf "\33[38;%sm" `rgb $1 $2 $3`
 }
 
 bg_rgb()
 {
-    printf "\[\33[48;%sm\]" `rgb $1 $2 $3`
+    printf "\33[48;%sm" `rgb $1 $2 $3`
 }
 
 # Make the following text bold-face.
 bold()
 {
-    printf "\[\33[1m\]"
+    printf "\33[1m"
 }
 
 # Make the following text underlined.
 underline()
 {
-    printf "\[\33[4m\]"
+    printf "\33[4m"
 }
 
 # Make the following text displayed in reverse-video.
 reverse-video()
 {
-    printf "\[\33[7m\]"
+    printf "\33[7m"
 }
 
 # Turn off any colored text.
 color_off()
 {
-    printf "\[\33[0m\]"
+    printf "\33[0m"
 }
