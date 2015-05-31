@@ -27,6 +27,8 @@
 ;; Changes all yes/no questions to y/n type.
 (fset 'yes-or-no-p 'y-or-n-p)
 
+;; Killing a line at the begining of a line removes the line as well.
+(setq kill-whole-line t)
 
 ;; Fix dictionaries for Aspell.
 (setq ispell-program-name "aspell")
