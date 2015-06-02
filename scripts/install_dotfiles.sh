@@ -67,6 +67,7 @@ if [ ! -r "$HOME/.emacs.d/elisp/gl-conf-mode.el" ]; then
     git clone --quiet \
 	git://github.com/llloret/gitolite-emacs.git $tmp/gitolite-emacs
     cp --force $tmp/gitolite-emacs/gl-conf-mode.el $HOME/.emacs.d/elisp/
+    rm -rf $tmp
 fi
 
 # Create vim data and plugin directories.
