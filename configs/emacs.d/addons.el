@@ -70,7 +70,6 @@
 (add-hook 'cc-mode-hook 'ac-cc-mode-setup)
 (add-hook 'cc-mode-hook 'my/ac-cc-setup-hook)
 (add-hook 'c++-mode-hook 'my/ac-c++-setup-hook)
-(add-hook 'python-mode-hook 'ac-anaconda-setup)
 (global-auto-complete-mode t)
 
 
@@ -91,23 +90,6 @@
   '(custom-set-variables
     '(flycheck-display-errors-function #'flycheck-pos-tip-error-messages)))
 
-
-;; Activate anaconda-mode.
-(defun my/python-mode-hook ()
-  "My python mode hook."
-  (highlight-indentation-mode)
-  (anaconda-mode)
-  (eldoc-mode)
-  (setq-local whitespace-style '(face
-				 tabs
-				 tab-mark
-				 indentation
-				 indentation::space
-				 trailing))
-  ;; Define a fix for the re-mapping of find-tag.
-  (define-key anaconda-mode-map
-    [remap xref-find-definitions] 'anaconda-mode-goto))
-(add-hook 'python-mode-hook 'my/python-mode-hook)
 
 ;; Add CSS-eldoc to the css-hook.
 (add-hook 'css-mode-hook 'turn-on-css-eldoc)

@@ -34,6 +34,7 @@
 (load-user-file "ccmode.el")
 (load-user-file "cmode.el")
 (load-user-file "cppmode.el")
+(load-user-file "pymode.el")
 (load-user-file "module-mk-parser.el")
 (load-user-file "parse-cdb.el")
 ;;(load-user-file "latexmode.el")
