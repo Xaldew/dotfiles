@@ -1,4 +1,13 @@
-;; This file contains various useful functions.
+;; This file contains various useful functions and aliases.
+
+
+(defun indent-defun ()
+  "Indent the currently active defun."
+  (interactive)
+  (mark-defun)
+  (indent-region (point) (mark)))
+
+(defalias 'idf 'indent-defun)
 
 
 (defun indent-whole-buffer ()
