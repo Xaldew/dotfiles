@@ -15,7 +15,7 @@ local_module := ${1:`(file-name-base
 local_srcs := \\
 	${2:`(mapconcat 'identity (c/c++-list-files) " \\\n\t")`}
 
-include \$(${3:$$(yas-choose-value '("BUILD_EXECUTABLE"
+include \$(${3:$$(yas-choose-value '("BUILD_BINARY"
 				     "BUILD_TEST"
 				     "BUILD_STATIC_LIBRARY"
 				     "BUILD_SHARED_LIBRARY"))})$0
