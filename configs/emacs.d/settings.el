@@ -106,3 +106,7 @@
 
 ;; Use gdb-many-windows by default and start at the main routine.
 (setq gdb-many-windows t gdb-show-main t)
+
+;; Increase lisp evaluation depth and the number of variable bindings.
+(setq max-lisp-eval-depth '40000)
+(setq max-specpdl-size '100000)
