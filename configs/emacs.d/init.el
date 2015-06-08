@@ -44,4 +44,5 @@
 (let ((generated-autoload-file (expand-file-name
 				"~/.emacs.d/elisp/local-autoloads.el")))
   (update-directory-autoloads (expand-file-name "~/.emacs.d/elisp"))
-  (load generated-autoload-file))
+  (load generated-autoload-file)
+  (kill-buffer (file-name-nondirectory generated-autoload-file)))

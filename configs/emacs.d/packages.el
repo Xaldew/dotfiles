@@ -62,12 +62,14 @@
 		     rainbow-delimiters
 		     zenburn-theme
 		     sublime-themes
-		     markdown-mode))
+		     markdown-mode
+		     form-feed))
 
 
 ;; Create an alist of where we should retrieve certain packages.
 (setq package-pinned-packages
-      '((coffee-mode . "melpa")))
+      '((coffee-mode . "melpa")
+	(form-feed . "melpa")))
 
 
 (or (file-exists-p package-user-dir)
@@ -79,3 +81,6 @@
     (condition-case nil
 	(package-install package)
       (error (message "[ERROR]: Failed to install package: %s." package)))))
+
+;; Remove no longer needed packages.
+(package-autoremove)
