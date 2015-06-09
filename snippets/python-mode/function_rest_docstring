@@ -1,0 +1,16 @@
+# -*- mode: snippet -*-
+# Insert reST style docstring and function definition.
+# name: Python reST Docstring
+# key: defr
+# type: snippet
+# contributor: Gustaf Waldemarson
+# --
+def ${1:name}($2):
+    \"\"\"$3
+    ${2:$(python-args-to-reST-docstring)}
+    ${5:.. Returns:
+    :returns: $6
+    ${7::rtype: $8
+}
+    }\"\"\"
+    $0

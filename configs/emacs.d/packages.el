@@ -63,6 +63,7 @@
 		     zenburn-theme
 		     sublime-themes
 		     markdown-mode
+		     dropdown-list
 		     form-feed))
 
 
