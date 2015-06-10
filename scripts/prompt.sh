@@ -65,10 +65,15 @@ parse_svn_repository_root()
 
 parse_svn_branch()
 {
-    parse_svn_url |
-	sed -e 's#^'"$(parse_svn_repository_root)"'##g' |
-	sed "s|^/branches/||" |
-	awk '{print $1}'
+    branch=$(parse_svn_url |
+		    sed -e 's#^'"$(parse_svn_repository_root)"'##g' |
+		    sed "s|^/branches/||" |
+		    awk '{print $1}')
+    if [[ $branch != *"trunk"* ]]; then
+	printf "::%s" $branch
+    else
+	printf ""
+    fi
 }
 
 parse_svn_rev()
@@ -83,7 +88,7 @@ svn_prompt_info()
     branch=$(parse_svn_branch)
     rev=$(parse_svn_rev)
     if [ -n "$rev" ]; then
-	printf " (svn::%s::%s)" $rev $branch
+	printf " (svn::%s%s)" $rev $branch
     fi
 }
 
