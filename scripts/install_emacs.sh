@@ -18,7 +18,7 @@ if [ -d $objects_dir/emacs ]; then
     make distclean
     git clean --force
     find -name *.elc -type f -print | xargs rm --force
-    find -name *.loaddefs.el? -type f -print | xargs rm --force
+    find -name *.loaddefs.el* -type f -print | xargs rm
     git checkout -B master remotes/origin/master
     git pull
     git checkout -B emacs-24 remotes/origin/emacs-24
@@ -44,7 +44,7 @@ make install
 make distclean
 git clean --force
 find -name *.elc -type f -print | xargs rm --force
-find -name *.loaddefs.el? -type f -print | xargs rm --force
+find -name *.loaddefs.el* -type f -print | xargs rm
 git checkout -B master origin/master
 sh autogen.sh
 ./configure --prefix=$local_prefix_dir \
