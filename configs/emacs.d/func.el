@@ -22,8 +22,7 @@
 (defun terminal-whitespace-toggle ()
   "White Space Toggling when in terminals."
   (interactive)
-  (if (and (boundp 'global-whitespace-mode)
-	   (boundp 'global-whitespace-mode))
+  (if (fboundp 'global-whitespace-mode)
       (if global-whitespace-mode
 	  (progn
 	    (global-whitespace-mode -1))

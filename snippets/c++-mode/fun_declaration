@@ -1,0 +1,11 @@
+# -*- mode: snippet -*-
+# Insert a (Javadoc) Doxygen style function declaration.
+# name: C++ Doxygen Function declaration
+# key: fn
+# type: snippet
+# constributor: Gustaf Waldemarson
+# --
+/** @brief $5
+    ${3:$(c++-doxy-docstring (yas-field-value 2) (yas-field-value 1))}
+*/
+${1:type} ${2:name}(${3:args})${4: const};
