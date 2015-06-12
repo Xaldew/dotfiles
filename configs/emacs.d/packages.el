@@ -64,7 +64,8 @@
 		     sublime-themes
 		     markdown-mode
 		     dropdown-list
-		     form-feed))
+		     form-feed
+		     undo-tree))
 
 
 ;; Create an alist of where we should retrieve certain packages.
