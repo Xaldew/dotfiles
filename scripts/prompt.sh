@@ -68,7 +68,8 @@ parse_svn_branch()
     branch=$(parse_svn_url |
 		    sed -e 's#^'"$(parse_svn_repository_root)"'##g' |
 		    sed "s|^/branches/||" |
-		    awk '{print $1}')
+		    awk '{print $1}' |
+		    sed -e 's|\([^/]\+\)/\?.*|\1|')
     if [[ $branch != *"trunk"* ]]; then
 	printf "::%s" $branch
     else
