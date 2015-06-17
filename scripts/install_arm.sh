@@ -14,8 +14,10 @@ shopt -s expand_aliases
 #### Exports
 export LC_ALL=en_US.utf8
 export LANG=en_US.utf8
+export ARM_PROJECT_NR=PJ01433
 export SCRATCH="/scratch/\$USER"
 export WORKSPACE_DIR="/work/mve/video"
+export GIT_HOME_DIR="/home/\$USER/git"
 
 #source common module load script, located in the project folder:
 source \$WORKSPACE_DIR/systemtest/script/bash/module_load.sh 2> /dev/null
@@ -35,10 +37,11 @@ export PLATFORM=i686-linux
 export SVNROOT=http://lun-svn1.lund.arm.com/svn/mpd/video
 
 #### Put some utils in PATH:
-export PATH=\$WORKSPACE_DIR/asic/util/i686-linux:\$PATH
 export PATH=\$WORKSPACE_DIR/systemtest/util/jm/jm14.0/bin:\$PATH
 export PATH=\$WORKSPACE_DIR/systemtest/test/system/out/util-linux64:\$PATH
 export PATH=\$WORKSPACE_DIR/systemtest/test/util/yuvtools:\$PATH
+export PATH=\$GIT_HOME_DIR/mve6/bench/regression_cluster:\$PATH
+export PATH=\$GIT_HOME_DIR/asic/i686-linux:\$PATH
 
 
 #### Load a few modules from /arm/tools/modulefiles
@@ -90,7 +93,8 @@ alias makedbg="  (goto_repo && cd test/system/ && \
     DEBUG=1 make DEBUG=1 MVE_VERSION=V500_R0P1_00REL0 -j12)"
 alias makeclean="(goto_repo && cd test/system/ && make clean)"
 alias makeutil=" (goto_repo && cd test/system/ && make util -j12)"
-alias bi="bsub -Is -P PJ00640 -R 'rhe6 && os64'" # bjobs/bwhat to monitor queue
+# bjobs/bwhat to monitor queue
+alias bi="bsub -Is -P \$ARM_PROJECT_NR -R 'rhe6 && os64' bash"
 alias lg="log --graph --pretty=format:'%Cred%h%Creset - \
     %C(bold blue)%an%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr)' \
     --abbrev-commit"
