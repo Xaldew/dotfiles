@@ -1,5 +1,5 @@
 # -*- mode: snippet -*-
-# Insert doxygen snippet for a function.
+# Insert a dynamic fields snippet for python string formatting.
 # name: format string
 # key: doxy
 # type: command
@@ -7,24 +7,24 @@
 # --
 (defvar yas/python-format-string-last-string nil)
 (defun yas/python-make-format-args (text &optional dont-make-fields)
-    (let ((output)
-          (nr 1))
-      (set-match-data nil)
-      (while (string-match "%." text (match-end 0))
-        (setq output (if (eq nr 1) " % (" (concat output ", ")))
-        (setq output (concat output
-                             (unless dont-make-fields (format "${%d:" nr))
-                             (format "arg%d" nr)
-                             (unless dont-make-fields "}")))
-        (incf nr))
-      (setq yas/python-format-string-last-string text)
-      (if output (setq output (concat output ")")))))
+  (let ((output)
+	(nr 1))
+    (set-match-data nil)
+    (while (string-match "%." text (match-end 0))
+      (setq output (if (eq nr 1) " % (" (concat output ", ")))
+      (setq output (concat output
+			   (unless dont-make-fields (format "${%d:" nr))
+			   (format "arg%d" nr)
+			   (unless dont-make-fields "}")))
+      (incf nr))
+    (setq yas/python-format-string-last-string text)
+    (if output (setq output (concat output ")")))))
 
 (defun yas/python-format-string-snippet-2 ()
-    (yas/expand-snippet (yas/python-make-format-args
-                         yas/python-format-string-last-string))
-			(deactivate-mark))
+  (let* ((snippet yas/python-format-string-last-string))
+    (yas-expand-snippet (yas/python-make-format-args snippet))))
 
-(yas/expand-snippet (concat "\"${1:hello world, %s}\"
-${0:${1:$(yas/python-make-format-args yas/text
-'no-fields)}$(yas/python-format-string-snippet-2)}"))
+(yas-expand-snippet
+  (concat "\"${1:hello world, %s}\""
+	  "${0:${1:$(yas/python-make-format-args yas-text 'no-fields)}"
+	  "$(yas/python-format-string-snippet-2)}"))
