@@ -1,8 +1,8 @@
 #!/usr/bin/env sh
 # Adds useful coloration and svn/git information to the prompt.
 
-. $local_prefix_dir/bin/git-prompt.sh
-. $dotfiles_dir/scripts/setup_terminal_colors.sh
+source_if $local_prefix_dir/bin/git-prompt.sh
+source_if $dotfiles_dir/scripts/setup_terminal_colors.sh
 
 sh_fg_rgb()
 {

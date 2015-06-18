@@ -127,6 +127,18 @@ cut -d'/' -f4 | awk '{printf \"%-30s\", \$2 ; print \"\\t\" \$1 }' | \
 sort | uniq"
 
 
+source_if()
+{
+    # Source the given files if they exist.
+    for f in "$@"; do
+	if [ -e "$1" ]; then
+	    . $1
+	else
+	    return
+	fi
+    done
+}
+
 function dls ()
 {
     # List directories.
