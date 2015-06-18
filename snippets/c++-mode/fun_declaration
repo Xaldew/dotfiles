@@ -6,6 +6,10 @@
 # constributor: Gustaf Waldemarson
 # --
 /** @brief $5
-    ${3:$(c++-doxy-docstring (yas-field-value 2) (yas-field-value 1))}
+    ${3:$(c++-doxy-docstring yas-text (yas-field-value 2) (yas-field-value 1) t)}
 */
 ${1:type} ${2:name}(${3:args})${4: const};
+${0:$$(let ((beg yas-snippet-beg)
+            (end yas-snippet-end))
+	(yas-expand-snippet
+	  (buffer-substring-no-properties beg end) beg end))}

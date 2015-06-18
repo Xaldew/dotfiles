@@ -1,6 +1,7 @@
 (defun c++-split-args (fn-name arg-string)
   "Split a C++ argument string into a list of names."
-  (if (fboundp 'semantic-analyze-find-tag)
+  (if (and (bound-and-true-p semantic-mode)
+	   (fboundp 'semantic-analyze-find-tag))
       (let*
 	  ((sem-tag (when fn-name (semantic-analyze-find-tag fn-name)))
 	   (args (when sem-tag
@@ -10,25 +11,29 @@
 	      (nth 1 (split-string x)))
 	    (split-string arg-string "[[:blank:]]*,[[:blank:]]*" t))))
 
-(defun c++-doxy-docstring (fn-name return-value)
-  "return docstring format for the python arguments in yas-text"
+
+(defun c++-doxy-docstring (text fn-name return-value &optional make-fields)
+  "Return docstring format for the C++ arguments in `text'."
   (let* ((indent (concat "\n" (make-string (current-column) 32)))
-         (args (c++-split-args fn-name yas-text))
+         (args (c++-split-args fn-name text))
          (max-len (if args
 		      (apply 'max (mapcar (lambda (x) (length x)) args))
 		    0))
+	 (nr 0)
          (formatted-args
 	  (mapconcat
 	   (lambda (x) (concat
 			"@param "
-			x
-			(make-string (- max-len (length x)) ? )
-			" "))
+			x (make-string (- max-len (length x)) ? )
+			(if make-fields (format " ${%d:arg%d}" (incf nr) nr))))
 	   args
 	   indent)))
     (concat
      (unless (string= formatted-args "")
        (concat
 	indent (mapconcat 'identity (list formatted-args) indent)))
+       (if (and (> (length args) 3)
+		(not (string= "void" return-value)))
+	   indent)
      (unless (string= "void" return-value)
-       (concat indent "@return ")))))
+       (format "%s@return ${%d:Returns...}" indent (1+ nr))))))

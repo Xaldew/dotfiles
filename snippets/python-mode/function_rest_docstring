@@ -8,10 +8,13 @@
 def ${1:name}($2):
     \"\"\"$3
     ${2:$(python-args-to-reST-docstring yas-text t)}
-    ${4:${2:$(python-arg-types-to-reST-docstring)}
+    ${4:${2:$(python-arg-types-to-reST-docstring yas-text t)}
     }${5:.. Returns:
     :returns: $6
     ${7::rtype: $8
 }
     }\"\"\"
-    ${0:$$(yas-expand-snippet (buffer-substring-no-properties yas-snippet-beg yas-snippet-end) yas-snippet-beg yas-snippet-end)}
+    ${0:$$(let ((beg yas-snippet-beg)
+	        (end yas-snippet-end))
+	    (yas-expand-snippet
+	      (buffer-substring-no-properties beg end) beg end))}
