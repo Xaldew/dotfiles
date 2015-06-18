@@ -16,7 +16,7 @@ export LC_ALL=en_US.utf8
 export LANG=en_US.utf8
 export ARM_PROJECT_NR=PJ01433
 export SCRATCH="/scratch/\$USER"
-export WORKSPACE_DIR="/work/mve/video"
+export WORKSPACE_DIR="/home/\$USER/mve/video"
 export GIT_HOME_DIR="/home/\$USER/git"
 
 #source common module load script, located in the project folder:
