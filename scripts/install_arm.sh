@@ -93,11 +93,11 @@ alias makedbg="  (goto_repo && cd test/system/ && \
     DEBUG=1 make DEBUG=1 MVE_VERSION=V500_R0P1_00REL0 -j12)"
 alias makeclean="(goto_repo && cd test/system/ && make clean)"
 alias makeutil=" (goto_repo && cd test/system/ && make util -j12)"
+
 # bjobs/bwhat to monitor queue
 alias bi="bsub -Is -P \$ARM_PROJECT_NR -R 'rhe6 && os64' bash"
-alias lg="log --graph --pretty=format:'%Cred%h%Creset - \
-    %C(bold blue)%an%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr)' \
-    --abbrev-commit"
+alias bs='bsub -P PJ01433 -q normal -R "rhe6 && os64"'
+
 
 # Preserve path when entering (fake) sudo.
 alias sudo='sudo env PATH=\$PATH'
