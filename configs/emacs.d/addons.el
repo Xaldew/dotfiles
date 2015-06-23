@@ -107,3 +107,9 @@
 
 ;; Use undo-tree instead of the regular undo-chain.
 (global-undo-tree-mode)
+
+
+;; Enable projectile-mode globally.
+(projectile-global-mode)
+(when (executable-find "ex-ctags")
+  (setq projectile-tags-command "ex-ctags -Re -f \"%s\" %s"))
