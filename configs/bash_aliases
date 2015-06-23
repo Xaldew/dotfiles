@@ -118,7 +118,6 @@ alias gt=git
 
 alias qemu-arm="qemu-arm -L /usr/arm-linux-gnueabihf"
 
-alias open=xdg-open
 alias latexmk="latexmk -pdf"
 alias gcc-defines="gcc -dM -E - < /dev/null"
 alias g++-defines="g++ -dM -E - < /dev/null"
@@ -127,12 +126,20 @@ cut -d'/' -f4 | awk '{printf \"%-30s\", \$2 ; print \"\\t\" \$1 }' | \
 sort | uniq"
 
 
+open()
+{
+    # Open each of the given files with the prefered application.
+    for f in "$@"; do
+	xdg-open $f
+    done
+}
+
 source_if()
 {
     # Source the given files if they exist.
     for f in "$@"; do
-	if [ -e "$1" ]; then
-	    . $1
+	if [ -e "$f" ]; then
+	    . $f
 	else
 	    return
 	fi
