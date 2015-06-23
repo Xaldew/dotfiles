@@ -3,22 +3,47 @@ This is repository containing my personal configuration for various programs. It
 is only intended to be portable to a limited number of platforms but still be
 easily installable on a new computer.
 
-## Installation.
-The install script assumes use of a fairly modern Bash. It will likely be
-updated at some point, but for now this is how you can use it.
+## Installation
+The install script assumes use of a fairly modern version of Bash. To be
+specific, it needs Bash version 4 for the associative arrays.
 
-The scripts executes commands based on the flags it is given. Currently, the
-following flags exist:
+The scripts executes commands based on the flags it is given. Also, several
+options are available to move install locations and setting various options.
 
-* -h, --help: Show the available flags.
-* -i, --install-packages: Install a listed set of Ubuntu/Fedora packages. Has no
-effect on other systems.
-* -d, --dotfiles: Install the program configuration dotfiles. Can download
-additional utility scripts.
-* -a, --autostart: Install autostart scripts. These are executed upon logging in
-through the window system login manager.
-* -f, --install-fonts: Install the source-code-pro font (and possibly others
-later on).
-* -w, --work-config: Inject additional utilities and configuration into .bashrc
-to make the configuration work at work.
-* -c, --clean: Remove all configuration dotfiles.
+## Flags
+Currently, the following flags exists:
+
+    -h         --help                Display this help text.
+
+    -i         --install-packages    Enable installation of repository software
+                                     packages.
+
+    -e         --external-programs   Install all external utilities.
+
+    -d         --dotfiles            Install all configuration dotfiles."
+
+    -a         --autostart           Install autostart programs.
+
+    -f         --fonts               Install extra fonts.
+
+    -w         --work                Install the configuration used at work.
+
+    -c         --clean               Clean up all the previously installed
+                                     configuration.
+
+    -o DIR     --objects DIR         Set the directory to use for compiled
+                                     objects and external tools.
+                                     Default: "$HOME/git/installs" or the
+                                     environment variable "objects_dir".
+
+    -l DIR     --local-prefix DIR    Set the local prefix for binaries and man
+                                     pages.
+                                     Default: "$HOME/.local/" or the environment
+                                     variable "local_prefix_dir".
+
+    -tc NUM    --colors NUM          Force the use of 8, 16, 88 or 256 colors
+                                     in the terminal windows. Any other values
+                                     are invalid.
+
+    -r DIR     --ram-disk DIR        Select a directory to setup as a RAMDISK.
+                                     (Not yet implemented.)
