@@ -8,6 +8,6 @@
 namespace ${1:Namespace}
 {
 
-    `(or yas/selected-text (car kill-ring))`
-$0
+`(or yas-selected-text (car kill-ring))`$0
+
 } /* namespace $1 */

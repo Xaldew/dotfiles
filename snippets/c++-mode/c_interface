@@ -1,0 +1,16 @@
+# -*- mode: snippet -*-
+# Insert C++ C-interface ifdefs.
+# name: Insert C++ C-interface snippets.
+# key: cif
+# type: snippet
+# constributor: Gustaf Waldemarson
+# --
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+`(or yas-selected-text (car kill-ring))`$0
+
+#ifdef __cplusplus
+}
+#endif
