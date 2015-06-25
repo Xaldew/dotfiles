@@ -72,22 +72,5 @@
 	    (c-set-style style))
 	(c-set-style "linux-tabs-style"))) )) ; Default to linux-tab-style.
 
-
-(defun my-brace-placement ()
-  "Place the braces based on the currently active c-style."
-  (cond ((string-equal my-coding-style "linux")
-	 (insert " {"))
-	((string-equal my-coding-style "misra")
-	 (newline-and-indent)
-	 (insert "{"))
-	(t (insert " {")) )) ; Default.
-
-
-(defun my-alist-test ()
-  "Various tests with c-hanging-brace-alist."
-  (interactive)
-  (print c-hanging-braces-alist))
-
-
 ;; Add personal c-mode setup function to c-mode-hook.
 (add-hook 'c-mode-hook 'my-c-mode-hook)
