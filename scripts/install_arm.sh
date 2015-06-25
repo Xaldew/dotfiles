@@ -16,10 +16,10 @@ export LC_ALL=en_US.utf8
 export LANG=en_US.utf8
 export ARM_PROJECT_NR=PJ01433
 export SCRATCH="/scratch/\$USER"
-export WORKSPACE_DIR="/home/\$USER/mve/video"
+export WORKSPACE_DIR="/scratch/\$USER/mve/video"
 export GIT_HOME_DIR="/home/\$USER/git"
 
-#source common module load script, located in the project folder:
+# Source common module load script, located in the project folder:
 source \$WORKSPACE_DIR/systemtest/script/bash/module_load.sh 2> /dev/null
 
 #### Setup some variables
@@ -40,8 +40,8 @@ export SVNROOT=http://lun-svn1.lund.arm.com/svn/mpd/video
 export PATH=\$WORKSPACE_DIR/systemtest/util/jm/jm14.0/bin:\$PATH
 export PATH=\$WORKSPACE_DIR/systemtest/test/system/out/util-linux64:\$PATH
 export PATH=\$WORKSPACE_DIR/systemtest/test/util/yuvtools:\$PATH
-export PATH=\$GIT_HOME_DIR/mve6/bench/regression_cluster:\$PATH
-export PATH=\$GIT_HOME_DIR/asic/i686-linux:\$PATH
+export PATH=\$WORKSPACE_DIR/hardware/bench/regression_cluster:\$PATH
+export PATH=\$WORKSPACE_DIR/asic_util/i686-linux:\$PATH
 
 
 #### Load a few modules from /arm/tools/modulefiles
