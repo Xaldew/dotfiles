@@ -2,7 +2,6 @@
 
 (defconst misra-c-style
   '("bsd"
-    (my-coding-style . "misra")
     (indent-tabs-mode . nil)
     (tab-width . 4)
     (c-basic-offset . 4)
@@ -26,7 +25,6 @@
 
 (defconst linux-tabs-style
   '("linux"
-    (my-coding-style  . "linux")
     (indent-tabs-mode . t)
     (c-offsets-alist  . ((inextern-lang         . 0)
 			 (arglist-cont-nonempty . (c-lineup-gcc-asm-reg

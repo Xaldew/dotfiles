@@ -3,21 +3,23 @@
 ;; Setup functions for starting header files in the correct modes.
 (defun c-header-test-p ()
   "Test if the header file is a C-mode header"
-  (file-exists-p (concat (file-name-sans-extension (buffer-file-name)) ".c")))
+  (and (string= (file-name-extension (buffer-file-name)) "h")
+       (file-exists-p
+	(concat (file-name-sans-extension (buffer-file-name)) ".c"))))
 
 (defun c++-header-test-p ()
   "Test if the header file is a C++-mode header."
-  (or (file-exists-p
-       (concat (file-name-sans-extension (buffer-file-name)) ".C"))
-      (file-exists-p
-       (concat (file-name-sans-extension (buffer-file-name)) ".cc"))
-      (file-exists-p
-       (concat (file-name-sans-extension (buffer-file-name)) ".cxx"))
-      (file-exists-p
-       (concat (file-name-sans-extension (buffer-file-name)) ".c++"))
-      (file-exists-p
-       (concat (file-name-sans-extension (buffer-file-name)) ".cpp"))
-      (and (string= (file-name-extension (buffer-file-name)) "h")
+  (and (string= (file-name-extension (buffer-file-name)) "h")
+       (or (file-exists-p
+	    (concat (file-name-sans-extension (buffer-file-name)) ".C"))
+	   (file-exists-p
+	    (concat (file-name-sans-extension (buffer-file-name)) ".cc"))
+	   (file-exists-p
+	    (concat (file-name-sans-extension (buffer-file-name)) ".cxx"))
+	   (file-exists-p
+	    (concat (file-name-sans-extension (buffer-file-name)) ".c++"))
+	   (file-exists-p
+	    (concat (file-name-sans-extension (buffer-file-name)) ".cpp"))
 	   (c++-scan-header-p))))
 
 (defun c++-scan-header-p ()
@@ -28,11 +30,10 @@
 	(if (looking-at "[ \t]*\\(class\\|namespace\\|template\\)")
 	    (setq is-c++-header t)
 	  (forward-line))))
-    (setq is-c++-header is-c++-header)))
+    is-c++-header))
 
 (defconst my-c++-style
   '("stroustrup"
-    (my-coding-style  . "linux")
     (indent-tabs-mode . nil)     ; Use spaces rather than tabs.
     (c-basic-offset   . 4)       ; Indent with 4 spaces.
     (c-offsets-alist  . ((inline-open         . 0)
