@@ -1,0 +1,8 @@
+# -*- mode: snippet -*-
+# Insert a style-correct while statement.
+# name: while
+# key: while
+# --
+while (${1:condition}) {
+      $0
+}

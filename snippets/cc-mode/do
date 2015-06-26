@@ -1,0 +1,10 @@
+# -*- mode: snippet -*-
+# Insert a style-correct do-while-loop.
+# name : do { ... } while (...)
+# key: do
+# --
+do`
+(yas-cc-mode-brace "{" '((substatement-open . (point))))
+`${0:$$(indent-region yas-snippet-beg yas-snippet-end)}`
+(yas-cc-mode-brace "}" '((block-close . (point))))
+`while (${1:condition});
