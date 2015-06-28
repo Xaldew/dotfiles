@@ -5,17 +5,27 @@
     (indent-tabs-mode . nil)
     (tab-width . 4)
     (c-basic-offset . 4)
-    (c-hanging-braces-alist . ((substatement-open . (before after))))
+    (c-hanging-braces-alist . ((brace-list-open)
+			       (brace-entry-open)
+			       (statement-cont)
+			       (substatement-open before after)
+			       (block-close . c-snug-do-while)
+			       (extern-lang-open before after)
+			       (namespace-open before after)
+			       (module-open after)
+			       (composition-open after)
+			       (inexpr-class-open after)
+			       (inexpr-class-close before)
+			       (arglist-cont-nonempty)))
     (c-offsets-alist . ((inextern-lang  . 0)
-			(innamespace    . 0))) )
-  "Misra coding style with modifications for the ARM MVE model/firmware/driver."
-  )
+			(innamespace    . 0))))
+  "Misra C-style with modifications for the ARM MVE model/firmware/driver.")
 (c-add-style "misra" misra-c-style)
 
 
 ;; Linux kernel coding c-style.
 (defun c-lineup-arglist-tabs-only (ignored)
-  "Line up argument lists by tabs, not spaces"
+  "Line up argument lists by tabs, not spaces."
   (let* ((anchor (c-langelem-pos c-syntactic-element))
 	 (column (c-langelem-2nd-pos c-syntactic-element))
 	 (offset (- (1+ column) anchor))
@@ -27,9 +37,9 @@
   '("linux"
     (indent-tabs-mode . t)
     (c-offsets-alist  . ((inextern-lang         . 0)
-			 (arglist-cont-nonempty . (c-lineup-gcc-asm-reg
-						   c-lineup-arglist-tabs-only)))
-		      ))
+			 (arglist-cont-nonempty .
+						(c-lineup-gcc-asm-reg
+						 c-lineup-arglist-tabs-only)))))
   "Linux kernel coding style forbidding use of spaces as whitespace.")
 (c-add-style "linux-tabs-style" linux-tabs-style)
 
@@ -44,6 +54,7 @@
 	  (".*/.*mve*.*\\.[ch]$"      . "misra")
 	  (".*c-utils.*\\.[ch]$"      . "linux-tabs-style")))
   "A list of regular expressions to match styles for the c-style guesser.")
+
 
 (defun my-c-style-guesser (filename)
   "Guess the C style we should use based on the path of the buffer"

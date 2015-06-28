@@ -113,3 +113,7 @@
 (projectile-global-mode)
 (when (executable-find "ex-ctags")
   (setq projectile-tags-command "ex-ctags -Re -f \"%s\" %s"))
+
+;; Add the Google C/C++ style to list of all styles.
+(require 'google-c-style)
+(c-add-style "google" google-c-style)

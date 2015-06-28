@@ -3,6 +3,7 @@
 # name: while
 # key: while
 # --
-while (${1:condition}) {
-      $0
+while (${1:condition})`
+(yas-cc-mode-brace "{" 'substatement-open)
+`${0:$$(indent-region yas-snippet-beg yas-snippet-end)}
 }

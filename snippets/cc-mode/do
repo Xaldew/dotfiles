@@ -2,9 +2,29 @@
 # Insert a style-correct do-while-loop.
 # name : do { ... } while (...)
 # key: do
+# type: command
 # --
-do`
-(yas-cc-mode-brace "{" '((substatement-open . (point))))
-`${0:$$(indent-region yas-snippet-beg yas-snippet-end)}`
-(yas-cc-mode-brace "}" '((block-close . (point))))
-`while (${1:condition});
+(let* ((indent (concat "\n" (make-string (current-column) 32)))
+       (mode major-mode)
+       (style c-indentation-style)
+       (open-ctx `((substatement-open . ,yas-start-point)))
+       (open-actions (c-brace-newlines open-ctx))
+       (output (concat
+		"do"
+		(if (memq 'before open-actions) indent " ")
+		"{"
+		(if (memq 'after open-actions) indent)))
+       (close-actions (with-temp-buffer
+       			(funcall mode)
+       			(c-set-style style)
+       			(insert output)
+       			(insert "\n}")
+			(print (c-guess-basic-syntax))
+			(c-brace-newlines (c-guess-basic-syntax)))))
+  (yas-expand-snippet
+   (concat output
+	   "$0"
+	   (if (memq 'before close-actions) indent " ")
+	   "}"
+	   (if (memq 'after close-actions) indent " ")
+	   "while (${1:condition});")))
