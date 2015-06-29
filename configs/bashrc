@@ -73,8 +73,6 @@ shopt -s histappend
 export HISTCONTROL=ignoredups:erasedups
 
 # Add useful bash specific shell-functions.
-GIT_PS1_SHOWDIRTYSTATE=true
-GIT_PS1_SHOWSTASHSTATE=true
 source_if $dotfiles_dir/scripts/setup_terminal_colors.sh
 source_if $dotfiles_dir/scripts/prompt.sh
 source_if $dotfiles_dir/scripts/get_distribution.sh

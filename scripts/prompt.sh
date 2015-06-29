@@ -1,6 +1,9 @@
 #!/usr/bin/env sh
 # Adds useful coloration and svn/git information to the prompt.
 
+export GIT_PS1_SHOWDIRTYSTATE=true
+export GIT_PS1_SHOWSTASHSTATE=true
+export VIRTUAL_ENV_DISABLE_PROMPT=true
 source_if $local_prefix_dir/bin/git-prompt.sh
 source_if $dotfiles_dir/scripts/setup_terminal_colors.sh
 
@@ -119,6 +122,7 @@ cmd_status()
     fi
 }
 
+# Count the number of running jobs and display them on the prompt.
 job_count()
 {
     stopped=$(jobs -sp | wc -l)
@@ -128,11 +132,27 @@ job_count()
 	printf "$(sh_fg_rgb 155 40 0)${stopped}s$(sh_color_off))"
 }
 
+# Add virtual environment information to the prompt.
+virtualenv_info()
+{
+    # Get the varible value, if it exists.
+    if [ -n "$VIRTUAL_ENV" ]; then
+        # Strip out the path and just leave the environment name.
+        venv="${VIRTUAL_ENV##*/}"
+    else
+        # In case you don't have one activated.
+        venv=""
+    fi
+    [ -n "$venv" ] && printf "{VENV::$venv} "
+}
+
+
 # Set the prompt.
 set_prompt()
 {
     last_status=$?
     PS1="["
+    PS1+="$(sh_fg_rgb  65 135  65)$(virtualenv_info)$(sh_color_off)"
     PS1+="$(sh_fg_rgb 135 135 135)\u$(sh_color_off)"
     PS1+="$(sh_fg_rgb 220 220 220)@$(sh_color_off)"
     PS1+="$(sh_fg_rgb 120 120 120)\h$(sh_color_off)"
