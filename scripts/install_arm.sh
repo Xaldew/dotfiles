@@ -16,8 +16,10 @@ export LC_ALL=en_US.utf8
 export LANG=en_US.utf8
 export ARM_PROJECT_NR=PJ01433
 export SCRATCH="/scratch/\$USER"
-export WORKSPACE_DIR="/scratch/\$USER/mve/video"
-export GIT_HOME_DIR="/home/\$USER/git"
+export WORKSPACE_DIR="\$SCRATCH/mve/video"
+export MVE_MODEL_DIR="\$SCRATCH/mve/video/hardware/emul/model"
+export MVE_MODEL_REF_DIR="\$SCRATCH/mve6-ref"
+export GIT_HOME_DIR="\$HOME/git"
 
 # Source common module load script, located in the project folder:
 source \$WORKSPACE_DIR/systemtest/script/bash/module_load.sh 2> /dev/null
