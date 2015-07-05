@@ -98,7 +98,10 @@ svn_prompt_info()
 
 hg_prompt_info()
 {
-    hg prompt " (hg::{branch}{::{bookmark}}{status})" 2> /dev/null
+    hg_st=$(hg prompt "(hg::{branch}{::{bookmark}}{status})" 2> /dev/null)
+    if [ $? -eq 0 ]; then
+	printf " %s" $hg_st
+    fi
 }
 
 scm_status()
