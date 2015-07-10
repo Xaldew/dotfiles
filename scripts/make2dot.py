@@ -43,14 +43,33 @@ def read_makefile(makefile):
     :rtype: A string.
 
     """
-    cmd = ["make", "--print-data-base"]
+    cmd = ["make", "--print-data-base", "--print-directory"]
     if makefile:
         cmd.extend(["--file", makefile])
     return sp.check_output(cmd).split("\n");
 
 
-def filter_make_database(make_lines, source_dir):
-    """Filter the Make database to retrieve the desired dependency graph.
+def merge_graphs(dag0, dag1):
+    """Marge 2 Makefile graphs.
+
+    .. Keyword Arguments:
+    :param: dag0: The graph where the changes will be made.
+    :param: dag1: The graph to merge into the first one.
+
+    .. Types:
+    :type: dag0: A dictionary.
+    :type: dag1: A dictionary.
+
+    """
+    for v, edges in dag1.iteritems():
+        if v in dag0:
+            dag0[v].union(dag1[v])
+        else:
+            dag0[v] = dag1[v]
+
+
+def parse_make_database(make_lines, source_dir):
+    """Parse the Make database to retrieve the desired dependency graph.
 
     .. Keyword Arguments:
     :param: make_lines: The makefile database.
@@ -66,28 +85,63 @@ def filter_make_database(make_lines, source_dir):
 
     """
     idx = 0
-    # Jump to the Files section.
-    while not make_lines[idx].startswith("# Files"):
+    make_dir = ""
+    dir_stack = list()
+    dag = dict()
+    regex = re.compile("^%s/?" % source_dir)
+    while idx < len(make_lines):
+        line = make_lines[idx]
+        match = re.match("# make\[\d+\]: Entering directory `(.+)'", line)
+        if match:
+            dir_stack.append(regex.sub("", match.group(1)))
+        elif line.startswith("# Files"):
+            start_idx = idx + 1
+            while not make_lines[idx].startswith("# Finished Make data base"):
+                idx += 1
+            subgraph = make_lines[start_idx:idx]
+            subgraph = parse_make_subgraph(subgraph, source_dir, make_dir)
+            merge_graphs(dag, subgraph)
+        elif re.match("# make\[\d+\]: Leaving directory `.+'", line):
+            make_dir = dir_stack.pop()
         idx += 1
 
-    # Create a dictionary over all targets and their pre-requisites.
+    return dag
+
+
+def parse_make_subgraph(make_lines, source_dir, make_dir, node_id = 0):
+    """Parse a subgraph of Make dependencies.
+
+    .. Keyword Arguments:
+    :param: make_lines: The lines of the Makefile sub-graph.
+    :param: source_dir: The directory where the first Makefile was called.
+    :param: make_dir: The directory where the current Makefile was invoked.
+
+    .. Types:
+    :type: make_lines: A list of strings.
+    :type: source_dir: A string.
+    :type: make_dir: A string.
+
+    .. Returns:
+    :returns: A dependency graph.
+    :rtype: A dictionary with a 2-tuple as key and set of strings as values.
+
+    """
     targets = dict()
-    regex = "^%s/?" % source_dir
-    for i in range(idx, len(make_lines)):
-        line = make_lines[i]
+    regex = re.compile("^%s/?" % make_dir)
+    re_rem = re.compile("^%s/?" % source_dir)
+    # Add directory prefix if not present.
+    remover = lambda t: re_rem.sub("", t)
+    prefixer = lambda t: os.path.join(make_dir, t) if regex.match(t) else t
+    for line in make_lines:
         match = re.match("([^#\t ]+.+)\s*:\s*(.*)", line)
         if match:
             k, v = match.group(1, 2)
-            k = re.sub(regex, "", k)
+            k = prefixer(remover(k))
             if v == "":
                 targets[k] = set()
             else:
                 deps = re.split(r"\s*\|\s*|\s+", v)
-                targets[k] = {re.sub(regex, "", d) for d in deps if d}
-        elif line.startswith("# Finished Make data base"):
-            idx = i
-            break
-
+                targets[k] = {prefixer(remover(d)) for d in deps if d}
     return targets
 
 
@@ -131,7 +185,7 @@ def filter_graph(graph,
     return
 
 
-def generate_graph(dotfile, targets, merge_edges = False):
+def generate_graph(dotfile, targets, merge_edges=False):
     """Generate the Makefile dependency graph in Graphviz dot-format.
 
     .. Keyword Arguments:
@@ -215,7 +269,7 @@ def main(makefile,
 
     """
     make_lines = read_makefile(makefile)
-    targets = filter_make_database(make_lines, source_dir)
+    targets = parse_make_database(make_lines, source_dir)
     filter_graph(targets,
                  keep_suffix_rules,
                  keep_special_rules,
