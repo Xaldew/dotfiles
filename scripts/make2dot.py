@@ -75,7 +75,7 @@ def filter_make_database(make_lines, source_dir):
     regex = "^%s/?" % source_dir
     for i in range(idx, len(make_lines)):
         line = make_lines[i]
-        match = re.match("([^#].+)\s*:\s*(.*)", line)
+        match = re.match("([^#\t ]+.+)\s*:\s*(.*)", line)
         if match:
             k, v = match.group(1, 2)
             k = re.sub(regex, "", k)
@@ -152,7 +152,7 @@ def generate_graph(dotfile, targets, merge_edges = False):
     g.attr('graph',
            rankdir="BT",
            concentrate="true",
-           ranksep="2.0",
+           ratio="1.25",
            splines="true")
     for v, e in targets.items():
         g.node(v)
