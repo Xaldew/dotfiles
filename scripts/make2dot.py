@@ -185,7 +185,7 @@ def filter_graph(graph,
     return
 
 
-def generate_graph(dotfile, targets, merge_edges=False):
+def generate_graph(dotfile, targets, merge_edges=False, ratio=0.75):
     """Generate the Makefile dependency graph in Graphviz dot-format.
 
     .. Keyword Arguments:
@@ -206,7 +206,7 @@ def generate_graph(dotfile, targets, merge_edges=False):
     g.attr('graph',
            rankdir="BT",
            concentrate="true",
-           ratio="1.25",
+           ratio=str(ratio),
            splines="true")
     for v, e in targets.items():
         g.node(v)
@@ -246,6 +246,7 @@ def main(makefile,
          keep_special_rules,
          delete_unnecessary,
          merge_edges,
+         ratio,
          ignore):
     """Parse the Makefile database output and generate the dependency graph.
 
@@ -275,7 +276,7 @@ def main(makefile,
                  keep_special_rules,
                  delete_unnecessary,
                  ignore)
-    generate_graph(dotfile, targets, merge_edges)
+    generate_graph(dotfile, targets, merge_edges, ratio)
 
 
 def parse_args():
@@ -298,9 +299,9 @@ def parse_args():
                         help="The source directory. Used to strip away "
                         "absolute paths in the dependency graph. Defaults to "
                         "the current working directory.")
-    parser.add_argument('-k', '--keep-suffix-rules', action="store_true",
+    parser.add_argument('--keep-suffix-rules', action="store_true",
                         help="Keep the old-style suffix rules in the graph.")
-    parser.add_argument('-r', '--keep-special-rules', action="store_true",
+    parser.add_argument('--keep-special-rules', action="store_true",
                         help="Keep the 'special' make targets.")
     parser.add_argument('-d', '--delete-unnecessary', action="store_true",
                         help="Remove all targets that are not required by any "
@@ -309,6 +310,8 @@ def parse_args():
     parser.add_argument('-m', '--merge-edges', action="store_true",
                         help="Merge edges to targets with 2 or more "
                         "dependencies to a single edge.")
+    parser.add_argument('-r', '--ratio', action="store", type=float,
+                        default=0.75, help="Set the width-to-height ratio.")
     parser.add_argument("-i", "--ignore", nargs="+",
                         help="Ignore the list of given targets.")
 
