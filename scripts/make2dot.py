@@ -51,45 +51,26 @@ def read_makefile(makefile):
     return sp.check_output(cmd, env=env).split("\n");
 
 
-def merge_graphs(dag0, dag1):
-    """Marge 2 Makefile graphs.
-
-    .. Keyword Arguments:
-    :param: dag0: The graph where the changes will be made.
-    :param: dag1: The graph to merge into the first one.
-
-    .. Types:
-    :type: dag0: A dictionary.
-    :type: dag1: A dictionary.
-
-    """
-    for v, edges in dag1.iteritems():
-        if v in dag0:
-            dag0[v].union(dag1[v])
-        else:
-            dag0[v] = dag1[v]
-
-
 def parse_make_database(make_lines, source_dir):
-    """Parse the Make database to retrieve the desired dependency graph.
+    """Parse the Make database to retrieve the dependency graphs.
 
     .. Keyword Arguments:
     :param: make_lines: The makefile database.
-    :param: source_dir: The base directory where Make was executed.
+    :param: source_dir: The base directory where Make was first executed.
 
     .. Types:
     :type: make_lines: A list of strings.
     :type: source_dir: A string.
 
     .. Returns:
-    :returns: The Makefile dependency graph.
-    :rtype: A dictionary of sets.
+    :returns: A list of Makefile dependency graphs.
+    :rtype: A list of dictionaries of sets.
 
     """
     idx = 0
     make_dir = ""
     dir_stack = list()
-    dag = dict()
+    dags = list()
     regex = re.compile("^%s/?" % source_dir)
     while idx < len(make_lines):
         line = make_lines[idx]
@@ -102,12 +83,12 @@ def parse_make_database(make_lines, source_dir):
                 idx += 1
             subgraph = make_lines[start_idx:idx]
             subgraph = parse_make_subgraph(subgraph, source_dir, make_dir)
-            merge_graphs(dag, subgraph)
+            dags.append(subgraph)
         elif re.match("# make\[\d+\]: Leaving directory `.+'", line):
             make_dir = dir_stack.pop()
         idx += 1
 
-    return dag
+    return dags
 
 
 def parse_make_subgraph(make_lines, source_dir, make_dir, node_id = 0):
@@ -125,7 +106,7 @@ def parse_make_subgraph(make_lines, source_dir, make_dir, node_id = 0):
 
     .. Returns:
     :returns: A dependency graph.
-    :rtype: A dictionary with a 2-tuple as key and set of strings as values.
+    :rtype: A dictionary with a string as key and set of strings as values.
 
     """
     targets = dict()
@@ -189,58 +170,71 @@ def filter_graph(graph,
     return
 
 
-def generate_graph(dotfile, targets, merge_edges=False, ratio=0.75):
+def generate_graph(dotfile, dags, merge_edges=False, ratio=0.75):
     """Generate the Makefile dependency graph in Graphviz dot-format.
 
     .. Keyword Arguments:
     :param: dotfile: The name for the output dotfile.
-    :param: targets: The Makefile dependency graph.
+    :param: dags: The Makefile dependency graph.
     :param: merge_edges: Should 2 or more edges be merged? (default: False)
+    :param: ratio: Ratio between the width and height of the graph.
 
     .. Types:
     :type: dotfile: A string
-    :type: targets: A dictionary of sets.
-    :type: targets: A boolean.
+    :type: dags: A dictionary of sets.
+    :type: merge_edges: A boolean.
+    :type: ratio: an integer.
+
+    .. Returns:
+    :returns: The name of the saved dotfile.
+    :rtype: a string.
 
     """
-    g = gv.Digraph(name="Makefile",
-                   comment="Generated using make2dot.",
-                   format="pdf",
-                   engine="dot")
-    g.attr('graph',
-           rankdir="BT",
-           concentrate="true",
-           ratio=str(ratio),
-           splines="true")
-    for v, e in targets.items():
-        g.node(v)
-        if merge_edges and len(e) > 2:
-            merge_target_edges(g, v, e)
-        else:
-            g.edges(zip(e, itertools.repeat(v)))
+    attrs = { "rankdir" : "BT",
+              "concentrate" : "true",
+              "ratio" : str(ratio),
+              "splines" : "true"}
+    graph = gv.Digraph(name="Makefile",
+                       comment="Generated using make2dot.",
+                       format="pdf",
+                       engine="dot",
+                       graph_attr=attrs)
+    for i, dag in enumerate(dags):
+        sg = gv.Digraph("cluster_" + str(i), graph_attr=attrs)
+        for vertex, edges in dag.items():
+            suffix = "_%d" % i
+            sg.node(vertex + suffix, label=vertex)
+            if merge_edges and len(edges) > 2:
+                merge_target_edges(sg, suffix, vertex, edges)
+            else:
+                for e in edges:
+                    graph.edge(e + suffix, vertex + suffix)
+        graph.subgraph(sg)
 
-    return g.save(dotfile)
+    return graph.save(dotfile)
 
 
-def merge_target_edges(graph, vertex, edges):
+def merge_target_edges(graph, suffix, vertex, edges):
     """Merge the edges pointing to the given vertex.
 
     .. Keyword Arguments:
     :param: graph: The graph the vertex and edges belong to.
+    :param: suffix: Suffix all vertices and edges with this suffix.
     :param: vertex: The vertex the edges are point to.
     :param: edges: The edges pointing at the vertex.
 
     .. Types:
     :type: graph: A Graphviz graph.
+    :type: suffix: A string.
     :type: vertex: A string with the vertex name.
     :type: edges: A list of strings with the edges.
 
     """
-    virt_v = "_virtual_" + vertex
+    virt_v = "_virtual_" + vertex + suffix
     graph.node(virt_v, shape="point", width="0.01", heigh="0.01")
     for e in edges:
-        graph.edge(e, virt_v, dir="none")
-    graph.edge(virt_v, vertex)
+        graph.edge(e + suffix, virt_v, dir="none")
+    graph.edge(virt_v, vertex + suffix)
 
 
 def main(makefile,
@@ -274,13 +268,14 @@ def main(makefile,
 
     """
     make_lines = read_makefile(makefile)
-    targets = parse_make_database(make_lines, source_dir)
-    filter_graph(targets,
-                 keep_suffix_rules,
-                 keep_special_rules,
-                 delete_unnecessary,
-                 ignore)
-    generate_graph(dotfile, targets, merge_edges, ratio)
+    dags = parse_make_database(make_lines, source_dir)
+    for d in dags:
+        filter_graph(d,
+                     keep_suffix_rules,
+                     keep_special_rules,
+                     delete_unnecessary,
+                     ignore)
+    generate_graph(dotfile, dags, merge_edges, ratio)
 
 
 def parse_args():
