@@ -43,10 +43,12 @@ def read_makefile(makefile):
     :rtype: A string.
 
     """
+    env = os.environ.copy()
+    env["LC_ALL"] = "C"
     cmd = ["make", "--print-data-base", "--print-directory"]
     if makefile:
         cmd.extend(["--file", makefile])
-    return sp.check_output(cmd).split("\n");
+    return sp.check_output(cmd, env=env).split("\n");
 
 
 def merge_graphs(dag0, dag1):
@@ -133,9 +135,11 @@ def parse_make_subgraph(make_lines, source_dir, make_dir, node_id = 0):
     remover = lambda t: re_rem.sub("", t)
     prefixer = lambda t: os.path.join(make_dir, t) if regex.match(t) else t
     for line in make_lines:
-        match = re.match("([^#\t ]+.+)\s*:\s*(.*)", line)
+        match = re.match("([^#\t ]+)\s*:\s*(.*)", line)
         if match:
             k, v = match.group(1, 2)
+            if re.match("\s*(?:.+)\s*(?:=|:=|::=|\?=)", v):
+                continue
             k = prefixer(remover(k))
             if v == "":
                 targets[k] = set()
