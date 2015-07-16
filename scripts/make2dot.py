@@ -45,10 +45,13 @@ def read_makefile(makefile):
     """
     env = os.environ.copy()
     env["LC_ALL"] = "C"
-    cmd = ["make", "--print-data-base", "--print-directory"]
+    cmd = ["make", "--keep-going", "--ignore-errors",
+           "--print-data-base", "--print-directory"]
     if makefile:
         cmd.extend(["--file", makefile])
-    return sp.check_output(cmd, env=env).split("\n");
+    process = sp.Popen(cmd, env=env, stdout=sp.PIPE)
+    output,_ = process.communicate()
+    return output.split("\n");
 
 
 def parse_make_database(make_lines, source_dir):
