@@ -2,7 +2,7 @@
 
 function android_sdk()
 {
-    url=http://dl.google.com/android/android-sdk_r24.0.2-linux.tgz
+    url=http://dl.google.com/android/android-sdk_r24.3.3-linux.tgz
     if [ ! -d $objects_dir/android_sdk ]; then
 	wget $url --output-document=$objects_dir/android_sdk.tgz --quiet
 	(cd $objects_dir &&
@@ -14,13 +14,13 @@ function android_sdk()
 
 function android_ndk()
 {
-    url=http://dl.google.com/android/ndk/android-ndk-r10d-linux-x86_64.bin
+    url=http://dl.google.com/android/ndk/android-ndk-r10e-linux-x86_64.bin
     if [ ! -d $objects_dir/android_ndk ]; then
 	wget $url --output-document=$objects_dir/android_ndk.bin --quiet
 	(cd $objects_dir &&
 		chmod a+x android_ndk.bin &&
 		./android_ndk.bin &&
-		mv android-ndk-linux android_ndk &&
+		mv android-ndk-r10e android_ndk &&
 		rm ./android_ndk.bin)
     fi
 }
