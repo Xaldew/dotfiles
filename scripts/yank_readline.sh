@@ -28,7 +28,9 @@ if command -v xclip > /dev/null 2>&1 && [ $BASH_VERSINFO -ge 4 ]; then
 
     # Add keybindings M-k/M-k/M-u to discard/kill/yank to/from the clipboard
     # through readline.
-    bind -m emacs -x '"\eu": _xdiscard'
-    bind -m emacs -x '"\ek": _xkill'
-    bind -m emacs -x '"\ey": _xyank'
+    if [ -z "$INSIDE_EMACS" ]; then
+	bind -m emacs -x '"\eu": _xdiscard'
+	bind -m emacs -x '"\ek": _xkill'
+	bind -m emacs -x '"\ey": _xyank'
+    fi
 fi
