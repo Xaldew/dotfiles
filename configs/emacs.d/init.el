@@ -38,7 +38,7 @@
 (load-user-file "module-mk-parser.el")
 (load-user-file "parse-cdb.el")
 ;;(load-user-file "latexmode.el")
-(load custom-file)
+(load custom-file t t)
 
 ;; Update and load autoload cookies for the local files.
 (let ((generated-autoload-file (expand-file-name
