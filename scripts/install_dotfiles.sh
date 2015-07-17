@@ -25,6 +25,10 @@ ln -fs $dotfiles_dir/configs/gitignore $HOME/.gitignore
 ln -fs $dotfiles_dir/configs/hgrc $HOME/.hgrc
 
 
+# Install GDB configurations.
+ln -fs $dotfiles_dir/configs/gdbinit $HOME/.gdbinit
+
+
 # Install tmux configuration and tmux plugin manager.
 ln -fs $dotfiles_dir/configs/tmux.conf $HOME/.tmux.conf
 if [ ! -d "$HOME/.tmux/plugins/tpm" ]; then
