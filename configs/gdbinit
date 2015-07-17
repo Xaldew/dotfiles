@@ -1,0 +1,42 @@
+# -*- mode: gdb-script -*-
+Python
+import sys
+import os
+import os.path
+
+home          = os.environ.get("HOME", "~")
+default_path  = os.path.join(home, "git", "installs")
+objects_dir   = os.environ.get("objects_dir", default_path)
+gdb_addons    = os.path.join(objects_dir, "gdb_addons")
+python_addons = os.path.join(gdb_addons, "gdb_python_stl")
+
+if os.path.isdir(python_addons):
+  sys.path.insert(0, python_addons)
+  from libstdcxx.v6.printers import register_libstdcxx_printers
+
+stl_script = os.path.join(gdb_addons, "gdb_stl_views.gdb")
+if os.path.exists(stl_script):
+  gdb.execute(stl_script)
+
+end
+
+# Don't pause on long output.
+set height 0
+set width 0
+
+# Turn on various print options.
+set print array on
+set print pretty on
+set print union on
+set print demangle on
+set print asm-demangle on
+set print vtbl on
+set print object on
+set print sym on
+
+set demangle-style auto
+set verbose on
+set complaints 1000
+set language auto
+
+show directories
