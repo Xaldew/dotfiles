@@ -64,6 +64,7 @@
 		     sublime-themes
 		     markdown-mode
 		     dropdown-list
+		     ace-window
 		     form-feed
 		     undo-tree))
 
