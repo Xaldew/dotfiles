@@ -88,10 +88,7 @@
 			    (point)))))
 
 
-(defun create-tags (dir-name)
-  "Create tags file."
-  (interactive "DDirectory: ")
-  (shell-command
-   (format
-    "find %s -name \"*.c\" -print -or -name \"*.h\" -print -or -name \"*.cpp\" |
- xargs etags --append" dir-name)))
+(define-minor-mode sticky-window-mode
+  "Make the current window always display this buffer."
+  :lighter " St"
+  (set-window-dedicated-p (selected-window) sticky-window-mode))
