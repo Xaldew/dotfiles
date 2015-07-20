@@ -12,8 +12,6 @@ source /arm/tools/setup/init/bash
 shopt -s expand_aliases
 
 #### Exports
-export LC_ALL=en_US.utf8
-export LANG=en_US.utf8
 export ARM_PROJECT_NR=PJ01433
 export SCRATCH="/scratch/\$USER"
 export WORKSPACE_DIR="\$SCRATCH/mve/video"
@@ -229,4 +227,9 @@ export TERMCAP=\$HOME/.termcap
 
 # Override the prompt override.
 source $dotfiles_dir/scripts/prompt.sh
+
+# Reset LC_ALL to unset.
+export LC_ALL=
+export LANG=en_US.utf8
+export LANGUAGE=en_US.utf8
 EOF
