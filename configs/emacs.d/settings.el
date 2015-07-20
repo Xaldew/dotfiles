@@ -124,6 +124,18 @@
   (define-key gud-minor-mode-map '[f8] 'gud-down))
 (add-hook 'gud-mode-hook 'my-gud-mode-hook)
 
+(defun my-gdb-parent-mode-hook ()
+  "Additional buffer setup for the GDB MI buffers."
+  (toggle-truncate-lines)
+  (whitespace-mode -1)
+  (global-whitespace-mode -1))
+(add-hook 'gdb-threads-mode-hook     'my-gdb-parent-mode-hook)
+(add-hook 'gdb-memory-mode-hook      'my-gdb-parent-mode-hook)
+(add-hook 'gdb-disassembly-mode-hook 'my-gdb-parent-mode-hook)
+(add-hook 'gdb-breakpoints-mode-hook 'my-gdb-parent-mode-hook)
+(add-hook 'gdb-frames-mode-hook      'my-gdb-parent-mode-hook)
+(add-hook 'gdb-locals-mode-hook      'my-gdb-parent-mode-hook)
+(add-hook 'gdb-registers-mode-hook   'my-gdb-parent-mode-hook)
 
 ;; Increase lisp evaluation depth and the number of variable bindings.
 (setq max-lisp-eval-depth '40000)
