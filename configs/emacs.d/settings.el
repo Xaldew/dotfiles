@@ -113,7 +113,17 @@
 (global-whitespace-mode t)
 
 ;; Use gdb-many-windows by default and start at the main routine.
-(setq gdb-many-windows t gdb-show-main t)
+(setq gdb-many-windows t)
+(setq gdb-show-main t)
+
+(defun my-gud-mode-hook ()
+  "Personal hook used to initialize global GUD settings."
+  (define-key gud-minor-mode-map '[f5] 'gud-step)
+  (define-key gud-minor-mode-map '[f6] 'gud-next)
+  (define-key gud-minor-mode-map '[f7] 'gud-up)
+  (define-key gud-minor-mode-map '[f8] 'gud-down))
+(add-hook 'gud-mode-hook 'my-gud-mode-hook)
+
 
 ;; Increase lisp evaluation depth and the number of variable bindings.
 (setq max-lisp-eval-depth '40000)
