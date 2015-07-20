@@ -33,10 +33,12 @@
 ;; Fix dictionaries for Aspell.
 (setq ispell-program-name "aspell")
 ;; (setq ispell-process-directory (expand-file-name "~/"))
-;; (setq ispell-personal-dictionary (expand-file-name "~/.dicts/personal.dict"))
+(setq ispell-personal-dictionary (expand-file-name "~/.dicts/personal.dict"))
 ;; (setq ispell-extra-args '("--sug-mode=ultra"))
 (setq ispell-dictionary "english")
 ;;(setq ispell-list-command "list")
+(add-hook 'prog-mode-hook 'flyspell-prog-mode)
+
 
 ;; Activate UTF-8 coding for almost everything.
 (prefer-coding-system       'utf-8)
