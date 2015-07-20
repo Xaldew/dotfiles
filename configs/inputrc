@@ -14,13 +14,15 @@ set mark-symlinked-directories on
 
 
 # Be 8 bit clean.
-set input-meta on
-set output-meta on
+# set input-meta on
+# set output-meta on
+# set enable-meta-key on
+
 
 # To allow the use of 8bit-characters like the german umlauts, uncomment
 # the line below. However this makes the meta key not work as a meta key,
 # which is annoying to those which don't need to type in 8-bit characters.
-set convert-meta off
+# set convert-meta on
 
 # try to enable the application keypad when it is called.  Some systems
 # need this to enable the arrow keys.
