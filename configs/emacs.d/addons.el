@@ -117,3 +117,8 @@
 ;; Add the Google C/C++ style to list of all styles.
 (require 'google-c-style)
 (c-add-style "google" google-c-style)
+
+
+;; Add Ace-window configuration.
+(global-set-key (kbd "C-x o") 'ace-window)
+(when (display-graphic-p) (setq aw-scope 'frame))
