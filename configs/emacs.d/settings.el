@@ -98,6 +98,12 @@
 (setq mouse-yank-at-point t)
 
 
+;; Comint - Command interpreter settings.
+(setq comint-scroll-to-bottom-on-input t) ; Scroll to bottom on input.
+(setq comint-prompt-read-only t) ; Comint buffers are read-only outside prompt.
+(setq comint-input-ignoredups t) ; Ignore duplicates in history.
+
+
 ;; Activate whitespace: Mark lines longer than 80 columns.
 ;; Note that to disable whitespace mode while in a terminal, you must evalute
 ;; M-x global-whatespace-mode _AND_ M-x revert-buffer. A wrapper function in
