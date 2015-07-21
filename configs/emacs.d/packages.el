@@ -66,6 +66,10 @@
 		     dropdown-list
 		     ace-window
 		     form-feed
+		     auctex
+		     auctex-latexmk
+		     auto-complete-auctex
+		     company-auctex
 		     undo-tree))
 
 
