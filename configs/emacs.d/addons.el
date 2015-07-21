@@ -121,4 +121,4 @@
 
 ;; Add Ace-window configuration.
 (global-set-key (kbd "C-x o") 'ace-window)
-(when (display-graphic-p) (setq aw-scope 'frame))
+(unless (display-graphic-p) (setq aw-scope 'frame))
