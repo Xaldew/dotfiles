@@ -21,8 +21,9 @@ if os.path.exists(stl_script):
 end
 
 # Don't pause on long output.
-set height 0
-set width 0
+set height unlimited
+set width unlimited
+set pagination off
 
 # Turn on various print options.
 set print array on
