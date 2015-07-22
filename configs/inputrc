@@ -53,6 +53,12 @@ $if mode=emacs
 # "\e[5~": history-search-backward
 # "\e[6~": history-search-forward
 
+# Fix mapping of M-p/M-n to history backwards/forwards.
+"\ep": history-search-backward
+"\en": history-search-forward
+"\C-x\ep": non-incremental-reverse-search-history
+"\C-x\en": non-incremental-forward-search-history
+
 # Mappings for Ctrl-left-arrow and Ctrl-right-arrow for word moving.
 "\e[1;5C": forward-word
 "\e[1;5D": backward-word
