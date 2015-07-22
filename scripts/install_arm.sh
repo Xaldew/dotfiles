@@ -67,7 +67,7 @@ module load util
 module load vim/vim/7.3
 module load arm/rascdevkit/1.1.4
 module load ccache/ccache/3.1.4
-#module load gnu/gdb/7.5          # No python scripting support.
+module load gnu/gdb/7.5          # No python scripting support.
 module load gnu/valgrind/3.8.1
 module load gnu/cmake/2.8.9
 
@@ -207,10 +207,6 @@ function set_arm_gitconfig()
 # If git is missing, perform module load git/git/v2.0.0.
 module unload git/git/v2.0.0
 command -v git > /dev/null 2>&1 || module load git/git/1.8.3
-
-# Unload module GDB and use Ubuntu default. (With python scripting!)
-module unload gnu/gdb
-
 
 # Setup of TI2 (VIDEO) Environment Variables
 export MPDTI_V2_USER=guswal01
