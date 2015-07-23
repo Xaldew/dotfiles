@@ -111,6 +111,7 @@
 ;; Use gdb-many-windows by default and start at the main routine.
 (setq gdb-many-windows t)
 (setq gdb-show-main t)
+(setq gdb-display-io-nopopup t)
 
 (defun my-gud-mode-hook ()
   "Personal hook used to initialize global GUD settings."
