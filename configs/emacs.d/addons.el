@@ -104,6 +104,7 @@
 
 ;; Visualize the (deprecated) form-feed character (\f or ^L).
 (add-hook 'emacs-lisp-mode-hook 'form-feed-mode)
+(add-hook 'help-mode-hook 'form-feed-mode)
 
 ;; Use undo-tree instead of the regular undo-chain.
 (global-undo-tree-mode)
