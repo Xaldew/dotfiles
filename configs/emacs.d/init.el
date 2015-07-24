@@ -38,6 +38,7 @@
 (load-user-file "pymode.el")
 (load-user-file "module-mk-parser.el")
 (load-user-file "parse-cdb.el")
+(load-user-file "latexmode.el")
 
 ;; Update and load autoload cookies for the local files.
 (let ((generated-autoload-file (expand-file-name
