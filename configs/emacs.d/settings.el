@@ -120,6 +120,7 @@
   (define-key gud-minor-mode-map '[f7] 'gud-up)
   (define-key gud-minor-mode-map '[f8] 'gud-down))
 (add-hook 'gud-mode-hook 'my-gud-mode-hook)
+(add-hook 'gud-mode-hook 'gud-tooltip-mode)
 
 (defun my-gdb-parent-mode-hook ()
   "Additional buffer setup for the GDB MI buffers."
