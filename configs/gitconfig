@@ -5,7 +5,7 @@
 	editor = emacsclient --tty --socket-name=default --alternate-editor="" "$@"
 	excludesfile = ~/.gitignore
 [merge]
-	tool = vimdiff
+	tool = ediff
 [branch]
 	autosetuprebase = always
 [alias]
@@ -43,3 +43,5 @@
 	diff   = auto
 [push]
 	default = simple
+[mergetool "ediff"]
+	cmd = emacsclient --tty --alternate-editor="" \"\" --eval \"(ediff-merge-files-with-ancestor \\\"$LOCAL\\\" \\\"$REMOTE\\\" \\\"$BASE\\\" nil \\\"$MERGED\\\")\"

@@ -1,8 +1,9 @@
 ;; Set some global keybindings.
-(global-set-key [f10] 'compile)
-(global-set-key [f9] 'global-linum-mode)
-(global-set-key [f8] 'global-font-lock-mode)
-(global-set-key [f7] 'global-hl-line-mode)
+(global-set-key [f5]  'compile)
+(global-set-key [f6]  'vc-dir)
+(global-set-key [f7]  'gdb)
+(global-set-key [f8]  'shell)
+(global-set-key [f9]  'toggle-truncate-lines)
 (global-set-key "\C-h" 'backward-delete-char)
 (global-set-key "\M-h" 'backward-kill-word)
 
