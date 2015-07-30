@@ -1,5 +1,8 @@
 [ui]
 username = Gustaf Waldemarson <gustaf.waldemarson@gmail.com>
-editor = emacsclient --tty --socket-name=default --alternate-editor="" "$@"
+editor = emacsclient --tty --socket-name=default --alternate-editor=\"\" "$@"
+merge = emacsclient
 [extensions]
 prompt = $objects_dir/hg-prompt/prompt.py
+[merge-tools]
+emacsclient.args = --tty --alternate-editor=\"\" --eval "(ediff-merge-with-ancestor \""$local"\" \""$other"\" \""$base"\" nil \""$output"\")"

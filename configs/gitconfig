@@ -44,4 +44,4 @@
 [push]
 	default = simple
 [mergetool "ediff"]
-	cmd = emacsclient --tty --alternate-editor="" \"\" --eval \"(ediff-merge-files-with-ancestor \\\"$LOCAL\\\" \\\"$REMOTE\\\" \\\"$BASE\\\" nil \\\"$MERGED\\\")\"
+	cmd = emacsclient --tty --alternate-editor=\"\" --eval \"(ediff-merge-files-with-ancestor \\\"$LOCAL\\\" \\\"$REMOTE\\\" \\\"$BASE\\\" nil \\\"$MERGED\\\")\"
