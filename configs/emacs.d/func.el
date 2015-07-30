@@ -86,9 +86,3 @@
     (downcase-region (point)
 		     (progn (move-to-column endcol 'coerce)
 			    (point)))))
-
-
-(define-minor-mode sticky-window-mode
-  "Make the current window always display this buffer."
-  :lighter " St"
-  (set-window-dedicated-p (selected-window) sticky-window-mode))
