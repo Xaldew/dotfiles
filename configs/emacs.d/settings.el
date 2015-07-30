@@ -108,10 +108,24 @@
 (setq whitespace-style '(face empty lines-tail trailing))
 (global-whitespace-mode t)
 
+
 ;; Use gdb-many-windows by default and start at the main routine.
 (setq gdb-many-windows t)
 (setq gdb-show-main t)
 (setq gdb-display-io-nopopup t)
+
+(defun gdb-toggle-non/all-stop ()
+  "Toggle between GDB non-stop and all-stop modes.
+
+All-stop mode stops all threads upon hitting a break-point.
+
+Non-stop mode only stops the current thread.
+
+"
+  (setq gdb-non-stop-setting (not gdb-non-stop-setting))
+  (if gdb-non-stop-setting
+      (message "Non-stop-mode turned on. Restart GDB session to take effect.")
+    (message "All-stop-mode turned on. Restart GDB session to take effect.")))
 
 (defun my-gud-mode-hook ()
   "Personal hook used to initialize global GUD settings."
@@ -134,6 +148,7 @@
 (add-hook 'gdb-frames-mode-hook      'my-gdb-parent-mode-hook)
 (add-hook 'gdb-locals-mode-hook      'my-gdb-parent-mode-hook)
 (add-hook 'gdb-registers-mode-hook   'my-gdb-parent-mode-hook)
+
 
 ;; Increase lisp evaluation depth and the number of variable bindings.
 (setq max-lisp-eval-depth '40000)
