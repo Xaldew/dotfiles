@@ -62,7 +62,6 @@
 
 (defun my-c++-mode-hook ()
   (c-set-style "my-c++-style")
-  (ggtags-mode)
   (auto-fill-mode)
   (flycheck-mode)
   (setq-local flycheck-gcc-language-standard   "c++11")

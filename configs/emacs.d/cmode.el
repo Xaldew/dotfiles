@@ -69,7 +69,6 @@
   (setq-local flycheck-gcc-language-standard   "c11")
   (setq-local flycheck-clang-language-standard "c11")
   (turn-on-auto-fill)
-  (ggtags-mode)
   ;; Set the c-style if we can. Some modes can get in the way of
   ;; buffer-file-name when setting sub-modes, so check we have one first.
   (when buffer-file-name
