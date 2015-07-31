@@ -1,0 +1,45 @@
+# -*- mode: snippet -*-
+# Insert Doxygen documentation skeleton for the closest function.
+# name: C/C++ Doxygen Function Documentation
+# key: doxy
+# type: command
+# contributor: Gustaf Waldemarson
+# --
+(yas-expand-snippet
+ (save-excursion
+   (forward-thing 'symbol)
+   (if (bound-and-true-p semantic-mode)
+       (let* ((tag (semantic-current-tag))
+	      (class (if tag (semantic-tag-class tag) 'other))
+	      (type  (if tag (semantic-tag-type tag) ""))
+	      (name  (if tag (semantic-tag-name tag) ""))
+	      (attrs (if tag (semantic-tag-attributes tag) '()))
+	      (args  (if attrs
+			 (delete "" (mapcar 'car (plist-get attrs :arguments)))
+		       '()))
+	      (indent (concat "\n" (make-string (current-column) 32)))
+	      (itr 1))
+	 (print tag)
+	 (print class)
+	 (print type)
+	 (print name)
+	 (print attrs)
+	 (print args)
+	 (concat
+	  "/** @brief $1"
+	  indent
+	  (when args indent)
+	  (mapconcat
+	   (lambda (x)
+	     (format "@param %s $%d" x (incf itr)))
+	   args indent)
+	  indent
+	  (when (and (eq class 'function) (not (string= type "void")))
+	    (concat
+	     (when (> (length args) 3) indent)
+	     (format "@return $%d" (incf itr))
+	     indent))
+	  "*/"))
+     (concat "/** @brief "
+	     "${1:Please turn on Semantic-mode. (M-x semantic-mode).} "
+	     "*/"))))
