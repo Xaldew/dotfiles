@@ -19,7 +19,7 @@
        			(c-set-style style)
        			(insert output)
        			(insert "\n}")
-			(print (c-guess-basic-syntax))
+			(c-guess-basic-syntax)
 			(c-brace-newlines (c-guess-basic-syntax)))))
   (yas-expand-snippet
    (concat output

@@ -3,7 +3,7 @@
 # name: C++ Doxygen Function declaration
 # key: fn
 # type: snippet
-# constributor: Gustaf Waldemarson
+# contributor: Gustaf Waldemarson
 # --
 /** @brief $5
     ${3:$(c++-doxy-docstring yas-text (yas-field-value 2) (yas-field-value 1) t)}
