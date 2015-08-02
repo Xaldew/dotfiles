@@ -90,4 +90,5 @@
       (error (message "[ERROR]: Failed to install package: %s." package)))))
 
 ;; Remove no longer needed packages.
-(package-autoremove)
+(when (fboundp 'package-autoremove)
+  (package-autoremove))

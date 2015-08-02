@@ -30,8 +30,7 @@
 ;; Killing a line at the begining of a line removes the line as well.
 (setq kill-whole-line t)
 
-;; Fix dictionaries for Aspell.
-(setq ispell-personal-dictionary (expand-file-name "~/.dicts/personal.dict"))
+;; Set up spellchecking in text-modes and programming modes.
 (add-hook 'prog-mode-hook 'flyspell-prog-mode)
 (add-hook 'text-mode-hook 'flyspell-mode)
 
