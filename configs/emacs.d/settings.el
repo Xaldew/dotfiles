@@ -149,6 +149,13 @@ Non-stop mode only stops the current thread.
 (add-hook 'gdb-registers-mode-hook   'my-gdb-parent-mode-hook)
 
 
+(defun my-help-mode-hook ()
+  "Personal hook for help-mode."
+  (define-key help-mode-map '[f7] 'describe-function-or-variable)
+  (define-key help-mode-map '[f9] 'describe-mode))
+(add-hook 'help-mode-hook 'my-help-mode-hook)
+
+
 ;; Increase lisp evaluation depth and the number of variable bindings.
 (setq max-lisp-eval-depth '40000)
 (setq max-specpdl-size '100000)
