@@ -1,6 +1,6 @@
 # -*- mode: snippet -*-
-# Insert a (Javadoc) Doxygen style function declaration.
-# name: C++ Doxygen Function declaration
+# Insert a (Javadoc) Doxygen style C/C++ style function declaration.
+# name: C/C++ Doxygen Function declaration
 # key: fn
 # type: snippet
 # contributor: Gustaf Waldemarson
