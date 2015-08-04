@@ -19,12 +19,6 @@
 		       '()))
 	      (indent (concat "\n" (make-string (current-column) 32)))
 	      (itr 1))
-	 (print tag)
-	 (print class)
-	 (print type)
-	 (print name)
-	 (print attrs)
-	 (print args)
 	 (concat
 	  "/** @brief $1"
 	  indent
