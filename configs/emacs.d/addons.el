@@ -76,6 +76,7 @@
 ;; Activate Magit.
 (require 'magit)
 (setq magit-last-seen-setup-instructions "1.4.0")
+(global-set-key (kbd "C-c m") 'magit-status)
 (add-to-list 'auto-mode-alist '("gitignore\\'" . gitignore-mode))
 
 ;; Add C-c h as toggle command for hide/show-comments.
@@ -123,3 +124,4 @@
 ;; Add Ace-window configuration.
 (global-set-key (kbd "C-x o") 'ace-window)
 (unless (display-graphic-p) (setq aw-scope 'frame))
+(global-set-key (kbd "C-c SPC") 'ace-jump-mode)

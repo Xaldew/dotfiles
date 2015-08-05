@@ -65,6 +65,7 @@
 		     markdown-mode
 		     dropdown-list
 		     ace-window
+		     ace-jump-mode
 		     form-feed
 		     auctex
 		     auctex-latexmk
