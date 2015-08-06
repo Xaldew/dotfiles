@@ -28,7 +28,9 @@
 	     (format "@param %s $%d" x (incf itr)))
 	   args indent)
 	  indent
-	  (when (and (eq class 'function) (not (string= type "void")))
+	  (when (and (eq class 'function)
+		     (or (not (stringp type))
+			 (not (string= type "void"))))
 	    (concat
 	     (when (> (length args) 3) indent)
 	     (format "@return $%d" (incf itr))
