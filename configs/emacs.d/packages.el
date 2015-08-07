@@ -29,6 +29,8 @@
 		     cmake-mode
 		     xclip
 		     yasnippet
+		     srefactor
+		     expand-region
 		     gitignore-mode
 		     gitconfig-mode
 		     ssh-config-mode

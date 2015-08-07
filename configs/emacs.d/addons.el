@@ -125,3 +125,11 @@
 (global-set-key (kbd "C-x o") 'ace-window)
 (unless (display-graphic-p) (setq aw-scope 'frame))
 (global-set-key (kbd "C-c SPC") 'ace-jump-mode)
+
+
+;; Add expand-region configuration.
+(global-set-key (kbd "C-c e") 'er/expand-region)
+
+
+;; Add srefactor configuration.
+(global-set-key (kbd "C-c r") 'srefactor-refactor-at-point)
