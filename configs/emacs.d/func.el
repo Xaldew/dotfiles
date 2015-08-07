@@ -4,8 +4,10 @@
 (defun indent-defun ()
   "Indent the currently active defun."
   (interactive)
-  (mark-defun)
-  (indent-region (point) (mark)))
+  (save-mark-and-excursion
+   (mark-defun)
+   (delete-trailing-whitespace (point) (mark))
+   (indent-region (point) (mark))))
 
 (defalias 'idf 'indent-defun)
 
