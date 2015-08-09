@@ -157,6 +157,18 @@ Non-stop mode only stops the current thread.
 (add-hook 'help-mode-hook 'my-help-mode-hook)
 
 
+;; Activate Semantic and the Semantic Recoder for all programming modes.
+(require 'srecode)
+(defun my-prog-mode-hook ()
+  "Personal hook for all programming major modes."
+  (semantic-mode t)
+  (srecode-minor-mode t)
+  (setq srecode-insert-ask-variable-method 'field)
+  (add-to-list 'srecode-map-load-path
+	       (concat (file-name-as-directory user-emacs-directory)
+		       "templates")))
+(add-hook 'prog-mode-hook 'my-prog-mode-hook)
+
 ;; Increase lisp evaluation depth and the number of variable bindings.
 (setq max-lisp-eval-depth '40000)
 (setq max-specpdl-size '100000)
