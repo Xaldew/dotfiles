@@ -1,0 +1,21 @@
+;;; arg_legalease.srt --- SRecode template for any mode.
+
+set mode "default"
+context arm
+
+template copyright :time
+----
+{{comment_start}}
+{{comment_prefix}} Copyright:
+{{comment_prefix}} ----------------------------------------------------------------------------
+{{comment_prefix}} This confidential and proprietary software may be used only as authorized
+{{comment_prefix}} by a licensing agreement from ARM Limited.
+{{comment_prefix}}      (C) COPYRIGHT {{YEAR}} ARM Limited, ALL RIGHTS RESERVED
+{{comment_prefix}} The entire notice above must be reproduced on all authorized copies and
+{{comment_prefix}} copies may only be made to the extent permitted by a licensing agreement
+{{comment_prefix}} from ARM Limited.
+{{comment_prefix}} ----------------------------------------------------------------------------
+{{comment_end}}
+----
+
+;; end
