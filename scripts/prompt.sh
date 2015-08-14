@@ -149,6 +149,24 @@ virtualenv_info()
     [ -n "$venv" ] && printf "{VENV::$venv} "
 }
 
+_dir_chomp ()
+{
+    local IFS=/
+    local c=1
+    local n=1
+    local d=""
+    local p=(${1/#$HOME/\~})
+    local r=${p[*]}
+    local s=${#r}
+    while (( s > $2 && c < ${#p[*]} - 1 ))
+    do
+        d=${p[c]}
+        n=1 ; [[ $d = .* ]] && n=2
+        : $(( s -= ${#d} - n ))
+        p[c++]=${d:0:n}
+    done
+    echo "${p[*]}"
+}
 
 # Set the prompt.
 set_prompt()
@@ -160,7 +178,7 @@ set_prompt()
     PS1+="$(sh_fg_rgb 220 220 220)@$(sh_color_off)"
     PS1+="$(sh_fg_rgb 120 120 120)\h$(sh_color_off)"
     PS1+="$(job_count) "
-    PS1+="\W"
+    PS1+=$(_dir_chomp "$PWD" 20)
     PS1+=$(scm_status)
     PS1+="]"
     PS1+="$(cmd_status ${last_status}) "
