@@ -27,7 +27,7 @@ sh_underline()
     printf "\[\33[4m\]"
 }
 
-sh_reverse-video()
+sh_reverse_video()
 {
     printf "\[\33[7m\]"
 }

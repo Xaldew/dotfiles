@@ -5,14 +5,18 @@ if [ -n "$force_colors" ]; then
     # explicitly set the terminal to support 256 in e.g., Emacs.
     export terminal_colors=${force_colors}
     export TERM="xterm-${force_colors}color"
-elif command -v tput 1> /dev/null 2>&1 &&
-	 [ "$COLORTERM" == "gnome-terminal" -o \
-			"$COLORTERM" == "xfce4-terminal" ]; then
-    export TERM='xterm-256color'
-    export terminal_colors=256
 elif command -v tput 1> /dev/null 2>&1; then
-    # We have color support; assume it's compliant with Ecma-48 (ISO/IEC-6429).
-    export terminal_colors=$(tput -T$TERM colors)
+
+    if [ "$COLORTERM" = "gnome-terminal" ] ||
+	   [ "$COLORTERM" = "xfce4-terminal" ]; then
+        export TERM='xterm-256color'
+        export terminal_colors=256
+    else
+        # We have color support; assume it's compliant with Ecma-48
+        # (ISO/IEC-6429).
+        export terminal_colors=$(tput -T$TERM colors)
+    fi
+
 else
     # Assume no colors are available.
     export terminal_colors=0
@@ -145,7 +149,7 @@ underline()
 }
 
 # Make the following text displayed in reverse-video.
-reverse-video()
+reverse_video()
 {
     printf "\33[7m"
 }
