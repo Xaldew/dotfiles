@@ -67,8 +67,8 @@
   (add-to-list 'ac-sources 'ac-source-clang))
 
 (add-hook 'auto-complete-mode-hook 'my/ac-setup-hook)
-(add-hook 'cc-mode-hook 'ac-cc-mode-setup)
-(add-hook 'cc-mode-hook 'my/ac-cc-setup-hook)
+(add-hook 'c-mode-common-hook 'ac-cc-mode-setup)
+(add-hook 'c-mode-common-hook 'my/ac-cc-setup-hook)
 (add-hook 'c++-mode-hook 'my/ac-c++-setup-hook)
 (global-auto-complete-mode t)
 
