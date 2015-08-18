@@ -3,14 +3,14 @@ This is repository containing my personal configuration for various programs. It
 is only intended to be portable to a limited number of platforms but still be
 easily installable on a new computer.
 
-## Installation
+## Unix Installation
 The install script assumes use of a fairly modern version of Bash. To be
 specific, it needs Bash version 4 for the associative arrays.
 
 The scripts executes commands based on the flags it is given. Also, several
 options are available to move install locations and setting various options.
 
-## Flags
+### Flags
 Currently, the following flags exists:
 
     -h         --help                Display this help text.
@@ -47,3 +47,11 @@ Currently, the following flags exists:
 
     -r DIR     --ram-disk DIR        Select a directory to setup as a RAMDISK.
                                      (Not yet implemented.)
+
+## Windows Installation
+Note: This section is under construction.
+
+The "windows" folder contains PowerShell scripts that will install a subset of
+the configuration that is compatible for both Windows and Unix.
+
+Configuration specific to windows is located here as well.
