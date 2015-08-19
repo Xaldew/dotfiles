@@ -18,11 +18,18 @@
 (when (>= emacs-major-version 24)
   (load-theme 'tango-dark t))
 
-;; Place all backups in system temp instead.
-(setq backup-directory-alist
-      `((".*" . ,temporary-file-directory)))
-(setq auto-save-file-name-transforms
-      `((".*" ,temporary-file-directory t)))
+;; Place all backups in system temporary directory.
+(setq backup-directory-alist `(("." . ,temporary-file-directory))
+      backup-by-copying t          ; Don't clobber symlinks.
+      version-control t            ; Version numbers for backup files.
+      delete-old-versions t        ; Delete excess backup files silently.
+      delete-by-moving-to-trash t
+      kept-old-versions 6          ; Oldest numbered version to keep.
+      kept-new-versions 9          ; Newest numbered versions to keep.
+      auto-save-default t          ; Auto-save every buffer that visits a file.
+      auto-save-timeout 20         ; Seconds of idle time before auto-save.
+      auto-save-interval 1000)     ; Number of keystrokes between auto-saves.
+
 
 ;; Changes all yes/no questions to y/n type.
 (fset 'yes-or-no-p 'y-or-n-p)

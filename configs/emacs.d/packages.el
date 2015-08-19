@@ -66,6 +66,7 @@
 		     sublime-themes
 		     markdown-mode
 		     dropdown-list
+		     powershell
 		     ace-window
 		     ace-jump-mode
 		     form-feed
