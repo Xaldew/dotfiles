@@ -64,6 +64,8 @@
   (c-set-style "my-c++-style")
   (auto-fill-mode)
   (flycheck-mode)
+  (add-to-list 'cwarn-configuration '(c++-mode (not reference)))
+  (cwarn-mode)
   (setq-local flycheck-gcc-language-standard   "c++11")
   (setq-local flycheck-clang-language-standard "c++11"))
 (add-hook 'c++-mode-hook 'my-c++-mode-hook)
