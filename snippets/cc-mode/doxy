@@ -7,13 +7,14 @@
 # --
 (yas-expand-snippet
  (save-excursion
-   (forward-thing 'symbol)
    (if (bound-and-true-p semantic-mode)
-       (let* ((tag (semantic-current-tag))
+       (let* ((tag (senator-next-tag))
 	      (class (if tag (semantic-tag-class tag) 'other))
 	      (type  (if tag (semantic-tag-type tag) ""))
 	      (name  (if tag (semantic-tag-name tag) ""))
 	      (attrs (if tag (semantic-tag-attributes tag) '()))
+	      (c/d-tor (when attrs (or (plist-get attrs :constructor-flag)
+				       (plist-get attrs :destructor-flag))))
 	      (args  (if attrs
 			 (delete "" (mapcar 'car (plist-get attrs :arguments)))
 		       '()))
@@ -29,6 +30,7 @@
 	   args indent)
 	  indent
 	  (when (and (eq class 'function)
+		     (not c/d-tor)
 		     (or (not (stringp type))
 			 (not (string= type "void"))))
 	    (concat
