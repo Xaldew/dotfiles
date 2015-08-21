@@ -14,11 +14,11 @@
 ;; Change large-file threshold to 1GB rather than ~10MB.
 (setq large-file-warning-threshold 1073741824)
 
-;; Set the colour theme to something better. (emacs 24+)
+;; Set the color theme to something better. (Emacs 24+)
 (when (>= emacs-major-version 24)
-  (load-theme 'tango-dark t))
+  (load-theme 'tango-dark 'no-prompt))
 
-;; Place all backups in system temporary directory.
+;; Place all backups and auto-saves in system temporary directory.
 (setq backup-directory-alist `(("." . ,temporary-file-directory))
       backup-by-copying t          ; Don't clobber symlinks.
       version-control t            ; Version numbers for backup files.
@@ -29,6 +29,8 @@
       auto-save-default t          ; Auto-save every buffer that visits a file.
       auto-save-timeout 20         ; Seconds of idle time before auto-save.
       auto-save-interval 1000)     ; Number of keystrokes between auto-saves.
+(add-to-list 'auto-save-file-name-transforms
+	     `(".*" ,temporary-file-directory t) 'append)
 
 
 ;; Changes all yes/no questions to y/n type.
