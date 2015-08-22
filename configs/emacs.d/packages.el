@@ -25,7 +25,6 @@
 		     rainbow-mode
 		     graphviz-dot-mode
 		     glsl-mode
-		     autopair
 		     cmake-mode
 		     xclip
 		     yasnippet

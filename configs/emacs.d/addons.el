@@ -12,11 +12,6 @@
 (setq column-number-mode t)
 
 
-;; Activate autopairs with dependencies.
-(require 'autopair)
-(autopair-global-mode)
-
-
 ;; Activate Yasnippet
 ;; binds trigger to C-o to avoid stateful behaviours.
 (require 'yasnippet)
