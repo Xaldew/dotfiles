@@ -183,3 +183,9 @@ Non-stop mode only stops the current thread.
 
 ;; Automatically insert corresponding closing parenthesis.
 (electric-pair-mode)
+
+;; Activate line numbers and column markers.
+(setq linum-format "%d ")
+(setq line-number-mode t)
+(setq column-number-mode t)
+(add-hook 'after-init-hook 'global-linum-mode)

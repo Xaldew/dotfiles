@@ -12,7 +12,6 @@
 
 ;; Create a list of packages we want to be installed.
 (setq package-list '(ecb
-		     nlinum
 		     highlight-indentation
 		     google-c-style
 		     hide-comnt

@@ -4,14 +4,6 @@
   (xclip-mode 1))
 
 
-;; Activate nlinum for line- and column numbers.
-(require 'nlinum)
-(global-nlinum-mode t)
-(setq nlinum-format "%5d ")
-(setq line-number-mode t)
-(setq column-number-mode t)
-
-
 ;; Activate Yasnippet
 ;; binds trigger to C-o to avoid stateful behaviours.
 (require 'yasnippet)
