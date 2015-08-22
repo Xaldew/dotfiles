@@ -85,10 +85,9 @@
 
 
 ;; Add rainbow-delimiter-mode to most programming modes.
-;;(add-hook 'prog-mode-hook #'rainbow-delimiters-mode)
 (add-hook 'c-mode-common-hook #'rainbow-delimiters-mode)
 (add-hook 'python-mode-hook #'rainbow-delimiters-mode)
-(add-hook 'emacs-lisp-mode-hook #'rainbow-delimiters-mode)
+
 
 ;; Visualize the (deprecated) form-feed character (\f or ^L).
 (add-hook 'emacs-lisp-mode-hook 'form-feed-mode)
@@ -120,3 +119,15 @@
 
 ;; Add srefactor configuration.
 (global-set-key (kbd "C-c r") 'srefactor-refactor-at-point)
+
+
+;; Enable paredit in lisp-like languages.
+(defun my-lisp-mode-hook ()
+  "Hook to run for lisp-like languages."
+  (rainbow-delimiters-mode)
+  (electric-pair-mode -1)
+  (paredit-mode))
+(add-hook 'emacs-lisp-mode-hook 'my-lisp-mode-hook)
+(add-hook 'lisp-mode-hook       'my-lisp-mode-hook)
+(add-hook 'scheme-mode-hook     'my-lisp-mode-hook)
+(add-hook 'closjure-mode-hook   'my-lisp-mode-hook)
