@@ -177,6 +177,7 @@ Non-stop mode only stops the current thread.
 (add-hook 'prog-mode-hook 'semantic-mode 'append)
 (add-hook 'prog-mode-hook 'srecode-minor-mode 'append)
 
+
 ;; Increase lisp evaluation depth and the number of variable bindings.
 (setq max-lisp-eval-depth '40000)
 (setq max-specpdl-size '100000)
