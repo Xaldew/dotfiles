@@ -125,9 +125,8 @@
 (defun my-lisp-mode-hook ()
   "Hook to run for lisp-like languages."
   (rainbow-delimiters-mode)
-  (electric-pair-mode -1)
   (paredit-mode))
 (add-hook 'emacs-lisp-mode-hook 'my-lisp-mode-hook)
 (add-hook 'lisp-mode-hook       'my-lisp-mode-hook)
 (add-hook 'scheme-mode-hook     'my-lisp-mode-hook)
-(add-hook 'closjure-mode-hook   'my-lisp-mode-hook)
+(add-hook 'clojure-mode-hook    'my-lisp-mode-hook)
