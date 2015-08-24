@@ -31,11 +31,10 @@
 (add-hook 'snippet-mode-hook 'my/snippet-hook)
 
 
-;; Activate Auto-complete.
+;; Enable Auto-complete but don't activate the mode.
 (require 'auto-complete-config)
-(require 'auto-complete-c-headers)
-(require 'auto-complete-clang)
 (ac-config-default)
+(global-auto-complete-mode -1)
 
 (defun my/ac-setup-hook ()
   "A hook for my global Autocomplete setup."
@@ -44,20 +43,18 @@
   (define-key ac-menu-map (kbd "M-n") 'ac-next)
   (define-key ac-menu-map (kbd "M-p") 'ac-previous)
   (add-to-list 'ac-sources 'ac-source-yasnippet))
-
-(defun my/ac-cc-setup-hook ()
-  "A hook for Autocomplete settings in any C-like mode."
-  (add-to-list 'ac-sources 'ac-source-c-headers))
-
-(defun my/ac-c++-setup-hook ()
-  "A hook for Autocomplete settings in C++-mode."
-  (add-to-list 'ac-sources 'ac-source-clang))
-
 (add-hook 'auto-complete-mode-hook 'my/ac-setup-hook)
-(add-hook 'c-mode-common-hook 'ac-cc-mode-setup)
-(add-hook 'c-mode-common-hook 'my/ac-cc-setup-hook)
-(add-hook 'c++-mode-hook 'my/ac-c++-setup-hook)
-(global-auto-complete-mode t)
+
+(defun my/ac-elisp-hook ()
+  "Enable autocomplete for Emacs lisp and disable company mode."
+  (company-mode -1)
+  (auto-complete-mode t))
+(add-hook 'emacs-lisp-mode-hook 'my/ac-elisp-hook)
+
+
+;; Activate company-mode for all buffers but Emacs lisp ones.
+(setq company-idle-delay .2)
+(add-hook 'after-init-hook 'global-company-mode)
 
 
 ;; Activate Magit.

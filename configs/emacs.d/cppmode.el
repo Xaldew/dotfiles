@@ -1,4 +1,5 @@
 ;; C++
+(require 'cwarn)
 
 ;; Setup functions for starting header files in the correct modes.
 (defun c-header-test-p ()
