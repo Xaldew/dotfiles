@@ -149,6 +149,7 @@ virtualenv_info()
     [ -n "$venv" ] && printf "{VENV::$venv} "
 }
 
+# Reduce the working directory to around 20 characters.
 _dir_chomp ()
 {
     local IFS=/
