@@ -14,16 +14,17 @@ shopt -s expand_aliases
 #### Exports
 export ARM_PROJECT_NR=PJ01433
 export SCRATCH="/scratch/\$USER"
-export WORKSPACE_DIR="\$SCRATCH/mve/video"
-export MVE_MODEL_DIR="\$SCRATCH/mve/video/hardware/emul/model"
-export MVE_MODEL_REF_DIR="\$SCRATCH/mve6-ref"
+export HW_UTILS_DIR="\$SCRATCH/mve/video"
+export WORKSPACE_DIR="\$SCRATCH/git-mve6"
+export MVE_MODEL_DIR="\$SCRATCH/git-mve6/model"
+export MVE_MODEL_REF_DIR="\$SCRATCH/ref-mve6"
 export GIT_HOME_DIR="\$HOME/git"
 
 # Source common module load script, located in the project folder:
-source \$WORKSPACE_DIR/systemtest/script/bash/module_load.sh 2> /dev/null
+source \$WORKSPACE_DIR/script/bash/module_load.sh 2> /dev/null
 
 #### Setup some variables
-export MODELSIM=\$WORKSPACE_DIR/hardware/modelsim.ini
+export MODELSIM=\$WORKSPACE_DIR/modelsim.ini
 export MTI=\${MODELTECH_HOME}
 export WORK=/work/\${USER}
 export DESIGNKIT=/projects/mpd/designkit/
@@ -37,11 +38,11 @@ export PLATFORM=i686-linux
 export SVNROOT=http://lun-svn1.lund.arm.com/svn/mpd/video
 
 #### Put some utils in PATH:
-export PATH=\$WORKSPACE_DIR/systemtest/util/jm/jm14.0/bin:\$PATH
-export PATH=\$WORKSPACE_DIR/systemtest/test/system/out/util-linux64:\$PATH
-export PATH=\$WORKSPACE_DIR/systemtest/test/util/yuvtools:\$PATH
-export PATH=\$WORKSPACE_DIR/hardware/bench/regression_cluster:\$PATH
-export PATH=\$WORKSPACE_DIR/asic_util/i686-linux:\$PATH
+export PATH=\$HW_UTILS_DIR/systemtest/util/jm/jm14.0/bin:\$PATH
+export PATH=\$HW_UTILS_DIR/systemtest/test/system/out/util-linux64:\$PATH
+export PATH=\$HW_UTILS_DIR/systemtest/test/util/yuvtools:\$PATH
+export PATH=\$HW_UTILS_DIR/hardware/bench/regression_cluster:\$PATH
+export PATH=\$HW_UTILS_DIR/asic_util/i686-linux:\$PATH
 
 
 #### Load a few modules from /arm/tools/modulefiles
