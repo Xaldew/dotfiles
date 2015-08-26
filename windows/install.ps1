@@ -7,19 +7,25 @@ If (!(Test-Path -Path $source -PathType Container))
 $packages = @(
     @{
 	title='7zip Extractor';
-	url='http://downloads.sourceforge.net/sevenzip/7z920-x64.msi';
+	url='http://www.7-zip.org/a/7z1506-x64.exe';
 	Arguments=' /qn';
 	Destination=$source
     },
     @{
-	title='Putty 0.63';
-	url='http://the.earth.li/~sgtatham/putty/latest/x86/putty-0.63-installer.exe';
+	title='Git';
+	url='https://github.com/git-for-windows/git/releases/download/v2.5.0.windows.1/Git-2.5.0-64-bit.exe';
 	Arguments=' /VERYSILENT /SUPPRESSMSGBOXES /NORESTART /SP-';
 	Destination=$source
     },
     @{
-	title='Notepad++ 6.6.8';
-	url='http://download.tuxfamily.org/notepadplus/6.6.8/npp.6.6.8.Installer.exe';
+	title='Emacs 24.5';
+	url='http://ftp.gnu.org/gnu/emacs/windows/emacs-24.5-bin-i686-mingw32.zip';
+	Arguments='';
+	Destination=$source
+    },
+    @{
+	title='Notepad++ 6.8.2';
+	url='https://notepad-plus-plus.org/repository/6.x/6.8.2/npp.6.8.2.Installer.exe';
 	Arguments=' /Q /S';
 	Destination=$source
     }
