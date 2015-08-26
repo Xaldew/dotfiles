@@ -37,6 +37,9 @@ alias meka=make
 alias svnst="svn st"
 alias snv=svn
 
+alias rs="rsync --recursive"
+alias rsp="rsync --progress --recursive"
+
 # Terminal Emacsclient.
 function nx-emacs-client()
 {
