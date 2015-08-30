@@ -60,7 +60,7 @@
 ;; Activate Magit.
 (require 'magit)
 (setq magit-last-seen-setup-instructions "1.4.0")
-(global-set-key (kbd "C-c m") 'magit-status)
+(global-set-key (kbd "C-c g") 'magit-status)
 (add-to-list 'auto-mode-alist '("gitignore\\'" . gitignore-mode))
 
 ;; Add C-c h as toggle command for hide/show-comments.
@@ -127,3 +127,9 @@
 (add-hook 'lisp-mode-hook       'my-lisp-mode-hook)
 (add-hook 'scheme-mode-hook     'my-lisp-mode-hook)
 (add-hook 'clojure-mode-hook    'my-lisp-mode-hook)
+;; Configure Emacs multimedia system.
+(require 'emms-setup)
+(emms-all)
+(emms-default-players)
+(global-set-key (kbd "C-c m") 'emms-smart-browse)
+(setq emms-source-file-default-directory "~/Music/")

@@ -68,6 +68,8 @@
 			powershell
 			ace-window
 			ace-jump-mode
+			emms
+			emms-player-mpv
 			form-feed
 			auctex
 			auctex-latexmk
@@ -78,9 +80,11 @@
 
 ;; Create an alist of where we should retrieve certain packages.
 (setq package-pinned-packages
-      '((coffee-mode . "melpa")
-	(form-feed   . "melpa")
-	(paredit     . "melpa")))
+      '((coffee-mode     . "melpa")
+	(form-feed       . "melpa")
+	(emms            . "melpa")
+	(emms-player-mpv . "melpa")
+	(paredit         . "melpa")))
 
 
 (or (file-exists-p package-user-dir)
