@@ -46,7 +46,6 @@
 			flycheck
 			flycheck-irony
 			flycheck-pos-tip
-			ac-irony
 			irony
 			auto-complete-c-headers
 			c-eldoc
@@ -61,6 +60,7 @@
 			clojure-mode-extra-font-locking
 			cider
 			rainbow-delimiters
+			aurora-theme
 			zenburn-theme
 			sublime-themes
 			markdown-mode

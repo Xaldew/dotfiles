@@ -131,6 +131,10 @@
 (add-hook 'clojure-mode-hook    'my-lisp-mode-hook)
 
 
+;; Configure Clojure-mode with some additional font-locking.
+(require 'clojure-mode-extra-font-locking)
+
+
 ;; Configure Delight to reduce the number of minor mode lighters.
 (require 'delight)
 (delight '((abbrev-mode     " Abv" "abbrev")
