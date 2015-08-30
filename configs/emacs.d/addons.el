@@ -96,6 +96,8 @@
 
 ;; Enable projectile-mode globally.
 (projectile-global-mode)
+(setq projectile-mode-line '(:eval (format " Prj[%s]"
+					   (projectile-project-name))))
 (when (executable-find "ex-ctags")
   (setq projectile-tags-command "ex-ctags -Re -f \"%s\" %s"))
 
@@ -127,6 +129,23 @@
 (add-hook 'lisp-mode-hook       'my-lisp-mode-hook)
 (add-hook 'scheme-mode-hook     'my-lisp-mode-hook)
 (add-hook 'clojure-mode-hook    'my-lisp-mode-hook)
+
+
+;; Configure Delight to reduce the number of minor mode lighters.
+(require 'delight)
+(delight '((abbrev-mode     " Abv" "abbrev")
+           (smart-tab-mode  " \\t" "smart-tab")
+           (form-feed-mode  nil "form-feed")
+           (eldoc-mode      nil "eldoc")
+           (rainbow-mode)
+	   (paredit-mode    nil "paredit")
+	   (subword-mode    nil "subword")
+	   (undo-tree-mode  nil "undo-tree")
+	   (company-mode    " Comp" "company")
+	   (yas-minor-mode  nil "yasnippet")
+           (emacs-lisp-mode "Elisp" :major)))
+
+
 ;; Configure Emacs multimedia system.
 (require 'emms-setup)
 (emms-all)
