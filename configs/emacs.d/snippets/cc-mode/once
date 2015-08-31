@@ -1,0 +1,18 @@
+# -*- mode: snippet -*-
+# Insert include guards for the current project.
+# name : #ifndef XXX; #define XXX; #endif
+# key: once
+# condition: (fboundp 'projectile-project-root)
+# contributor: Gustaf Waldemarson
+# --
+#ifndef ${1:`
+(upcase (replace-regexp-in-string "[/\\]" "_"
+		 (file-name-sans-extension
+		   (file-relative-name (buffer-file-name)
+				       (projectile-project-root)))))``
+  (if (string= (file-name-extension (buffer-file-name)) "hpp") "_HPP" "_H")`}
+#define $1
+
+$0
+
+#endif /* $1 */
