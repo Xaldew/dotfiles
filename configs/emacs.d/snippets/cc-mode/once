@@ -7,9 +7,9 @@
 # --
 #ifndef ${1:`
 (upcase (replace-regexp-in-string "[/\\]" "_"
-		 (file-name-sans-extension
-		   (file-relative-name (buffer-file-name)
-				       (projectile-project-root)))))``
+	   (file-name-sans-extension
+	     (file-relative-name (file-truename (buffer-file-name))
+	                         (file-truename (projectile-project-root))))))``
   (if (string= (file-name-extension (buffer-file-name)) "hpp") "_HPP" "_H")`}
 #define $1
 
