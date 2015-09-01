@@ -36,6 +36,12 @@
 ;; Changes all yes/no questions to y/n type.
 (fset 'yes-or-no-p 'y-or-n-p)
 
+
+;; Enable downcase/upcase-region functions.
+(put 'downcase-region 'disabled nil)
+(put 'upcase-region 'disabled nil)
+
+
 ;; Killing a line at the begining of a line removes the line as well.
 (setq kill-whole-line t)
 

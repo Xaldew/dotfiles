@@ -146,6 +146,7 @@
 	   (subword-mode    nil "subword")
 	   (undo-tree-mode  nil "undo-tree")
 	   (company-mode    " Comp" "company")
+	   (cwarn-mode      nil "cwarn")
 	   (yas-minor-mode  nil "yasnippet")
            (emacs-lisp-mode "Elisp" :major)))
 
