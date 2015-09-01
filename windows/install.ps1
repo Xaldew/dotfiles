@@ -1,3 +1,10 @@
+function unzip($file, $dstPath)
+{
+    $shell = new-object -com shell.application
+    New-Item -ItemType Directory -Force -Path $dstPath -WarningAction SilentlyContinue | Out-Null
+    $shell.namespace($dstPath).copyhere($shell.namespace($file.FullName).items())
+}
+
 $packages = @(
     @{
 	title='7zip Extractor';
@@ -13,6 +20,7 @@ $packages = @(
 	title='Emacs 24.5';
 	url='http://ftp.gnu.org/gnu/emacs/windows/emacs-24.5-bin-i686-mingw32.zip';
 	Arguments='';
+	InstallPath="$Env:ProgramFiles";
     },
     @{
 	title='Notepad++ 6.8.2';
@@ -23,7 +31,7 @@ $packages = @(
 	title='AutoHotkey';
 	url='http://ahkscript.org/download/ahk-install.exe'
 	Arguments='';
-    },
+    }
 )
 
 $downloadDir = [io.path]::combine([Environment]::GetFolderPath("MyDocuments"), "installs")
@@ -53,6 +61,16 @@ foreach ($pkg in $packages)
     $fileName = [io.path]::GetFileName($pkg.url)
     $dstPath = [io.path]::combine($downloadDir, $fileName) | Get-Item
     $Arguments = $pkg.Arguments
-    Write-Output "Installing $pkgName..."
-    #Invoke-Expression -Command "$dstPath $Arguments"
+    Write-Output $dstPath.Extension
+    if ($dstPath.Extension -eq ".zip")
+    {
+	Write-Output "Unzipping $pkgName..."
+	$dst = [io.path]::combine($pkg.InstallPath, $pkgName)
+	unzip $dstPath $dst
+    }
+    else
+    {
+	Write-Output "Installing $pkgName..."
+	#Invoke-Expression -Command "$dstPath $Arguments"
+    }
 }
