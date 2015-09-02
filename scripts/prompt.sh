@@ -106,11 +106,14 @@ hg_prompt_info()
 
 scm_status()
 {
-    git=$(git_prompt_info)
-    svn=$(svn_prompt_info)
-    bzr=$(bzr_prompt_info)
-    hg=$(hg_prompt_info)
-    printf "$(sh_fg_rgb 0 155 0)%s$(sh_color_off)" "${git}${svn}${bzr}${hg}"
+    local on_nfs=$(stat -f -L --format="%T" . 2>/dev/null)
+    if [ "$on_nfs" != 'nfs' ]; then
+	git=$(git_prompt_info)
+	svn=$(svn_prompt_info)
+	bzr=$(bzr_prompt_info)
+	hg=$(hg_prompt_info)
+	printf "$(sh_fg_rgb 0 155 0)%s$(sh_color_off)" "${git}${svn}${bzr}${hg}"
+    fi
 }
 
 
