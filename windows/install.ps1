@@ -5,6 +5,18 @@ function unzip($file, $dstPath)
     $shell.namespace($dstPath).copyhere($shell.namespace($file.FullName).items())
 }
 
+function Test-Administrator
+{
+    $user = [Security.Principal.WindowsIdentity]::GetCurrent();
+    (New-Object Security.Principal.WindowsPrincipal $user).IsInRole([Security.Principal.WindowsBuiltinRole]::Administrator)
+}
+
+if (!(Test-Administrator))
+{
+    Write-Host "This script needs to be run as an administrator."
+    Exit 1
+}
+
 $packages = @(
     @{
 	title='7zip Extractor';
@@ -21,6 +33,7 @@ $packages = @(
 	url='http://ftp.gnu.org/gnu/emacs/windows/emacs-24.5-bin-i686-mingw32.zip';
 	Arguments='';
 	InstallPath="$Env:ProgramFiles";
+	AddPath="bin"
     },
     @{
 	title='Notepad++ 6.8.2';
@@ -61,16 +74,25 @@ foreach ($pkg in $packages)
     $fileName = [io.path]::GetFileName($pkg.url)
     $dstPath = [io.path]::combine($downloadDir, $fileName) | Get-Item
     $Arguments = $pkg.Arguments
-    Write-Output $dstPath.Extension
     if ($dstPath.Extension -eq ".zip")
     {
 	Write-Output "Unzipping $pkgName..."
 	$dst = [io.path]::combine($pkg.InstallPath, $pkgName)
 	unzip $dstPath $dst
+	if ($pkg.AddPath)
+	{
+	    Write-Output "Adding $newPath to Env:Path..."
+	    $newPath = [io.path]::combine($dst, $pkg.AddPath)
+	    [Environment]::SetEnvironmentVariable("Path",
+						  $Env:Path + ";$newPath",
+						  "User")
+	}
     }
     else
     {
 	Write-Output "Installing $pkgName..."
-	#Invoke-Expression -Command "$dstPath $Arguments"
+	Invoke-Expression -Command "$dstPath $Arguments"
     }
 }
+
+Exit 0
