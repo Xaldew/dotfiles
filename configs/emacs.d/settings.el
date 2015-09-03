@@ -127,6 +127,7 @@
 (setq gdb-many-windows t)
 (setq gdb-show-main t)
 (setq gdb-display-io-nopopup t)
+(setq gdb-non-stop-setting t)
 
 (defun gdb-toggle-non/all-stop ()
   "Toggle between GDB non-stop and all-stop modes.
@@ -136,6 +137,7 @@ All-stop mode stops all threads upon hitting a break-point.
 Non-stop mode only stops the current thread.
 
 "
+  (interactive)
   (setq gdb-non-stop-setting (not gdb-non-stop-setting))
   (if gdb-non-stop-setting
       (message "Non-stop-mode turned on. Restart GDB session to take effect.")
@@ -146,7 +148,8 @@ Non-stop mode only stops the current thread.
   (define-key gud-minor-mode-map [f5] 'gud-step)
   (define-key gud-minor-mode-map [f6] 'gud-next)
   (define-key gud-minor-mode-map [f7] 'gud-up)
-  (define-key gud-minor-mode-map [f8] 'gud-down))
+  (define-key gud-minor-mode-map [f8] 'gud-down)
+  (define-key gud-minor-mode-map [f9] 'gdb-many-windows))
 (add-hook 'gud-mode-hook 'my-gud-mode-hook)
 (add-hook 'gud-mode-hook 'gud-tooltip-mode)
 

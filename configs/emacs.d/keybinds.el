@@ -6,6 +6,7 @@
 (global-set-key [f9]  'toggle-truncate-lines)
 (global-set-key (kbd "C-h") 'backward-delete-char)
 (global-set-key (kbd "M-h") 'backward-kill-word)
+(global-set-key (kbd "C-c t") 'toggle-truncate-lines)
 
 ;; Add some extra key binding for M-x.
 (global-set-key (kbd "C-x C-m") 'execute-extended-command)
