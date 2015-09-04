@@ -155,7 +155,7 @@ Non-stop mode only stops the current thread.
 
 (defun my-gdb-parent-mode-hook ()
   "Additional buffer setup for the GDB MI buffers."
-  (toggle-truncate-lines)
+  (toggle-truncate-lines 1)
   (whitespace-mode -1)
   (global-whitespace-mode -1))
 (add-hook 'gdb-threads-mode-hook     'my-gdb-parent-mode-hook)
@@ -169,7 +169,7 @@ Non-stop mode only stops the current thread.
 
 (defun my-help-mode-hook ()
   "Personal hook for help-mode."
-  (define-key help-mode-map [f5] 'describe-variable)
+  (define-key help-mode-map [f5] 'describe-symbol)
   (define-key help-mode-map [f7] 'describe-function)
   (define-key help-mode-map [f9] 'describe-mode))
 (add-hook 'help-mode-hook 'my-help-mode-hook)
