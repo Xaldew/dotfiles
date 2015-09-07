@@ -1,23 +1,23 @@
 ;; Activate xclip addon if available.
-(when (executable-find "xclip")
-  (require 'xclip)
+(when (and (executable-find "xclip")
+	   (require 'xclip nil 'noerror))
   (xclip-mode 1))
 
 
 ;; Activate Yasnippet
 ;; binds trigger to C-o to avoid stateful behaviours.
-(require 'yasnippet)
-(define-key yas-minor-mode-map (kbd "<tab>") nil)
-(define-key yas-minor-mode-map (kbd "TAB") nil)
-(define-key yas-minor-mode-map (kbd "C-o") 'yas-expand)
+(when (require 'yasnippet nil 'noerror)
+  (define-key yas-minor-mode-map (kbd "<tab>") nil)
+  (define-key yas-minor-mode-map (kbd "TAB") nil)
+  (define-key yas-minor-mode-map (kbd "C-o") 'yas-expand)
 
-(define-key yas-keymap [(tab)]       nil)
-(define-key yas-keymap (kbd "TAB")   nil)
-(define-key yas-keymap [(shift tab)] nil)
-(define-key yas-keymap [backtab]     nil)
-(define-key yas-keymap (kbd "C-o") 'yas-next-field-or-maybe-expand)
-(define-key yas-keymap (kbd "C-u") 'yas-prev-field)
-(yas-global-mode t)
+  (define-key yas-keymap [(tab)]       nil)
+  (define-key yas-keymap (kbd "TAB")   nil)
+  (define-key yas-keymap [(shift tab)] nil)
+  (define-key yas-keymap [backtab]     nil)
+  (define-key yas-keymap (kbd "C-o") 'yas-next-field-or-maybe-expand)
+  (define-key yas-keymap (kbd "C-u") 'yas-prev-field)
+  (yas-global-mode t))
 
 ;; Change whitespace visualization in yasnippets mode.
 (defun my/snippet-hook ()
@@ -32,10 +32,6 @@
 
 
 ;; Enable Auto-complete but don't activate the mode.
-(require 'auto-complete-config)
-(ac-config-default)
-(global-auto-complete-mode -1)
-
 (defun my/ac-setup-hook ()
   "A hook for my global Autocomplete setup."
   (setq ac-auto-show-menu 0.1)
@@ -43,13 +39,17 @@
   (define-key ac-menu-map (kbd "M-n") 'ac-next)
   (define-key ac-menu-map (kbd "M-p") 'ac-previous)
   (add-to-list 'ac-sources 'ac-source-yasnippet))
-(add-hook 'auto-complete-mode-hook 'my/ac-setup-hook)
 
 (defun my/ac-elisp-hook ()
   "Enable autocomplete for Emacs lisp and disable company mode."
   (company-mode -1)
   (auto-complete-mode t))
-(add-hook 'emacs-lisp-mode-hook 'my/ac-elisp-hook)
+
+(when (require 'auto-complete-config nil 'noerror)
+  (ac-config-default)
+  (global-auto-complete-mode -1)
+  (add-hook 'auto-complete-mode-hook 'my/ac-setup-hook)
+  (add-hook 'emacs-lisp-mode-hook 'my/ac-elisp-hook))
 
 
 ;; Activate company-mode for all buffers but Emacs lisp ones.
@@ -58,14 +58,14 @@
 
 
 ;; Activate Magit.
-(require 'magit)
-(setq magit-last-seen-setup-instructions "1.4.0")
-(global-set-key (kbd "C-c g") 'magit-status)
-(add-to-list 'auto-mode-alist '("gitignore\\'" . gitignore-mode))
+(when (require 'magit nil 'noerror)
+  (setq magit-last-seen-setup-instructions "1.4.0")
+  (global-set-key (kbd "C-c g") 'magit-status)
+  (add-to-list 'auto-mode-alist '("gitignore\\'" . gitignore-mode)))
 
 ;; Add C-c h as toggle command for hide/show-comments.
-(require 'hide-comnt)
-(global-set-key "\C-ch" 'hide/show-comments-toggle)
+(when (require 'hide-comnt nil 'noerror)
+  (global-set-key "\C-ch" 'hide/show-comments-toggle))
 
 ;; Change tab width for coffee-mode.
 (setq coffee-tab-width 4)
@@ -102,8 +102,8 @@
   (setq projectile-tags-command "ex-ctags -Re -f \"%s\" %s"))
 
 ;; Add the Google C/C++ style to list of all styles.
-(require 'google-c-style)
-(c-add-style "google" google-c-style)
+(when (require 'google-c-style nil 'noerror)
+  (c-add-style "google" google-c-style))
 
 
 ;; Add Ace-window configuration.
@@ -132,28 +132,28 @@
 
 
 ;; Configure Clojure-mode with some additional font-locking.
-(require 'clojure-mode-extra-font-locking)
+(require 'clojure-mode-extra-font-locking nil 'noerror)
 
 
 ;; Configure Delight to reduce the number of minor mode lighters.
-(require 'delight)
-(delight '((abbrev-mode     " Abv" "abbrev")
-           (smart-tab-mode  " \\t" "smart-tab")
-           (form-feed-mode  nil "form-feed")
-           (eldoc-mode      nil "eldoc")
-           (rainbow-mode)
-	   (paredit-mode    nil "paredit")
-	   (subword-mode    nil "subword")
-	   (undo-tree-mode  nil "undo-tree")
-	   (company-mode    " Comp" "company")
-	   (cwarn-mode      nil "cwarn")
-	   (yas-minor-mode  nil "yasnippet")
-           (emacs-lisp-mode "Elisp" :major)))
+(when (require 'delight nil 'noerror)
+  (delight '((abbrev-mode     nil "abbrev")
+	     (smart-tab-mode  " \\t" "smart-tab")
+	     (form-feed-mode  nil "form-feed")
+	     (eldoc-mode      nil "eldoc")
+	     (rainbow-mode)
+	     (paredit-mode    nil "paredit")
+	     (subword-mode    nil "subword")
+	     (undo-tree-mode  nil "undo-tree")
+	     (company-mode    " Cp" "company")
+	     (cwarn-mode      nil "cwarn")
+	     (yas-minor-mode  nil "yasnippet")
+	     (emacs-lisp-mode "Elisp" :major))))
 
 
 ;; Configure Emacs multimedia system.
-(require 'emms-setup)
-(emms-all)
-(emms-default-players)
-(global-set-key (kbd "C-c m") 'emms-smart-browse)
-(setq emms-source-file-default-directory "~/Music/")
+(when (require 'emms-setup nil 'noerror)
+  (emms-all)
+  (emms-default-players)
+  (global-set-key (kbd "C-c m") 'emms-smart-browse)
+  (setq emms-source-file-default-directory "~/Music/"))
