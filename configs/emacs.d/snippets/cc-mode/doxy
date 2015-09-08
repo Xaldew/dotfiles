@@ -18,6 +18,9 @@
 	      (args  (if attrs
 			 (delete "" (mapcar 'car (plist-get attrs :arguments)))
 		       '()))
+	      (max-len (if args
+			   (apply 'max (mapcar (lambda (x) (length x)) args))
+			 0))
 	      (indent (concat "\n" (make-string (current-column) 32)))
 	      (itr 1))
 	 (concat
@@ -26,7 +29,10 @@
 	  (when args indent)
 	  (mapconcat
 	   (lambda (x)
-	     (format "@param %s $%d" x (incf itr)))
+	     (format "@param %s%s $%d"
+		     x
+		     (make-string (- max-len (length x)) ? )
+		     (incf itr)))
 	   args indent)
 	  indent
 	  (when (and (eq class 'function)
