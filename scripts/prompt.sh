@@ -56,43 +56,25 @@ git_prompt_info()
     git name-rev HEAD 2> /dev/null 1> /dev/null && __git_ps1 " (git::%s)"
 }
 
-parse_svn_url()
-{
-    svn info 2>/dev/null | sed -ne 's#^URL: ##p'
-}
-
-parse_svn_repository_root()
-{
-    svn info 2>/dev/null | sed -ne 's#^Repository Root: ##p'
-}
-
-parse_svn_branch()
-{
-    branch=$(parse_svn_url |
-		    sed -e 's#^'"$(parse_svn_repository_root)"'##g' |
-		    sed "s|^/branches/||" |
-		    awk '{print $1}' |
-		    sed -e 's|\([^/]\+\)/\?.*|\1|')
-    if [[ $branch != *"trunk"* ]]; then
-	printf "::%s" $branch
-    else
-	printf ""
-    fi
-}
-
-parse_svn_rev()
-{
-    svn info 2>/dev/null | \
-	sed -ne 's#^Revision: ##p' | \
-	awk '{print $1}'
-}
-
 svn_prompt_info()
 {
-    branch=$(parse_svn_branch)
-    rev=$(parse_svn_rev)
-    if [ -n "$rev" ]; then
-	printf " (svn::%s%s)" $rev $branch
+    info=$(svn info 2>/dev/null)
+    svn_rev=$(printf "%s" "${info}" | sed -ne 's#^Revision: ##p' | awk '{print $1}')
+    svn_root=$(printf "%s" "$info}" | sed -ne 's#^Repository Root: ##p')
+    svn_url=$(printf "%s" "${info}" | sed -ne 's#^URL: ##p')
+    svn_branch=$(printf "%s" "${svn_url}" |
+			sed -e 's#^'"${svn_root}"'##g' |
+			sed "s|^/branches/||" |
+			awk '{print $1}' |
+			sed -e 's|\([^/]\+\)/\?.*|\1|')
+
+    if [ "${svn_branch#*trunk}" != "${svn_branch}" ]; then
+    	svn_branch=""
+    else
+	svn_branch="::${svn_branch}"
+    fi
+    if [ -n "${svn_rev}" ]; then
+	printf " (svn::%s%s)" $svn_rev "$svn_branch"
     fi
 }
 
