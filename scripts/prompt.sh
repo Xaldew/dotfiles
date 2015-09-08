@@ -46,7 +46,7 @@ bzr_prompt_info()
 		    awk -F / '{print " (bzr::"$1")"}')
     if [ -n "$bzr_cb" ]; then
 	bzr_dirty=""
-	[[ -n `bzr status` ]] && bzr_dirty="$(sh_fg_rgb 155 0 0) *"
+	[ -n "`bzr status`" ] && bzr_dirty="$(sh_fg_rgb 155 0 0) *"
 	printf "%s" "$bzr_cb$bzr_dirty"
     fi
 }
