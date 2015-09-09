@@ -12,6 +12,8 @@ if [[ -s "${ZDOTDIR}/.zprezto/init.zsh" ]]; then
     source "${ZDOTDIR}/.zprezto/init.zsh"
 fi
 
+[[ $EMACS = t ]] && unsetopt zle
+
 # The following lines were added by compinstall
 zstyle ':completion:*' completer _complete _ignored _approximate
 zstyle ':completion:*' completions 1
@@ -58,9 +60,6 @@ if [ -f "${HOME}/.profile" ]; then
     source ${HOME}/.profile
 fi
 
-# Add 256 colour support for the xterm emulators.
-export TERM='xterm-256color'
-
 # Set XDG_CONFIG_HOME variable if not set.
 if [ -n "$XDG_CONFIG_HOME" -a -d "$HOME/.config" ]; then
     export XDG_CONFIG_HOME=$HOME/.config
@@ -86,3 +85,6 @@ bindkey -M emacs '^[h' backward-kill-word
 # Enter accepts the menu entry and inserts the command.
 zmodload zsh/complist
 bindkey -M menuselect '^M' .accept-line
+
+# Remove zprezto rm alias.
+alias rm=rm
