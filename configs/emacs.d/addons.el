@@ -147,6 +147,7 @@
 	     (undo-tree-mode  nil "undo-tree")
 	     (company-mode    " Cp" "company")
 	     (cwarn-mode      nil "cwarn")
+	     (flyspell-mode   nil "flyspell")
 	     (yas-minor-mode  nil "yasnippet")
 	     (emacs-lisp-mode "Elisp" :major))))
 
