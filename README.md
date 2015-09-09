@@ -49,9 +49,23 @@ Currently, the following flags exists:
                                      (Not yet implemented.)
 
 ## Windows Installation
-Note: This section is under construction.
-
 The "windows" folder contains PowerShell scripts that will install a subset of
-the configuration that is compatible for both Windows and Unix.
+the configuration that is usable on both Windows and Unix.
 
 Configuration specific to windows is located here as well.
+
+
+### Installing Dotfiles
+
+
+### PowerShell Downloader
+
+This is the most basic installation script. It was written mostly as a practice
+in writing PowerShell code. It simply lists URLs for the packages, downloads and
+installs them.
+
+
+### Chocolatey Installation
+
+
+### Windows 10 Packet Manager
