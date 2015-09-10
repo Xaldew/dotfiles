@@ -42,11 +42,6 @@ mkdir --parents $HOME/.screen/
 # Install Xresources.
 ln -fs $dotfiles_dir/configs/Xresources $HOME/.Xresources
 
-# Install .ssh config.
-mkdir --parents $HOME/.ssh
-cp --force $dotfiles_dir/configs/ssh_config $HOME/.ssh/config
-chmod 600 $HOME/.ssh/config
-
 # Install latexmk configuration.
 ln -fs $dotfiles_dir/configs/latexmkrc $HOME/.latexmkrc
 
