@@ -1,10 +1,6 @@
+# Compute script and dotfiles base directory.
 $scriptPath  = Split-Path -Parent $MyInvocation.MyCommand.Definition
 $dotfilesDir = Split-Path -Parent $scriptPath
-
-Write-Host "Home location: $HOME"
-Write-Host "AppData location: $Env:APPDATA"
-Write-Host "Script location: $scriptPath"
-Write-Host "Dotfiles location: $dotfilesDir"
 
 
 # Copy all Bash configuration.
