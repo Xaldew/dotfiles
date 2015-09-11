@@ -2,14 +2,14 @@ function Test-CommandExists ($cmd)
 {
     try
     {
-	if (Get-Command $cmd)
-	{
-	    return 1
-	}
+        if (Get-Command $cmd)
+        {
+            return 1
+        }
     }
     catch
     {
-	return 0
+        return 0
     }
 }
 
@@ -28,7 +28,7 @@ if (!(Test-Administrator))
 # Install Chocolatey if not already installed.
 if (!(Test-CommandExists Choco))
 {
-     Invoke-Expression ((new-object net.webclient).DownloadString('https://chocolatey.org/install.ps1')) | Out-Null
+    Invoke-Expression ((new-object net.webclient).DownloadString('https://chocolatey.org/install.ps1')) | Out-Null
 }
 
 $packages = @(
