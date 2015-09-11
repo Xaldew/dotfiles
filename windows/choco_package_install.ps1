@@ -37,11 +37,9 @@ $packages = @(
     "emacs",
     "inkscape",
     "autohotkey",
-    "vlc"
+    "vlc",
+    "poshgit"
 )
 
-foreach ($pkg in $packages)
-{
-    Write-Host "Installing $pkg"
-    choco install $pkg
-}
+Write-Host "Installing: $packages"
+choco install $packages
