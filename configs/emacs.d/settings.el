@@ -122,6 +122,13 @@
 (setq whitespace-style '(face empty lines-tail trailing))
 (global-whitespace-mode t)
 
+;; Do not indent with tabs by default anywhere but in Makefiles.
+(setq-default indent-tabs-mode nil)
+(defun my-makefile-tab-hook ()
+  "Indent Makefiles with tabs."
+  (setq indent-tabs-mode t))
+(add-hook 'makefile-mode-hook 'my-makefile-tab-hook)
+
 
 ;; Use gdb-many-windows by default and start at the main routine.
 (setq gdb-many-windows t)
