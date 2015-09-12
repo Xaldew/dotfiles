@@ -3,6 +3,10 @@ $scriptPath  = Split-Path -Parent $MyInvocation.MyCommand.Definition
 $dotfilesDir = Split-Path -Parent $scriptPath
 
 
+# Add HOME as an environment variable.
+[Environment]::SetEnvironmentVariable("HOME", $HOME, "User")
+
+
 # Copy all Bash configuration.
 Copy-Item -Path $dotfilesDir/configs/bashrc -Destination $HOME/.bashrc -Force
 Copy-Item -Path $dotfilesDir/configs/bash_aliases -Destination $HOME/.bash_aliases -Force
@@ -22,8 +26,9 @@ Copy-Item -Path $dotfilesDir/configs/gitignore -Destination $HOME/.gitignore -Fo
 
 
 # Copy all Emacs configuration.
-# Note that it is placed in APPDATA instead of HOME since that is where Emacs
+# Note that it is placed in both APPDATA and HOME since that is where Emacs
 # looks for configuration files by default.
+Copy-Item $dotfilesDir/configs/emacs.d/ -Destination $HOME/.emacs.d/ -Force -Recurse
 Copy-Item $dotfilesDir/configs/emacs.d/ -Destination $Env:APPDATA/.emacs.d/ -Force -Recurse
 
 
