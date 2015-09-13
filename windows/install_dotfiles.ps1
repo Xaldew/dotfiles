@@ -24,4 +24,6 @@ Copy-Item $dotfilesDir/configs/emacs.d/ -Destination $HOME/.emacs.d/ -Force -Rec
 Copy-Item $dotfilesDir/configs/emacs.d/ -Destination $Env:APPDATA/.emacs.d/ -Force -Recurse
 
 
-# Copy all AutoHotkey configuration.
+# Copy AutoHotkey configuration to the default load path.
+$docDir = [environment]::GetFolderPath("MyDocuments")
+Copy-Item -Path $dotfilesDir/windows/AutoHotkey.ahk -Destination $docDir/AutoHotkey.ahk -Force -Recurse
