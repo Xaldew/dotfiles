@@ -12,4 +12,9 @@ host meldanyasrv
 host waldesrv
      HostName walde.dyndns-server.com
      User git
-     IdentityFile ~/.ssh/xaldew_vm_rsa
+     IdentityFile ~/.ssh/sneaker_key
+
+# host waldesrv_root
+#      HostName walde.dyndns-server.com
+#      User git
+#      IdentityFile ~/.ssh/<insert_key>
