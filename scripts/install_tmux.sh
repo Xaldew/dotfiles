@@ -3,14 +3,14 @@
 # then compiles and installs it.
 
 sudo apt-get --quiet=2 install libevent-dev libncurses5-dev
-cd $objects_dir
 if [ -d $objects_dir/tmux ]; then
     cd $objects_dir/tmux
     make distclean
     git clean --force
     git pull
 else
-    git clone git://git.code.sf.net/p/tmux/tmux-code tmux
+    cd $objects_dir
+    git clone https://github.com/tmux/tmux.git tmux
 fi
 
 cd $objects_dir/tmux
