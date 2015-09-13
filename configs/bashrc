@@ -54,10 +54,10 @@ export FIGNORE=$FIGNORE:svn:.o:.~:\#*\#:.pyc:.pyo
 export GREP_OPTIONS="--exclude-dir={.svn,.git,.repo}"
 
 # Setup emacs as the default editor.
-if [ ${EDITOR#*emacs} = ${EDITOR} ]; then
+if [ "${EDITOR#*emacs}" = "${EDITOR}" ]; then
     export EDITOR=nx-emacs-client
 fi
-if [ ${VISUAL#*emacs} = ${EDITOR} ]; then
+if [ "${VISUAL#*emacs}" = "${VISUAL}" ]; then
     export VISUAL=graphical-emacs-client
 fi
 
