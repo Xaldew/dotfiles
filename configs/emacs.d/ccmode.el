@@ -27,7 +27,6 @@
 	  doxygen-font-lock-doc-comments))))
   "Function to run for doxygen documentation font-locking.")
 
-
 (defun my-cc-mode-common-hook ()
   "Setup common utilities for all C-like modes."
   (setq-local c-doc-comment-style
@@ -46,3 +45,11 @@
      ("[^%]\\(%\\([[:digit:]]+\\$\\)?[-+' #0*]*\\([[:digit:]]*\\|\\*\\|\\*[[:digit:]]+\\$\\)\\(\\.\\([[:digit:]]*\\|\\*\\|\\*[[:digit:]]+\\$\\)\\)?\\([hlLjzt]\\|ll\\|hh\\)?\\([aAbdiuoxXDOUfFeEgGcCsSpn]\\|\\[\\^?.[^]]*\\]\\)\\)"
       1 font-lock-format-specifier-face prepend))))
 (add-hook 'c-mode-common-hook 'my-cc-mode-common-hook)
+
+
+;; Setup the default coding styles.
+(setq c-default-style '((java-mode . "java")
+                        (awk-mode  . "awk")
+                        (c-mode    . "linux-tabs-style")
+                        (c++-mode  . "my-c++-style")
+                        (other     . "gnu")))

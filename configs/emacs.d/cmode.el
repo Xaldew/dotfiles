@@ -78,7 +78,9 @@
 	  (progn
 	    (message (format "Using style: %s." style))
 	    (c-set-style style))
-	(c-set-style "linux-tabs-style"))) )) ; Default to linux-tab-style.
+        (message "Style not found. Guessing...")
+	(c-guess)))))
+
 
 ;; Add personal c-mode setup function to c-mode-hook.
 (add-hook 'c-mode-hook 'my-c-mode-hook)
