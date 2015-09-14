@@ -206,3 +206,23 @@ Non-stop mode only stops the current thread.
 (setq line-number-mode t)
 (setq column-number-mode t)
 (add-hook 'after-init-hook 'global-linum-mode)
+
+
+;; Add org-mode configuration.
+(defun my-start-org-mode (prefix ch)
+  "Start org-mode.
+
+This function prompts for a character to decide which org-mode
+function to call.
+
+Prefix arguments are still usable with this command. They are
+simply passed on to the corresponding function.
+
+"
+  (interactive "P\ncORG: <l:link, a:agenda, c:capture, b:iswitchb>")
+  (cond ((= ch ?l) (org-store-link prefix))
+        ((= ch ?a) (org-agenda prefix))
+        ((= ch ?c) (let ((current-prefix-arg prefix))
+                     (call-interactively 'org-capture)))
+        ((= ch ?b) (org-iswitchb prefix))))
+(global-set-key (kbd "C-c o") 'my-start-org-mode)
