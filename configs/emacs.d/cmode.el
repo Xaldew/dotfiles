@@ -82,11 +82,7 @@ we check that first.
 (defun my-c-mode-hook ()
   "My personal c-mode hook."
   (interactive)
-  (flycheck-mode)
-  (c-turn-on-eldoc-mode)
-  (setq-local flycheck-gcc-language-standard   "c11")
-  (setq-local flycheck-clang-language-standard "c11")
-  (turn-on-auto-fill)
+  (auto-fill-mode 1)
   (my-guess-c-style))
 
 
