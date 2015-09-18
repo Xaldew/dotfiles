@@ -61,6 +61,24 @@
   (assoc-default filename my-c-styles-alist 'string-match))
 
 
+(defun my-guess-c-style ()
+  "Attempt to figure out the C-style if the is visible.
+
+Note that some modes can get in the way of `buffer-file-name' so
+we check that first.
+
+"
+  (message (format "looking for style for buffer %s" (buffer-file-name)))
+  (when (and buffer-file-name)
+    (let ((style (my-c-style-guesser (buffer-file-name))))
+      (if style
+	  (progn
+	    (message (format "Using style: %s." style))
+	    (c-set-style style))
+        (message "Style not found. Guessing...")
+	(c-guess)))))
+
+
 (defun my-c-mode-hook ()
   "My personal c-mode hook."
   (interactive)
@@ -69,17 +87,7 @@
   (setq-local flycheck-gcc-language-standard   "c11")
   (setq-local flycheck-clang-language-standard "c11")
   (turn-on-auto-fill)
-  ;; Set the c-style if we can. Some modes can get in the way of
-  ;; buffer-file-name when setting sub-modes, so check we have one first.
-  (when buffer-file-name
-    (message (format "looking for style for buffer %s" (buffer-file-name)))
-    (let ((style (my-c-style-guesser (buffer-file-name))))
-      (if style
-	  (progn
-	    (message (format "Using style: %s." style))
-	    (c-set-style style))
-        (message "Style not found. Guessing...")
-	(c-guess)))))
+  (my-guess-c-style))
 
 
 ;; Add personal c-mode setup function to c-mode-hook.
