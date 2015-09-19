@@ -70,13 +70,15 @@ if [ ! -r "$HOME/.emacs.d/elisp/gl-conf-mode.el" ]; then
     rm -rf $tmp
 fi
 
+
 # Create vim data and plugin directories.
 mkdir --parents $HOME/.vim/
 if [ ! -d "$HOME/.vim/autoload" ]; then
     tmp=$(mktemp --directory)
     git clone --quiet \
 	https://github.com/tpope/vim-pathogen.git $tmp/vim-pathogen
-    cp -r /tmp/vim-pathogen/autoload $HOME/.vim/autoload
+    cp -r $tmp/vim-pathogen/autoload $HOME/.vim/autoload
+    rm -rf $tmp
 fi
 ln -fs $dotfiles_dir/configs/vimrc $HOME/.vimrc
 
