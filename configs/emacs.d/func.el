@@ -1,5 +1,5 @@
 ;; This file contains various useful functions and aliases.
-
+(eval-when-compile (require 'rect))
 
 (defun indent-defun ()
   "Indent the currently active defun."
@@ -88,3 +88,9 @@
     (downcase-region (point)
 		     (progn (move-to-column endcol 'coerce)
 			    (point)))))
+
+
+(defun byte-compile-user-dir ()
+  "Compile the Elisp code in user directory."
+  (interactive)
+  (byte-recompile-directory user-emacs-directory 0))
