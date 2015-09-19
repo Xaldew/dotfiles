@@ -1,15 +1,10 @@
-(defconst user-init-dir
-  (cond ((boundp 'user-emacs-directory)
-	 user-emacs-directory)
-	((boundp 'user-init-directory)
-	 user-init-directory)
-	(t "~/.emacs.d/"))
-  "Set the user init directory.")
+;; Prefer the newer files when loading.
+(setq load-prefer-newer t)
 
 (defun load-user-file (file)
   "Load a file in current user's configuration directory."
   (interactive "f")
-  (load-file (expand-file-name file user-init-dir)))
+  (load (expand-file-name file user-emacs-directory)))
 
 ;; Add `~/.emacs.d/elisp' to the initial load path.
 (add-to-list 'load-path (expand-file-name "~/.emacs.d/elisp"))
