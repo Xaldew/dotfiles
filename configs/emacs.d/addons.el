@@ -57,7 +57,8 @@
 
   (defun my/disable-company-hook ()
     "Enable autocomplete for Emacs lisp and disable company mode."
-    (company-mode -1))
+    (when (fboundp 'company-mode)
+      (company-mode -1)))
 
   ;; Enable Auto-complete but don't activate the mode.
   (ac-config-default)
@@ -76,7 +77,7 @@
 (use-package company
   :ensure t
   :diminish (company-mode . "Cp")
-  :commands global-company-mode
+  :commands (company-mode global-company-mode)
   :init
   (add-hook 'after-init-hook 'global-company-mode)
   :config
