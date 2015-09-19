@@ -1,3 +1,7 @@
+(eval-when-compile
+  (require 'gud)
+  (require 'org))
+
 ;; Do not display the menu-bar.
 (menu-bar-mode -1)
 
@@ -55,7 +59,7 @@
 (set-default-coding-systems 'utf-8)
 (set-terminal-coding-system 'utf-8)
 (set-keyboard-coding-system 'utf-8)
-(setq default-buffer-file-coding-system 'utf-8)
+(setq buffer-file-coding-system 'utf-8)
 (setq x-select-request-type '(UTF8_STRING COMPOUND_TEXT TEXT STRING))
 
 ;; Activate certain DocView settings.
@@ -103,7 +107,7 @@
 
 ;; Set various clipboard management variables.
 (setq x-select-enable-clipboard-manager t)
-(setq x-select-enable-primary t)
+(setq x-select-enable-clipboard t)
 (setq save-interprogram-paste-before-kill t)
 (setq mouse-yank-at-point t)
 
@@ -224,5 +228,5 @@ simply passed on to the corresponding function.
         ((= ch ?a) (org-agenda prefix))
         ((= ch ?c) (let ((current-prefix-arg prefix))
                      (call-interactively 'org-capture)))
-        ((= ch ?b) (org-iswitchb prefix))))
+        ((= ch ?b) (org-switchb prefix))))
 (global-set-key (kbd "C-c o") 'my-start-org-mode)
