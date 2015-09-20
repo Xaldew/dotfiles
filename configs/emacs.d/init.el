@@ -15,6 +15,7 @@
 
 
 ;; Load settings independent on external plugins.
+(load-user-file "windows")
 (load-user-file "keybinds")
 (load-user-file "settings")
 (load-user-file "file-assoc")

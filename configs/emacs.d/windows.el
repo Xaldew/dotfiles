@@ -1,0 +1,7 @@
+(when (or (eq system-type 'windows-nt)
+          (eq system-type 'cygwin)
+          (eq system-type 'ms-dos))
+  (setq visible-bell t)
+  (setq ring-bell-function 'ignore)
+  (unless (server-running-p)
+    (server-start)))
