@@ -1,23 +1,9 @@
-function Test-CommandExists ($cmd)
-{
-    try
-    {
-        if (Get-Command $cmd)
-        {
-            return 1
-        }
-    }
-    catch
-    {
-        return 0
-    }
-}
+$scriptPath  = Split-Path -Parent $MyInvocation.MyCommand.Definition
+$dotfilesDir = Split-Path -Parent $scriptPath
 
-function Test-Administrator
-{
-    $user = [Security.Principal.WindowsIdentity]::GetCurrent();
-    (New-Object Security.Principal.WindowsPrincipal $user).IsInRole([Security.Principal.WindowsBuiltinRole]::Administrator)
-}
+# Source common utilities.
+. $dotfilesDir/windows/install_utils.ps1
+
 
 if (!(Test-Administrator))
 {
