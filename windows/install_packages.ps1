@@ -19,7 +19,9 @@ Set-PackageSource -Name chocolatey -Trusted
 $packages = @(
     "7zip",
     "firefox",
+    "flashplayerplugin",
     "emacs",
+    "hunspell",
     "inkscape",
     "autohotkey",
     "vlc"

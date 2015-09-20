@@ -20,11 +20,12 @@ if (!(Test-CommandExists Choco))
 $packages = @(
     "7zip",
     "firefox",
+    "flashplayerplugin",
     "emacs",
+    "hunspell",
     "inkscape",
     "autohotkey",
-    "vlc",
-    "poshgit"
+    "vlc"
 )
 
 Write-Host "Installing: $packages"
