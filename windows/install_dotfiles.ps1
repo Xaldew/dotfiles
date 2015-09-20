@@ -2,6 +2,9 @@
 $scriptPath  = Split-Path -Parent $MyInvocation.MyCommand.Definition
 $dotfilesDir = Split-Path -Parent $scriptPath
 
+# Source common utilities.
+. $dotfilesDir/windows/install_utils.ps1
+
 
 # Add various environment variables.
 [Environment]::SetEnvironmentVariable("HOME", $HOME, "User")
@@ -9,20 +12,22 @@ $dotfilesDir = Split-Path -Parent $scriptPath
 
 
 # Add various file associations.
-cmd /c ftype txtfile=emacsclientw --no-wait --alternate-editor=runemacs "%1"
-cmd /c ftype EmacsLisp=emacsclientw --no-wait --alternate-editor=runemacs "%1"
-cmd /c ftype CodeFile=emacsclientw --no-wait --alternate-editor=runemacs "%1"
-cmd /c assoc .txt=txtfile
-cmd /c assoc .text=txtfile
-cmd /c assoc .log=txtfile
-cmd /c assoc .el=EmacsLisp
-cmd /c assoc .c=CodeFile
-cmd /c assoc .cc=CodeFile
-cmd /c assoc .cpp=CodeFile
-cmd /c assoc .cxx=CodeFile
-cmd /c assoc .h=CodeFile
-cmd /c assoc .hpp=CodeFile
-
+if (Test-Administrator)
+{
+    cmd /c ftype txtfile=emacsclientw --no-wait --alternate-editor=runemacs "%1"
+    cmd /c ftype EmacsLisp=emacsclientw --no-wait --alternate-editor=runemacs "%1"
+    cmd /c ftype CodeFile=emacsclientw --no-wait --alternate-editor=runemacs "%1"
+    cmd /c assoc .txt=txtfile
+    cmd /c assoc .text=txtfile
+    cmd /c assoc .log=txtfile
+    cmd /c assoc .el=EmacsLisp
+    cmd /c assoc .c=CodeFile
+    cmd /c assoc .cc=CodeFile
+    cmd /c assoc .cpp=CodeFile
+    cmd /c assoc .cxx=CodeFile
+    cmd /c assoc .h=CodeFile
+    cmd /c assoc .hpp=CodeFile
+}
 
 # Copy all Bash configuration.
 Copy-Item -Path $dotfilesDir/configs/bashrc -Destination $HOME/.bashrc -Force
