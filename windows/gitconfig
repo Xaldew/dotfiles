@@ -44,8 +44,8 @@
 
 # Windows-specific configuration.
 [core]
-#	editor = emacsclient --tty --socket-name=default --alternate-editor="" "$@"
+	editor = emacsclientw.bat --create-frame --alternate-editor=runemacs.bat "$@"
 [merge]
 #	tool = ediff
 [mergetool "ediff"]
-#	cmd = emacsclient --tty --alternate-editor=\"\" --eval \"(ediff-merge-files-with-ancestor \\\"$LOCAL\\\" \\\"$REMOTE\\\" \\\"$BASE\\\" nil \\\"$MERGED\\\")\"
+#	cmd = emacsclientw.bat --create-frame --alternate-editor=runemacs.bat --eval \"(ediff-merge-files-with-ancestor \\\"$LOCAL\\\" \\\"$REMOTE\\\" \\\"$BASE\\\" nil \\\"$MERGED\\\")\"
