@@ -323,6 +323,11 @@
     (setq LaTeX-enable-toolbar nil)))
 
 
+;; On Windows, use the ssh agency package for ssh-agents.
+(use-package ssh-agency
+             :if (windows-os-p)
+             :ensure t)
+
 
 ;; Semantic need this variable to be defined.
 (setq ecb-minor-mode nil)

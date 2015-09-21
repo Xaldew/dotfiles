@@ -1,6 +1,13 @@
-(when (or (eq system-type 'windows-nt)
-          (eq system-type 'cygwin)
-          (eq system-type 'ms-dos))
+;; File containing various Windows related configurations.
+
+(defun windows-os-p ()
+  "Return true if this is a variant of Windows."
+  (or (eq system-type 'windows-nt)
+      (eq system-type 'cygwin)
+      (eq system-type 'ms-dos)))
+
+(when (windows-os-p)
+  ;; Change how the bell works in Windows.
   (setq visible-bell t)
   (setq ring-bell-function 'ignore)
 
