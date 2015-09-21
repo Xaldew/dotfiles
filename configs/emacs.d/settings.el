@@ -124,13 +124,13 @@
 ;; `func.el' does this automatically.
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
 (setq whitespace-style '(face empty lines-tail trailing))
-(global-whitespace-mode t)
+(add-hook 'prog-mode-hook 'whitespace-mode)
 
 ;; Do not indent with tabs by default anywhere but in Makefiles.
 (setq-default indent-tabs-mode nil)
 (defun my-makefile-tab-hook ()
   "Indent Makefiles with tabs."
-  (setq indent-tabs-mode t))
+  (setq-local indent-tabs-mode t))
 (add-hook 'makefile-mode-hook 'my-makefile-tab-hook)
 
 
