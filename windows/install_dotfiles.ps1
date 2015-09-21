@@ -42,8 +42,10 @@ Copy-Item -Path $dotfilesDir/configs/gitignore -Destination $HOME/.gitignore -Fo
 # Copy all Emacs configuration.
 # Note that it is placed in both APPDATA and HOME since that is where Emacs
 # looks for configuration files by default.
-Copy-Item $dotfilesDir/configs/emacs.d/ -Destination $HOME/.emacs.d/ -Force -Recurse
-Copy-Item $dotfilesDir/configs/emacs.d/ -Destination $Env:APPDATA/.emacs.d/ -Force -Recurse
+New-Item -Path $HOME/.emacs.d -ItemType Directory -Force | Out-Null
+Copy-Item $dotfilesDir/configs/emacs.d/* -Destination $HOME/.emacs.d/ -Force -Recurse
+New-Item -Path $Env:APPDATA/.emacs.d -ItemType Directory -Force | Out-Null
+Copy-Item $dotfilesDir/configs/emacs.d/* -Destination $Env:APPDATA/.emacs.d/ -Force -Recurse
 
 
 # Copy AutoHotkey configuration to the default load path.
@@ -52,29 +54,9 @@ Copy-Item -Path $dotfilesDir/windows/AutoHotkey.ahk -Destination $docDir/AutoHot
 
 
 # Add Autostart files.
-function create-shortcut([string]$dstPath, [string]$exeSrc, [string]$exeArgs)
-{
-    $Wsh = New-Object -comObject WScript.Shell
-    $shortcut = $Wsh.CreateShortcut($dstPath)
-    $shortcut.TargetPath = $exeSrc
-    if ($exeArgs -ne $null)
-    {
-        $shortcut.Arguments = $exeArgs
-    }
-    $shortcut.Save()
-}
-
-function pin-command([string]$dstExe, [string]$exeArgs)
-{
-    $sa = new-object -c shell.application
-    $pn = $sa.namespace($env:windir).parsename($dstExe)
-    $pn.invokeverb('taskbarpin')
-}
-
-
 $startupDir = [environment]::GetFolderPath("StartUp")
 $ahkExe    = "$Env:ProgramFiles/AutoHotkey/AutoHotkey.exe"
 create-shortcut $startupDir/AutoHotkey.lnk $ahkExe
 
 # $emacsExe = Get-Command runemacs
-# create-shortcut $startupDir/emacs.lnk $emacsExe.Path "--daemon"
+# create-shortcut $startupDir/emacs.lnk $emacsExe.Path
