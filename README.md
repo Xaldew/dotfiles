@@ -57,15 +57,25 @@ Configuration specific to windows is located here as well.
 
 ### Installing Dotfiles
 
+To install the dotfiles on any PowerShell v2.0 or higher platform, run the
+PowerShell script called: `install_dotfiles.ps1`. This will install the
+Bash, Emacs, AutoHotkey and autostart settings.
+
 
 ### PowerShell Downloader
 
-This is the most basic installation script. It was written mostly as a practice
-in writing PowerShell code. It simply lists URLs for the packages, downloads and
-installs them.
+This is the most basic installation and downloading script. It is simply called
+`install_portable.ps1` since it is technically the most portable script. It was
+written mostly as a practice in writing PowerShell code. It simply lists URLs
+for the packages, downloads and installs them. You still have to click through
+all the installers however.
 
 
 ### Chocolatey Installation
 
+The `install_chocolatey.ps1` script installs the Chocolatey program if it is
+missing, and then uses Chocolatey infrastructure to install the rest of the
+packages. Note however that it is not always the most recent version that is
+present in the Chocolatey repositories.
 
 ### Windows 10 Packet Manager
