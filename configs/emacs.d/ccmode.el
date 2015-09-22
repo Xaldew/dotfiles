@@ -1,5 +1,5 @@
 ;; Setup settings used in C-like languages such as C/C++/Java.
-(require 'cc-mode)
+(eval-when-compile (require 'cc-mode))
 
 (defun my-cc-init-hook ()
   "Initialization hook for CC-mode runs before any other hooks,
@@ -29,11 +29,6 @@
 
 (defun my-cc-mode-common-hook ()
   "Setup common utilities for all C-like modes."
-  (setq-local c-doc-comment-style
-	      '((java-mode . javadoc)
-		(pike-mode . autodoc)
-		(c-mode    . doxygen)
-		(c++-mode  . doxygen)))
   (face-remap-add-relative 'font-lock-doc-face
 			   :foreground (face-foreground font-lock-comment-face))
   (font-lock-add-keywords
@@ -47,9 +42,14 @@
 (add-hook 'c-mode-common-hook 'my-cc-mode-common-hook)
 
 
-;; Setup the default coding styles.
+;; Setup the default coding and commenting styles.
 (setq c-default-style '((java-mode . "java")
                         (awk-mode  . "awk")
                         (c-mode    . "linux-tabs-style")
                         (c++-mode  . "my-c++-style")
                         (other     . "gnu")))
+
+(setq c-doc-comment-style '((java-mode . javadoc)
+                            (pike-mode . autodoc)
+                            (c-mode    . doxygen)
+                            (c++-mode  . doxygen)))

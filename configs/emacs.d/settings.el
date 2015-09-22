@@ -126,6 +126,7 @@
 (setq whitespace-style '(face empty lines-tail trailing))
 (add-hook 'prog-mode-hook 'whitespace-mode)
 
+
 ;; Do not indent with tabs by default anywhere but in Makefiles.
 (setq-default indent-tabs-mode nil)
 (defun my-makefile-tab-hook ()
