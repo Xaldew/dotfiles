@@ -324,9 +324,22 @@
 
 
 ;; On Windows, use the ssh agency package for ssh-agents.
+
 (use-package ssh-agency
-             :if (windows-os-p)
-             :ensure t)
+  :if (windows-os-p)
+  :ensure t
+  :init
+  (let* ((git-exe (executable-find "git.exe"))
+	 (git-dir (directory-file-name
+                   (file-name-directory
+                    (directory-file-name
+                     (file-name-directory git-exe))))))
+    (setq ssh-agency-bin-dir (concat git-dir "/usr/bin")))
+  :config
+  (ssh-agency-add-keys (mapcar
+                        'file-name-sans-extension
+                        (directory-files
+                         (expand-file-name "~/.ssh/") 'full ".*\\.pub\\'"))))
 
 
 ;; Semantic need this variable to be defined.
