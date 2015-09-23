@@ -188,23 +188,28 @@ Non-stop mode only stops the current thread.
 
 
 ;; Activate Semantic and the Semantic Recoder for all programming modes.
-(require 'srecode)
-(require 'srecode/mode)
-(setq srecode-insert-ask-variable-method 'field)
-(let ((template-dir (concat (file-name-as-directory
-			     (expand-file-name user-emacs-directory))
-			    "templates")))
-  (add-to-list 'srecode-map-load-path template-dir 'append))
-(add-hook 'prog-mode-hook 'semantic-mode 'append)
-(add-hook 'prog-mode-hook 'srecode-minor-mode 'append)
+(autoload 'srecode-minor-mode "srecode")
+(defun my-srecode-hook ()
+  "Hook to run after initializing srecode."
+  (setq srecode-insert-ask-variable-method 'field)
+  (let ((template-dir (concat (file-name-as-directory
+                               (expand-file-name user-emacs-directory))
+                              "templates")))
+    (add-to-list 'srecode-map-load-path template-dir 'append)))
+(add-hook 'prog-mode-hook 'semantic-mode)
+(add-hook 'semantic-mode-hook 'srecode-minor-mode)
+(add-hook 'srecode-minor-mode-hook 'my-srecode-hook)
+(add-to-list 'semantic-default-submodes 'global-semantic-idle-summary-mode)
 
 
 ;; Increase lisp evaluation depth and the number of variable bindings.
 (setq max-lisp-eval-depth '40000)
 (setq max-specpdl-size '100000)
 
+
 ;; Automatically insert corresponding closing parenthesis.
 (electric-pair-mode)
+
 
 ;; Activate line numbers and column markers.
 (setq linum-format "%d ")
@@ -224,7 +229,7 @@ Prefix arguments are still usable with this command. They are
 simply passed on to the corresponding function.
 
 "
-  (interactive "P\ncORG: <l:link, a:agenda, c:capture, b:iswitchb>")
+  (interactive "P\ncORG: <l:link, a:agenda, c:capture, b:switchb>")
   (cond ((= ch ?l) (org-store-link prefix))
         ((= ch ?a) (org-agenda prefix))
         ((= ch ?c) (let ((current-prefix-arg prefix))
