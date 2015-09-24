@@ -333,13 +333,11 @@
 	 (git-dir (directory-file-name
                    (file-name-directory
                     (directory-file-name
-                     (file-name-directory git-exe))))))
-    (setq ssh-agency-bin-dir (concat git-dir "/usr/bin")))
-  :config
-  (ssh-agency-add-keys (mapcar
-                        'file-name-sans-extension
-                        (directory-files
-                         (expand-file-name "~/.ssh/") 'full ".*\\.pub\\'"))))
+                     (file-name-directory git-exe)))))
+         (pub-keys (directory-files
+                    (expand-file-name "~/.ssh/") 'full ".*\\.pub\\'")))
+    (setq ssh-agency-bin-dir (concat git-dir "/usr/bin"))
+    (setq ssh-agency-keys (mapcar 'file-name-sans-extension pub-keys))))
 
 
 ;; Semantic need this variable to be defined.
