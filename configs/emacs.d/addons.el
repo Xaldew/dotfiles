@@ -141,7 +141,7 @@
 (use-package css-eldoc
   :ensure t
   :commands turn-on-css-eldoc
-  :config
+  :init
   (add-hook 'css-mode-hook 'turn-on-css-eldoc))
 
 
@@ -149,14 +149,14 @@
   :ensure t
   :commands rainbow-mode
   :diminish rainbow-mode
-  :config
+  :init
   (add-hook 'css-mode-hook 'rainbow-mode))
 
 
 (use-package c-eldoc
   :ensure t
   :commands c-turn-on-eldoc-mode
-  :config
+  :init
   ;; Enable C-eldoc for C/C++.
   (add-hook 'c-mode-hook   'c-turn-on-eldoc-mode)
   (add-hook 'c++-mode-hook 'c-turn-on-eldoc-mode))
@@ -166,7 +166,7 @@
 (use-package rainbow-delimiters
   :ensure t
   :commands rainbow-delimiters-mode
-  :config
+  :init
   (add-hook 'c-mode-common-hook   #'rainbow-delimiters-mode)
   (add-hook 'python-mode-hook     #'rainbow-delimiters-mode)
   (add-hook 'emacs-lisp-mode-hook #'rainbow-delimiters-mode)
