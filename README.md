@@ -54,6 +54,15 @@ the configuration that is usable on both Windows and Unix.
 
 Configuration specific to windows is located here as well.
 
+Note that to actually run many of these PowerShell scripts, the execution policy
+must be at least *RemoteSigned*, i.e., scripts downloaded from somewhere has to
+be properly signed. You can set that policy with the following PowerShell command:
+
+    Set-ExecutionPolicy Remotesigned
+
+To install packages using any of the package installation script listed below,
+you must additionally use an *Administrative* PowerShell prompt.
+
 
 ### Installing Dotfiles
 
@@ -78,4 +87,10 @@ missing, and then uses Chocolatey infrastructure to install the rest of the
 packages. Note however that it is not always the most recent version that is
 present in the Chocolatey repositories.
 
+
 ### Windows 10 Packet Manager
+
+The `install_packages.ps1` is from now on the primary Windows package
+installation script. Windows 10 now bundles the package manager *OneGet* with
+the OS, making it fairly simple to configure it to receive packages from the
+Chocolatey infrastructure.
