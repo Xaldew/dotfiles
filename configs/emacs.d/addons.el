@@ -167,13 +167,7 @@
   :ensure t
   :commands rainbow-delimiters-mode
   :init
-  (add-hook 'c-mode-common-hook   #'rainbow-delimiters-mode)
-  (add-hook 'python-mode-hook     #'rainbow-delimiters-mode)
-  (add-hook 'emacs-lisp-mode-hook #'rainbow-delimiters-mode)
-  (add-hook 'lisp-mode-hook       #'rainbow-delimiters-mode)
-  (add-hook 'scheme-mode-hook     #'rainbow-delimiters-mode)
-  (add-hook 'clojure-mode-hook    #'rainbow-delimiters-mode))
-
+  (add-hook 'prog-mode-hook #'rainbow-delimiters-mode))
 
 
 ;; Visualize the (deprecated) form-feed character (\f or ^L).
