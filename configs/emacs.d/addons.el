@@ -300,10 +300,10 @@
   (setq TeX-auto-save t)
   (setq TeX-parse-self t)
   (setq reftex-plug-into-AUCTeX t)
-  :config
-  (use-package auctex-latexmk :defer t :ensure t)
-  (use-package auto-complete-auctex :defer t :ensure t)
-  (use-package company-auctex :defer t :ensure t)
+
+  ;; Disable Toolbar if XPM images aren't supported.
+  (unless (image-type-available-p 'xpm)
+    (setq LaTeX-enable-toolbar nil))
 
   (add-hook 'LaTeX-mode-hook 'visual-line-mode)
   (add-hook 'LaTeX-mode-hook 'flyspell-mode)
@@ -312,9 +312,10 @@
   (add-hook 'LaTeX-mode-hook 'turn-on-reftex)   ; with AUCTeX LaTeX mode
   (add-hook 'latex-mode-hook 'turn-on-reftex)   ; with Emacs latex mode
 
-  ;; Disable Toolbar if XPM images aren't supported.
-  (unless (image-type-available-p 'xpm)
-    (setq LaTeX-enable-toolbar nil)))
+  :config
+  (use-package auctex-latexmk :defer t :ensure t)
+  (use-package auto-complete-auctex :defer t :ensure t)
+  (use-package company-auctex :defer t :ensure t))
 
 
 ;; On Windows, use the ssh agency package for ssh-agents.
