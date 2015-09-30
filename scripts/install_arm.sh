@@ -17,7 +17,6 @@ export SCRATCH="/scratch/\$USER"
 export HW_UTILS_DIR="\$SCRATCH/mve/video"
 export WORKSPACE_DIR="\$SCRATCH/git-mve6"
 export MVE_MODEL_DIR="\$SCRATCH/git-mve6/model"
-export MVE_MODEL_REF_DIR="\$SCRATCH/ref-mve6"
 export GIT_HOME_DIR="\$HOME/git"
 
 # Source common module load script, located in the project folder:
@@ -98,6 +97,7 @@ alias makeutil=" (goto_repo && cd test/system/ && make util -j12)"
 # bjobs/bwhat to monitor queue
 alias bi="bsub -Is -P \$ARM_PROJECT_NR -R 'rhe6 && os64' bash"
 alias bs='bsub -P PJ01433 -q normal -R "rhe6 && os64"'
+alias bissh="ssh lun-login2.lund.arm.com"
 
 
 # Preserve path when entering (fake) sudo.
@@ -206,13 +206,13 @@ function set_arm_gitconfig()
 }
 
 # If git is missing, perform module load git/git/v2.0.0.
-module unload git/git/v2.0.0
-command -v git > /dev/null 2>&1 || module load git/git/1.8.3
+ command -v git > /dev/null 2>&1 || module load git/git/v2.0.0
 
 # Setup of TI2 (VIDEO) Environment Variables
 export MPDTI_V2_USER=guswal01
 export MPDTI_V2_PIC_SERVER=lun-mpdti2.lund.arm.com:55300
 export MPDTI_V2_PROJECT=PJ00640
+export GREP_OPTIONS=""
 
 # Add some paths for work based utilities.
 export PATH=\$local_prefix_dir/bin:\$PATH
