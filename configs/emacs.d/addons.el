@@ -319,7 +319,6 @@
 
 
 ;; On Windows, use the ssh agency package for ssh-agents.
-
 (use-package ssh-agency
   :if (windows-os-p)
   :ensure t
@@ -344,7 +343,23 @@
   :commands (ecb-activate ecb-minor-mode))
 
 
-;; Install various major-mode packages.
+;; Setup the langtool library if the LanguageTool library is available.
+(use-package langtool
+  :if (locate-directory "languagetool" exec-path)
+  :defer t
+  :ensure t
+  :init
+  (let ((lt-dir (or (locate-directory "languagetool" exec-path) ""))
+        (lt-jar "languagetool-commandline.jar"))
+    (setq langtool-language-tool-jar
+          (concat (file-name-directory lt-dir)
+                  "languagetool/"
+                  lt-jar)))
+  (setq langtool-mother-tongue "en")
+  (setq langtool-default-language "en-US"))
+
+
+;; Install various major-mode packages and defer where it is possible.
 (use-package graphviz-dot-mode :ensure t :defer t)
 (use-package glsl-mode         :ensure t :defer t)
 (use-package cmake-mode        :ensure t :defer t)
