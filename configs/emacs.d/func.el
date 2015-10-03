@@ -94,3 +94,17 @@
   "Compile the Elisp code in user directory."
   (interactive)
   (byte-recompile-directory user-emacs-directory 0))
+
+
+(defun locate-directory (file-name path &optional suffix predicate)
+  "Locate the given directory in the list of directories.
+
+All arguments are treated similar to to the `locate-file' function.
+
+"
+  (locate-file
+   file-name path suffix
+   (lambda (f)
+     (when (and (file-directory-p f)
+                (or (not predicate) (funcall predicate f)))
+       'dir-ok))))
