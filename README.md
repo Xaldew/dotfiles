@@ -4,10 +4,10 @@ is only intended to be portable to a limited number of platforms but still be
 easily installable on a new computer.
 
 ## Unix Installation
-The install script assumes use of a fairly modern version of Bash. To be
+The install-script assumes use of a fairly modern version of Bash. To be
 specific, it needs Bash version 4 for the associative arrays.
 
-The scripts executes commands based on the flags it is given. Also, several
+The scripts execute commands based on the flags it is given. Also, several
 options are available to move install locations and setting various options.
 
 ### Flags
@@ -45,7 +45,7 @@ Currently, the following flags exists:
                                      in the terminal windows. Any other values
                                      are invalid.
 
-    -r DIR     --ram-disk DIR        Select a directory to setup as a RAMDISK.
+    -r DIR     --ram-disk DIR        Select a directory to set up as a RAMDISK.
                                      (Not yet implemented.)
 
 ## Windows Installation
@@ -74,10 +74,10 @@ Bash, Emacs, AutoHotkey and autostart settings.
 ### PowerShell Downloader
 
 This is the most basic installation and downloading script. It is simply called
-`install_portable.ps1` since it is technically the most portable script. It was
-written mostly as a practice in writing PowerShell code. It simply lists URLs
-for the packages, downloads and installs them. You still have to click through
-all the installers however.
+`install_portable.ps1` since it is technically the most portable script. This
+script was written mostly as a practice in writing PowerShell code. It simply
+lists URLs for the packages, downloads and installs them. You still have to
+click through all the installers however.
 
 
 ### Chocolatey Installation
