@@ -60,3 +60,22 @@ create-shortcut $startupDir/AutoHotkey.lnk $ahkExe
 
 # $emacsExe = Get-Command runemacs
 # create-shortcut $startupDir/emacs.lnk $emacsExe.Path
+
+# Install additional dictionaries and grammar tools.
+if (!(Test-Path -Path $Env:HOMEDRIVE/Hunspell -PathType Container))
+{
+    git clone git://gerrit.libreoffice.org/dictionaries $HOME/git/dictionaries
+    New-Item -Path $Env:HOMEDRIVE/Hunspell -ItemType Directory -Force | Out-Null
+    Get-ChildItem $HOME/git/dictionaries -Recurse |
+      Where-Object { $_.Name -Match '.*\.(dic|dat|aff)' } |
+      Copy-Item -Destination $Env:HOMEDRIVE/Hunspell
+}
+
+# Make a symbolic link to LanguageTool inside the bin folder.
+if (!(Test-Path -Path $Env:ChocolateyPath/bin/languagetool -PathType Container))
+{
+    $ltPkg = Get-Package languagetool
+    $ltDir = [io.path]::combine((Split-Path -Parent $ltPkg.Source), "tools")
+    $ltDir = [io.path]::combine($ltDir, "LanguageTool-" + $ltPkg.Version)
+    cmd /c mklink /J "$Env:ChocolateyPath\bin\languagetool" "$ltDir"
+}
