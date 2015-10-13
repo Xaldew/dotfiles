@@ -21,10 +21,14 @@ $packages = @(
     "7zip",
     "firefox",
     "flashplayerplugin",
+    "adobereader",
     "emacs",
     "hunspell",
+    "languagetool",
     "inkscape",
     "autohotkey",
+    "steam",
+    "battle.net",
     "vlc"
 )
 
