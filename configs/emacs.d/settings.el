@@ -2,6 +2,9 @@
   (require 'gud)
   (require 'org))
 
+;; Truncate lines by default.
+(setq-default truncate-lines t)
+
 ;; Do not display the menu-bar.
 (menu-bar-mode -1)
 
