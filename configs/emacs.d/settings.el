@@ -77,11 +77,14 @@
 ;; When cursor is on edge, move to the other side, as in a toroidal space.
 (setq windmove-wrap-around t)
 
-;; Allow movement to the windows using a prefixed arrow key.
-(global-set-key (kbd "C-c <left>")  'windmove-left)
-(global-set-key (kbd "C-c <right>") 'windmove-right)
-(global-set-key (kbd "C-c <up>")    'windmove-up)
-(global-set-key (kbd "C-c <down>")  'windmove-down)
+;; Activate winner-mode to undo/redo window configurations.
+(winner-mode t)
+
+;; Allow movement to the windows using a prefixed WASD-keys.
+(global-set-key (kbd "C-c w") 'windmove-up)
+(global-set-key (kbd "C-c a") 'windmove-left)
+(global-set-key (kbd "C-c s") 'windmove-down)
+(global-set-key (kbd "C-c d") 'windmove-right)
 
 ;; Allow shrinking of the windows using
 (global-set-key (kbd "C-<left>")  'shrink-window-horizontally)
