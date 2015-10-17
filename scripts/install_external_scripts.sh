@@ -78,7 +78,5 @@ if [ ! -d $local_prefix_dir/bin/languagetool ]; then
         mv $f/* "$dest"
         rmdir $f
     done
-    ln -fs $dest/languagetool-commandline.jar \
-       $local_prefix_dir/bin/languagetool-commandline.jar
     rm -r $tmpdir
 fi
