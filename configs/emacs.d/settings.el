@@ -15,6 +15,10 @@
 ;; Set the default fill-column.
 (setq-default fill-column 80)
 
+;; Automatically save Emacs minibuffer and window states.
+(desktop-save-mode t)
+(savehist-mode t)
+
 ;; Automatically follow symlink without prompting.
 (setq vc-follow-symlinks t)
 
