@@ -349,12 +349,8 @@
   :defer t
   :ensure t
   :init
-  (let ((lt-dir (or (locate-directory "languagetool" exec-path) ""))
-        (lt-jar "languagetool-commandline.jar"))
-    (setq langtool-language-tool-jar
-          (concat (file-name-directory lt-dir)
-                  "languagetool/"
-                  lt-jar)))
+  (let ((lt-jar "languagetool-commandline.jar"))
+    (setq langtool-language-tool-jar (locate-file lt-jar exec-path)))
   (setq langtool-mother-tongue "en")
   (setq langtool-default-language "en-US"))
 
