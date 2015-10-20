@@ -9,15 +9,15 @@ if [ -d $objects_dir/llvm ]; then
     cd $objects_dir/llvm
     svn update
 else
-    svn checkout http://llvm.org/svn/llvm-project/llvm/$release llvm
+    url_base=http://llvm.org/svn/llvm-project/
+    svn checkout $url_base/llvm/$release llvm
     if [ $? -eq 0 ]; then
 	(cd llvm/tools &&
-		svn checkout \
-		    http://llvm.org/svn/llvm-project/cfe/$release clang)
+                svn checkout $url_base/cfe/$release clang)
+        (cd llvm/tools/clang/tools &&
+                svn checkout $url_base/clang-tools-extra/$release extra)
 	(cd llvm/projects &&
-		svn checkout \
-		    http://llvm.org/svn/llvm-project/compiler-rt/$release \
-		    compiler-rt)
+		svn checkout $url_base/compiler-rt/$release compiler-rt)
     else
 	echo "Error: Failed to download LLVM."
     fi
