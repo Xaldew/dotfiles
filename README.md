@@ -1,16 +1,21 @@
 # Xaldew's Dotfiles
+
 This is repository containing my personal configuration for various programs. It
 is only intended to be portable to a limited number of platforms but still be
 easily installable on a new computer.
 
+
 ## Unix Installation
+
 The install-script assumes use of a fairly modern version of Bash. To be
 specific, it needs Bash version 4 for the associative arrays.
 
 The scripts execute commands based on the flags it is given. Also, several
 options are available to move install locations and setting various options.
 
+
 ### Flags
+
 Currently, the following flags exists:
 
     -h         --help                Display this help text.
@@ -48,7 +53,9 @@ Currently, the following flags exists:
     -r DIR     --ram-disk DIR        Select a directory to set up as a RAMDISK.
                                      (Not yet implemented.)
 
+
 ## Windows Installation
+
 The "windows" folder contains PowerShell scripts that will install a subset of
 the configuration that is usable on both Windows and Unix.
 
