@@ -69,7 +69,7 @@ module load arm/rascdevkit/1.1.4
 module load ccache/ccache/3.1.4
 module load gnu/gdb/7.5          # No python scripting support.
 module load gnu/valgrind/3.8.1
-module load gnu/cmake/2.8.9
+module load gnu/cmake/3.2.3
 
 module load scons/scons/2.3.0
 module load swig/swig/2.0.0
