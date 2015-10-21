@@ -2,14 +2,17 @@
 # A small script to checkout everything related to llvm and clang for a
 # given release.
 
-release=${1-trunk}
 cd $objects_dir
+release=${1-trunk}
 
 if [ -d $objects_dir/llvm ]; then
     cd $objects_dir/llvm
     svn update
 else
     url_base=http://llvm.org/svn/llvm-project/
+    if [ "$release" != "trunk" ]; then
+        release=tags/$release/final
+    fi
     svn checkout $url_base/llvm/$release llvm
     if [ $? -eq 0 ]; then
 	(cd llvm/tools &&
