@@ -291,6 +291,12 @@
          ("\.*ssh\.*config\\'" . ssh-config-mode)))
 
 
+(use-package clang-format
+  :ensure t
+  :init
+  (global-set-key (kbd "C-c f") 'clang-format-region))
+
+
 ;; Fix LaTeX settings and AucTeX.
 (use-package auctex
   :ensure t
