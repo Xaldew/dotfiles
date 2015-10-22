@@ -170,8 +170,4 @@ set_prompt()
     PS1+="$(cmd_status ${last_status}) "
 }
 
-if [[ $(tty) =~ .*tty^s.* ]] || [[ "$TERM" =~ ^linux$ ]]; then
-    export PROMPT_COMMAND='set_prompt'
-else
-    export PROMPT_COMMAND='set_prompt'
-fi
+export PROMPT_COMMAND='set_prompt'
