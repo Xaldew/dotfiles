@@ -61,6 +61,10 @@
   (assoc-default filename my-c-styles-alist 'string-match))
 
 
+(defvar my-semantic-parsing-p nil
+  "A variable set to true while semantic is (re-)parsing a file.")
+
+
 (defun my-guess-c-style ()
   "Attempt to figure out the C-style if the is visible.
 
@@ -69,7 +73,7 @@ we check that first.
 
 "
   (message (format "looking for style for buffer %s" (buffer-file-name)))
-  (when (and buffer-file-name)
+  (when (and buffer-file-name (not my-semantic-parsing-p))
     (let ((style (my-c-style-guesser (buffer-file-name))))
       (if style
 	  (progn
@@ -89,3 +93,15 @@ we check that first.
 ;; Add personal c-mode setup function to c-mode-hook.
 (add-hook 'c-mode-hook 'my-c-mode-hook)
 (add-hook 'c-mode-hook 'cwarn-mode)
+
+
+(defun my-semantic-before-parse-hook ()
+  "Hook to run before the semantic scheduler starts parsing."
+  (setq my-semantic-parsing-p t))
+(defun my-semantic-after-parse-hook ()
+  "Hook to run afterthe semantic scheduler starts parsing."
+  (setq my-semantic-parsing-p nil))
+(add-hook 'semantic-before-idle-scheduler-reparse-hook
+          'my-semantic-before-parse-hook)
+(add-hook 'semantic-after-idle-scheduler-reparse-hook
+          'my-semantic-after-parse-hook)
