@@ -101,7 +101,7 @@
   (setq magit-last-seen-setup-instructions "1.4.0")
   :bind ("C-c g" . magit-status)
   :config
-  (use-package magit-gerrit :defer t :ensure t)
+  (use-package magit-gerrit :ensure t)
   (add-to-list 'auto-mode-alist '("gitignore\\'" . gitignore-mode)))
 
 
