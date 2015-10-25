@@ -52,9 +52,13 @@ do
     ln -fs $ef $HOME/.emacs.d/$(basename $ef)
 done
 ln -fs $dotfiles_dir/configs/emacs.d/init.el $HOME/.emacs
-rm -f $HOME/.emacs.d/snippets $HOME/.emacs.d/templates
+rm -f \
+   $HOME/.emacs.d/snippets \
+   $HOME/.emacs.d/templates \
+   $HOME/.emacs.d/styles
 ln -fs $dotfiles_dir/configs/emacs.d/snippets $HOME/.emacs.d/snippets
 ln -fs $dotfiles_dir/configs/emacs.d/templates $HOME/.emacs.d/templates
+ln -fs $dotfiles_dir/configs/emacs.d/styles $HOME/.emacs.d/styles
 for ef in $dotfiles_dir/configs/emacs.d/elisp/*.el
 do
     ln -fs $ef $HOME/.emacs.d/elisp/$(basename $ef)
