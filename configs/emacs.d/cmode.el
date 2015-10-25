@@ -19,7 +19,7 @@
 			       (arglist-cont-nonempty)))
     (c-offsets-alist . ((inextern-lang  . 0)
 			(innamespace    . 0))))
-  "Misra C-style with modifications for the ARM MVE model/firmware/driver.")
+  "Misra C-style with modifications for the ARM MVE model/firmware.")
 (c-add-style "misra" misra-c-style)
 
 
@@ -61,10 +61,6 @@
   (assoc-default filename my-c-styles-alist 'string-match))
 
 
-(defvar my-semantic-parsing-p nil
-  "A variable set to true while semantic is (re-)parsing a file.")
-
-
 (defun my-guess-c-style ()
   "Attempt to figure out the C-style if the is visible.
 
@@ -73,14 +69,14 @@ we check that first.
 
 "
   (message (format "looking for style for buffer %s" (buffer-file-name)))
-  (when (and buffer-file-name (not my-semantic-parsing-p))
+  (when (and buffer-file-name)
     (let ((style (my-c-style-guesser (buffer-file-name))))
       (if style
 	  (progn
 	    (message (format "Using style: %s." style))
 	    (c-set-style style))
-        (message "Style not found. Guessing...")
-	(c-guess)))))
+        (message "Style not found. Defaulting to Misra.")
+	(c-set-style "misra")))))
 
 
 (defun my-c-mode-hook ()
@@ -93,15 +89,3 @@ we check that first.
 ;; Add personal c-mode setup function to c-mode-hook.
 (add-hook 'c-mode-hook 'my-c-mode-hook)
 (add-hook 'c-mode-hook 'cwarn-mode)
-
-
-(defun my-semantic-before-parse-hook ()
-  "Hook to run before the semantic scheduler starts parsing."
-  (setq my-semantic-parsing-p t))
-(defun my-semantic-after-parse-hook ()
-  "Hook to run afterthe semantic scheduler starts parsing."
-  (setq my-semantic-parsing-p nil))
-(add-hook 'semantic-before-idle-scheduler-reparse-hook
-          'my-semantic-before-parse-hook)
-(add-hook 'semantic-after-idle-scheduler-reparse-hook
-          'my-semantic-after-parse-hook)
