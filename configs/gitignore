@@ -34,6 +34,9 @@ out/
 # Ignore flycheck temporaries.
 flycheck*
 
+# Ignore clang-format files.
+.clang-format
+
 # Ignore various GNU global/ctags/etags file formats.
 TAGS
 GPATH
