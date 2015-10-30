@@ -14,8 +14,8 @@ shopt -s expand_aliases
 #### Exports
 export ARM_PROJECT_NR=PJ01433
 export SCRATCH="/scratch/\$USER"
-export HW_UTILS_DIR="\$SCRATCH/mve/video"
-export WORKSPACE_DIR="\$SCRATCH/git-mve6"
+export HW_UTILS_DIR="\$SCRATCH/asic_util"
+export WORKSPACE_DIR="\$SCRATCH/mve6"
 export MVE_MODEL_DIR="\$SCRATCH/git-mve6/model"
 export GIT_HOME_DIR="\$HOME/git"
 
@@ -37,15 +37,16 @@ export PLATFORM=i686-linux
 export SVNROOT=http://lun-svn1.lund.arm.com/svn/mpd/video
 
 #### Put some utils in PATH:
-export PATH=\$HW_UTILS_DIR/systemtest/util/jm/jm14.0/bin:\$PATH
-export PATH=\$HW_UTILS_DIR/systemtest/test/system/out/util-linux64:\$PATH
-export PATH=\$HW_UTILS_DIR/systemtest/test/util/yuvtools:\$PATH
-export PATH=\$HW_UTILS_DIR/hardware/bench/regression_cluster:\$PATH
-export PATH=\$HW_UTILS_DIR/asic_util/i686-linux:\$PATH
+export PATH=\$HW_UTILS_DIR/thirdparty/jm/jm14.0/bin:\$PATH
+export PATH=\$WORKSPACE_DIR/test/system/out/util-linux64:\$PATH
+export PATH=\$WORKSPACE_DIR/test/util/yuvtools:\$PATH
+export PATH=\$WORKSPACE_DIR/bench/regression_cluster:\$PATH
+export PATH=\$HW_UTILS_DIR/i686-linux:\$PATH
 
 
 #### Load a few modules from /arm/tools/modulefiles
 ## Unload defective modules.
+module unload python/python
 module unload gnu/gcc/4.5.2
 
 # Run 'module avail' for full list
@@ -57,6 +58,7 @@ module unload gnu/gcc/4.5.2
 # module load gnu/m4/1.4.12
 # module load lcov/lcov/1.9
 # module load meld/meld/1.5.3
+# module load python/python
 # module load python/numpy2.7/1.6.2
 # module load python/matplotlib_py2.7/1.2.1
 # module load python/scipy_py2.7/0.12.0
