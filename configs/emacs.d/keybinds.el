@@ -7,6 +7,7 @@
 (global-set-key (kbd "C-h") 'backward-delete-char)
 (global-set-key (kbd "M-h") 'backward-kill-word)
 (global-set-key (kbd "C-c t") 'toggle-truncate-lines)
+(global-set-key (kbd "C-c b") 'browse-url-at-point)
 
 ;; Add some extra key binding for M-x.
 (global-set-key (kbd "C-x C-m") 'execute-extended-command)
