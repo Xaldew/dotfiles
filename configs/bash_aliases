@@ -1,16 +1,17 @@
 # Alias definitions for the bash-shell.
 # This list will be filled in automatically by scripts later on.
 
-# enable color support of ls and also add handy aliases
+# Enable color support of ls and also add handy aliases.
 if [ -x /usr/bin/dircolors ]; then
     test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || \
 	    eval "$(dircolors -b)"
+    # Add default grep options
     alias ls='ls --color=auto'
     alias dir='dir --color=auto'
     alias vdir='vdir --color=auto'
-    alias grep='grep --color=auto $GREP_OPTIONS'
-    alias fgrep='fgrep --color=auto $GREP_OPTIONS'
-    alias egrep='egrep --color=auto $GREP_OPTIONS'
+    alias grep='grep --color=auto --exclude-dir={\.svn,\.git,\.repo}'
+    alias fgrep='fgrep --color=auto --exclude-dir={\.svn,\.git,\.repo}'
+    alias egrep='egrep --color=auto --exclude-dir={\.svn,\.git,\.repo}'
 fi
 
 alias ssh-lth="ssh dt09gw1@login.student.lth.se"
