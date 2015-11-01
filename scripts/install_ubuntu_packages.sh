@@ -29,6 +29,7 @@ sudo apt-get --quiet=2 install \
 sudo apt-get --quiet=2 install \
      vim \
      ssh \
+     curl \
      xclip
 
 # Install compilers and coding utilities.
