@@ -1,0 +1,20 @@
+# -*- mode: snippet -*-
+# name: ARM Legalease
+# key: legal2
+# type: snippet
+# expand-env: ((comment-continue (or comment-continue (if (string-match "\\`[ ]+" (substring comment-start 1)) comment-start (substring comment-start 1)))))
+# contributor: Gustaf Waldemarson
+# --
+`(insert comment-start)`
+`(insert comment-continue)`Copyright:
+`(insert comment-continue)`----------------------------------------------------------------------------
+`(insert comment-continue)`This confidential and proprietary software may be used only as authorized
+`(insert comment-continue)`by a licensing agreement from ARM Limited.
+`(insert comment-continue)`     (C) COPYRIGHT ${1:`(insert (format-time-string "%Y"))`} ARM Limited, ALL RIGHTS RESERVED
+`(insert comment-continue)`The entire notice above must be reproduced on all authorized copies and
+`(insert comment-continue)`copies may only be made to the extent permitted by a licensing agreement
+`(insert comment-continue)`from ARM Limited.
+`(insert comment-continue)`----------------------------------------------------------------------------
+`(insert comment-continue)`
+`(insert comment-end)`
+${0:$$(whitespace-cleanup-region yas-snippet-beg yas-snippet-end)}
