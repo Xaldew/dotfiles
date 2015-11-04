@@ -82,9 +82,15 @@ if [ ! -d $local_prefix_dir/bin/languagetool ]; then
 fi
 
 # Install Rust compiler, runtime and packaging tools.
-if ! command -v foo >/dev/null 2>&1; then
+if ! command -v rustc >/dev/null 2>&1; then
     tmp_dir=`mktemp --directory`
     curl -sSf https://static.rust-lang.org/rustup.sh > $tmp_dir/rustup.sh
     sh $tmp_dir/rustup.sh
     rm -r $tmp_dir
+fi
+
+# Install Emacs Cask.
+if ! command -v cask >/dev/null 2>&1; then
+    git clone https://github.com/cask/cask.git $objects_dir/cask
+    cask upgrade-cask
 fi

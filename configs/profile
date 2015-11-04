@@ -9,16 +9,21 @@ if [ -n "$BASH_VERSION" ]; then
     fi
 fi
 
-#### Add user paths to PATH so it includes private binaries.
+# Add user paths to PATH so it includes private binaries.
 ## Add Android SDK/NDK paths.
 if [ -d "$objects_dir/android_sdk/tools" ]; then
-    PATH=$objects_dir/android_sdk/tools:$PATH
+    PATH="$objects_dir/android_sdk/tools":$PATH
 fi
 if [ -d "$objects_dir/android_sdk/platform-tools" ]; then
-    PATH=$objects_dir/android_sdk/platform-tools:$PATH
+    PATH="$objects_dir/android_sdk/platform-tools":$PATH
 fi
 if [ -d "$objects_dir/android_ndk/" ]; then
-    PATH=$objects_dir/android_ndk:$PATH
+    PATH="$objects_dir/android_ndk":$PATH
+fi
+
+## Add Emacs Cask PATH
+if [ -d "$objects_dir/cask" ]; then
+    PATH="$objects_dir/cask/bin":$PATH
 fi
 
 ## Add private scripts and compiled binaries.
