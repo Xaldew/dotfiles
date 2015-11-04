@@ -378,6 +378,8 @@
 (use-package web-mode          :ensure t :defer t)
 (use-package cuda-mode         :ensure t :defer t)
 (use-package csv-mode          :ensure t :defer t)
+(use-package rust-mode         :ensure t :defer t)
+(use-package flycheck-rust     :ensure t :defer t)
 
 (use-package powershell :ensure t)
 ;;(use-package ahk-mode   :ensure t)
