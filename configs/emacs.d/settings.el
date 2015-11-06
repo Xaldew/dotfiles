@@ -17,6 +17,7 @@
 
 ;; Automatically save Emacs minibuffer and window states.
 (desktop-save-mode t)
+(setq desktop-load-locked-desktop nil)
 (savehist-mode t)
 
 ;; Automatically follow symlink without prompting.
