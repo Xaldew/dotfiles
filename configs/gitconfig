@@ -46,7 +46,7 @@
 
 # Unix-specific configuration.
 [core]
-	editor = emacsclient --tty --socket-name=default --alternate-editor="" "$@"
+	editor = emacsclient --tty --socket-name=default --alternate-editor=\"\" "$@"
 [merge]
 	tool = ediff
 [mergetool "ediff"]
