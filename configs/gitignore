@@ -30,6 +30,7 @@ desktop.ini	     # Windows desktop variables.
 # Ignore out-of-source build folders.
 /*build*/
 out/
+target/
 
 # Ignore flycheck temporaries.
 flycheck*
@@ -46,3 +47,6 @@ GRTAGS
 # Ignore compilation database files.
 compile_commands.json
 complete_cdb.json
+
+# Ignore Rust Cargo.lock files.
+Cargo.lock
