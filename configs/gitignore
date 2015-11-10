@@ -11,6 +11,7 @@
 .DS_Store	     # Mac Desktop Service metadata.
 .thumbs.db	     # Windows image thumbnails.
 desktop.ini	     # Windows desktop variables.
+*.nfs*               # NFS metadata files.
 
 # Ignore version management metadata folders.
 .svn
