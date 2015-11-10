@@ -38,6 +38,7 @@ export SVNROOT=http://lun-svn1.lund.arm.com/svn/mpd/video
 
 #### Put some utils in PATH:
 export PATH=\$HW_UTILS_DIR/thirdparty/jm/jm14.0/bin:\$PATH
+export PATH=\$WORKSPACE_DIR/test/util/funtest:\$PATH
 export PATH=\$WORKSPACE_DIR/test/system/out/util-linux64:\$PATH
 export PATH=\$WORKSPACE_DIR/test/util/yuvtools:\$PATH
 export PATH=\$WORKSPACE_DIR/bench/regression_cluster:\$PATH
