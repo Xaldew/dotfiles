@@ -53,7 +53,6 @@ module unload gnu/gcc/4.5.2
 # Run 'module avail' for full list
 ## These do not work on Ubuntu 12.04.
 # module load coverity/static-analysis/5.2.1
-# module load gnu/autoconf/2.68
 # module load gnu/automake/1.11.3
 # module load gnu/make/3.81
 # module load gnu/m4/1.4.12
@@ -73,12 +72,13 @@ module load ccache/ccache/3.1.4
 module load gnu/gdb/7.5          # No python scripting support.
 module load gnu/valgrind/3.8.1
 module load gnu/cmake/3.2.3
+module load gnu/autoconf
 
 module load scons/scons/2.3.0
 module load swig/swig/2.0.0
 #module load python/python/2.7.1  # Issues with the android repo client.
 #module load git/git/1.7.9.2      # Issues with android repo client.
-#module load git/git/v2.0.0       # Missing git-svn plugin.
+module load git/git/v2.0.0       # Missing git-svn plugin.
 module load apache/subversion/1.7.3
 module load doxygen/doxygen/1.8.2
 module load codesourcery/linuxeabi/arm-2011q1
@@ -208,14 +208,10 @@ function set_arm_gitconfig()
     done
 }
 
-# If git is missing, perform module load git/git/v2.0.0.
- command -v git > /dev/null 2>&1 || module load git/git/v2.0.0
-
 # Setup of TI2 (VIDEO) Environment Variables
 export MPDTI_V2_USER=guswal01
 export MPDTI_V2_PIC_SERVER=lun-mpdti2.lund.arm.com:55300
 export MPDTI_V2_PROJECT=PJ00640
-export GREP_OPTIONS=""
 
 # Add some paths for work based utilities.
 export PATH=\$local_prefix_dir/bin:\$PATH
