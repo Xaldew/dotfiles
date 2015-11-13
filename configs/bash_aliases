@@ -320,7 +320,7 @@ function extract()
 
 
 # Create a tree implementation if not available.
-if [ -z "$(which tree)" ]; then
+if command -v tree > /dev/null 2>&1; then
     function tree()
     {
 	find $@ -print | sed -e 's;[^/]*/;|____;g;s;____|; |;g'
