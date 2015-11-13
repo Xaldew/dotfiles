@@ -14,7 +14,11 @@ elif command -v tput 1> /dev/null 2>&1; then
     else
         # We have color support; assume it's compliant with Ecma-48
         # (ISO/IEC-6429).
-        export terminal_colors=$(tput -T$TERM colors)
+        export terminal_colors=$(tput -T$TERM colors 2> /dev/null)
+        if [ $? -ne 0 -o -z "$terminal_colors" ]; then
+            # Unknown terminal error.
+            export terminal_colors=0
+        fi
     fi
 
 else
@@ -110,7 +114,7 @@ rgb_16()
 
 rgb()
 {
-    if [ $terminal_colors == "truecolor" ]; then
+    if [ $terminal_colors = "truecolor" ]; then
 	printf "2;%s;%s;%s" $1 $2 $3
     elif [ $terminal_colors -eq 256 ]; then
 	rgb_256 $1 $2 $3
