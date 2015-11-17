@@ -11,25 +11,24 @@ source /arm/tools/setup/init/bash
 #### Bash settings
 shopt -s expand_aliases
 
-#### Exports
-export ARM_PROJECT_NR=PJ01433
-export SCRATCH="/scratch/\$USER"
-export HW_UTILS_DIR="\$SCRATCH/asic_util"
-export WORKSPACE_DIR="\$SCRATCH/mve6"
-export MVE_MODEL_DIR="\$SCRATCH/git-mve6/model"
-export GIT_HOME_DIR="\$HOME/git"
-
 # Source common module load script, located in the project folder:
 source \$WORKSPACE_DIR/script/bash/module_load.sh 2> /dev/null
 
 #### Setup some variables
 export MODELSIM=\$WORKSPACE_DIR/modelsim.ini
-export MTI=\${MODELTECH_HOME}
 export WORK=/work/\${USER}
 export DESIGNKIT=/projects/mpd/designkit/
 export LM_LICENSE_FILE=\$LM_LICENSE_FILE:7010@cam-lic3.cambridge.arm.com ;
 export STYX3_AVESW_PATH="/work/mve/linux"
 export ARGUS_IPADDR=10.44.10.244
+
+#### Exports
+export ARM_PROJECT_NR=PJ01433
+export SCRATCH="/scratch/\$USER"
+export HW_UTILS_DIR="\$WORK/asic_util"
+export WORKSPACE_DIR="\$WORK/mve6"
+export MVE_MODEL_DIR="\$SCRATCH/git-mve6/model"
+export GIT_HOME_DIR="\$HOME/git"
 
 #### Axi-tester
 export BUILDMAKEFLAGS="--silent -r"
