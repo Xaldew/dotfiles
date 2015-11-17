@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
 # Try to figure out which distribution is being used.
 # Currently tested on:
-#    Ubuntu 13.10
-#    Ubuntu 15.05
+#    Ubuntu 13.10,15.04
 #    Fedora 20
+#    CentOS 6.6
 
 function get_distribution ()
 {
@@ -11,13 +11,12 @@ function get_distribution ()
     release="Unknown"
     code_name="Unknown"
 
-    if [ "$(command -v lsb_release)" != "" ]; then
+    if command -v lsb_release > /dev/null 2>&1; then
 
 	# If the lsb_release command exists, use it.
-    	content=$(lsb_release -a 2>/dev/null)
-    	dist=$(echo "$content" | awk 'NR == 1 { print tolower($3) }')
-    	release=$(echo "$content" | awk 'NR == 3 { print tolower($2) }')
-    	code_name=$(echo "$content" | awk 'NR == 4 { print tolower($2) }')
+    	dist=$(lsb_release --id | awk '{ print tolower($3) }')
+    	release=$(lsb_release --release | awk '{ print tolower($2) }')
+    	code_name=$(lsb_release --codename | awk '{ print tolower($2) }')
 
 
     elif [ -r /etc/lsb-release ]; then
@@ -49,9 +48,38 @@ function get_distribution ()
 
     fi
 
-    echo $dist
-    echo $release
-    echo $code_name
+
+
+    while :; do
+        case $1 in
+            -h|-\?|--help)
+                printf "get_distribution [-i|--id][-c|--codename][-r|--release]"
+                exit
+                ;;
+            -i|--id)
+                printf "%s\n" $dist
+                ;;
+            -c|--codename)
+                printf "%s\n" $code_name
+                ;;
+            -r|--release)
+                printf "%s\n" $release
+                ;;
+            --)        # End of all options.
+                shift
+                break
+                ;;
+            -?*)
+                printf 'WARN: Unknown option (ignored): %s\n' "$1" >&2
+                ;;
+            *)        # Default case.
+                break
+        esac
+        shift
+    done
 
     return 0
 }
+
+# Create a short alias for the above.
+alias get_dist=get_distribution
