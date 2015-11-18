@@ -156,41 +156,6 @@ function android_env()
     export ADBHOST=10.44.11.54
 }
 
-function android_fix_permissions()
-{
-    # Move to top directory.
-    if [ -z "\$TOP" ]; then
-	android_env
-    fi
-    cd \$TOP
-
-    # Make required tools that setup correct file/folder permissions.
-    pushd build/tools/fs_get_stats/
-    mm
-    popd
-
-    # Create rootfs folder.
-    cp -rf \$ANDROID_PRODUCT_OUT/root/ . && \
-	mv root/ fs && \
-	cp -rf \$ANDROID_PRODUCT_OUT/system fs/
-
-    # Use android mktarball to create rootfs tarball.
-    sudo build/tools/mktarball.sh \$ANDROID_HOST_OUT/bin/fs_get_stats fs "*" \
-	rootfs  rootfs.tar.bz2
-
-    # Copy rootfs.tar.bz2 to your rootfs.
-    sudo cp rootfs.tar.bz2 \$ROOTFS
-
-    # Decompress and untar with root permissions to keep permissions intact.
-    cd \$ROOTFS
-    sudo bzip2 -d rootfs.tar.bz2
-    sudo tar -xvf rootfs.tar
-
-    # Clean up.
-    sudo rm rootfs.tar
-    rm -rf \$TOP/root \$TOP/fs
-}
-
 function strip_h264()
 {
     in=\${1}
