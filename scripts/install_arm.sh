@@ -16,7 +16,7 @@ source \$WORKSPACE_DIR/script/bash/module_load.sh 2> /dev/null
 
 #### Setup some variables
 export MODELSIM=\$WORKSPACE_DIR/modelsim.ini
-export WORK=/work/\${USER}
+export WORK=/work
 export DESIGNKIT=/projects/mpd/designkit/
 export LM_LICENSE_FILE=\$LM_LICENSE_FILE:7010@cam-lic3.cambridge.arm.com ;
 export STYX3_AVESW_PATH="/work/mve/linux"
