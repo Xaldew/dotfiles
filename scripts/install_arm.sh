@@ -44,27 +44,12 @@ export PATH=\$WORKSPACE_DIR/bench/regression_cluster:\$PATH
 export PATH=\$HW_UTILS_DIR/i686-linux:\$PATH
 
 
-#### Load a few modules from /arm/tools/modulefiles
-## Unload defective modules.
-module unload python/python
-module unload gnu/gcc/4.5.2
-
-# Run 'module avail' for full list
-## These do not work on Ubuntu 12.04.
-# module load coverity/static-analysis/5.2.1
-# module load gnu/automake/1.11.3
-# module load gnu/make/3.81
-# module load gnu/m4/1.4.12
-# module load lcov/lcov/1.9
-# module load meld/meld/1.5.3
-# module load python/python
-# module load python/numpy2.7/1.6.2
-# module load python/matplotlib_py2.7/1.2.1
-# module load python/scipy_py2.7/0.12.0
-
+# Run 'module avail' for full list of available modules.
+# Run 'module list' to list currently loaded modules.
 module load eda
 module load swdev
 module load util
+module load git/git/v2.0.0       # Missing git-svn plugin.
 module load vim/vim/7.3
 module load arm/rascdevkit/1.1.4
 module load ccache/ccache/3.1.4
@@ -75,9 +60,6 @@ module load gnu/autoconf
 
 module load scons/scons/2.3.0
 module load swig/swig/2.0.0
-#module load python/python/2.7.1  # Issues with the android repo client.
-#module load git/git/1.7.9.2      # Issues with android repo client.
-module load git/git/v2.0.0       # Missing git-svn plugin.
 module load apache/subversion/1.7.3
 module load doxygen/doxygen/1.8.2
 module load codesourcery/linuxeabi/arm-2011q1
