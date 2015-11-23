@@ -13,7 +13,7 @@ if [ ! -d $objects_dir/python27 ]; then
     mv $dir python27
     dir=python27
     cd $dir
-    ./configure --prefix=$local_prefix_dir --enable-unicode=ucs4 --enable-shared
+    ./configure --prefix=$local_prefix_dir --enable-unicode=ucs4 --enable-shared --with-ensurepip=install
     make -j4
     make altinstall
 fi
