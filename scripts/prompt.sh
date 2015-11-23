@@ -131,7 +131,7 @@ virtualenv_info()
         # In case you don't have one activated.
         venv=""
     fi
-    [ -n "$venv" ] && printf "{VENV::$venv} "
+    [ -n "$venv" ] && printf "{$venv} "
 }
 
 # Reduce the working directory to around 20 characters.
