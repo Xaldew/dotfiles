@@ -29,7 +29,11 @@ $packages = @(
     "autohotkey",
     "steam",
     "battle.net",
-    "vlc"
+    "vlc",
+    "skype",
+    "f.lux",
+    "python2",
+    "python3"
 )
 
 Write-Host "Installing: $packages"
