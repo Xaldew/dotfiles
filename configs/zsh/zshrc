@@ -76,6 +76,15 @@ if [[ ! $VISUAL =~ .*emacs.* ]]; then
     export VISUAL=graphical-emacs-client
 fi
 
+
+# Add useful bash specific shell-functions.
+source_if $dotfiles_dir/scripts/setup_terminal_colors.sh
+source_if $dotfiles_dir/scripts/prompt.sh
+source_if $dotfiles_dir/scripts/get_distribution.sh
+source_if $dotfiles_dir/scripts/yank_readline.sh
+source_if $local_prefix_dir/bin/bashmarks.sh
+
+
 # Add Meta-h to backward-kill-word.
 bindkey -M emacs '^[h' backward-kill-word
 
