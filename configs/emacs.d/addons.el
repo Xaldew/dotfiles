@@ -277,6 +277,7 @@
 
 (use-package anaconda-mode
   :ensure t
+  :if (executable-find "pip")
   :commands anaconda-mode
   :config
   ;; Minor fix for the re-mapping of find-tag in 25.1.
