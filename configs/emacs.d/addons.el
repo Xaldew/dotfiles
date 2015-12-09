@@ -329,7 +329,7 @@
 ;; On Windows, use the ssh agency package for ssh-agents.
 (use-package ssh-agency
   :if (windows-os-p)
-  :ensure t
+  :ensure (windows-os-p)
   :init
   (let* ((git-exe (executable-find "git.exe"))
 	 (git-dir (directory-file-name
