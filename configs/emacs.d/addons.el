@@ -368,6 +368,15 @@
   (setq langtool-default-language "en-US"))
 
 
+(use-package ggtags
+  :defer t
+  :functions ggtags-mode
+  :pin melpa
+  :ensure t
+  :init
+  (add-hook 'prog-mode-hook 'ggtags-mode))
+
+
 ;; Install various major-mode packages and defer where it is possible.
 (use-package graphviz-dot-mode :ensure t :defer t)
 (use-package glsl-mode         :ensure t :defer t)
@@ -397,7 +406,6 @@
 (use-package elpy  :defer t :ensure t)
 (use-package irony :defer t :ensure t)
 (use-package irony-eldoc :defer t :ensure t)
-(use-package ggtags :defer t :ensure t)
 (use-package cider  :defer t :ensure t)
 (use-package dropdown-list :defer t :ensure t)
 

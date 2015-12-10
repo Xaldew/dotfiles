@@ -94,3 +94,7 @@ bindkey -M menuselect '^M' .accept-line
 
 # Remove zprezto rm alias.
 alias rm=rm
+
+# Add GNU global tags configuration.
+export GTAGSCONF="$HOME/.local/share/gtags/gtags.conf"
+export GTAGSLABEL=pygments
