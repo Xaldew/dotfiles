@@ -17,7 +17,7 @@
   :init
   (add-hook 'after-init-hook 'yas-global-mode)
   :config
-  ;; rebind trigger to C-o to avoid stateful behaviors.
+  ;; Rebind trigger to C-o to avoid stateful behaviors.
   (define-key yas-minor-mode-map (kbd "<tab>") nil)
   (define-key yas-minor-mode-map (kbd "TAB") nil)
   (define-key yas-minor-mode-map (kbd "C-o") 'yas-expand)
@@ -327,19 +327,20 @@
 
 
 ;; On Windows, use the ssh agency package for ssh-agents.
-(use-package ssh-agency
-  :if (windows-os-p)
-  :ensure (windows-os-p)
-  :init
-  (let* ((git-exe (executable-find "git.exe"))
-	 (git-dir (directory-file-name
-                   (file-name-directory
-                    (directory-file-name
-                     (file-name-directory git-exe)))))
-         (pub-keys (directory-files
-                    (expand-file-name "~/.ssh/") 'full ".*\\.pub\\'")))
-    (setq ssh-agency-bin-dir (concat git-dir "/usr/bin"))
-    (setq ssh-agency-keys (mapcar 'file-name-sans-extension pub-keys))))
+(when (windows-os-p)
+  (use-package ssh-agency
+    :if (windows-os-p)
+    :ensure t
+    :init
+    (let* ((git-exe (executable-find "git.exe"))
+           (git-dir (directory-file-name
+                     (file-name-directory
+                      (directory-file-name
+                       (file-name-directory git-exe)))))
+           (pub-keys (directory-files
+                      (expand-file-name "~/.ssh/") 'full ".*\\.pub\\'")))
+      (setq ssh-agency-bin-dir (concat git-dir "/usr/bin"))
+      (setq ssh-agency-keys (mapcar 'file-name-sans-extension pub-keys)))))
 
 
 ;; Semantic need this variable to be defined.
