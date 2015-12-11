@@ -120,22 +120,30 @@
 
 ;; Add Pop-ups for Flycheck errors.
 (use-package flycheck
+  :defer t
   :ensure t
   :commands flycheck-mode
+  :init
+  (add-hook 'prog-mode-hook 'flycheck-mode)
   :config
-  (use-package flycheck-pos-tip
-    :ensure t
-    :config
-    (setq flycheck-display-errors-function
-          #'flycheck-pos-tip-error-messages))
+  (use-package flycheck-pos-tip :ensure t)
+  (use-package flycheck-tip :ensure t)
   (use-package flycheck-irony :ensure t)
 
-  (setq-local flycheck-gcc-language-standard   "c11")
-  (setq-local flycheck-clang-language-standard "c11")
-  (setq-local flycheck-gcc-language-standard   "c++11")
-  (setq-local flycheck-clang-language-standard "c++11")
-  (add-hook 'c-mode-hook 'flycheck-mode)
-  (add-hook 'c++-mode-hook 'flycheck-mode))
+  (defun my-flycheck-hook ()
+    "Personal hook for per-buffer flycheck settings."
+    (if (display-graphic-p)
+        (progn
+          (setq-local flycheck-tip-avoid-show-func nil)
+          (flycheck-pos-tip-mode t))
+      (setq-local flycheck-display-errors-function
+                  #'flycheck-tip-display-current-line-error-message)
+      (flycheck-tip-use-timer 'verbose))
+    (setq-local flycheck-gcc-language-standard   "c11")
+    (setq-local flycheck-clang-language-standard "c11")
+    (setq-local flycheck-gcc-language-standard   "c++11")
+    (setq-local flycheck-clang-language-standard "c++11"))
+  (add-hook 'flycheck-mode-hook 'my-flycheck-hook))
 
 
 ;; Add CSS-eldoc to the css-hook.
