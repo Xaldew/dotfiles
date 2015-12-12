@@ -377,6 +377,7 @@
 
 
 (use-package ggtags
+  :unless (windows-os-p)
   :defer t
   :functions ggtags-mode
   :pin melpa

@@ -1,5 +1,5 @@
 ;; Setup settings used in C-like languages such as C/C++/Java.
-(eval-when-compile (require 'cc-mode))
+(require 'cc-mode)
 
 (defun my-cc-init-hook ()
   "Initialization hook for CC-mode runs before any other hooks,
