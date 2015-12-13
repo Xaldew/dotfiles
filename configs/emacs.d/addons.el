@@ -340,14 +340,9 @@
     :if (windows-os-p)
     :ensure t
     :init
-    (let* ((git-exe (executable-find "git.exe"))
-           (git-dir (directory-file-name
-                     (file-name-directory
-                      (directory-file-name
-                       (file-name-directory git-exe)))))
-           (pub-keys (directory-files
-                      (expand-file-name "~/.ssh/") 'full ".*\\.pub\\'")))
-      (setq ssh-agency-bin-dir (concat git-dir "/usr/bin"))
+    (setenv "SSH_ASKPASS" "git-gui--askpass")
+    (let ((pub-keys (directory-files
+                     (expand-file-name "~/.ssh/") 'full ".*\\.pub\\'")))
       (setq ssh-agency-keys (mapcar 'file-name-sans-extension pub-keys)))))
 
 
