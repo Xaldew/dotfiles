@@ -11,6 +11,9 @@ elif command -v tput 1> /dev/null 2>&1; then
 	   [ "$COLORTERM" = "xfce4-terminal" ]; then
         export TERM='xterm-256color'
         export terminal_colors=256
+    elif [ "$OSTYPE" = "cygwin" ];then
+        export TERM='xterm-256color'
+        export terminal_colors=256
     else
         # We have color support; assume it's compliant with Ecma-48
         # (ISO/IEC-6429).
