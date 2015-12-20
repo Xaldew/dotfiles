@@ -302,6 +302,7 @@
 
 
 (use-package clang-format
+  :if (executable-find "clang-format")
   :ensure t
   :init
   (global-set-key (kbd "C-c f") 'clang-format-region))
