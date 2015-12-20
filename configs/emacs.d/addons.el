@@ -335,10 +335,12 @@
   (use-package company-auctex :defer t :ensure t))
 
 
-;; On Windows, use the ssh agency package for ssh-agents.
-(when (windows-os-p)
+;; On Windows without Cygwin, use the ssh agency package for ssh-agents.
+(when (and (not (cygwin-p))
+           (windows-os-p))
   (use-package ssh-agency
-    :if (windows-os-p)
+    :if (and (not (cygwin-p))
+             (windows-os-p))
     :ensure t
     :init
     (setenv "SSH_ASKPASS" "git-gui--askpass")
