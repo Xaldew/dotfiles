@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+
+if [ "$OSTYPE" = "cygwin" ]; then
+    export SHELLOPTS
+    set -o igncr;
+fi
+if [ -f ~/.profile ]; then . ~/.profile; fi
+if [ -f ~/.bashrc ]; then . ~/.bashrc; fi
