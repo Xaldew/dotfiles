@@ -207,8 +207,8 @@
   (projectile-global-mode)
   (setq projectile-mode-line '(:eval (format " Prj[%s]"
                                              (projectile-project-name))))
-  (when (executable-find "ex-ctags")
-    (setq projectile-tags-command "ex-ctags -Re -f \"%s\" %s")))
+  (when (executable-find "uni-ctags")
+    (setq projectile-tags-command "uni-ctags -Re -f \"%s\" %s")))
 
 
 ;; Add the Google C/C++ style to list of all styles.
