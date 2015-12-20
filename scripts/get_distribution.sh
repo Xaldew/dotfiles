@@ -4,6 +4,8 @@
 #    Ubuntu 13.10,15.04
 #    Fedora 20
 #    CentOS 6.6
+#    Cygwin
+
 
 function get_distribution ()
 {
@@ -46,15 +48,25 @@ function get_distribution ()
 	code_name=$(echo $PRETTY_NAME | awk '{ print tolower($3) }')
 	code_name=${code_name:1:-1}
 
-    fi
+    elif [ "$OSTYPE" = "cygwin" ]; then
 
+        # Found Cygwin distribution.
+        dist="cygwin"
+        code_name="cygwin"
+        release=`uname -r`
+
+    fi
 
 
     while :; do
         case $1 in
             -h|-\?|--help)
-                printf "get_distribution [-i|--id][-c|--codename][-r|--release]"
-                exit
+                printf "get_distribution "
+                printf "[-h|--help]"
+                printf "[-i|--id]"
+                printf "[-c|--codename]"
+                printf "[-r|--release]\n"
+                return 0
                 ;;
             -i|--id)
                 printf "%s\n" $dist
