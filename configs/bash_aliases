@@ -79,13 +79,13 @@ alias nemacs="emacs --no-window-system"
 alias nemasc="emacs --no-window-system"
 
 # Start new non-client graphical-Emacs instances.
-alias ngem="emacs --maximized"
-alias ngema="emacs --maximized"
-alias ngeam="emacs --maximized"
-alias ngemac="emacs --maximized"
-alias ngemas="emacs --maximized"
-alias ngemacs="emacs --maximized"
-alias ngemasc="emacs --maximized"
+alias ngem="emacs --maximized --no-desktop"
+alias ngema="emacs --maximized --no-desktop"
+alias ngeam="emacs --maximized --no-desktop"
+alias ngemac="emacs --maximized --no-desktop"
+alias ngemas="emacs --maximized --no-desktop"
+alias ngemacs="emacs --maximized --no-desktop"
+alias ngemasc="emacs --maximized --no-desktop"
 
 # Minor hack to pipe stdout to an Emacs buffer.
 function nx-emacspipe()
