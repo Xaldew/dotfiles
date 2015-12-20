@@ -1,3 +1,4 @@
+# Install Chocolatey package management.
 $scriptPath  = Split-Path -Parent $MyInvocation.MyCommand.Definition
 $dotfilesDir = Split-Path -Parent $scriptPath
 
@@ -22,9 +23,6 @@ $packages = @(
     "firefox",
     "flashplayerplugin",
     "adobereader",
-    "emacs",
-    "hunspell",
-    "languagetool",
     "inkscape",
     "autohotkey",
     "steam",
@@ -32,9 +30,12 @@ $packages = @(
     "vlc",
     "skype",
     "f.lux",
-    "python2",
-    "python3"
+    "cygwin",
+    "cyg-get"
 )
 
 Write-Host "Installing: $packages"
-choco install $packages
+choco install --yes --limit-output $packages
+
+# Install Cygwin packages if possible.
+. $dotfilesDir/windows/install_cygwin.ps1
