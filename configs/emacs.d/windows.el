@@ -1,16 +1,31 @@
 ;; File containing various Windows related configurations.
 
+(defun cygwin-p ()
+  "Return true if this is a variant of Cygwin."
+  (eq system-type 'cygwin))
+
+
 (defun windows-os-p ()
   "Return true if this is a variant of Windows."
   (or (eq system-type 'windows-nt)
       (eq system-type 'cygwin)
       (eq system-type 'ms-dos)))
 
+
+(defun cygwin-windows-path (path)
+  "Convert the given path to a Cygwin compatible Path."
+  (replace-regexp-in-string "[\n\r]*\\'" ""
+                            (shell-command-to-string
+                             (concat "cygpath --windows " path))))
+
+
 (when (windows-os-p)
   ;; Change how the bell works in Windows.
   (setq visible-bell t)
-  (setq ring-bell-function 'ignore)
+  (setq ring-bell-function 'ignore))
 
+
+(when (and (not (cygwin-p)) (windows-os-p))
   ;; Setup dictionary for using Hunspell with Flyspell-mode.
   (require 'flyspell)
   (setq ispell-dictionary "english")
