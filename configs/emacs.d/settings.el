@@ -15,9 +15,7 @@
 ;; Set the default fill-column.
 (setq-default fill-column 80)
 
-;; Automatically save Emacs minibuffer and window states.
-(desktop-save-mode t)
-(setq desktop-load-locked-desktop nil)
+;; Automatically save Emacs minibuffer history.
 (savehist-mode t)
 
 ;; Automatically follow symlink without prompting.
