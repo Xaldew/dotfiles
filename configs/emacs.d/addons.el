@@ -286,12 +286,9 @@
 (use-package anaconda-mode
   :ensure t
   :if (executable-find "pip")
+  :diminish anaconda-mode
   :commands anaconda-mode
-  :config
-  ;; Minor fix for the re-mapping of find-tag in 25.1.
-  (when (fboundp 'xref-find-definitions)
-    (define-key anaconda-mode-map
-      [remap xref-find-definitions] 'anaconda-mode-goto))
+  :init
   (add-hook 'python-mode-hook 'anaconda-mode))
 
 
