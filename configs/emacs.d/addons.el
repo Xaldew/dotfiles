@@ -358,17 +358,40 @@
 ;; Setup the langtool library if the LanguageTool library is available.
 (use-package langtool
   :if (locate-directory "languagetool" exec-path)
-  :defer t
+  :functions (langtool-check
+              langtool-check-buffer
+              langtool-switch-default-language)
   :ensure t
-  :init
-  (let ((lt-dir (or (locate-directory "languagetool" exec-path) ""))
-        (lt-jar "languagetool-commandline.jar"))
-    (setq langtool-language-tool-jar
-          (concat (file-name-directory lt-dir)
-                  "languagetool/"
-                  lt-jar)))
-  (setq langtool-mother-tongue "en")
-  (setq langtool-default-language "en-US"))
+  :config
+
+  (defun langtool-cygwin-advice (args)
+    "Convert the buffer-file-name to a Windows compatible path."
+    (cons (cygwin-windows-path (car args)) (cdr args)))
+  (advice-add 'langtool--invoke-process :filter-args #'langtool-cygwin-advice)
+
+  (defun langtool-filter-advice (proc event)
+    "Delete trailing carriage returns from the process-buffer before parsing."
+    (with-current-buffer (process-buffer proc)
+      (goto-char (point-min))
+      (while (search-forward "\r\n" nil t)
+        (replace-match "\n"))))
+  (advice-add 'langtool--process-filter :before #'langtool-filter-advice)
+
+
+  (let* ((lt-dir (file-name-as-directory
+                  (or (locate-directory "languagetool" exec-path) "")))
+         (lt-jar "languagetool-commandline.jar")
+         (lt-jar-path (concat lt-dir lt-jar))
+         (lt-cp (list lt-jar-path
+                      (concat lt-dir (file-name-as-directory "libs") "*")))
+         (lt-cp-str (mapconcat 'identity lt-cp ":")))
+
+    ;; Run path through cygpath to correct the Path. (Assumes Oracle JDK.)
+    (if (cygwin-p)
+        (setq langtool-java-classpath (cygwin-windows-path lt-cp-str 'list))
+      (setq langtool-language-tool-jar lt-jar-path))
+    (setq langtool-mother-tongue "en")
+    (setq langtool-default-language "en-US")))
 
 
 (use-package ggtags
