@@ -419,7 +419,10 @@
 ;; Remove the lighter for a number of built in packages.
 (use-package flyspell :diminish flyspell-mode)
 (use-package subword  :diminish subword-mode)
-(use-package whitespace :diminish global-whitespace-mode)
+(use-package whitespace
+  :diminish (whitespace-mode
+             global-whitespace-mode
+             whitespace-newline-mode))
 (use-package eldoc :diminish eldoc-mode)
 (use-package cwarn :commands cwarn-mode :diminish cwarn-mode)
 (use-package abbrev :diminish abbrev-mode)
