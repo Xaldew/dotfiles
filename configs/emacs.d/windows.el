@@ -12,11 +12,12 @@
       (eq system-type 'ms-dos)))
 
 
-(defun cygwin-windows-path (path)
+(defun cygwin-windows-path (path &optional path-list)
   "Convert the given path to a Cygwin compatible Path."
-  (replace-regexp-in-string "[\n\r]*\\'" ""
-                            (shell-command-to-string
-                             (concat "cygpath --windows " path))))
+  (replace-regexp-in-string
+   "[\n\r]*\\'" ""
+   (shell-command-to-string
+    (concat "cygpath --windows " (when path-list "--path ") path))))
 
 
 (when (windows-os-p)
