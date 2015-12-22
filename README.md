@@ -25,7 +25,7 @@ Currently, the following flags exists:
 
     -e         --external-programs   Install all external utilities.
 
-    -d         --dotfiles            Install all configuration dotfiles."
+    -d         --dotfiles            Install all configuration dotfiles.
 
     -a         --autostart           Install autostart programs.
 
