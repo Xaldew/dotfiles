@@ -75,7 +75,6 @@
 
 ;; Activate company-mode for all buffers but Emacs lisp ones.
 (use-package company
-  :if (not (cygwin-p))
   :ensure t
   :diminish (company-mode . "Cp")
   :commands (company-mode global-company-mode)
