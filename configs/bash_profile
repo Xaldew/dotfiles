@@ -3,6 +3,7 @@
 if [ "$OSTYPE" = "cygwin" ]; then
     export SHELLOPTS
     set -o igncr;
+    export CHERE_INVOKING=1
 fi
 if [ -f ~/.profile ]; then . ~/.profile; fi
 if [ -f ~/.bashrc ]; then . ~/.bashrc; fi
