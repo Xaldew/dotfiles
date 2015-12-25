@@ -14,6 +14,7 @@ mkdir --parents \
 # Install all configuration files and plugins.
 ln -fs $dotfiles_dir/configs/inputrc $HOME/.inputrc
 ln -fs $dotfiles_dir/configs/bash_aliases $HOME/.bash_aliases
+ln -fs $dotfiles_dir/configs/bash_profile $HOME/.bash_profile
 
 
 # Install git and setup user gitconfig and gitignore.
