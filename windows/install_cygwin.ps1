@@ -15,6 +15,7 @@ if (!(Test-CommandExists cyg-get))
 
 $packages = @(
     "tmux",
+    "cygutils-extra",
     "procps",
     "emacs-w32",
     "zip",
