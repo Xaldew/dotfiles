@@ -13,7 +13,11 @@
 
 
 (defun cygwin-windows-path (path &optional path-list)
-  "Convert the given path to a Cygwin compatible Path."
+  "Convert the given path to a Cygwin compatible Path.
+
+PATH is a Cygwin path on unix format.
+
+PATH-LIST indicates that the path is list of semicolon separated unix paths."
   (replace-regexp-in-string
    "[\n\r]*\\'" ""
    (shell-command-to-string
