@@ -1,0 +1,105 @@
+#!/usr/bin/env sh
+# Portable script for command line clipboard access.
+
+# Set defaults.
+platform=$OSTYPE
+clipboard="clipboard"
+
+while :; do
+    case $1 in
+        -h|-\?|--help)
+            printf "anyclip "
+            printf "[-h|--help]"
+            printf "[-p|--platform]"
+            printf "[-c|--clipboard]\n"
+            printf "\nUtility to portably paste from the system clipboard(s).\n"
+            return 0
+            ;;
+        -p|--platform)
+            if [ -n "$2" ]; then
+                platform=$2
+                shift 2
+                continue
+            else
+                printf 'ERROR: "--platform" requires a"' >&2
+                printf '" non-empty option argument.\n' >&2
+                exit 1
+            fi
+            ;;
+        -c|--clipboard)
+            if [ -n "$2" ]; then
+                clipboard=$2
+                shift 2
+                continue
+            else
+                printf 'ERROR: "--clipboard" requires a"' >&2
+                printf '" non-empty option argument.\n' >&2
+                exit 1
+            fi
+            ;;
+        --)        # End of all options.
+            shift
+            break
+            ;;
+        -?*)
+            printf 'WARN: Unknown option (ignored): %s\n' "$1" >&2
+            ;;
+        *)        # Default case.
+            break
+    esac
+    shift
+done
+
+
+cygwin_paste()
+{
+    if command -v getclip > /dev/null 2>&1; then
+        getclip --unix
+    elif [ -c "/dev/clipboard" ]; then
+        cat /dev/clipboard
+    else
+        printf "ERROR: No Cygwin clipboard utility found.\n" >&2
+    fi
+}
+
+
+osx_paste()
+{
+    pasteboard=${1-general}
+
+    if command -v pbpaste > /dev/null 2>&1; then
+        pbpaste -pboard $pasteboard
+    else
+        printf "ERROR: No OSX clipboard utility found.\n" >&2
+    fi
+}
+
+
+unix_paste()
+{
+    clipboard=${1-clipboard}
+
+    if command -v xclip > /dev/null 2>&1; then
+        xclip -selection $clipboard -out
+    elif command -v xsel > /dev/null 2>&1; then
+        xsel --$clipboard --output
+    else
+        printf "ERROR: No Unix clipboard utility found.\n" >&2
+    fi
+}
+
+
+case "$platform" in
+    cygwin*)
+        cygwin_paste
+        ;;
+    darwin*)
+        osx_paste $clipboard
+        ;;
+    solaris*|linux*|bsd*)
+        unix_paste $clipboard
+        ;;
+    *)
+        # Unknown OS. Try unix utilities.
+        unix_paste $clipboard
+esac
