@@ -3,10 +3,10 @@
 (require 'diminish)
 (require 'bind-key)
 
-(use-package xclip
-  :ensure t
-  :if (executable-find "xclip") ; Activate xclip if possible.
-  :config (xclip-mode 1))
+(use-package anyclip-mode
+  :if (not (display-graphic-p))
+  :init
+  (anyclip-mode t))
 
 
 ;; Activate Yasnippet
