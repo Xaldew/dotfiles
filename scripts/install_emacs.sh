@@ -11,6 +11,13 @@ else
     git pull
 fi
 
+if [ $OSTYPE = "cygwin" ]; then
+    conf=" --with-w32 "
+else
+    conf=" --with-imagemagick --with-x-toolkit=lucid"
+fi
+
+
 # Compile and install the latest version of Emacs-25.
 cd $objects_dir/emacs
 make distclean
@@ -24,8 +31,7 @@ git checkout -B emacs-25 origin/emacs-25
 sh autogen.sh
 ./configure --prefix=$local_prefix_dir \
 	    --mandir=$local_prefix_dir/share/man \
-	    --enable-link-time-optimization \
-	    --with-imagemagick \
-	    --with-x-toolkit=lucid
+            --enable-link-time-optimization \
+            $conf
 make -j4
 make install
