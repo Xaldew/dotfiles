@@ -51,6 +51,12 @@
 (defvar anyclip-last-output-text ""
   "The value of the last string output from Emacs through anyclip.")
 
+(defvar anyclip-saved-cut-func nil
+  "Saved value of `interprogram-cut-function'.")
+
+(defvar anyclip-saved-paste-func nil
+  "Saved value of `interprogram-paste-function'.")
+
 
 (defun anyclip-set-value (data)
   "DATA is the string to be sent to anyclip."
@@ -92,8 +98,19 @@
 This is done by binding `interprogram-cut-function' and
 `interprogram-paste-function' to the corresponding `anyclip'
 functions."
+  (setq anyclip-saved-cut-func interprogram-cut-function)
+  (setq anyclip-saved-paste-func interprogram-paste-function)
   (setq interprogram-cut-function 'anyclip-set-value)
   (setq interprogram-paste-function 'anyclip-get-value))
+
+
+(defun anyclip-turn-off ()
+  "Turn off the `anyclip-mode'.
+
+This is done by restoring `interprogram-cut-function' and
+`interprogram-paste-function' to their original values."
+  (setq interprogram-cut-function anyclip-saved-cut-func)
+  (setq interprogram-paste-function anyclip-saved-paste-func))
 
 
 (defun anyclip-check-programs ()
@@ -117,6 +134,7 @@ functions."
         (anyclip-check-programs)
         ;; NOTE: See `tty-run-terminal-initialization' and term/README.
         (add-hook 'terminal-init-xterm-hook 'anyclip-turn-on))
+    (anyclip-turn-off)
     (remove-hook 'terminal-init-xterm-hook 'anyclip-turn-on)))
 
 
