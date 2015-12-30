@@ -393,7 +393,9 @@
 
     ;; Run path through cygpath to correct the Path. (Assumes Oracle JDK.)
     (if (cygwin-p)
-        (setq langtool-java-classpath (cygwin-windows-path lt-cp-str 'list))
+        (progn
+          (setq langtool-java-classpath (cygwin-windows-path lt-cp-str 'list))
+          (setq langtool-process-coding-system 'prefer-utf-8))
       (setq langtool-language-tool-jar lt-jar-path))
     (setq langtool-mother-tongue "en")
     (setq langtool-default-language "en-US")))
