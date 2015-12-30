@@ -53,10 +53,11 @@ done
 
 cygwin_clip()
 {
-    if command -v putclip > /dev/null 2>&1; then
-        cat - | putclip --no-conv
-    elif [ -c "/dev/clipboard" ]; then
+    if [ -c "/dev/clipboard" ]; then
         cat - > /dev/clipboard
+    elif command -v putclip > /dev/null 2>&1; then
+        # putclip/getclip cannot handle utf-8. So prioritize /dev/clipboard.
+        cat - | putclip --no-conv
     else
         printf "ERROR: No Cygwin clipboard utility found.\n" >&2
     fi
