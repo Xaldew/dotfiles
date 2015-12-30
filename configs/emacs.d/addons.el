@@ -138,11 +138,16 @@
           (flycheck-pos-tip-mode t))
       (setq-local flycheck-display-errors-function
                   #'flycheck-tip-display-current-line-error-message)
-      (flycheck-tip-use-timer 'verbose))
-    (setq-local flycheck-gcc-language-standard   "c11")
-    (setq-local flycheck-clang-language-standard "c11")
-    (setq-local flycheck-gcc-language-standard   "c++11")
-    (setq-local flycheck-clang-language-standard "c++11"))
+      (flycheck-tip-use-timer 'verbose)
+
+      ;; Set various checker specific settings.
+      (cond
+       ((eq major-mode 'c-mode)
+        (setq flycheck-gcc-language-standard   "c11")
+        (setq flycheck-clang-language-standard "c11"))
+       ((eq major-mode 'c++-mode)
+        (setq flycheck-gcc-language-standard   "c++11")
+        (setq flycheck-clang-language-standard "c++11")))))
   (add-hook 'flycheck-mode-hook 'my-flycheck-hook))
 
 
