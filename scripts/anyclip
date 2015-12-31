@@ -79,9 +79,9 @@ unix_clip()
     clipboard=${1-clipboard}
 
     if command -v xclip > /dev/null 2>&1; then
-        xclip -selection $clipboard -in -
+        cat - | xclip -selection $clipboard -in
     elif command -v xsel > /dev/null 2>&1; then
-        xsel --$clipboard --input -
+        cat - | xsel --$clipboard --input
     else
         printf "ERROR: No Unix clipboard utility found.\n" >&2
     fi
