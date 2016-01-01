@@ -140,4 +140,35 @@ This works in a \"Do What I Mean\" fashion."
                 (t #'upcase-region))
                beg end))))
 
+
+(defun count-sentences (begin end &optional print-message)
+  "Count the number of sentences from BEGIN to END.
+
+Do not print to the minibuffer if PRINT-MESSAGE is given."
+  (interactive (if (use-region-p)
+		   (list (region-beginning)
+			 (region-end)
+			 t)
+		 (list nil nil t)))
+  (save-excursion
+    (save-restriction
+      (narrow-to-region (or begin (point-min))
+			(progn
+			  (goto-char (or end (point-max)))
+			  (skip-chars-backward " \t\n")
+			  (point)))
+      (goto-char (point-min))
+      (let ((sentences 0))
+	(while (not (looking-at-p "[ \t\n]*\\'"))
+	  (forward-sentence 1)
+	  (setq sentences (1+ sentences)))
+	(if print-message
+            (message
+	     "%s sentences in %s."
+	     sentences
+	     (if (use-region-p)
+		 "region"
+	       "buffer"))
+	  sentences)))))
+
 ;;; func.el ends here
