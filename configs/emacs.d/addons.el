@@ -369,18 +369,19 @@
   :ensure t
   :config
 
-  (defun langtool-cygwin-advice (args)
-    "Convert the buffer-file-name to a Windows compatible path."
-    (cons (cygwin-windows-path (car args)) (cdr args)))
-  (advice-add 'langtool--invoke-process :filter-args #'langtool-cygwin-advice)
+  (when (cygwin-p)
+    (defun langtool-cygwin-advice (args)
+      "Convert the buffer-file-name to a Windows compatible path."
+      (cons (cygwin-windows-path (car args)) (cdr args)))
+    (advice-add 'langtool--invoke-process :filter-args #'langtool-cygwin-advice)
 
-  (defun langtool-filter-advice (proc event)
-    "Delete trailing carriage returns from the process-buffer before parsing."
-    (with-current-buffer (process-buffer proc)
-      (goto-char (point-min))
-      (while (search-forward "\r\n" nil t)
-        (replace-match "\n"))))
-  (advice-add 'langtool--process-filter :before #'langtool-filter-advice)
+    (defun langtool-filter-advice (proc event)
+      "Delete trailing carriage returns from the process-buffer before parsing."
+      (with-current-buffer (process-buffer proc)
+        (goto-char (point-min))
+        (while (search-forward "\r\n" nil t)
+          (replace-match "\n"))))
+    (advice-add 'langtool--process-filter :before #'langtool-filter-advice))
 
 
   (let* ((lt-dir (file-name-as-directory
