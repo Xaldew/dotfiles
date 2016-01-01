@@ -126,4 +126,18 @@ All arguments are treated similar to to the `locate-file' function."
        'dir-ok))))
 
 
+(defun twiddle-case (beg end)
+  "Toggle the case of the words in the active region between BEG and END.
+
+This works in a \"Do What I Mean\" fashion."
+  (interactive "r")
+  (when (use-region-p)
+    (let ((string (buffer-substring-no-properties beg end))
+          (deactivate-mark))
+      (funcall (cond
+                ((string-equal string (upcase string)) #'downcase-region)
+                ((string-equal string (downcase string)) #'capitalize-region)
+                (t #'upcase-region))
+               beg end))))
+
 ;;; func.el ends here
