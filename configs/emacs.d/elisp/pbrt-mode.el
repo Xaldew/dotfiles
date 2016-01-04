@@ -1,4 +1,13 @@
+;;; pbrt-mode.el --- Major mode for editing .pbrt files. -*- lexical-binding: t; -*-
+;;
+;;; Commentary:
+;; Provide a major mode for manually editting .pbrt files that describe ray
+;; tracable scenes in the PBRT format. More information regarding this is
+;; provided here:
+;; http://www.pbrt.org/fileformat.html
+;;
 ;;; Code:
+
 (eval-when-compile
   (require 'newcomment))
 
@@ -10,9 +19,15 @@
     (define-key map "\C-j" 'newline-and-indent)
     (define-key map [remap comment-dwim] 'pbrt-comment-dwim)
     map)
-  "Keymap for PBRT major mode")
+  "Keymap for PBRT major mode.")
 
-(defcustom pbrt-indent 4 "PBRT-indentation width")
+
+(defgroup pbrt-mode nil
+  "Major mode for editing"
+  :group 'languages)
+
+(defcustom pbrt-indent 4 "PBRT-indentation width."
+  :group 'pbrt-mode)
 
 ;; Create lists keywords for highlighting.
 (defvar pbrt-keywords '("Include" "ActiveTransform" "ObjectInstance"))
@@ -120,9 +135,7 @@ TransformBegin
                     'rgb L'    [3 3 3]    # Rule 6.
     AttributeEnd                          # Rule xx.
 TransformEnd                              # Rule xx.
-WorldEnd
-
-"
+WorldEnd"
   (interactive)
   (save-excursion
     (beginning-of-line)
@@ -170,10 +183,10 @@ WorldEnd
     (move-to-column (current-indentation)) ))
 
 
-;; Command to comment/uncomment text in PBRT-mode.
 (defun pbrt-comment-dwim (arg)
   "Comment or uncomment current line or region in a smart way.
-   For detail, see `comment-dwim'."
+
+ARG is passed down to `comment-dwim'."
   (interactive "*P")
   (let ((comment-start "#") (comment-end ""))
     (comment-dwim arg)))
