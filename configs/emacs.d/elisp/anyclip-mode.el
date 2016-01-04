@@ -1,4 +1,4 @@
-;;; xclip.el --- use anyclip to copy&paste          -*- lexical-binding: t; -*-
+;;; anyclip-mode.el --- Use anyclip to copy & paste  -*- lexical-binding: t; -*-
 
 ;; Copyright (C) 2015 Free Software Foundation, Inc.
 
