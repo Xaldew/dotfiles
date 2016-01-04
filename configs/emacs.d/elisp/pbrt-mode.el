@@ -16,7 +16,7 @@
 
 (defvar pbrt-mode-map
   (let ((map (make-sparse-keymap)))
-    (define-key map "\C-j" 'newline-and-indent)
+    (define-key map (kbd "C-j") 'newline-and-indent)
     (define-key map [remap comment-dwim] 'pbrt-comment-dwim)
     map)
   "Keymap for PBRT major mode.")
@@ -215,22 +215,18 @@ ARG is passed down to `comment-dwim'."
 
 
 ;;;###autoload
-(define-derived-mode pbrt-mode fundamental-mode "PBRT"
-  "Major mode for editing PBRT scene files."
-  (kill-all-local-variables)
-  (set-syntax-table pbrt-mode-syntax-table)
-  (use-local-map pbrt-mode-map)
+(define-derived-mode pbrt-mode prog-mode "PBRT"
+  "Major mode for editing PBRT scene files.
+
+\\{pbrt-mode-map}"
+  :syntax-table pbrt-mode-syntax-table
 
   ;; Code for syntax highlighting.
   (setq-local font-lock-defaults '(pbrt-font-lock-keywords t))
 
   ;; Code for pbrt indentation.
   (setq-local indent-line-function 'pbrt-indent-line)
-  (setq-local indent-tabs-mode nil)
-
-  (setq major-mode 'pbrt-mode)
-  (setq mode-name "PBRT")
-  (run-hooks 'pbrt-mode-hook))
+  (setq-local indent-tabs-mode nil))
 
 
 (provide 'pbrt-mode)
