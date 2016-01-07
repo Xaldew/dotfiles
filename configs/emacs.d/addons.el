@@ -125,7 +125,6 @@
   :config (setq coffee-tab-width 4))
 
 
-;; Add Pop-ups for Flycheck errors.
 (use-package flycheck
   :defer t
   :ensure t
@@ -134,27 +133,26 @@
   (add-hook 'prog-mode-hook 'flycheck-mode)
   :config
   (use-package flycheck-pos-tip :ensure t)
-  (use-package flycheck-tip :ensure t)
   (use-package flycheck-irony :ensure t)
+
+  (defun my-flycheck-popup (errors)
+    "Display the ERRORS in the old popup-el interface inside terminals."
+    (let ((message (mapconcat #'flycheck-error-format-message-and-id
+                              errors "\n\n")))
+      (popup-tip message)))
+  (setq flycheck-pos-tip-display-errors-tty-function 'my-flycheck-popup)
 
   (defun my-flycheck-hook ()
     "Personal hook for per-buffer flycheck settings."
-    (if (display-graphic-p)
-        (progn
-          (setq-local flycheck-tip-avoid-show-func nil)
-          (flycheck-pos-tip-mode t))
-      (setq-local flycheck-display-errors-function
-                  #'flycheck-tip-display-current-line-error-message)
-      (flycheck-tip-use-timer 'verbose)
+    (flycheck-pos-tip-mode)
+    (cond
+     ((eq major-mode 'c-mode)
+      (setq flycheck-gcc-language-standard   "c11")
+      (setq flycheck-clang-language-standard "c11"))
+     ((eq major-mode 'c++-mode)
+      (setq flycheck-gcc-language-standard   "c++11")
+      (setq flycheck-clang-language-standard "c++11"))))
 
-      ;; Set various checker specific settings.
-      (cond
-       ((eq major-mode 'c-mode)
-        (setq flycheck-gcc-language-standard   "c11")
-        (setq flycheck-clang-language-standard "c11"))
-       ((eq major-mode 'c++-mode)
-        (setq flycheck-gcc-language-standard   "c++11")
-        (setq flycheck-clang-language-standard "c++11")))))
   (add-hook 'flycheck-mode-hook 'my-flycheck-hook))
 
 
@@ -450,6 +448,8 @@
 (use-package irony-eldoc :defer t :ensure t)
 (use-package cider  :defer t :ensure t)
 (use-package dropdown-list :defer t :ensure t)
+(use-package popup :defer t :ensure t)
+
 
 ;; Remove the lighter for a number of built in packages.
 (use-package flyspell :diminish flyspell-mode)
