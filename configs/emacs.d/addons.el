@@ -286,6 +286,15 @@
   (emms-default-players))
 
 
+(use-package anzu
+  :defer t
+  :ensure t
+  :pin melpa
+  :init
+  (setq anzu-mode-lighter "")
+  (add-hook 'after-init-hook 'global-anzu-mode))
+
+
 (use-package highlight-indentation
   :ensure t
   :commands highlight-indentation-mode
