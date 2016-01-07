@@ -1,3 +1,10 @@
+;;; addons.el --- File for third party addon configuration.
+;;
+;;; Commentary:
+;; All Thrid party addon configuration is gathered in this file.
+;;
+;;; Code:
+
 (eval-when-compile
   (require 'use-package))
 (require 'diminish)
@@ -454,3 +461,5 @@
 (use-package eldoc :diminish eldoc-mode)
 (use-package cwarn :commands cwarn-mode :diminish cwarn-mode)
 (use-package abbrev :diminish abbrev-mode)
+
+;;; addons.el ends here
