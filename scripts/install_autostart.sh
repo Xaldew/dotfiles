@@ -1,7 +1,7 @@
 #!/usr/bin/env sh
 # Installs all dotfiles into the autostart folder specified by XDG.
 
-function add_autostart_files()
+add_autostart_files()
 {
     dest=$1
     for file in $dotfiles_dir/autostart/*; do
