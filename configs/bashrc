@@ -94,5 +94,5 @@ export LESS_TERMCAP_us=$'\E[04;38;5;146m' # begin underline
 export MANPATH=$local_prefix_dir/share/man:$MANPATH
 
 # Add GNU global tags configuration.
-export GTAGSCONF="$HOME/.local/share/gtags/gtags.conf"
+export GTAGSCONF="${local_prefix_dir}/share/gtags/gtags.conf"
 export GTAGSLABEL=pygments

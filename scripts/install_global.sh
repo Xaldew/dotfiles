@@ -1,5 +1,5 @@
 #!/usr/bin/env sh
-# Install the latest development relase of Emacs.
+# Install the latest development relase of GNU global (gtags).
 
 # DEB: sudo apt-get bison flex gperf
 

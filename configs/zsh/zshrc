@@ -96,5 +96,5 @@ bindkey -M menuselect '^M' .accept-line
 alias rm=rm
 
 # Add GNU global tags configuration.
-export GTAGSCONF="$HOME/.local/share/gtags/gtags.conf"
+export GTAGSCONF="${local_prefix_dir}/share/gtags/gtags.conf"
 export GTAGSLABEL=pygments

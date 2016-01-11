@@ -1,5 +1,5 @@
 #!/usr/bin/env sh
-# Install latest Exuberant ctags and rename it appropriately.
+# Install latest universal ctags and rename it appropriately.
 
 cd $objects_dir
 if [ -d $objects_dir/universal-ctags ]; then
