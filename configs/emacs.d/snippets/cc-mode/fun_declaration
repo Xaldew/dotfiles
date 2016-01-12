@@ -12,4 +12,6 @@ ${1:type} ${2:name}(${3:args})${4: const};
 ${0:$$(let ((beg yas-snippet-beg)
             (end yas-snippet-end))
 	(yas-expand-snippet
-	  (buffer-substring-no-properties beg end) beg end))}
+	  (buffer-substring-no-properties beg end) beg end
+          (quote ((yas-indent-line nil) (yas-wrap-around-region nil))))
+        (delete-trailing-whitespace beg (- end 1)))}
