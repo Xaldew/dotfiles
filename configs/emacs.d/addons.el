@@ -279,7 +279,11 @@
   :defer t
   :bind ("C-c m" . emms-smart-browse)
   :init
-  (setq emms-source-file-default-directory "~/Music/")
+  (cond
+   ((file-exists-p "~/Music")
+    (setq emms-source-file-default-directory "~/Music"))
+   ((file-exits-p "~/Musik")
+    (setq emms-source-file-default-directory "~/Musik")))
   :config
   (use-package emms-player-mpv :ensure t :pin melpa)
   (emms-all)
