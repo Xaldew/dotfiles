@@ -1,7 +1,7 @@
 ;;; func.el --- Provide various utilities and aliases.
 ;;
 ;;; Commentary:
-;; This file contains various useful functions and aliases. That I use
+;; This file contains various useful functions and aliases.  That I use
 ;; frequently in everyday coding.
 ;;
 ;;; Code:
@@ -170,5 +170,25 @@ Do not print to the minibuffer if PRINT-MESSAGE is given."
 		 "region"
 	       "buffer"))
 	  sentences)))))
+
+
+(defun my-show-in-mode-line (text &optional buffer delay)
+  "Display TEXT in the mode line of BUFFER.
+
+The text is shown for DELAY seconds (default 2).  The old
+`mode-line-format' is returned."
+  (let ((old-mode-line mode-line-format)
+        (buf (or buffer (current-buffer))))
+    (with-current-buffer buf
+      (message nil) ; Remove any current msg
+      (setq mode-line-format (list text))
+      (force-mode-line-update))
+    (run-at-time (or delay 2) nil
+                 (lambda (b format)
+                   (with-current-buffer b
+                     (setq mode-line-format format)
+                     (force-mode-line-update)))
+                 buf old-mode-line)
+    old-mode-line))
 
 ;;; func.el ends here
