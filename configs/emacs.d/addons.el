@@ -474,5 +474,6 @@
 (use-package eldoc :diminish eldoc-mode)
 (use-package cwarn :commands cwarn-mode :diminish cwarn-mode)
 (use-package abbrev :diminish abbrev-mode)
+(use-package simple :diminish (auto-fill-function))
 
 ;;; addons.el ends here
