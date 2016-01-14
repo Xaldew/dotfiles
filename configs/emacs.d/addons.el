@@ -282,7 +282,7 @@
   (cond
    ((file-exists-p "~/Music")
     (setq emms-source-file-default-directory "~/Music"))
-   ((file-exits-p "~/Musik")
+   ((file-exists-p "~/Musik")
     (setq emms-source-file-default-directory "~/Musik")))
   :config
   (use-package emms-player-mpv :ensure t :pin melpa)
