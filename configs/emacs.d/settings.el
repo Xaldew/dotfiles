@@ -53,7 +53,10 @@
 
 
 ;; Killing a line at the begining of a line removes the line as well.
-(setq kill-whole-line t)
+(setq kill-whole-line t
+      kill-read-only-ok t
+      kill-do-not-save-duplicates t)
+
 
 ;; Set up spellchecking in text-modes and programming modes.
 (add-hook 'prog-mode-hook 'flyspell-prog-mode)
