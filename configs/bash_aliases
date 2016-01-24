@@ -150,6 +150,24 @@ source_if()
     done
 }
 
+swap-caps()
+{
+    # Swap between a Vim friendly Caps == ESC and Emacs Caps == ctrl layout.
+    # In practice, this swaps the X keyboard options: ctrl:nocaps and
+    # caps:escape.
+    current=`setxkbmap -query | awk '$1 ~ /^options/ { print $2 }'`
+    if [ "$current" = "ctrl:nocaps" ]; then
+        setxkbmap -option ''
+        setxkbmap -option caps:escape
+    elif [ "$current" = "caps:escape" ]; then
+        setxkbmap -option ''
+        setxkbmap -option ctrl:nocaps
+    else
+        printf "WARN: Unknown XKB option: %s\n" $current
+    fi
+}
+
+
 function dls ()
 {
     # List directories.
