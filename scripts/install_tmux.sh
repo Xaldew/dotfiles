@@ -8,7 +8,7 @@
 if [ ! -d $objects_dir/libevent ]; then
     tmp=`mktemp --directory`
     cd $tmp
-    url="http://iweb.dl.sourceforge.net/project/levent/libevent/libevent-2.0/"
+    url="https://github.com/libevent/libevent/releases/download/release-2.0.22-stable/"
     dir="libevent-2.0.22-stable"
     file=$dir".tar.gz"
     wget --quiet --output-document=$file $url$file
@@ -33,7 +33,8 @@ fi
 
 cd $objects_dir/tmux
 sh autogen.sh
-LIBEVENT_CFLAGS="-I/work/local/include" LIBEVENT_LIBS="-L/work/local/lib -levent" \
+LIBEVENT_CFLAGS="-I${local_prefix_dir}/include" \
+               LIBEVENT_LIBS="-L${local_prefix_dir}/lib -levent" \
     ./configure \
     --prefix=$local_prefix_dir \
     --mandir=$local_prefix_dir/share/man \
