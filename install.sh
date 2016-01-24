@@ -154,8 +154,7 @@ while [ $i -lt ${#args[@]} ]; do
     elif [ $a == "-tc" -o $a == "--colors" ]; then
 	 : $(( i = i + 1 ))
 	 a=${args[$i]}
-	 if [ $a -eq 8  -o $a -eq 16 -o
-	      $a -eq 88 -o $a -eq 256 ]; then
+	 if [ $a -eq 8  -o $a -eq 16 -o $a -eq 88 -o $a -eq 256 ]; then
 	     force_colors="${a}"
 	     env["force_colors"]="${a}"
 	 else
