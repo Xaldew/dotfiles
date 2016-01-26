@@ -1,3 +1,11 @@
+;;; settings.el --- Package independent default settings.
+;;
+;;; Commentary:
+;; This file contains generic settings that should not require any external
+;; packages.
+;;
+;;; Code:
+
 (eval-when-compile
   (require 'gud)
   (require 'org))
@@ -252,3 +260,5 @@ simply passed on to the corresponding function.
                      (call-interactively 'org-capture)))
         ((= ch ?b) (org-switchb prefix))))
 (global-set-key (kbd "C-c o") 'my-start-org-mode)
+
+;;; settings.el ends here
