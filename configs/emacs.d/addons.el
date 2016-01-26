@@ -449,6 +449,7 @@
 ;; Add various themes.
 (use-package aurora-theme   :defer t :ensure t)
 (use-package zenburn-theme  :defer t :ensure t)
+(use-package niflheim-theme :defer t :ensure t)
 (use-package sublime-themes :defer t :ensure t)
 
 ;; Install miscellaneous packages.
