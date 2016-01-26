@@ -123,6 +123,9 @@
 ;; Globally enable subword-mode, i.e., allow CamelCase word traversal.
 (global-subword-mode t)
 
+;; Save the point location in each visited file.
+(save-place-mode t)
+
 ;; Ignore case when looking for files and buffers.
 (setq read-buffer-completion-ignore-case t)
 (setq read-file-name-completion-ignore-case t)
