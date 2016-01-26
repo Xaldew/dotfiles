@@ -1,7 +1,7 @@
-;;; addons.el --- File for third party addon configuration.
+;;; addons.el --- File for third party add-on configuration.
 ;;
 ;;; Commentary:
-;; All Thrid party addon configuration is gathered in this file.
+;; All third party add-on configuration is gathered in this file.
 ;;
 ;;; Code:
 
@@ -16,7 +16,6 @@
   (anyclip-mode t))
 
 
-;; Activate Yasnippet
 (use-package yasnippet
   :ensure t
   :diminish yas-minor-mode
@@ -209,8 +208,6 @@
   (global-undo-tree-mode))
 
 
-
-;; Enable projectile-mode globally.
 (use-package projectile
   :ensure t
   :config
