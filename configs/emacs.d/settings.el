@@ -174,9 +174,7 @@
 
 All-stop mode stops all threads upon hitting a break-point.
 
-Non-stop mode only stops the current thread.
-
-"
+Non-stop mode only stops the current thread."
   (interactive)
   (setq gdb-non-stop-setting (not gdb-non-stop-setting))
   (if gdb-non-stop-setting
@@ -208,7 +206,7 @@ Non-stop mode only stops the current thread.
 
 
 (defun my-help-mode-hook ()
-  "Personal hook for help-mode."
+  "Personal hook for `help-mode'."
   (define-key help-mode-map [f5] 'describe-symbol)
   (define-key help-mode-map [f7] 'describe-function)
   (define-key help-mode-map [f9] 'describe-mode))
@@ -250,15 +248,13 @@ Non-stop mode only stops the current thread.
 
 ;; Add org-mode configuration.
 (defun my-start-org-mode (prefix ch)
-  "Start org-mode.
+  "Start `org-mode'.
 
-This function prompts for a character to decide which org-mode
-function to call.
-
-Prefix arguments are still usable with this command. They are
+PREFIX arguments are still usable with this command.  They are
 simply passed on to the corresponding function.
 
-"
+This function prompts for a character CH to decide which org-mod
+function to call."
   (interactive "P\ncORG: <l:link, a:agenda, c:capture, b:switchb>")
   (cond ((= ch ?l) (org-store-link prefix))
         ((= ch ?a) (org-agenda prefix))
