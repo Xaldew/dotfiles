@@ -214,6 +214,8 @@ Non-stop mode only stops the current thread.
   (define-key help-mode-map [f9] 'describe-mode))
 (add-hook 'help-mode-hook 'my-help-mode-hook)
 
+;; Search more extensively when using apropos.
+(setq apropos-do-all t)
 
 ;; Activate Semantic and the Semantic Recoder for all programming modes.
 (autoload 'srecode-minor-mode "srecode")
