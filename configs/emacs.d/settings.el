@@ -135,6 +135,7 @@
 ;; Set various clipboard management variables.
 (setq x-select-enable-clipboard-manager t)
 (setq x-select-enable-clipboard t)
+(setq select-enable-clipboard t)
 (setq save-interprogram-paste-before-kill t)
 (setq mouse-yank-at-point t)
 
