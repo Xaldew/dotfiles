@@ -15,6 +15,10 @@
 ;; Set the default fill-column.
 (setq-default fill-column 80)
 
+(setq ido-enable-flex-matching t)
+(setq ido-everywhere t)
+(ido-mode t)
+
 ;; Automatically save Emacs minibuffer history.
 (savehist-mode t)
 
