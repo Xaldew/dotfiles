@@ -427,6 +427,23 @@
   (add-hook 'prog-mode-hook 'ggtags-mode))
 
 
+(use-package sx ; StackExchange client for Emacs
+  :ensure t
+  :bind (("C-c a S a" . sx-ask)
+         ("C-c a S s" . sx-tab-all-questions)
+         ("C-c a S q" . sx-tab-all-questions)
+         ("C-c a S f" . sx-tab-all-questions)
+         ("C-c a S n" . sx-tab-newest)))
+
+(use-package sx-compose ; Write questions/answers for Stack Exchange
+  :ensure sx
+  :defer t
+  :config
+  (add-hook 'sx-compose-mode-hook #'turn-off-auto-fill)
+  (add-hook 'sx-compose-mode-hook #'visual-line-mode)
+  ;; Clean up whitespace before sending questions
+  (add-hook 'sx-compose-before-send-hook 'delete-trailing-whitespace))
+
 ;; Install various major-mode packages and defer where it is possible.
 (use-package graphviz-dot-mode :ensure t :defer t)
 (use-package glsl-mode         :ensure t :defer t)
