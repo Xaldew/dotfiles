@@ -10,6 +10,28 @@
 (require 'diminish)
 (require 'bind-key)
 
+
+;; Define prefix commands for personal key binding groups.
+(defmacro my-define-group (prefix name &optional map)
+  "Define a group at PREFIX with NAME in MAP."
+  (let ((command (intern (format "group:%s" name))))
+    `(progn
+       (define-prefix-command ',command)
+       (bind-key ,prefix #',command ,map))))
+
+(my-define-group "C-c a" applications)
+;;(my-define-group "C-c o" org)
+(my-define-group "C-c c" compile-and-comments)
+(my-define-group "C-c h" help)
+(my-define-group "C-c i" insertion)
+(my-define-group "C-c p" projects)
+(my-define-group "C-c s" search-and-symbols)
+(my-define-group "C-c v" version-control)
+;;(my-define-group "C-c w" windows-and-frames)
+(my-define-group "C-c x" text)
+(my-define-group "C-c x a" align)
+
+
 (use-package anyclip-mode
   :if (not (display-graphic-p))
   :init
