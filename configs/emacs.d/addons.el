@@ -173,16 +173,6 @@
   :init
   (add-hook 'prog-mode-hook 'flycheck-mode)
   :config
-  (use-package flycheck-pos-tip :ensure t)
-  (use-package flycheck-irony :ensure t)
-
-  (defun my-flycheck-popup (errors)
-    "Display the ERRORS in the old popup-el interface inside terminals."
-    (let ((message (mapconcat #'flycheck-error-format-message-and-id
-                              errors "\n\n")))
-      (popup-tip message)))
-  (setq flycheck-pos-tip-display-errors-tty-function 'my-flycheck-popup)
-
   (defun my-flycheck-hook ()
     "Personal hook for per-buffer flycheck settings."
     (flycheck-pos-tip-mode)
@@ -195,6 +185,20 @@
       (setq flycheck-clang-language-standard "c++11"))))
 
   (add-hook 'flycheck-mode-hook 'my-flycheck-hook))
+
+(use-package flycheck-pos-tip
+  :ensure flycheck
+  :config
+  (defun my-flycheck-popup (errors)
+    "Display the ERRORS in the old popup-el interface inside terminals."
+    (let ((message (mapconcat #'flycheck-error-format-message-and-id
+                              errors "\n\n")))
+      (popup-tip message)))
+  (unless (fboundp 'x-hide-tip)
+    (defalias 'x-hide-tip 'ignore))
+  (setq flycheck-pos-tip-display-errors-tty-function 'my-flycheck-popup))
+
+(use-package flycheck-irony :ensure flycheck)
 
 
 ;; Add CSS-eldoc to the css-hook.
