@@ -38,6 +38,26 @@
   (anyclip-mode t))
 
 
+(use-package which-key ; Show help popups for prefix keys
+  :ensure t
+  :diminish (which-key-mode)
+  :init (which-key-mode)
+  :config
+  (setq which-key-idle-delay 0.4
+        which-key-key-replacement-alist
+        '(("<\\([[:alnum:]-]+\\)>" . "\\1")
+          ("up" . "↑")
+          ("right" . "→")
+          ("down" . "↓")
+          ("left" . "←")
+          ("DEL" . "⌫")
+          ("deletechar" . "⌦")
+          ("RET" . "⏎"))
+        which-key-description-replacement-alist
+        '(("Prefix Command" . "prefix")
+          ("\\`\\?\\?\\'" . "λ"))))
+
+
 (use-package yasnippet
   :ensure t
   :diminish yas-minor-mode
