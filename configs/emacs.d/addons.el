@@ -471,11 +471,11 @@
 
 (use-package sx ; StackExchange client for Emacs
   :ensure t
-  :bind (("C-c a S a" . sx-ask)
-         ("C-c a S s" . sx-tab-all-questions)
-         ("C-c a S q" . sx-tab-all-questions)
-         ("C-c a S f" . sx-tab-all-questions)
-         ("C-c a S n" . sx-tab-newest)))
+  :bind (("C-c a a" . sx-ask)
+         ("C-c a s" . sx-tab-all-questions)
+         ("C-c a q" . sx-tab-all-questions)
+         ("C-c a f" . sx-tab-all-questions)
+         ("C-c a n" . sx-tab-newest)))
 
 (use-package sx-compose ; Write questions/answers for Stack Exchange
   :ensure sx
