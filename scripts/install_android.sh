@@ -1,8 +1,8 @@
 #!/usr/bin/env sh
 
-function android_sdk()
+android_sdk()
 {
-    url=http://dl.google.com/android/android-sdk_r24.3.3-linux.tgz
+    url=http://dl.google.com/android/android-sdk_r24.4.1-linux.tgz
     if [ ! -d $objects_dir/android_sdk ]; then
 	wget $url --output-document=$objects_dir/android_sdk.tgz --quiet
 	(cd $objects_dir &&
@@ -12,7 +12,7 @@ function android_sdk()
     fi
 }
 
-function android_ndk()
+android_ndk()
 {
     url=http://dl.google.com/android/ndk/android-ndk-r10e-linux-x86_64.bin
     if [ ! -d $objects_dir/android_ndk ]; then
@@ -25,7 +25,7 @@ function android_ndk()
     fi
 }
 
-function install_repo()
+install_repo()
 {
     if [ ! -x $local_prefix_dir/bin/repo ]; then
 	wget https://storage.googleapis.com/git-repo-downloads/repo \
