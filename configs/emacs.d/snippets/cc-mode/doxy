@@ -9,41 +9,41 @@
  (save-excursion
    (if (bound-and-true-p semantic-mode)
        (let* ((tag (senator-next-tag))
-	      (class (if tag (semantic-tag-class tag) 'other))
-	      (type  (if tag (semantic-tag-type tag) ""))
-	      (name  (if tag (semantic-tag-name tag) ""))
-	      (attrs (if tag (semantic-tag-attributes tag) '()))
-	      (c/d-tor (when attrs (or (plist-get attrs :constructor-flag)
-				       (plist-get attrs :destructor-flag))))
-	      (args  (if attrs
-			 (delete "" (mapcar 'car (plist-get attrs :arguments)))
-		       '()))
-	      (max-len (if args
-			   (apply 'max (mapcar (lambda (x) (length x)) args))
-			 0))
-	      (indent (concat "\n" (make-string (current-column) 32)))
-	      (itr 1))
-	 (concat
-	  "/** @brief $1"
-	  indent
-	  (when args indent)
-	  (mapconcat
-	   (lambda (x)
-	     (format "@param %s%s $%d"
-		     x
-		     (make-string (- max-len (length x)) ? )
-		     (incf itr)))
-	   args indent)
-	  indent
-	  (when (and (eq class 'function)
-		     (not c/d-tor)
-		     (or (not (stringp type))
-			 (not (string= type "void"))))
-	    (concat
-	     (when (> (length args) 3) indent)
-	     (format "@return $%d" (incf itr))
-	     indent))
-	  "*/"))
+              (class (if tag (semantic-tag-class tag) 'other))
+              (type  (if tag (semantic-tag-type tag) ""))
+              (name  (if tag (semantic-tag-name tag) ""))
+              (attrs (if tag (semantic-tag-attributes tag) '()))
+              (c/d-tor (when attrs (or (plist-get attrs :constructor-flag)
+                                       (plist-get attrs :destructor-flag))))
+              (args  (if attrs
+                         (delete "" (mapcar 'car (plist-get attrs :arguments)))
+                       '()))
+              (max-len (if args
+                           (apply 'max (mapcar (lambda (x) (length x)) args))
+                         0))
+              (indent (concat "\n" (make-string (current-column) 32)))
+              (itr 1))
+         (concat
+          "/** @brief $1"
+          indent
+          (when args indent)
+          (mapconcat
+           (lambda (x)
+             (format "@param %s%s $%d"
+                     x
+                     (make-string (- max-len (length x)) ? )
+                     (incf itr)))
+           args indent)
+          indent
+          (when (and (eq class 'function)
+                     (not c/d-tor)
+                     (or (not (stringp type))
+                         (not (string= type "void"))))
+            (concat
+             (when (> (length args) 3) indent)
+             (format "@return $%d" (incf itr))
+             indent))
+          "*/${0:$$(delete-trailing-whitespace yas-snippet-beg yas-snippet-end)}"))
      (concat "/** @brief "
-	     "${1:Please turn on Semantic-mode. (M-x semantic-mode).} "
-	     "*/"))))
+             "${1:Please turn on Semantic-mode. (M-x semantic-mode).} "
+             "*/"))))
