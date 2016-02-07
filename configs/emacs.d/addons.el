@@ -345,7 +345,7 @@
 (use-package highlight-indentation
   :ensure t
   :commands highlight-indentation-mode
-  :config
+  :init
   (add-hook 'python-mode-hook 'highlight-indentation-mode))
 
 
