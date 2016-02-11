@@ -84,6 +84,9 @@ unix_paste()
         xclip -selection $clipboard -out
     elif command -v xsel > /dev/null 2>&1; then
         xsel --$clipboard --output
+    elif command -v tmux > /dev/null 2>&1 && [ -n "$TMUX" ]; then
+        tmux show-buffer 2> /dev/null
+        tmux delete-buffer 2> /dev/null
     else
         printf "ERROR: No Unix clipboard utility found.\n" >&2
     fi

@@ -82,6 +82,8 @@ unix_clip()
         cat - | xclip -selection $clipboard -in
     elif command -v xsel > /dev/null 2>&1; then
         cat - | xsel --$clipboard --input
+    elif command -v tmux > /dev/null 2>&1 && [ -n "$TMUX" ]; then
+        tmux set-buffer "`cat -`"
     else
         printf "ERROR: No Unix clipboard utility found.\n" >&2
     fi
