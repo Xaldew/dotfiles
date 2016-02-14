@@ -6,7 +6,7 @@
          (formatted-args
 	  (mapconcat
 	   (lambda (x)
-	     (concat ":param: " (nth 0 x) ":"
+	     (concat ":param " (nth 0 x) ":"
 		     (if make-fields (format " ${%d:arg%d}" (incf nr) nr))
 		     (if (nth 1 x) (concat " \(default " (nth 1 x) "\)"))))
 	   args
@@ -28,7 +28,7 @@
 	 (nr (length args))
 	 (formatted-types
 	  (mapconcat (lambda (x)
-		       (concat ":type: " (nth 0 x) ":"
+		       (concat ":type " (nth 0 x) ":"
 			       (if make-fields
 				   (format " ${%d:type%d}"
 					   (incf nr) (incf i)))))
