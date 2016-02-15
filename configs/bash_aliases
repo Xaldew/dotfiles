@@ -35,6 +35,9 @@ alias akem=make
 alias amek=make
 alias meka=make
 
+alias valgrind="valgrind --track-origins=yes --leak-check=full"
+alias helgrind="valgrind --tool=helgrind"
+
 alias svnst="svn st"
 alias snv=svn
 
