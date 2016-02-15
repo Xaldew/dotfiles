@@ -90,6 +90,7 @@
 (xterm-mouse-mode t)
 
 ;; Automatically update buffers to reflect changes on disk.
+(setq auto-revert-interval 30)  ; Temporary fix for magit-rebasing.
 (global-auto-revert-mode t)
 
 ;; When cursor is on edge, move to the other side, as in a toroidal space.
