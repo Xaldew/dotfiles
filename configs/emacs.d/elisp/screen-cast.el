@@ -6,16 +6,6 @@
 ;;
 ;;; Code:
 
-(require 'command-log-mode)
-
-(defvar screen-cast-clm-mode-global nil
-  "Old value of `command-log-mode-global'.")
-
-(defvar screen-cast-clm/logging-dir nil
-  "Old value of `clm/logging-dir'.")
-
-(defvar screen-cast-clm-on nil
-  "Was `command-log-mode' active when starting the screen-cast?.")
 
 (defvar screen-cast-tmp-dir nil
   "Temporary directory were the current screen cast data is saved.")
@@ -26,6 +16,57 @@
 (defvar screen-cast-start-time nil
   "The start time of the last screen-cast.")
 
+(defvar screen-cast-cmd-list nil
+  "List of commands and time of their execution since starting the screencast.")
+
+(cl-defstruct screen-cast-command time keys command)
+
+(defmacro screen-cast--save-command-environment (&rest body)
+  "Save and restore `this-command' and `last-command' after saving the command.
+
+BODY: Forms to be executed."
+  (declare (indent 0))
+  `(let ((deactivate-mark nil)  ; Do not deactivate mark in transient mark mode.
+         ;; Do not let random commands scribble over {THIS,LAST}-COMMAND
+	 (this-command this-command)
+	 (last-command last-command))
+     ,@body))
+
+(defvar screen-cast-cmd-exceptions
+  '(nil self-insert-command backward-char forward-char
+        delete-char delete-backward-char backward-delete-char
+        backward-delete-char-untabify
+        universal-argument universal-argument-other-key
+        universal-argument-minus universal-argument-more
+        beginning-of-line end-of-line recenter
+        move-end-of-line move-beginning-of-line
+        handle-switch-frame
+        newline previous-line next-line)
+  "A list commands which should not be logged.
+
+Frequently used non-interesting commands (like cursor movements)
+should be put here.")
+
+
+(defun screen-cast--log-command-p (cmd)
+  "Determines whether the given command CMD should be logged."
+  (null (member cmd screen-cast-cmd-exceptions)))
+
+
+(defun screen-cast-log-command (&optional cmd)
+  "Hook into `pre-command-hook' to intercept all Emacs commands.
+
+CMD: TODO."
+  (screen-cast--save-command-environment
+   (setq cmd (or cmd this-command))
+   (when (screen-cast--log-command-p cmd)
+     (setq screen-cast-cmd-list
+           (cons (make-screen-cast-command
+                  :time (current-time)
+                  :keys (key-description (this-command-keys))
+                  :command cmd)
+                 screen-cast-cmd-list)))))
+
 
 (defun screen-cast-sentinel (process event)
   "Process sentinel for the screen-cast.
@@ -33,13 +74,8 @@
 PROCESS: The process that received EVENT."
   (cond
    ((equal event "finished\n")
-    (unless screen-cast-clm-on
-      (command-log-mode -1))
-    (setq clm/logging-dir screen-cast-clm/logging-dir)
-    (setq command-log-mode-is-global screen-cast-clm-mode-global)
-    (when clm/command-log-buffer
-      (with-current-buffer clm/command-log-buffer
-        (print (buffer-substring (point-min) (point-max)))))
+    (remove-hook 'pre-command-hook 'screen-cast-log-command)
+    (print screen-cast-cmd-list)
     (delete-directory screen-cast-tmp-dir t nil))
    (t
     (princ (format "Process: %s had the event `%s'" process event)))))
@@ -50,18 +86,10 @@ PROCESS: The process that received EVENT."
 
 Output screen-cast GIF is saved to OUTPUT-FILE."
   (interactive "F")
-  (setq screen-cast-clm-on (member 'command-log-mode minor-mode-list))
-  (setq screen-cast-clm-logging-dir clm/logging-dir)
-  (setq screen-cast-clm-mode-global command-log-mode-is-global)
-
   (setq screen-cast-start-time (current-time))
   (setq screen-cast-output output-file)
   (setq screen-cast-tmp-dir (make-temp-file "screen-cast-" 'dir))
-  (setq clm/logging-dir screen-cast-tmp-dir)
-  (setq command-log-mode-is-global t)
-  (command-log-mode t)
-  (save-window-excursion
-    (clm/open-command-log-buffer))
+  (add-hook 'pre-command-hook 'screen-cast-log-command)
   (let* ((output-gif (concat (file-name-as-directory screen-cast-tmp-dir)
                              "out.gif"))
          (process (start-process "screen-cast"
