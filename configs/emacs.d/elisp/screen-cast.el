@@ -141,6 +141,8 @@ Output screen-cast GIF is saved to OUTPUT-FILE."
          (process (start-process "screen-cast"
                                  "*screen-cast*"
                                  "screen_cast.py"
+                                 "--kill-sequence"
+                                 ""
                                  "--record-keys"
                                  "--save-intermediates"
                                  screen-cast-tmp-dir
