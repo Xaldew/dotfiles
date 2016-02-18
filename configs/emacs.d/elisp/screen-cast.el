@@ -118,7 +118,8 @@ PROCESS: The process that received EVENT."
 (defun screen-cast--setup ()
   "Prepare all variables and hooks for screen-casting."
   (setq screen-cast-start-time (current-time))
-  (setq screen-cast-tmp-dir (make-temp-file "screen-cast-" 'dir))
+  (setq screen-cast-tmp-dir (concat (file-name-as-directory
+                                     (make-temp-file "screen-cast-" 'dir))))
   (setq screen-cast-cmd-list '())
   (add-hook 'post-self-insert-hook 'screen-cast--recent-history))
 
@@ -136,8 +137,7 @@ Output screen-cast GIF is saved to OUTPUT-FILE."
   (interactive "F")
   (setq screen-cast-output output-file)
   (screen-cast--setup)
-  (let* ((output-gif (concat (file-name-as-directory screen-cast-tmp-dir)
-                             "out.gif"))
+  (let* ((output-gif (concat screen-cast-tmp-dir "out.gif"))
          (process (start-process "screen-cast"
                                  "*screen-cast*"
                                  "screen_cast.py"
