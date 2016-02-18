@@ -6,6 +6,14 @@
 ;;
 ;;; Code:
 
+(defgroup screen-cast nil
+  "Group for customizing the screen-casting."
+  :group 'tools)
+
+(defcustom screen-cast-kill-sequence "KILL"
+  "Character sequence that stops the screen-cast recording."
+  :group 'screen-cast
+  :type 'string)
 
 (defvar screen-cast-tmp-dir nil
   "Temporary directory were the current screen cast data is saved.")
@@ -19,18 +27,8 @@
 (defvar screen-cast-cmd-list nil
   "List of commands and time of their execution since starting the screencast.")
 
-(cl-defstruct screen-cast-command time keys command)
-
-(defmacro screen-cast--save-command-environment (&rest body)
-  "Save and restore `this-command' and `last-command' after saving the command.
-
-BODY: Forms to be executed."
-  (declare (indent 0))
-  `(let ((deactivate-mark nil)  ; Do not deactivate mark in transient mark mode.
-         ;; Do not let random commands scribble over {THIS,LAST}-COMMAND
-	 (this-command this-command)
-	 (last-command last-command))
-     ,@body))
+(defvar screen-cast-process nil
+  "The currently active screen-cast process.")
 
 (defvar screen-cast-cmd-exceptions
   '(nil self-insert-command backward-char forward-char
@@ -47,6 +45,39 @@ BODY: Forms to be executed."
 Frequently used non-interesting commands (like cursor movements)
 should be put here.")
 
+(defvar screen-cast--history-text nil
+  "The most recently written text.")
+
+
+(cl-defstruct screen-cast-command time keys command)
+
+
+(defun screen-cast--recent-history ()
+  "Incrementally store the most recently written text."
+  (setq screen-cast--history-text
+        (concat screen-cast--history-text
+                (buffer-substring-no-properties (1- (point)) (point)))))
+
+
+(defun screen-cast--zap-history ()
+  "Clear the currently stored text history if no longer writing text."
+  (unless (or (member this-original-command
+		      screen-cast-cmd-exceptions)
+	      (eq this-original-command #'self-insert-command))
+    (setq screen-cast--history-text "")))
+
+
+(defmacro screen-cast--save-command-environment (&rest body)
+  "Save and restore `this-command' and `last-command' after saving the command.
+
+BODY: Forms to be executed."
+  (declare (indent 1))
+  `(let ((deactivate-mark nil)  ; Do not deactivate mark in transient mark mode.
+         ;; Do not let random commands scribble over {THIS,LAST}-COMMAND
+	 (this-command this-command)
+	 (last-command last-command))
+     ,@body))
+
 
 (defun screen-cast--log-command-p (cmd)
   "Determines whether the given command CMD should be logged."
@@ -58,14 +89,18 @@ should be put here.")
 
 CMD: TODO."
   (screen-cast--save-command-environment
-   (setq cmd (or cmd this-command))
-   (when (screen-cast--log-command-p cmd)
-     (setq screen-cast-cmd-list
-           (cons (make-screen-cast-command
-                  :time (current-time)
-                  :keys (key-description (this-command-keys))
-                  :command cmd)
-                 screen-cast-cmd-list)))))
+    (setq cmd (or cmd this-command))
+    ;; Quit screen-cast when kill-sequence has been written.
+    (when (string= screen-cast--history-text
+                   screen-cast-kill-sequence)
+      (screen-cast-stop))
+    (when (screen-cast--log-command-p cmd)
+      (setq screen-cast-cmd-list
+            (cons (make-screen-cast-command
+                   :time (current-time)
+                   :keys (key-description (this-command-keys))
+                   :command cmd)
+                  screen-cast-cmd-list)))))
 
 
 (defun screen-cast-sentinel (process event)
@@ -74,11 +109,30 @@ CMD: TODO."
 PROCESS: The process that received EVENT."
   (cond
    ((equal event "finished\n")
-    (remove-hook 'pre-command-hook 'screen-cast-log-command)
-    (print screen-cast-cmd-list)
-    (delete-directory screen-cast-tmp-dir t nil))
+    (screen-cast--ffmpeg-sendcmd-script "el_script.txt"
+                                        screen-cast-start-time
+                                        screen-cast-cmd-list)
+    (screen-cast--tear-down))
    (t
     (princ (format "Process: %s had the event `%s'" process event)))))
+
+
+(defun screen-cast--setup ()
+  "Prepare all variables and hooks for screen-casting."
+  (setq screen-cast-start-time (current-time))
+  (setq screen-cast-tmp-dir (make-temp-file "screen-cast-" 'dir))
+  (setq screen-cast-cmd-list '())
+  (add-hook 'pre-command-hook 'screen-cast-log-command)
+  (add-hook 'post-command-hook 'screen-cast--zap-history)
+  (add-hook 'post-self-insert-hook 'screen-cast--recent-history))
+
+
+(defun screen-cast--tear-down ()
+  "Reset all variables and hooks used for the screen-casting."
+  (remove-hook 'pre-command-hook 'screen-cast-log-command)
+  (remove-hook 'post-command-hook 'screen-cast--zap-history)
+  (remove-hook 'post-self-insert-hook 'screen-cast--recent-history)
+  (delete-directory screen-cast-tmp-dir 'recursive nil))
 
 
 (defun screen-cast (output-file)
@@ -86,10 +140,8 @@ PROCESS: The process that received EVENT."
 
 Output screen-cast GIF is saved to OUTPUT-FILE."
   (interactive "F")
-  (setq screen-cast-start-time (current-time))
   (setq screen-cast-output output-file)
-  (setq screen-cast-tmp-dir (make-temp-file "screen-cast-" 'dir))
-  (add-hook 'pre-command-hook 'screen-cast-log-command)
+  (screen-cast--setup)
   (let* ((output-gif (concat (file-name-as-directory screen-cast-tmp-dir)
                              "out.gif"))
          (process (start-process "screen-cast"
@@ -99,7 +151,32 @@ Output screen-cast GIF is saved to OUTPUT-FILE."
                                  "--save-intermediates"
                                  screen-cast-tmp-dir
                                  "--output-file" output-gif)))
-    (set-process-sentinel process 'screen-cast-sentinel)))
+    (set-process-sentinel process 'screen-cast-sentinel)
+    (setq screen-cast-process process)))
+
+
+(defun screen-cast-stop ()
+  "Stop an active screen-cast, if any."
+  (interactive)
+  (when screen-cast-process
+    (interrupt-process screen-cast-process)))
+
+
+(defun screen-cast--ffmpeg-sendcmd-script (output-file start-time cmd-list)
+  "Generate a ffmpeg compatible 'sendcmd' script.
+
+OUTPUT-FILE: Name of the file to write to.
+START-TIME: The start-time of the screen cast.
+CMD-LIST: List over the commands to be written as a 'sendcmd' script"
+  (with-temp-file output-file
+    (dolist (cmd (nreverse cmd-list))
+      (insert
+       (format "%s %s %s\n"
+               (format-time-string "%-S.%3N"
+                                   (subtract-time (screen-cast-command-time cmd)
+                                                  start-time))
+               (screen-cast-command-keys cmd)
+               (symbol-name (screen-cast-command-command cmd)))))))
 
 
 (provide 'screen-cast)
