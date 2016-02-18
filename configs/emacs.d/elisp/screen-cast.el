@@ -45,26 +45,11 @@
 Frequently used non-interesting commands (like cursor movements)
 should be put here.")
 
-(defvar screen-cast--history-text nil
+(defvar screen-cast--history nil
   "The most recently written text.")
 
 
 (cl-defstruct screen-cast-command time keys command)
-
-
-(defun screen-cast--recent-history ()
-  "Incrementally store the most recently written text."
-  (setq screen-cast--history-text
-        (concat screen-cast--history-text
-                (buffer-substring-no-properties (1- (point)) (point)))))
-
-
-(defun screen-cast--zap-history ()
-  "Clear the currently stored text history if no longer writing text."
-  (unless (or (member this-original-command
-		      screen-cast-cmd-exceptions)
-	      (eq this-original-command #'self-insert-command))
-    (setq screen-cast--history-text "")))
 
 
 (defmacro screen-cast--save-command-environment (&rest body)
@@ -84,23 +69,36 @@ BODY: Forms to be executed."
   (null (member cmd screen-cast-cmd-exceptions)))
 
 
+(defun screen-cast--check-kill-sequence (key)
+  "Add KEY to the seen commands seen so far and check for the kill sequence."
+  ;; Add the most recent key.
+  (setq screen-cast--history (concat screen-cast--history key))
+  ;; Truncate history once history length exceeds kill-sequence.
+  (when (> (length screen-cast--history)
+           (length screen-cast-kill-sequence))
+    (setq screen-cast--history
+          (substring screen-cast--history
+                     (- (length screen-cast-kill-sequence)))))
+  ;; Stop the screen-cast when we match the kill-sequence.
+  (when (string= screen-cast--history
+                 screen-cast-kill-sequence)
+    (screen-cast-stop)))
+
+
 (defun screen-cast-log-command (&optional cmd)
   "Hook into `pre-command-hook' to intercept all Emacs commands.
 
 CMD: TODO."
   (screen-cast--save-command-environment
-    (setq cmd (or cmd this-command))
-    ;; Quit screen-cast when kill-sequence has been written.
-    (when (string= screen-cast--history-text
-                   screen-cast-kill-sequence)
-      (screen-cast-stop))
+      (setq cmd (or cmd this-command))
+    (screen-cast--check-kill-sequence (key-description (this-command-keys)))
     (when (screen-cast--log-command-p cmd)
       (setq screen-cast-cmd-list
-            (cons (make-screen-cast-command
-                   :time (current-time)
-                   :keys (key-description (this-command-keys))
-                   :command cmd)
-                  screen-cast-cmd-list)))))
+            (nconc screen-cast-cmd-list
+                   (list (make-screen-cast-command
+                          :time (current-time)
+                          :keys (key-description (this-command-keys))
+                          :command (symbol-name cmd))))))))
 
 
 (defun screen-cast-sentinel (process event)
@@ -122,16 +120,12 @@ PROCESS: The process that received EVENT."
   (setq screen-cast-start-time (current-time))
   (setq screen-cast-tmp-dir (make-temp-file "screen-cast-" 'dir))
   (setq screen-cast-cmd-list '())
-  (add-hook 'pre-command-hook 'screen-cast-log-command)
-  (add-hook 'post-command-hook 'screen-cast--zap-history)
   (add-hook 'post-self-insert-hook 'screen-cast--recent-history))
 
 
 (defun screen-cast--tear-down ()
   "Reset all variables and hooks used for the screen-casting."
   (remove-hook 'pre-command-hook 'screen-cast-log-command)
-  (remove-hook 'post-command-hook 'screen-cast--zap-history)
-  (remove-hook 'post-self-insert-hook 'screen-cast--recent-history)
   (delete-directory screen-cast-tmp-dir 'recursive nil))
 
 
