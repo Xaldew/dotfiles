@@ -158,6 +158,9 @@ Output screen-cast GIF is saved to OUTPUT-FILE."
     (interrupt-process screen-cast-process)))
 
 
+(cl-defstruct ffmpeg-sendcmd start end string)
+
+
 (defun screen-cast--ffmpeg-sendcmd-script (output-file start-time cmd-list)
   "Generate a ffmpeg compatible 'sendcmd' script.
 
@@ -165,14 +168,36 @@ OUTPUT-FILE: Name of the file to write to.
 START-TIME: The start-time of the screen cast.
 CMD-LIST: List over the commands to be written as a 'sendcmd' script"
   (with-temp-file output-file
-    (dolist (cmd (nreverse cmd-list))
-      (insert
-       (format "%s %s %s\n"
-               (format-time-string "%-S.%3N"
-                                   (subtract-time (screen-cast-command-time cmd)
-                                                  start-time))
-               (screen-cast-command-keys cmd)
-               (symbol-name (screen-cast-command-command cmd)))))))
+    (let ((cmd-script '())
+          (i 2) ; Skip the first 2 commands.
+          (cmd0 nil)
+          (cmd1 nil)
+          (start 0)
+          (end 0)
+          (string ""))
+      (while (< i (- (length cmd-list) 1))
+        (setq cmd0 (nth i cmd-list))
+        (setq cmd1 (nth (+ i 1) cmd-list))
+        (setq start (subtract-time (screen-cast-command-time cmd0) start-time))
+        (setq end (subtract-time (screen-cast-command-time cmd1) start-time))
+        (setq string (screen-cast-command-command cmd0))
+        (setq cmd-script
+              (nconc cmd-script
+                     (list (make-ffmpeg-sendcmd :start start
+                                                :end end
+                                                :string string))))
+        (cl-incf i))
+
+      (dolist (cmd cmd-script)
+        (let ((time-str
+               (format "%s-%s"
+                       (format-time-string "%-S.%3N" (ffmpeg-sendcmd-start cmd))
+                       (format-time-string "%-S.%3N" (ffmpeg-sendcmd-end cmd)))))
+          (insert
+           (format "%s [enter] drawtext reinit text='%s',\n"
+                   time-str (ffmpeg-sendcmd-string cmd))
+           (format "%s [leave] drawtext reinit text='';\n\n"
+                   (make-string (length time-str) ? ))))))))
 
 
 (provide 'screen-cast)
