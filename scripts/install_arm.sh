@@ -84,8 +84,11 @@ alias bs='bsub -P PJ01433 -q normal -R "rhe6 && os64"'
 alias bissh="ssh lun-login2.lund.arm.com"
 
 
-# Preserve path when entering (fake) sudo.
+# Preserve the PATH variable when entering (local) sudo.
 alias sudo='sudo env PATH=\$PATH'
+
+# Use local python install for Python 3.
+alias python3='python3.5'
 
 
 #### Functions
