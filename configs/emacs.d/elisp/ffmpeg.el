@@ -64,34 +64,38 @@ Returns the asynchronously running ffmpeg process."
 
 INPUT: Name of the input video file to be filtered.
 OUTPUT: Name of the filtered output video file."
-  (let* ((sendcmd-script (make-temp-file "sendcmd-" nil ".txt"))
-        (time-str nil)
-        (filter-opts "drawtext=font=Sans:fontsize=20:fontcolor=white:x=10:y=10:text=''")
-        (ext (file-name-extension input t))
-        (tmp-file (make-temp-file "drawtext" nil ext)))
-    (with-temp-file sendcmd-script
-      (dolist (cmd sendcmd-list)
-        (setq time-str
-              (format "%s-%s"
-                      (format-time-string "%-S.%3N" (ffmpeg-sendcmd-start cmd))
-                      (format-time-string "%-S.%3N" (ffmpeg-sendcmd-end cmd))))
-        (insert
+  (if (null sendcmd-list)
+      (unless (string= input output)
+        (copy-file input output t))
+    (let* ((sendcmd-script (make-temp-file "sendcmd-" nil ".txt"))
+           (time-str nil)
+           (filter-opts "drawtext=font=Sans:fontsize=20:fontcolor=white:x=10:y=10:text=''")
+           (ext (file-name-extension input t))
+           (tmp-file (make-temp-file "drawtext" nil ext)))
+      (with-temp-file sendcmd-script
+        (dolist (cmd sendcmd-list)
+          (setq time-str
+                (format "%s-%s"
+                        (format-time-string "%-S.%3N" (ffmpeg-sendcmd-start cmd))
+                        (format-time-string "%-S.%3N" (ffmpeg-sendcmd-end cmd))))
+          (insert
            (format "%s [enter] drawtext reinit text='%s',\n"
                    time-str (ffmpeg-sendcmd-string cmd))
            (format "%s [leave] drawtext reinit text='';\n\n"
                    (make-string (length time-str) ? )))))
-    (call-process "ffmpeg"
-                  nil
-                  "*ffmpeg*"
-                  nil
-                  "-loglevel" "error"
-                   "-y"
-                   "-i" input
-                   "-filter:v" (format "sendcmd=f=%s,%s"
-                                       sendcmd-script filter-opts)
-                   tmp-file)
-    (copy-file tmp-file output t)
-    (delete-file tmp-file)))
+      (copy-file sendcmd-script "el_script.txt" t)
+      (call-process "ffmpeg"
+                    nil
+                    "*ffmpeg*"
+                    nil
+                    "-loglevel" "error"
+                    "-y"
+                    "-i" input
+                    "-filter:v" (format "sendcmd=f=%s,%s"
+                                        sendcmd-script filter-opts)
+                    tmp-file)
+      (copy-file tmp-file output t)
+      (delete-file tmp-file))))
 
 
 (defun ffmpeg-extend-frame (input output length)
@@ -164,7 +168,7 @@ FINISH-TIME is the desired end time of the OUTPUT video."
                   "-i" input
                   "-filter_complex"
                   (format "[1:v] %s [x]; [x][0:v] paletteuse" filters)
-                  output)))
+                  (file-truename output))))
 
 
 (provide 'ffmpeg)
