@@ -123,9 +123,16 @@ CMD: TODO."
   (let* ((sendcmd-list (screen-cast--drawtext-list screen-cast-start-time
                                                    screen-cast-cmd-list))
          (tmp-dir screen-cast-tmp-dir)
-         (output (concat tmp-dir "out.avi")))
+         (output (concat tmp-dir "out.avi"))
+         (clip-time (float-time (time-subtract screen-cast--finish-time
+                                               screen-cast-start-time))))
+    (copy-file output "cast.avi" t)
+    (ffmpeg-clip-time output output 0.0 (- clip-time 0.1))
+    (copy-file output "clipped.avi" t)
     (ffmpeg-drawtext sendcmd-list output output)
-    ;;(ffmpeg-extend-frame output output 1.0)
+    (copy-file output "cmds.avi" t)
+    (ffmpeg-extend-frame output output 1.0)
+    (copy-file output "extended.avi" t)
     (ffmpeg-create-gif output screen-cast-output)))
 
 
