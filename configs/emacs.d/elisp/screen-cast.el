@@ -139,6 +139,7 @@ Output screen-cast GIF is saved to OUTPUT-FILE."
                                      (make-temp-file "screen-cast-" 'dir))))
   (setq screen-cast-output output-file)
   (setq screen-cast-cmd-list '())
+  (setq screen-cast--history '())
   (cl-destructuring-bind (x y w h) (xcb-rectsel)
     (let* ((output-avi (concat screen-cast-tmp-dir "out.avi"))
            (display (xcb-rectsel-display))
