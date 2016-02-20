@@ -6,6 +6,9 @@
 ;;
 ;;; Code:
 
+(require 'ffmpeg)
+
+
 (defgroup screen-cast nil
   "Group for customizing the screen-casting."
   :group 'tools)
@@ -101,18 +104,23 @@ CMD: TODO."
                           :command (symbol-name cmd))))))))
 
 
+(defun screen-cast--post-process ()
+  "Perform screen-cast post-processing."
+  (let* ((sendcmd-list (screen-cast--drawtext-list screen-cast-start-time
+                                                   screen-cast-cmd-list))
+         (tmp-dir screen-cast-tmp-dir)
+         (output (concat tmp-dir "out.avi")))
+    (ffmpeg-drawtext sendcmd-list output output)
+    ;;(ffmpeg-extend-frame output output 1.0)
+    (ffmpeg-create-gif output screen-cast-output)))
+
+
 (defun screen-cast-sentinel (process event)
   "Process sentinel for the screen-cast.
 
 PROCESS: The process that received EVENT."
-  (cond
-   ((equal event "finished\n")
-    (screen-cast--ffmpeg-sendcmd-script "el_script.txt"
-                                        screen-cast-start-time
-                                        screen-cast-cmd-list)
-    (screen-cast--tear-down))
-   (t
-    (princ (format "Process: %s had the event `%s'" process event)))))
+  (screen-cast--post-process)
+  (screen-cast--tear-down))
 
 
 (defun screen-cast--setup ()
@@ -156,9 +164,6 @@ Output screen-cast GIF is saved to OUTPUT-FILE."
   (interactive)
   (when screen-cast-process
     (interrupt-process screen-cast-process)))
-
-
-(cl-defstruct ffmpeg-sendcmd start end string)
 
 
 (defun screen-cast--ffmpeg-sendcmd-script (output-file start-time cmd-list)
