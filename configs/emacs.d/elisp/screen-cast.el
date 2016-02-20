@@ -7,6 +7,7 @@
 ;;; Code:
 
 (require 'ffmpeg)
+(require 'xcb-rectsel)
 
 
 (defgroup screen-cast nil
@@ -93,15 +94,15 @@ BODY: Forms to be executed."
 
 CMD: TODO."
   (screen-cast--save-command-environment
-      (setq cmd (or cmd this-command))
-    (screen-cast--check-kill-sequence (key-description (this-command-keys)))
-    (when (screen-cast--log-command-p cmd)
-      (setq screen-cast-cmd-list
-            (nconc screen-cast-cmd-list
-                   (list (make-screen-cast-command
-                          :time (current-time)
-                          :keys (key-description (this-command-keys))
-                          :command (symbol-name cmd))))))))
+   (setq cmd (or cmd this-command))
+   (screen-cast--check-kill-sequence (key-description (this-command-keys)))
+   (when (screen-cast--log-command-p cmd)
+     (setq screen-cast-cmd-list
+           (nconc screen-cast-cmd-list
+                  (list (make-screen-cast-command
+                         :time (current-time)
+                         :keys (key-description (this-command-keys))
+                         :command (symbol-name cmd))))))))
 
 
 (defun screen-cast--post-process ()
@@ -123,15 +124,6 @@ PROCESS: The process that received EVENT."
   (screen-cast--tear-down))
 
 
-(defun screen-cast--setup ()
-  "Prepare all variables and hooks for screen-casting."
-  (setq screen-cast-start-time (current-time))
-  (setq screen-cast-tmp-dir (concat (file-name-as-directory
-                                     (make-temp-file "screen-cast-" 'dir))))
-  (setq screen-cast-cmd-list '())
-  (add-hook 'post-self-insert-hook 'screen-cast--recent-history))
-
-
 (defun screen-cast--tear-down ()
   "Reset all variables and hooks used for the screen-casting."
   (remove-hook 'pre-command-hook 'screen-cast-log-command)
@@ -143,20 +135,18 @@ PROCESS: The process that received EVENT."
 
 Output screen-cast GIF is saved to OUTPUT-FILE."
   (interactive "F")
+  (setq screen-cast-tmp-dir (concat (file-name-as-directory
+                                     (make-temp-file "screen-cast-" 'dir))))
   (setq screen-cast-output output-file)
-  (screen-cast--setup)
-  (let* ((output-gif (concat screen-cast-tmp-dir "out.gif"))
-         (process (start-process "screen-cast"
-                                 "*screen-cast*"
-                                 "screen_cast.py"
-                                 "--kill-sequence"
-                                 ""
-                                 "--record-keys"
-                                 "--save-intermediates"
-                                 screen-cast-tmp-dir
-                                 "--output-file" output-gif)))
-    (set-process-sentinel process 'screen-cast-sentinel)
-    (setq screen-cast-process process)))
+  (setq screen-cast-cmd-list '())
+  (cl-destructuring-bind (x y w h) (xcb-rectsel)
+    (let* ((output-avi (concat screen-cast-tmp-dir "out.avi"))
+           (display (xcb-rectsel-display))
+           (process (ffmpeg-screen-grab x y w h display output-avi)))
+      (set-process-sentinel process 'screen-cast-sentinel)
+      (setq screen-cast-process process)
+      (setq screen-cast-start-time (current-time))
+      (add-hook 'pre-command-hook 'screen-cast-log-command))))
 
 
 (defun screen-cast-stop ()
@@ -165,44 +155,36 @@ Output screen-cast GIF is saved to OUTPUT-FILE."
   (when screen-cast-process
     (interrupt-process screen-cast-process)))
 
+(defun screen-cast--drawtext-list (start-time cmd-list)
+  "Generate a ffmpeg compatible 'drawtext' list of 'sendcmd' commands.
 
-(defun screen-cast--ffmpeg-sendcmd-script (output-file start-time cmd-list)
-  "Generate a ffmpeg compatible 'sendcmd' script.
+The list contains a start-time for when a string should be
+displayed on the video and finish time when it should no longer
+be displayed.
 
 OUTPUT-FILE: Name of the file to write to.
 START-TIME: The start-time of the screen cast.
 CMD-LIST: List over the commands to be written as a 'sendcmd' script"
-  (with-temp-file output-file
-    (let ((cmd-script '())
-          (i 2) ; Skip the first 2 commands.
-          (cmd0 nil)
-          (cmd1 nil)
-          (start 0)
-          (end 0)
-          (string ""))
-      (while (< i (- (length cmd-list) 1))
-        (setq cmd0 (nth i cmd-list))
-        (setq cmd1 (nth (+ i 1) cmd-list))
-        (setq start (subtract-time (screen-cast-command-time cmd0) start-time))
-        (setq end (subtract-time (screen-cast-command-time cmd1) start-time))
-        (setq string (screen-cast-command-command cmd0))
-        (setq cmd-script
-              (nconc cmd-script
-                     (list (make-ffmpeg-sendcmd :start start
-                                                :end end
-                                                :string string))))
-        (cl-incf i))
-
-      (dolist (cmd cmd-script)
-        (let ((time-str
-               (format "%s-%s"
-                       (format-time-string "%-S.%3N" (ffmpeg-sendcmd-start cmd))
-                       (format-time-string "%-S.%3N" (ffmpeg-sendcmd-end cmd)))))
-          (insert
-           (format "%s [enter] drawtext reinit text='%s',\n"
-                   time-str (ffmpeg-sendcmd-string cmd))
-           (format "%s [leave] drawtext reinit text='';\n\n"
-                   (make-string (length time-str) ? ))))))))
+  (let ((cmd-script '())
+        (i 0)
+        (cmd0 nil)
+        (cmd1 nil)
+        (start 0)
+        (end 0)
+        (string ""))
+    (while (< i (- (length cmd-list) 1))
+      (setq cmd0 (nth i cmd-list))
+      (setq cmd1 (nth (+ i 1) cmd-list))
+      (setq start (subtract-time (screen-cast-command-time cmd0) start-time))
+      (setq end (subtract-time (screen-cast-command-time cmd1) start-time))
+      (setq string (screen-cast-command-command cmd0))
+      (setq cmd-script
+            (nconc cmd-script
+                   (list (make-ffmpeg-sendcmd :start start
+                                              :end end
+                                              :string string))))
+      (cl-incf i))
+    cmd-script))
 
 
 (provide 'screen-cast)
