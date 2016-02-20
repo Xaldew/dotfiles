@@ -141,6 +141,32 @@ FINISH-TIME is the desired end time of the OUTPUT video."
     (delete-file tmp-file)))
 
 
+(defun ffmpeg-create-gif (input output)
+  "Convert the INPUT video file to the OUTPUT GIF file."
+  (let* ((filters "scale=320:-1:flags=lanczos")
+         (palette (make-temp-file "palette" nil ".png")))
+    (call-process "ffmpeg"
+                  nil
+                  "*ffmpeg*"
+                  nil
+                  "-loglevel" "error"
+                  "-y"
+                  "-i" input
+                  "-filter:v" (format "%s,palettegen" filters)
+                  palette)
+    (call-process "ffmpeg"
+                  nil
+                  "*ffmpeg*"
+                  nil
+                  "-loglevel" "error"
+                  "-y"
+                  "-i" palette
+                  "-i" input
+                  "-filter_complex"
+                  (format "[1:v] %s [x]; [x][0:v] paletteuse" filters)
+                  output)))
+
+
 (provide 'ffmpeg)
 
 ;;; ffmpeg.el ends here
