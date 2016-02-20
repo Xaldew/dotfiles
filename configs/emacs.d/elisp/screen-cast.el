@@ -52,6 +52,10 @@ should be put here.")
 (defvar screen-cast--history nil
   "The most recently written text.")
 
+(defvar screen-cast--finish-time nil
+  "Finish time of the screen-cast.
+Used to truncate video to before the kill-sequence.")
+
 
 (cl-defstruct screen-cast-command time keys command)
 
@@ -73,20 +77,29 @@ BODY: Forms to be executed."
   (null (member cmd screen-cast-cmd-exceptions)))
 
 
+(cl-defstruct screen-cast-key-history key time)
+
+
 (defun screen-cast--check-kill-sequence (key)
   "Add KEY to the seen commands seen so far and check for the kill sequence."
+
   ;; Add the most recent key.
-  (setq screen-cast--history (concat screen-cast--history key))
+  (setq screen-cast--history (nconc screen-cast--history
+                                    (list (make-screen-cast-key-history
+                                           :key key
+                                           :time (current-time)))))
+
   ;; Truncate history once history length exceeds kill-sequence.
   (when (> (length screen-cast--history)
            (length screen-cast-kill-sequence))
-    (setq screen-cast--history
-          (substring screen-cast--history
-                     (- (length screen-cast-kill-sequence)))))
-  ;; Stop the screen-cast when we match the kill-sequence.
-  (when (string= screen-cast--history
+    (pop screen-cast--history))
+
+  ;; Check if the last few keys match the kill-sequence.
+  (when (string= (mapconcat 'screen-cast-key-history-key
+                            screen-cast--history "")
                  screen-cast-kill-sequence)
-    (screen-cast-stop)))
+    (screen-cast-stop (screen-cast-key-history-time
+                       (car screen-cast--history)))))
 
 
 (defun screen-cast-log-command (&optional cmd)
@@ -150,11 +163,15 @@ Output screen-cast GIF is saved to OUTPUT-FILE."
       (add-hook 'pre-command-hook 'screen-cast-log-command))))
 
 
-(defun screen-cast-stop ()
-  "Stop an active screen-cast, if any."
+(defun screen-cast-stop (&optional finish-time)
+  "Stop an active screen-cast, if any and set the FINISH-TIME."
   (interactive)
+  (if finish-time
+      (setq screen-cast--finish-time finish-time)
+    (setq screen-cast--finish-time (current-time)))
   (when screen-cast-process
     (interrupt-process screen-cast-process)))
+
 
 (defun screen-cast--drawtext-list (start-time cmd-list)
   "Generate a ffmpeg compatible 'drawtext' list of 'sendcmd' commands.
