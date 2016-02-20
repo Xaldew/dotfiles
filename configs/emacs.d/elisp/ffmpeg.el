@@ -1,4 +1,4 @@
-;;; ffmpeg.el -- Various utilities for interacting with ffmpeg.
+;;; ffmpeg.el -- Various utilities for interacting with ffmpeg. -*- lexical-binding: t -*-
 ;;
 ;;; Commentary:
 ;; This file provides various functions for interacting with ffmpeg
@@ -10,7 +10,7 @@
 
 (defun ffprobe (file &rest parameters)
   "Probe the input video FILE for the given PARAMETERS."
-  (let (ffprobe param result)
+  (let (ffprobe result)
     (setq ffprobe
           (with-temp-buffer
             (call-process "ffprobe" nil t nil
@@ -80,10 +80,11 @@ OUTPUT: Name of the filtered output video file."
                    time-str (ffmpeg-sendcmd-string cmd))
            (format "%s [leave] drawtext reinit text='';\n\n"
                    (make-string (length time-str) ? )))))
-    (start-process "ffmpeg-drawtext"
-                   "*ffmpeg*"
-                   "ffmpeg"
-                   "-loglevel" "error"
+    (call-process "ffmpeg"
+                  nil
+                  "*ffmpeg*"
+                  nil
+                  "-loglevel" "error"
                    "-y"
                    "-i" input
                    "-filter:v" (format "sendcmd=f=%s,%s"
@@ -98,24 +99,46 @@ OUTPUT: Name of the filtered output video file."
 
 OUTPUT: Name of the output video file.
 LENGTH: The amount of time to add to the duration of the video."
-  (cl-destructuring-bind (w h dur) (ffprobe "width" "heigth" "duration")
+  (cl-destructuring-bind (w h dur) (ffprobe input "width" "height" "duration")
     (let* ((new-duration (+ (string-to-number dur) length))
            (filter-graph (format (concat
-                                  "nullsrc=size=%dx%d:duration%f [null]; "
-                                 "[null[0:v] overlay=eof_action=repeat [out]")
+                                  "nullsrc=size=%dx%d:duration=%f [null]; "
+                                  "[null][0:v] overlay=eof_action=repeat [out]")
                                  w h new-duration))
            (ext (file-name-extension input t))
            (tmp-file (make-temp-file "extend" nil ext)))
-      (start-process "ffmpeg-extend-frame"
-                     "*ffmpeg*"
-                     "ffmpeg"
-                     "-loglevel" "error"
-                     "-y"
-                     "-i" input
-                     "-filter_complex" filter-graph
-                     "-map" "[out]" tmp-file)
+      (call-process "ffmpeg"
+                    nil
+                    "*ffmpeg*"
+                    nil
+                    "-loglevel" "error"
+                    "-y"
+                    "-i" input
+                    "-filter_complex" filter-graph
+                    "-map" "[out]" tmp-file)
       (copy-file tmp-file output t)
       (delete-file tmp-file))))
+
+
+(defun ffmpeg-clip-time (input output start-time finish-time)
+  "Clip the INPUT video file in time and write it to OUTPUT.
+
+START-TIME is the desired start time of the OUTPUT video.
+FINISH-TIME is the desired end time of the OUTPUT video."
+  (let* ((ext (file-name-extension input t))
+         (tmp-file (make-temp-file "clip" nil ext)))
+    (call-process "ffmpeg"
+                  nil
+                  "*ffmpeg*"
+                  nil
+                  "-loglevel" "error"
+                  "-y"
+                  "-i" input
+                  "-ss" (number-to-string start-time)
+                  "-to" (number-to-string finish-time)
+                  tmp-file)
+    (copy-file tmp-file output t)
+    (delete-file tmp-file)))
 
 
 (provide 'ffmpeg)
