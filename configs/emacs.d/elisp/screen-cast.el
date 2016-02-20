@@ -184,7 +184,15 @@ CMD-LIST: List over the commands to be written as a 'sendcmd' script"
                                               :end end
                                               :string string))))
       (cl-incf i))
-    cmd-script))
+    ;; Add the last command and hold last command for a second.
+    (setq cmd-script
+          (nconc cmd-script
+                 (list (make-ffmpeg-sendcmd
+                        :start end
+                        :end (subtract-time (time-add
+                                             (screen-cast-command-time cmd1)
+                                             (number-to-time 1.0)))
+                        :string (scren-cast-command-command cmd1)))))))
 
 
 (provide 'screen-cast)
