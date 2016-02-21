@@ -20,7 +20,7 @@
                           (format "stream=%s"
                                   (mapconcat 'identity parameters ","))
                           "-print_format" "json=compact=1"
-                          file)
+                          (file-truename file))
             (goto-char (point-min))
             (json-read)))
     (dolist (param parameters result)
@@ -53,7 +53,7 @@ Returns the asynchronously running ffmpeg process."
                    "-i" input
                    "-codec:v" "huffyuv"
                    "-filter:v" "crop=iw-mod(iw\\,2):ih-mod(ih\\,2)"
-                   output-file)))
+                   (file-truename output-file))))
 
 
 (cl-defstruct ffmpeg-sendcmd start end string)
@@ -90,10 +90,10 @@ OUTPUT: Name of the filtered output video file."
                     nil
                     "-loglevel" "error"
                     "-y"
-                    "-i" input
+                    "-i" (file-truename input)
                     "-filter:v" (format "sendcmd=f=%s,%s"
                                         sendcmd-script filter-opts)
-                    tmp-file)
+                    (file-truename tmp-file))
       (copy-file tmp-file output t)
       (delete-file tmp-file))))
 
@@ -117,7 +117,7 @@ LENGTH: The amount of time to add to the duration of the video."
                     nil
                     "-loglevel" "error"
                     "-y"
-                    "-i" input
+                    "-i" (file-truename input)
                     "-filter_complex" filter-graph
                     "-map" "[out]" tmp-file)
       (copy-file tmp-file output t)
@@ -137,7 +137,7 @@ FINISH-TIME is the desired end time of the OUTPUT video."
                   nil
                   "-loglevel" "error"
                   "-y"
-                  "-i" input
+                  "-i" (file-truename input)
                   "-ss" (number-to-string start-time)
                   "-to" (number-to-string finish-time)
                   tmp-file)
