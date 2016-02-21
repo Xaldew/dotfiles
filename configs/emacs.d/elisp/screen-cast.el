@@ -120,8 +120,14 @@ CMD: TODO."
 
 (defun screen-cast--post-process ()
   "Perform screen-cast post-processing."
-  (let* ((sendcmd-list (screen-cast--drawtext-list screen-cast-start-time
-                                                   screen-cast-cmd-list))
+  (let* ((cmd-list (screen-cast--drawtext-list screen-cast-start-time
+                                               screen-cast-cmd-list
+                                               'screen-cast-command-time
+                                               'screen-cast-command-command))
+         (key-list (screen-cast--drawtext-list screen-cast-start-time
+                                               screen-cast-cmd-list
+                                               'screen-cast-command-time
+                                               'screen-cast-command-keys))
          (tmp-dir screen-cast-tmp-dir)
          (output (concat tmp-dir "out.avi"))
          (clip-time (float-time (time-subtract screen-cast--finish-time
@@ -180,7 +186,10 @@ Output screen-cast GIF is saved to OUTPUT-FILE."
     (interrupt-process screen-cast-process)))
 
 
-(defun screen-cast--drawtext-list (start-time cmd-list)
+(defun screen-cast--drawtext-list (start-time
+                                   cmd-list
+                                   time-accessor
+                                   string-accessor)
   "Generate a ffmpeg compatible 'drawtext' list of 'sendcmd' commands.
 
 The list contains a start-time for when a string should be
@@ -188,8 +197,14 @@ displayed on the video and finish time when it should no longer
 be displayed.
 
 OUTPUT-FILE: Name of the file to write to.
+
 START-TIME: The start-time of the screen cast.
-CMD-LIST: List over the commands to be written as a 'sendcmd' script"
+
+CMD-LIST: List over the commands to be written as a 'sendcmd' script.
+
+TIME-ACCESSOR: Function used to access the times stored in CMD-LIST.
+
+STRING-ACCESSOR: Function used to access the strings stored in CMD-LIST."
   (let ((cmd-script '())
         (i 0)
         (cmd0 nil)
@@ -200,9 +215,9 @@ CMD-LIST: List over the commands to be written as a 'sendcmd' script"
     (while (< i (- (length cmd-list) 1))
       (setq cmd0 (nth i cmd-list))
       (setq cmd1 (nth (+ i 1) cmd-list))
-      (setq start (subtract-time (screen-cast-command-time cmd0) start-time))
-      (setq end (subtract-time (screen-cast-command-time cmd1) start-time))
-      (setq string (screen-cast-command-command cmd0))
+      (setq start (subtract-time (funcall time-accessor cmd0) start-time))
+      (setq end (subtract-time (funcall time-accessor cmd1) start-time))
+      (setq string (funcall string-accessor cmd0))
       (setq cmd-script
             (nconc cmd-script
                    (list (make-ffmpeg-sendcmd :start start
@@ -215,10 +230,10 @@ CMD-LIST: List over the commands to be written as a 'sendcmd' script"
                  (list (make-ffmpeg-sendcmd
                         :start end
                         :end (subtract-time (time-add
-                                             (screen-cast-command-time cmd1)
+                                             (funcall time-accessor cmd1)
                                              (seconds-to-time 1.0))
                                             start-time)
-                        :string (screen-cast-command-command cmd1)))))))
+                        :string (funcall string-accessor cmd1)))))))
 
 
 (provide 'screen-cast)
