@@ -216,8 +216,9 @@ CMD-LIST: List over the commands to be written as a 'sendcmd' script"
                         :start end
                         :end (subtract-time (time-add
                                              (screen-cast-command-time cmd1)
-                                             (number-to-time 1.0)))
-                        :string (scren-cast-command-command cmd1)))))))
+                                             (seconds-to-time 1.0))
+                                            start-time)
+                        :string (screen-cast-command-command cmd1)))))))
 
 
 (provide 'screen-cast)
