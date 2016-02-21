@@ -171,6 +171,7 @@ LENGTH: The amount of time to add to the duration of the video."
                     "-loglevel" "error"
                     "-y"
                     "-i" (file-truename input)
+                    "-codec:v" "huffyuv"
                     "-filter_complex" filter-graph
                     "-map" "[out]" tmp-file)
       (copy-file tmp-file output t)
@@ -200,16 +201,15 @@ FINISH-TIME is the desired end time of the OUTPUT video."
 
 (defun ffmpeg-create-gif (input output)
   "Convert the INPUT video file to the OUTPUT GIF file."
-  (let* ((filters "scale=320:-1:flags=lanczos")
-         (palette (make-temp-file "palette" nil ".png")))
+  (let ((palette (make-temp-file "palette" nil ".png")))
     (call-process "ffmpeg"
                   nil
                   "*ffmpeg*"
                   nil
                   "-loglevel" "error"
                   "-y"
-                  "-i" input
-                  "-filter:v" (format "%s,palettegen" filters)
+                  "-i" (file-truename input)
+                  "-filter:v" "palettegen"
                   palette)
     (call-process "ffmpeg"
                   nil
@@ -218,9 +218,9 @@ FINISH-TIME is the desired end time of the OUTPUT video."
                   "-loglevel" "error"
                   "-y"
                   "-i" palette
-                  "-i" input
+                  "-i" (file-truename input)
                   "-filter_complex"
-                  (format "[1:v] %s [x]; [x][0:v] paletteuse" filters)
+                  "[1:v][0:v] paletteuse"
                   (file-truename output))))
 
 
