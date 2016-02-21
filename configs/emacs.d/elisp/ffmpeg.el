@@ -137,7 +137,6 @@ to `ffmpeg-drawtext-filter-options'."
                    time-str (ffmpeg-sendcmd-string cmd))
            (format "%s [leave] drawtext reinit text='';\n\n"
                    (make-string (length time-str) ? )))))
-      (copy-file sendcmd-script "el_script.txt" t)
       (call-process "ffmpeg"
                     nil
                     "*ffmpeg*"

@@ -132,15 +132,10 @@ CMD: TODO."
          (output (concat tmp-dir "out.avi"))
          (clip-time (float-time (time-subtract screen-cast--finish-time
                                                screen-cast-start-time))))
-    (copy-file output "cast.avi" t)
     (ffmpeg-clip-time output output 0.0 (- clip-time 0.1))
-    (copy-file output "clipped.avi" t)
     (ffmpeg-drawtext cmd-list output output 16 "white" 0.7 'bottom)
-    (copy-file output "cmds.avi" t)
     (ffmpeg-drawtext key-list output output 18 "white" 0.7 'top-right)
-    (copy-file output "keys.avi" t)
     (ffmpeg-extend-frame output output 1.0)
-    (copy-file output "extended.avi" t)
     (ffmpeg-create-gif output screen-cast-output)))
 
 
