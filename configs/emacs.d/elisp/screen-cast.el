@@ -24,22 +24,22 @@
   :group 'screen-cast
   :type 'boolean)
 
-(defvar screen-cast-tmp-dir nil
+(defvar screen-cast--tmp-dir nil
   "Temporary directory were the current screen cast data is saved.")
 
-(defvar screen-cast-output nil
+(defvar screen-cast--output nil
   "The name of the file output screen-cast file.")
 
-(defvar screen-cast-start-time nil
+(defvar screen-cast--start-time nil
   "The start time of the last screen-cast.")
 
-(defvar screen-cast-cmd-list nil
+(defvar screen-cast--cmd-list nil
   "List of commands and time of their execution since starting the screencast.")
 
-(defvar screen-cast-process nil
+(defvar screen-cast--process nil
   "The currently active screen-cast process.")
 
-(defvar screen-cast-cmd-exceptions
+(defvar screen-cast--cmd-exceptions
   '(nil self-insert-command backward-char forward-char
         delete-char delete-backward-char backward-delete-char
         backward-delete-char-untabify
@@ -79,7 +79,7 @@ BODY: Forms to be executed."
 
 (defun screen-cast--log-command-p (cmd)
   "Determines whether the given command CMD should be logged."
-  (null (member cmd screen-cast-cmd-exceptions)))
+  (null (member cmd screen-cast--cmd-exceptions)))
 
 
 (cl-defstruct screen-cast-key-history key time)
@@ -115,8 +115,8 @@ CMD: TODO."
    (setq cmd (or cmd this-command))
    (screen-cast--check-kill-sequence (key-description (this-command-keys)))
    (when (screen-cast--log-command-p cmd)
-     (setq screen-cast-cmd-list
-           (nconc screen-cast-cmd-list
+     (setq screen-cast--cmd-list
+           (nconc screen-cast--cmd-list
                   (list (make-screen-cast-command
                          :time (current-time)
                          :keys (key-description (this-command-keys))
@@ -125,18 +125,18 @@ CMD: TODO."
 
 (defun screen-cast--post-process ()
   "Perform screen-cast post-processing."
-  (let* ((cmd-list (screen-cast--drawtext-list screen-cast-start-time
-                                               screen-cast-cmd-list
+  (let* ((cmd-list (screen-cast--drawtext-list screen-cast--start-time
+                                               screen-cast--cmd-list
                                                'screen-cast-command-time
                                                'screen-cast-command-command))
-         (key-list (screen-cast--drawtext-list screen-cast-start-time
-                                               screen-cast-cmd-list
+         (key-list (screen-cast--drawtext-list screen-cast--start-time
+                                               screen-cast--cmd-list
                                                'screen-cast-command-time
                                                'screen-cast-command-keys))
-         (tmp-dir screen-cast-tmp-dir)
+         (tmp-dir screen-cast--tmp-dir)
          (output (concat tmp-dir "out.avi"))
          (clip-time (float-time (time-subtract screen-cast--finish-time
-                                               screen-cast-start-time))))
+                                               screen-cast--start-time))))
     (when screen-cast-debug
       (copy-file output "screen-cast0.avi" t))
     (ffmpeg-clip-time output output 0.0 (- clip-time 0.1))
@@ -151,7 +151,7 @@ CMD: TODO."
     (ffmpeg-extend-frame output output 1.0)
     (when screen-cast-debug
       (copy-file output "screen-cast4.avi" t))
-    (ffmpeg-create-gif output screen-cast-output)))
+    (ffmpeg-create-gif output screen-cast--output)))
 
 
 (defun screen-cast-sentinel (process event)
@@ -165,7 +165,7 @@ PROCESS: The process that received EVENT."
 (defun screen-cast--tear-down ()
   "Reset all variables and hooks used for the screen-casting."
   (remove-hook 'pre-command-hook 'screen-cast-log-command)
-  (delete-directory screen-cast-tmp-dir 'recursive nil))
+  (delete-directory screen-cast--tmp-dir 'recursive nil))
 
 
 (defun screen-cast (output-file)
@@ -173,18 +173,18 @@ PROCESS: The process that received EVENT."
 
 Output screen-cast GIF is saved to OUTPUT-FILE."
   (interactive "F")
-  (setq screen-cast-tmp-dir (concat (file-name-as-directory
-                                     (make-temp-file "screen-cast-" 'dir))))
-  (setq screen-cast-output output-file)
-  (setq screen-cast-cmd-list '())
+  (setq screen-cast--tmp-dir (concat (file-name-as-directory
+                                      (make-temp-file "screen-cast-" 'dir))))
+  (setq screen-cast--output output-file)
+  (setq screen-cast--cmd-list '())
   (setq screen-cast--history '())
   (cl-destructuring-bind (x y w h) (xcb-rectsel)
-    (let* ((output-avi (concat screen-cast-tmp-dir "out.avi"))
+    (let* ((output-avi (concat screen-cast--tmp-dir "out.avi"))
            (display (xcb-rectsel-display))
            (process (ffmpeg-screen-grab x y w h display output-avi)))
       (set-process-sentinel process 'screen-cast-sentinel)
-      (setq screen-cast-process process)
-      (setq screen-cast-start-time (current-time))
+      (setq screen-cast--process process)
+      (setq screen-cast--start-time (current-time))
       (add-hook 'pre-command-hook 'screen-cast-log-command))))
 
 
@@ -194,8 +194,8 @@ Output screen-cast GIF is saved to OUTPUT-FILE."
   (if finish-time
       (setq screen-cast--finish-time finish-time)
     (setq screen-cast--finish-time (current-time)))
-  (when screen-cast-process
-    (interrupt-process screen-cast-process)))
+  (when screen-cast--process
+    (interrupt-process screen-cast--process)))
 
 
 (defun screen-cast--drawtext-list (start-time
