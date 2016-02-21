@@ -59,17 +59,71 @@ Returns the asynchronously running ffmpeg process."
 (cl-defstruct ffmpeg-sendcmd start end string)
 
 
-(defun ffmpeg-drawtext (sendcmd-list input output)
+(defun ffmpeg-drawtext-filter-options (font-size font-color font-alpha location)
+  "Compute and return appropriate ffmpeg drawtext filter options.
+
+FONT-SIZE: The size of the font used to draw the text.
+
+FONT-COLOR: Color to use for the font.
+
+FONT-ALPHA: Alpha blending value to use for the text.
+
+LOCATION: The location of where the text should be written.  Can
+be any of the symbols: `top-left', `top', `top-right',
+`bottom-left', `bottom', `bottom-right' or `center'."
+  (let (x y)
+    (cond
+     ((eq location 'top-left)
+      (setq x "5")
+      (setq y "text_h + 5"))
+     ((eq location 'top)
+      (setq x "(w-text_w)/2")
+      (setq y "text_h + 5"))
+     ((eq location 'top-right)
+      (setq x "w - text_w - 5")
+      (setq y "text_h + 5"))
+     ((eq location 'bottom-left)
+      (setq x "5")
+      (setq y "h - text_h - 5"))
+     ((eq location 'bottom)
+      (setq x "(w-text_w)/2")
+      (setq y "h - text_h - 5"))
+     ((eq location 'bottom-right)
+      (setq x "w - text_w - 5")
+      (setq y "h - text_h - 5"))
+     ((eq location 'center)
+      (setq x "(w-text_w)/2")
+      (setq y "(h-text_h)/2 - 5")))
+    (mapconcat 'identity `("drawtext=font=Sans"
+                           ,(format "fontsize=%d" font-size)
+                           ,(format "fontcolor=%s" font-color)
+                           ,(format "alpha=%1.3f" font-alpha)
+                           ,(format "x=%s" x)
+                           ,(format "y=%s" y)
+                           "text=''") ":")))
+
+
+(defun ffmpeg-drawtext (sendcmd-list
+                        input output
+                        font-size font-color
+                        font-alpha font-location)
   "Add the text in SENDCMD-LIST to the INPUT video.
 
 INPUT: Name of the input video file to be filtered.
-OUTPUT: Name of the filtered output video file."
+
+OUTPUT: Name of the filtered output video file.
+
+FONT-SIZE, FONT-COLOR, FONT-ALPHA and FONT-LOCATION are passed on
+to `ffmpeg-drawtext-filter-options'."
   (if (null sendcmd-list)
       (unless (string= input output)
         (copy-file input output t))
     (let* ((sendcmd-script (make-temp-file "sendcmd-" nil ".txt"))
            (time-str nil)
-           (filter-opts "drawtext=font=Sans:fontsize=20:fontcolor=white:x=10:y=10:text=''")
+           (filter-opts (ffmpeg-drawtext-filter-options font-size
+                                                        font-color
+                                                        font-alpha
+                                                        font-location))
            (ext (file-name-extension input t))
            (tmp-file (make-temp-file "drawtext" nil ext)))
       (with-temp-file sendcmd-script

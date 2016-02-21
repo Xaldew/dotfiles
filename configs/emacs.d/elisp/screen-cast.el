@@ -129,7 +129,7 @@ CMD: TODO."
     (copy-file output "cast.avi" t)
     (ffmpeg-clip-time output output 0.0 (- clip-time 0.1))
     (copy-file output "clipped.avi" t)
-    (ffmpeg-drawtext sendcmd-list output output)
+    (ffmpeg-drawtext sendcmd-list output output 16 "white" 0.7 'bottom)
     (copy-file output "cmds.avi" t)
     (ffmpeg-extend-frame output output 1.0)
     (copy-file output "extended.avi" t)
