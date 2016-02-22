@@ -166,6 +166,12 @@ export MPDTI_V2_PROJECT=PJ00640
 export PATH=\$local_prefix_dir/bin:\$PATH
 export PATH=/work/local/bin:\$PATH
 
+# Additional paths for tex-live (2015).
+export PATH=/usr/local/texlive/2015/bin/x86_64-linux
+export INFOPATH=\$INFOPATH:/usr/local/texlive/2015/texmf-dist/doc/info
+export MANPATH=\$MANPATH:/usr/local/texlive/2015/texmf-dist/doc/man
+
+
 # Sets a more 'modern' termcap file for use with emacs, otherwise colors will be
 # messed up. Only needed at work.
 export TERMCAP=\$HOME/.termcap
