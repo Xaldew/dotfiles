@@ -167,7 +167,7 @@ export PATH=\$local_prefix_dir/bin:\$PATH
 export PATH=/work/local/bin:\$PATH
 
 # Additional paths for tex-live (2015).
-export PATH=/usr/local/texlive/2015/bin/x86_64-linux
+export PATH=\$PATH:/usr/local/texlive/2015/bin/x86_64-linux
 export INFOPATH=\$INFOPATH:/usr/local/texlive/2015/texmf-dist/doc/info
 export MANPATH=\$MANPATH:/usr/local/texlive/2015/texmf-dist/doc/man
 
