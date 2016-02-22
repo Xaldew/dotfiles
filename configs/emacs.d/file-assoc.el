@@ -1,4 +1,10 @@
-;; Add mode association for files.
+;;; file-assoc.el --- Miscellaneous file associations.
+;;
+;;; Commentary:
+;; Add mode associations for various file types.
+;;
+;;; Code:
+
 (add-to-list 'auto-mode-alist '("emacs\\'" . emacs-lisp-mode))
 (add-to-list 'auto-mode-alist '("bashrc\\'" . shell-script-mode))
 (add-to-list 'auto-mode-alist '("bash_aliases\\'" . shell-script-mode))
@@ -21,3 +27,8 @@
 ;; Set Scons files to python mode.
 (add-to-list 'auto-mode-alist '("[Ss][Cc]onstruct\\'" . python-mode))
 (add-to-list 'auto-mode-alist '("[Ss][Cc]onscript\\'" . python-mode))
+
+;; Cask files are written in Emacs lisp.
+(add-to-list 'auto-mode-alist '("Cask\\'" . emacs-lisp-mode))
+
+;;; file-assoc.el ends here
