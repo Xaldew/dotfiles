@@ -490,6 +490,14 @@
   ;; Clean up whitespace before sending questions
   (add-hook 'sx-compose-before-send-hook 'delete-trailing-whitespace))
 
+
+(use-package sx-question-mode ; Show Stack
+  :ensure sx
+  :defer t
+  ;; Display questions in the same window
+  :config (setq sx-question-mode-display-buffer-function #'switch-to-buffer))
+
+
 ;; Install various major-mode packages and defer where it is possible.
 (use-package graphviz-dot-mode :ensure t :defer t)
 (use-package glsl-mode         :ensure t :defer t)
