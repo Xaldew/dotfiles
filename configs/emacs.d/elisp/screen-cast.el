@@ -168,6 +168,7 @@ PROCESS: The process that received EVENT."
   (delete-directory screen-cast--tmp-dir 'recursive nil))
 
 
+;;;###autoload
 (defun screen-cast (output-file)
   "Record a screen-cast with Emacs keys and actions recorded.
 
@@ -188,6 +189,7 @@ Output screen-cast GIF is saved to OUTPUT-FILE."
       (add-hook 'pre-command-hook 'screen-cast-log-command))))
 
 
+;;;###autoload
 (defun screen-cast-stop (&optional finish-time)
   "Stop an active screen-cast, if any and set the FINISH-TIME."
   (interactive)
