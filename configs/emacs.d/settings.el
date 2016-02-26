@@ -157,7 +157,7 @@
 
 
 ;; Do not indent with tabs by default anywhere but in Makefiles.
-(setq tab-always-indent 'complete)
+(setq tab-always-indent t)
 (setq-default indent-tabs-mode nil)
 (defun my-makefile-tab-hook ()
   "Indent Makefiles with tabs."
