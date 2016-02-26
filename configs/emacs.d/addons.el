@@ -381,6 +381,10 @@
   (setq TeX-parse-self t)
   (setq reftex-plug-into-AUCTeX t)
 
+  ;; Rename generated local AUCTeX directories.
+  (setq TeX-style-local ".auctex_style")
+  (setq TeX-auto-local ".auctex_auto")
+
   ;; Disable Toolbar if XPM images aren't supported.
   (unless (image-type-available-p 'xpm)
     (setq LaTeX-enable-toolbar nil))
@@ -388,15 +392,14 @@
   (add-hook 'LaTeX-mode-hook 'visual-line-mode)
   (add-hook 'LaTeX-mode-hook 'flyspell-mode)
   (add-hook 'LaTeX-mode-hook 'LaTeX-math-mode)
+  (add-hook 'LaTeX-mode-hook 'prettify-symbols-mode)
 
   (add-hook 'LaTeX-mode-hook 'turn-on-reftex)   ; with AUCTeX LaTeX mode
-  (add-hook 'latex-mode-hook 'turn-on-reftex)   ; with Emacs latex mode
+  (add-hook 'latex-mode-hook 'turn-on-reftex))  ; with Emacs latex mode
 
-  :config
-  (use-package auctex-latexmk :defer t :ensure t)
-  (use-package auto-complete-auctex :defer t :ensure t)
-  (use-package company-auctex :defer t :ensure t))
-
+(use-package auctex-latexmk :defer t :ensure auctex)
+(use-package auto-complete-auctex :defer t :ensure auctex)
+(use-package company-auctex :defer t :ensure auctex)
 
 ;; On Windows without Cygwin, use the ssh agency package for ssh-agents.
 (when (and (not (cygwin-p))
