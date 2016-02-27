@@ -33,6 +33,12 @@ base_url=https://raw.githubusercontent.com/git/git/master/contrib/completion/
 	 --output-document=$local_prefix_dir/bin/git-completion.bash
 ) &
 
+# Install autoenv.
+(
+    url=git://github.com/kennethreitz/autoenv.git
+    git clone --quiet $url $objects_dir/autoenv
+) &
+
 # Install HG prompt.
 if [ ! -d $objects_dir/hg-prompt ]; then
     hg --quiet clone \

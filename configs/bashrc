@@ -77,6 +77,7 @@ source_if $dotfiles_dir/scripts/get_distribution.sh
 source_if $dotfiles_dir/scripts/yank_readline.sh
 source_if $local_prefix_dir/bin/bashmarks.sh
 source_if $local_prefix_dir/bin/git-completion.bash
+source_if $objects_dir/autoenv/activate.sh
 
 
 # Colors for less and man pages.
