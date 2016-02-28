@@ -63,7 +63,7 @@
   :diminish yas-minor-mode
   :commands (yas-global-mode yas-minor-mode)
   :init
-  (add-hook 'after-init-hook 'yas-global-mode)
+  (add-hook 'after-init-hook #'yas-global-mode)
   :config
   ;; Rebind trigger to C-o to avoid stateful behaviors.
   (define-key yas-minor-mode-map (kbd "<tab>") nil)
@@ -85,7 +85,7 @@
                                    tab-mark
                                    trailing)))
   ;; Change whitespace visualization in yasnippets mode.
-  (add-hook 'snippet-mode-hook 'my/snippet-hook))
+  (add-hook 'snippet-mode-hook #'my/snippet-hook))
 
 
 
@@ -93,7 +93,7 @@
   :ensure t
   :commands (auto-complete-mode global-auto-complete-mode)
   :init
-  (add-hook 'emacs-lisp-mode-hook 'auto-complete-mode)
+  (add-hook 'emacs-lisp-mode-hook #'auto-complete-mode)
   :config
   (defun my/ac-setup-hook ()
     "A hook for my global Autocomplete setup."
@@ -112,8 +112,8 @@
   (ac-config-default)
   (global-auto-complete-mode -1)
 
-  (add-hook 'auto-complete-mode-hook 'my/disable-company-hook)
-  (add-hook 'auto-complete-mode-hook 'my/ac-setup-hook)
+  (add-hook 'auto-complete-mode-hook #'my/disable-company-hook)
+  (add-hook 'auto-complete-mode-hook #'my/ac-setup-hook)
 
   (use-package ac-etags                :defer t :ensure t)
   (use-package ac-anaconda             :defer t :ensure t)
@@ -127,7 +127,7 @@
   :diminish (company-mode . "Cp")
   :commands (company-mode global-company-mode)
   :init
-  (add-hook 'after-init-hook 'global-company-mode)
+  (add-hook 'after-init-hook #'global-company-mode)
   :config
   (use-package company-math :defer t :ensure t)
   (use-package company-irony :defer t :ensure t)
@@ -171,7 +171,7 @@
   :ensure t
   :commands flycheck-mode
   :init
-  (add-hook 'prog-mode-hook 'flycheck-mode)
+  (add-hook 'prog-mode-hook #'flycheck-mode)
   :config
   (defun my-flycheck-hook ()
     "Personal hook for per-buffer flycheck settings."
@@ -184,7 +184,7 @@
       (setq flycheck-gcc-language-standard   "c++11")
       (setq flycheck-clang-language-standard "c++11"))))
 
-  (add-hook 'flycheck-mode-hook 'my-flycheck-hook))
+  (add-hook 'flycheck-mode-hook #'my-flycheck-hook))
 
 (use-package flycheck-pos-tip
   :ensure flycheck
@@ -206,7 +206,7 @@
   :ensure t
   :commands turn-on-css-eldoc
   :init
-  (add-hook 'css-mode-hook 'turn-on-css-eldoc))
+  (add-hook 'css-mode-hook #'turn-on-css-eldoc))
 
 
 (use-package rainbow-mode
@@ -214,7 +214,7 @@
   :commands rainbow-mode
   :diminish rainbow-mode
   :init
-  (add-hook 'css-mode-hook 'rainbow-mode))
+  (add-hook 'css-mode-hook #'rainbow-mode))
 
 
 (use-package c-eldoc
@@ -222,8 +222,8 @@
   :commands c-turn-on-eldoc-mode
   :init
   ;; Enable C-eldoc for C/C++.
-  (add-hook 'c-mode-hook   'c-turn-on-eldoc-mode)
-  (add-hook 'c++-mode-hook 'c-turn-on-eldoc-mode))
+  (add-hook 'c-mode-hook   #'c-turn-on-eldoc-mode)
+  (add-hook 'c++-mode-hook #'c-turn-on-eldoc-mode))
 
 
 ;; Add rainbow-delimiter-mode to most programming modes.
@@ -241,9 +241,9 @@
   :commands form-feed-mode
   :diminish form-feed-mode
   :init
-  (add-hook 'emacs-lisp-mode-hook 'form-feed-mode)
-  (add-hook 'help-mode-hook 'form-feed-mode)
-  (add-hook 'compilation-mode-hook 'form-feed-mode))
+  (add-hook 'emacs-lisp-mode-hook #'form-feed-mode)
+  (add-hook 'help-mode-hook #'form-feed-mode)
+  (add-hook 'compilation-mode-hook #'form-feed-mode))
 
 
 ;; Use undo-tree instead of the regular undo-chain.
@@ -301,10 +301,10 @@
   :commands paredit-mode
   :diminish paredit-mode
   :init
-  (add-hook 'emacs-lisp-mode-hook 'paredit-mode)
-  (add-hook 'lisp-mode-hook       'paredit-mode)
-  (add-hook 'scheme-mode-hook     'paredit-mode)
-  (add-hook 'clojure-mode-hook    'paredit-mode))
+  (add-hook 'emacs-lisp-mode-hook #'paredit-mode)
+  (add-hook 'lisp-mode-hook       #'paredit-mode)
+  (add-hook 'scheme-mode-hook     #'paredit-mode)
+  (add-hook 'clojure-mode-hook    #'paredit-mode))
 
 
 ;; Configure Clojure-mode with some additional font-locking.
@@ -339,14 +339,14 @@
   :pin melpa
   :init
   (setq anzu-mode-lighter "")
-  (add-hook 'after-init-hook 'global-anzu-mode))
+  (add-hook 'after-init-hook #'global-anzu-mode))
 
 
 (use-package highlight-indentation
   :ensure t
   :commands highlight-indentation-mode
   :init
-  (add-hook 'python-mode-hook 'highlight-indentation-mode))
+  (add-hook 'python-mode-hook #'highlight-indentation-mode))
 
 
 (use-package anaconda-mode
@@ -355,7 +355,7 @@
   :diminish anaconda-mode
   :commands anaconda-mode
   :init
-  (add-hook 'python-mode-hook 'anaconda-mode))
+  (add-hook 'python-mode-hook #'anaconda-mode))
 
 
 (use-package ssh-config-mode
@@ -389,17 +389,18 @@
   (unless (image-type-available-p 'xpm)
     (setq LaTeX-enable-toolbar nil))
 
-  (add-hook 'LaTeX-mode-hook 'visual-line-mode)
-  (add-hook 'LaTeX-mode-hook 'flyspell-mode)
-  (add-hook 'LaTeX-mode-hook 'LaTeX-math-mode)
-  (add-hook 'LaTeX-mode-hook 'prettify-symbols-mode)
+  (add-hook 'LaTeX-mode-hook #'visual-line-mode)
+  (add-hook 'LaTeX-mode-hook #'flyspell-mode)
+  (add-hook 'LaTeX-mode-hook #'LaTeX-math-mode)
+  (add-hook 'LaTeX-mode-hook #'prettify-symbols-mode)
 
-  (add-hook 'LaTeX-mode-hook 'turn-on-reftex)   ; with AUCTeX LaTeX mode
-  (add-hook 'latex-mode-hook 'turn-on-reftex))  ; with Emacs latex mode
+  (add-hook 'LaTeX-mode-hook #'turn-on-reftex)   ; with AUCTeX LaTeX mode
+  (add-hook 'latex-mode-hook #'turn-on-reftex))  ; with Emacs latex mode
 
-(use-package auctex-latexmk :defer t :ensure auctex)
-(use-package auto-complete-auctex :defer t :ensure auctex)
-(use-package company-auctex :defer t :ensure auctex)
+(use-package auctex-latexmk       :ensure auctex :defer t)
+(use-package auto-complete-auctex :ensure auctex :defer t)
+(use-package company-auctex       :ensure auctex :defer t)
+
 
 ;; On Windows without Cygwin, use the ssh agency package for ssh-agents.
 (when (and (not (cygwin-p))
@@ -473,7 +474,7 @@
   :pin melpa
   :ensure t
   :init
-  (add-hook 'prog-mode-hook 'ggtags-mode))
+  (add-hook 'prog-mode-hook #'ggtags-mode))
 
 
 (use-package sx ; StackExchange client for Emacs
@@ -491,7 +492,7 @@
   (add-hook 'sx-compose-mode-hook #'turn-off-auto-fill)
   (add-hook 'sx-compose-mode-hook #'visual-line-mode)
   ;; Clean up whitespace before sending questions
-  (add-hook 'sx-compose-before-send-hook 'delete-trailing-whitespace))
+  (add-hook 'sx-compose-before-send-hook #'delete-trailing-whitespace))
 
 
 (use-package sx-question-mode ; Show Stack

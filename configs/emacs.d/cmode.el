@@ -87,5 +87,5 @@ we check that first.
 
 
 ;; Add personal c-mode setup function to c-mode-hook.
-(add-hook 'c-mode-hook 'my-c-mode-hook)
-(add-hook 'c-mode-hook 'cwarn-mode)
+(add-hook 'c-mode-hook #'my-c-mode-hook)
+(add-hook 'c-mode-hook #'cwarn-mode)

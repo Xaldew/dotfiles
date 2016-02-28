@@ -4,7 +4,7 @@
 (defun my-cc-init-hook ()
   "Initialization hook for CC-mode runs before any other hooks,
    but only once per Emacs session.")
-(add-hook 'c-initialization-hook 'my-cc-init-hook)
+(add-hook 'c-initialization-hook #'my-cc-init-hook)
 
 
 (defface font-lock-format-specifier-face
@@ -39,7 +39,7 @@
      ;; Add a printf() modifier highlighter.
      ("[^%]\\(%\\([[:digit:]]+\\$\\)?[-+' #0*]*\\([[:digit:]]*\\|\\*\\|\\*[[:digit:]]+\\$\\)\\(\\.\\([[:digit:]]*\\|\\*\\|\\*[[:digit:]]+\\$\\)\\)?\\([hlLjzt]\\|ll\\|hh\\)?\\([aAbdiuoxXDOUfFeEgGcCsSpn]\\|\\[\\^?.[^]]*\\]\\)\\)"
       1 font-lock-format-specifier-face prepend))))
-(add-hook 'c-mode-common-hook 'my-cc-mode-common-hook)
+(add-hook 'c-mode-common-hook #'my-cc-mode-common-hook)
 
 
 ;; Setup the default coding and commenting styles.

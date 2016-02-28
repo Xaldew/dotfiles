@@ -71,8 +71,8 @@
 
 
 ;; Set up spellchecking in text-modes and programming modes.
-(add-hook 'prog-mode-hook 'flyspell-prog-mode)
-(add-hook 'text-mode-hook 'flyspell-mode)
+(add-hook 'prog-mode-hook #'flyspell-prog-mode)
+(add-hook 'text-mode-hook #'flyspell-mode)
 
 
 ;; Activate UTF-8 coding for almost everything.
@@ -151,9 +151,9 @@
 ;; Note that to disable whitespace mode while in a terminal, you must evalute
 ;; M-x global-whatespace-mode _AND_ M-x revert-buffer. A wrapper function in
 ;; `func.el' does this automatically.
-(add-hook 'before-save-hook 'delete-trailing-whitespace)
+(add-hook 'before-save-hook #'delete-trailing-whitespace)
 (setq whitespace-style '(face empty lines-tail trailing))
-(add-hook 'prog-mode-hook 'whitespace-mode)
+(add-hook 'prog-mode-hook #'whitespace-mode)
 
 
 ;; Do not indent with tabs by default anywhere but in Makefiles.
@@ -162,7 +162,7 @@
 (defun my-makefile-tab-hook ()
   "Indent Makefiles with tabs."
   (setq-local indent-tabs-mode t))
-(add-hook 'makefile-mode-hook 'my-makefile-tab-hook)
+(add-hook 'makefile-mode-hook #'my-makefile-tab-hook)
 
 
 ;; Use gdb-many-windows by default and start at the main routine.
@@ -190,21 +190,21 @@ Non-stop mode only stops the current thread."
   (define-key gud-minor-mode-map [f7] 'gud-up)
   (define-key gud-minor-mode-map [f8] 'gud-down)
   (define-key gud-minor-mode-map [f9] 'gdb-many-windows))
-(add-hook 'gud-mode-hook 'my-gud-mode-hook)
-(add-hook 'gud-mode-hook 'gud-tooltip-mode)
+(add-hook 'gud-mode-hook #'my-gud-mode-hook)
+(add-hook 'gud-mode-hook #'gud-tooltip-mode)
 
 (defun my-gdb-parent-mode-hook ()
   "Additional buffer setup for the GDB MI buffers."
   (toggle-truncate-lines 1)
   (whitespace-mode -1)
   (global-whitespace-mode -1))
-(add-hook 'gdb-threads-mode-hook     'my-gdb-parent-mode-hook)
-(add-hook 'gdb-memory-mode-hook      'my-gdb-parent-mode-hook)
-(add-hook 'gdb-disassembly-mode-hook 'my-gdb-parent-mode-hook)
-(add-hook 'gdb-breakpoints-mode-hook 'my-gdb-parent-mode-hook)
-(add-hook 'gdb-frames-mode-hook      'my-gdb-parent-mode-hook)
-(add-hook 'gdb-locals-mode-hook      'my-gdb-parent-mode-hook)
-(add-hook 'gdb-registers-mode-hook   'my-gdb-parent-mode-hook)
+(add-hook 'gdb-threads-mode-hook     #'my-gdb-parent-mode-hook)
+(add-hook 'gdb-memory-mode-hook      #'my-gdb-parent-mode-hook)
+(add-hook 'gdb-disassembly-mode-hook #'my-gdb-parent-mode-hook)
+(add-hook 'gdb-breakpoints-mode-hook #'my-gdb-parent-mode-hook)
+(add-hook 'gdb-frames-mode-hook      #'my-gdb-parent-mode-hook)
+(add-hook 'gdb-locals-mode-hook      #'my-gdb-parent-mode-hook)
+(add-hook 'gdb-registers-mode-hook   #'my-gdb-parent-mode-hook)
 
 
 (defun my-help-mode-hook ()

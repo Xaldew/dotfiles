@@ -11,4 +11,4 @@
 				 trailing
 				 indentation
 				 indentation::space)))
-(add-hook 'python-mode-hook 'my/python-mode-hook)
+(add-hook 'python-mode-hook #'my/python-mode-hook)
