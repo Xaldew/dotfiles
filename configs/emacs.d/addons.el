@@ -156,7 +156,7 @@
 ;; Add C-c h as toggle command for hide/show-comments.
 (use-package hide-comnt
   :ensure t
-  :bind ("C-c h" . hide/show-comments-toggle))
+  :bind ("C-c c h" . hide/show-comments-toggle))
 
 
 ;; Change tab width for coffee-mode.
