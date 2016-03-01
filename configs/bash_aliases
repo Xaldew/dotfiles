@@ -153,6 +153,7 @@ source_if()
     done
 }
 
+
 swap-caps()
 {
     # Swap between a Vim friendly Caps == ESC and Emacs Caps == ctrl layout.
@@ -161,10 +162,18 @@ swap-caps()
     current=`setxkbmap -query | awk '$1 ~ /^options/ { print $2 }'`
     if [ "$current" = "ctrl:nocaps" ]; then
         setxkbmap -option ''
-        setxkbmap -option caps:escape
+        setxkbmap -option 'caps:escape' \
+                  -option 'grp:sclk_toggle' \
+                  -option 'grp:rctrl_rshift_toggle' \
+                  -option 'grp_led:scroll' \
+                  -layout se,us
     elif [ "$current" = "caps:escape" ]; then
         setxkbmap -option ''
-        setxkbmap -option ctrl:nocaps
+        setxkbmap -option 'ctrl:nocaps' \
+                  -option 'grp:sclk_toggle' \
+                  -option 'grp:rctrl_rshift_toggle' \
+                  -option 'grp_led:scroll' \
+                  -layout se,us
     else
         printf "WARN: Unknown XKB option: %s\n" $current
     fi

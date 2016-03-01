@@ -1,8 +1,8 @@
 [Desktop Entry]
 Name=Caps-to-Ctrl
-GenericName=Remaps deprecated capslock key.
+GenericName=Remaps the deprecated capslock key to something useful.
 Comment=Remaps the caps-lock key to a second control key
-Exec=/usr/bin/setxkbmap -option 'ctrl:nocaps'
+Exec=/usr/bin/setxkbmap -option 'ctrl:nocaps' -option 'grp:sclk_toggle' -option 'grp:rctrl_rshift_toggle' -option 'grp_led:scroll' -layout se,us
 Terminal=false
 Type=Application
 Categories=Settings;
