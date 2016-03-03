@@ -179,6 +179,23 @@ swap-caps()
     fi
 }
 
+mktmpfs()
+{
+    # Create a temporary file system in the given folder.
+    path=${1-tmpfs}
+    size=${2-512m}
+    if [ -d "$path" ]; then
+        if [ "`ls -A $path`" ]; then
+            printf "Error: Non-empty directory: %s.\n" $path
+        else
+            sudo mount --types tmpfs --options size=$size,mode=777 $path
+        fi
+    else
+        mkdir --parents $path
+        sudo mount --types tmpfs --options size=$size,mode=777 $path
+    fi
+}
+
 
 function dls ()
 {
