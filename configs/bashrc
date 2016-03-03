@@ -61,14 +61,31 @@ fi
 
 
 # Change bash-history settings.
-HISTSIZE=1000
-HISTFILESIZE=2000
+HISTSIZE=10000
+HISTFILESIZE=20000
 
 # Append to the history file; don't overwrite it.
 shopt -s histappend
+shopt -s cmdhist
 
 # Avoid duplicates and erase if found.
-export HISTCONTROL=ignoredups:erasedups
+export HISTCONTROL=erasedups:ignoreboth
+
+# Don't record some commands
+export HISTIGNORE="&:[ ]*:exit:ls:bg:fg:history:clear"
+
+# Useful timestamp format
+HISTTIMEFORMAT='%F %T '
+
+
+# Define where cd looks for targets.
+CDPATH="."
+
+shopt -s autocd        # Prepend cd to directory names automatically.
+shopt -s dirspell      # Correct spelling errors during tab-completion.
+shopt -s cdspell       # Correct spelling errors in arguments supplied to cd.
+shopt -s cdable_vars   # Move to a directory saved in a environment variable.
+
 
 # Add useful bash specific shell-functions.
 source_if $dotfiles_dir/scripts/setup_terminal_colors.sh
