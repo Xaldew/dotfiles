@@ -342,6 +342,12 @@
   (add-hook 'after-init-hook #'global-anzu-mode))
 
 
+(use-package pyvenv
+  :ensure t
+  :init
+  (add-hook 'python-mode-hook #'pyvenv-mode))
+
+
 (use-package highlight-indentation
   :ensure t
   :commands highlight-indentation-mode
