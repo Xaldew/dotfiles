@@ -19,6 +19,7 @@ desktop.ini	     # Windows desktop variables.
 
 # Ignore certain configuration files.
 .emacs.d/
+.dir-locals.el
 
 # Ignore C/C++ binaries.
 *.out
