@@ -511,6 +511,14 @@
   :config (setq sx-question-mode-display-buffer-function #'switch-to-buffer))
 
 
+(use-package browse-kill-ring
+  :ensure t
+  :defer t
+  :bind ("C-c x k" . browse-kill-ring)
+  :config
+  (setq browse-kill-ring-highlight-current-entry t))
+
+
 ;; Install various major-mode packages and defer where it is possible.
 (use-package graphviz-dot-mode :ensure t :defer t)
 (use-package glsl-mode         :ensure t :defer t)
