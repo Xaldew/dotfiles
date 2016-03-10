@@ -31,7 +31,6 @@ git checkout -B emacs-25 origin/emacs-25
 sh autogen.sh
 ./configure --prefix=$local_prefix_dir \
 	    --mandir=$local_prefix_dir/share/man \
-            --enable-link-time-optimization \
             $conf
 make -j4
 make install
