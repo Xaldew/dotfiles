@@ -175,7 +175,6 @@
   :config
   (defun my-flycheck-hook ()
     "Personal hook for per-buffer flycheck settings."
-    (flycheck-pos-tip-mode)
     (cond
      ((eq major-mode 'c-mode)
       (setq flycheck-gcc-language-standard   "c11")
@@ -188,14 +187,18 @@
 
 (use-package flycheck-pos-tip
   :ensure flycheck
+  :init
+  (unless (fboundp 'x-hide-tip)
+    (defalias 'x-hide-tip 'ignore))
+  (add-hook 'flycheck-mode-hook #'flycheck-pos-tip-mode)
   :config
   (defun my-flycheck-popup (errors)
     "Display the ERRORS in the old popup-el interface inside terminals."
-    (let ((message (mapconcat #'flycheck-error-format-message-and-id
-                              errors "\n\n")))
+    (let ((message (mapconcat
+                    #'flycheck-error-format-message-and-id
+                    errors
+                    "\n\n")))
       (popup-tip message)))
-  (unless (fboundp 'x-hide-tip)
-    (defalias 'x-hide-tip 'ignore))
   (setq flycheck-pos-tip-display-errors-tty-function 'my-flycheck-popup))
 
 (use-package flycheck-irony :ensure flycheck)
