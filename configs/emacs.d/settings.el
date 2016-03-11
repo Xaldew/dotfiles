@@ -116,6 +116,8 @@
 (setq mouse-wheel-progressive-speed nil)
 (setq mouse-wheel-follow-mouse 't)
 (setq scroll-step 1)
+(setq scroll-margin 3)
+(setq hscroll-margin 2)
 (setq scroll-conservatively 10000)
 
 ;; Show the matching parenthesis.
