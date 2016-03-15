@@ -267,4 +267,12 @@ function to call."
         ((= ch ?b) (org-switchb prefix))))
 (global-set-key (kbd "C-c o") 'my-start-org-mode)
 
+
+;; GNUS settings.
+(setq gnus-home-directory (expand-file-name "gnus/" user-emacs-directory)
+      gnus-init-file	  (expand-file-name "gnus.el" user-emacs-directory)
+      gnus-directory      (expand-file-name "news/" gnus-home-directory)
+      message-directory	  (expand-file-name "mail/" gnus-home-directory))
+
+
 ;;; settings.el ends here
