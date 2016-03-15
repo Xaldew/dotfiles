@@ -1,10 +1,19 @@
+;;; init.el -- Personal Emacs config toplevel.
+;;
+;;; Commentary:
+;; My personal toplevel Emacs configuration file.  This should be the first file
+;; to be loaded by Emacs.
+;;
+;;; Code:
+
 ;; Prefer the newer files when loading.
 (setq load-prefer-newer t)
 
 (defun load-user-file (file)
-  "Load a file in current user's configuration directory."
+  "Load FILE from the current user's Emacs configuration directory."
   (interactive "f")
   (load (expand-file-name file user-emacs-directory)))
+
 
 ;; Add `~/.emacs.d/elisp' to the initial load path.
 (add-to-list 'load-path (expand-file-name "~/.emacs.d/elisp"))
@@ -52,3 +61,5 @@
 
 ;; Load external addons if possible.
 (load-user-file "addons")
+
+;;; init.el ends here
