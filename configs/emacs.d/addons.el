@@ -521,9 +521,13 @@
 
 (use-package mmm-mode
   :ensure t
+  :defer t
   :init
   (add-hook 'python-mode-hook 'mmm-mode)
+  (add-hook 'markdown-mode-hook 'mmm-mode)
   :config
+
+  ;; Add python + rst major mode configuration.
   (defun rst-python-statement-is-docstring (begin)
     "Return true if beginning of statement is BEGIN."
     (save-excursion
@@ -551,7 +555,32 @@
       :insert ((?d embdocstring nil @ "u\"\"\"" @ _ @ "\"\"\"" @))
       :delimiter-mode nil)))
 
-  (mmm-add-mode-ext-class 'python-mode nil 'rst-python-docstrings))
+  (mmm-add-mode-ext-class 'python-mode nil 'rst-python-docstrings)
+
+
+  ;; Add markdown + 'any' major-mode configuration.
+  (defun my-mmm-markdown-auto-class (lang &optional submode)
+    "Define a mmm-mode class for LANG in `markdown-mode' using SUBMODE.
+ If SUBMODE is not provided, use `LANG-mode' by default."
+    (let ((class (intern (concat "markdown-" lang)))
+          (submode (or submode (intern (concat lang "-mode"))))
+          (front (concat "^```" lang "[\n\r]+"))
+          (back "^```"))
+      (mmm-add-classes (list (list class
+                                   :submode submode
+                                   :front front
+                                   :back back)))
+      (mmm-add-mode-ext-class 'markdown-mode nil class)))
+
+  ;; Add mmm-classes for modes with the same name and major-mode variable.
+  (mapc 'my-mmm-markdown-auto-class
+        '("awk" "bibtex" "c" "cpp" "css" "html" "latex" "lisp" "makefile"
+          "markdown" "python" "r" "ruby" "sql" "stata" "xml"))
+
+  ;; Add mmm-classes for modes with different name and major-mode variable.
+  (my-mmm-markdown-auto-class "fortran" 'f90-mode)
+  (my-mmm-markdown-auto-class "perl" 'cperl-mode)
+  (my-mmm-markdown-auto-class "shell" 'shell-script-mode))
 
 
 ;; Install various major-mode packages and defer where it is possible.
