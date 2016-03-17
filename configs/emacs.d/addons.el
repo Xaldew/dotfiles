@@ -522,6 +522,7 @@
 (use-package mmm-mode
   :ensure t
   :defer t
+  :commands mmm-mode
   :init
   (add-hook 'python-mode-hook 'mmm-mode)
   (add-hook 'markdown-mode-hook 'mmm-mode)
