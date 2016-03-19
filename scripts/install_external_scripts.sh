@@ -36,7 +36,12 @@ base_url=https://raw.githubusercontent.com/git/git/master/contrib/completion/
 # Install autoenv.
 (
     url=git://github.com/kennethreitz/autoenv.git
-    git clone --quiet $url $objects_dir/autoenv
+    if [ ! -d $objects_dir/autoenv ]; then
+        git clone --quiet $url $objects_dir/autoenv
+    else
+        cd $objects_dir/autoenv
+        git pull
+    fi
 ) &
 
 # Install HG prompt.
