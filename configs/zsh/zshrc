@@ -51,10 +51,9 @@ autoload -U colors && colors
 # make less more friendly for non-text input files, see lesspipe(1)
 [ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
 
-# Import alias definitions.
-if [ -f ~/.bash_aliases ]; then
-    source ~/.bash_aliases
-fi
+# Source common definitions and utilities.
+if [ -f "$dotfiles_dir/config/common.sh" ]; then
+    . "$dotfiles_dir/config/common.sh"
 fi
 
 # Set XDG_CONFIG_HOME variable if not set.
