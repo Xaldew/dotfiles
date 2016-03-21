@@ -94,6 +94,6 @@ fi
 
 # Install Emacs Cask.
 if ! command -v cask >/dev/null 2>&1; then
-    git clone https://github.com/cask/cask.git $objects_dir/cask
+    git clone --quiet https://github.com/cask/cask.git $objects_dir/cask
     $objects_dir/cask/bin/cask upgrade-cask
 fi
