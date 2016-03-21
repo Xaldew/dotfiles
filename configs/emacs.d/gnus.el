@@ -5,11 +5,14 @@
 ;;
 ;;; Code:
 
+(require 'gnus)
+
 (setq gnus-select-method
       '(nnimap "gmail"
 	       (nnimap-address "imap.gmail.com")
 	       (nnimap-server-port "imaps")
-	       (nnimap-stream ssl)))
+	       (nnimap-stream ssl)
+               (nnir-search-engine imap)))
 
 (add-to-list 'gnus-secondary-select-methods
              '(nnimap "ARM"
