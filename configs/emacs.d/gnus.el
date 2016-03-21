@@ -18,6 +18,8 @@
                       (nnimap-stream tls)
                       (nnir-search-engine imap)))
 
+(add-to-list 'gnus-secondary-select-methods '(nntp "news.gwene.org"))
+
 (setq smtpmail-smtp-service 587
       gnus-ignored-newsgroups "^to\\.\\|^[0-9. ]+\\( \\|$\\)\\|^[\"]\"[#'()]")
 
