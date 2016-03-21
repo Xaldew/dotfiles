@@ -55,9 +55,6 @@ autoload -U colors && colors
 if [ -f ~/.bash_aliases ]; then
     source ~/.bash_aliases
 fi
-
-if [ -f "${HOME}/.profile" ]; then
-    source ${HOME}/.profile
 fi
 
 # Set XDG_CONFIG_HOME variable if not set.

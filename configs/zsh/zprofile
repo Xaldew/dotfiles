@@ -46,3 +46,8 @@ TMPPREFIX="${TMPDIR%/}/zsh"
 if [[ ! -d "$TMPPREFIX" ]]; then
     mkdir -p "$TMPPREFIX"
 fi
+
+# Source .profile for additional settings and PATH changes.
+if [ -f "${HOME}/.profile" ]; then
+    source ${HOME}/.profile
+fi
