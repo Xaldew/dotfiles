@@ -31,10 +31,14 @@
 
 (setq gnus-posting-styles
       '((".*"
-         (signature "Written at home from %s." (emacs-version))
+         (signature (format "Written at home from %s."
+                            (replace-regexp-in-string "\n" "" (emacs-version))))
          (name "Gustaf Waldemarson")
+         (address "gustaf.waldemarson@gmail.com")
          ("X-Message-SMTP-Method" "smtp smtp.gmail.com 587")
-         ;; (x-face-file "~/.xface")
+         (X-Face (concat
+                  " \"c-YF%wh2UV[&70j\\TQ\"|I$N2MV5Bl9M#-'b8LY\"Uj&MdHG{>XlY$75f|39nWaV0Hct7_<F"
+                  " @ph<915nhG[R:lgWJf\"`rhaUXTJ?D$.y[u%<[(q*fl`PR0I;hx!sfbm}Q={Hk0O3M4u\\7b\\"))
          ;; (x-url (getenv "WWW_HOME"))
          )
         ((my-posting-from-work-p) ;; A user defined function
