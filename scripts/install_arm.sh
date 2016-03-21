@@ -183,4 +183,9 @@ source $dotfiles_dir/scripts/prompt.sh
 export LC_ALL=
 export LANG=en_US.utf8
 export LANGUAGE=en_US.utf8
+
+# Undo GNU global tags configuration - requires pygments.
+unset GTAGSCONF
+unset GTAGSLABEL
+
 EOF
