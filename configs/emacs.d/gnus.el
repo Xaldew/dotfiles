@@ -6,6 +6,7 @@
 ;;; Code:
 
 (require 'gnus)
+(require 'ffmpeg)
 
 (setq gnus-select-method
       '(nnimap "gmail"
@@ -26,27 +27,56 @@
 (setq smtpmail-smtp-service 587
       gnus-ignored-newsgroups "^to\\.\\|^[0-9. ]+\\( \\|$\\)\\|^[\"]\"[#'()]")
 
+
 ;; Always display nnimap mails in topic view.
 (add-hook 'gnus-group-mode-hook 'gnus-topic-mode)
+
 
 (defun my-posting-from-work-p ()
   "Check if we are posting this GNUS message at work."
   (or (string-match-p "e[0-9]\\{6\\}-lin" (system-name))
       (string= (user-login-name) "guswal01")))
 
+
+(when (and (not (executable-find "compface"))
+           (executable-find "ffmpeg"))
+  (print "Got ffmpeg but not compface."))
+
+
+(setq gnus-x-face
+      (concat
+       " \"c-YF%wh2UV[&70j\\TQ\"|I$N2MV5Bl9M#-'b8LY\"Uj&MdHG{>XlY$75f|39nWaV0Hct7_<F"
+       " @ph<915nhG[R:lgWJf\"`rhaUXTJ?D$.y[u%<[(q*fl`PR0I;hx!sfbm}Q={Hk0O3M4u\\7b\\"))
+
+
+(defun my-x-face ()
+  "Retrieve a random X-Face or a fallback if none are available."
+  (let* ((dir gnus-x-face-directory)
+         (files (if (file-directory-p dir)
+                    (directory-files dir t ".xbm")
+                  '()))
+         (rnd-file (if files
+                       (nth (random (length files)) files)
+                     '()))
+         (x-face (if rnd-file
+                     (ffmpeg-create-x-face rnd-file)
+                   "")))
+    (if (not (string= "" x-face))
+        x-face
+      gnus-x-face)))
+
+
 (setq gnus-posting-styles
       '((".*"
          (name "Gustaf Waldemarson")
          (address "gustaf.waldemarson@gmail.com")
          ("X-Message-SMTP-Method" "smtp smtp.gmail.com 587")
-         (X-Face (concat
-                  " \"c-YF%wh2UV[&70j\\TQ\"|I$N2MV5Bl9M#-'b8LY\"Uj&MdHG{>XlY$75f|39nWaV0Hct7_<F"
-                  " @ph<915nhG[R:lgWJf\"`rhaUXTJ?D$.y[u%<[(q*fl`PR0I;hx!sfbm}Q={Hk0O3M4u\\7b\\"))
+         (X-Face (my-x-face))
          (signature (format "Written at home from %s."
                             (replace-regexp-in-string "\n" "" (emacs-version))))
          ;; (x-url (getenv "WWW_HOME"))
          )
-        ((my-posting-from-work-p) ;; A user defined function
+        ((my-posting-from-work-p)
          (address "gustaf.waldemarson@arm.com")
          ("X-Message-SMTP-Method" "smtp smtp.office365.com 587")
          (signature (format "Written at work from %s."
