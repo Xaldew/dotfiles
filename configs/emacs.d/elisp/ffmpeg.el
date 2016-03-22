@@ -224,6 +224,24 @@ FINISH-TIME is the desired end time of the OUTPUT video."
                   (file-truename output))))
 
 
+(defun ffmpeg-create-x-face (input)
+  "Generate a valid X-Face string from the INPUT file."
+  (replace-regexp-in-string
+   "[^[:print:]]" ""
+   (with-temp-buffer
+     (call-process "ffmpeg"
+                   nil
+                   t
+                   nil
+                   "-loglevel" "error"
+                   "-i" (file-truename input)
+                   "-filter:v" "scale=48x48"
+                   "-codec:v" "xface"
+                   "-f" "rawvideo"
+                   "pipe:1")
+     (buffer-string))))
+
+
 (provide 'ffmpeg)
 
 ;;; ffmpeg.el ends here
