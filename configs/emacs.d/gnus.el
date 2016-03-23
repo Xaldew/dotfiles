@@ -84,6 +84,10 @@
          (organization "ARM Ltd."))))
 
 
+;; Always sort threads by most recent date.
+(setq gnus-thread-sort-functions #'gnus-thread-sort-by-most-recent-date)
+
+
 (when window-system
   (setq gnus-sum-thread-tree-indent "  ")
   (setq gnus-sum-thread-tree-root "● ")
