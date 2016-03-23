@@ -225,7 +225,14 @@ FINISH-TIME is the desired end time of the OUTPUT video."
 
 
 (defun ffmpeg-create-x-face (input)
-  "Generate a valid X-Face string from the INPUT file."
+  "Generate a valid X-Face string from the INPUT file.
+
+Note that the INPUT file must be on an image format that `ffmpeg' supports.
+Recommended formats are:
+* jpeg
+* png
+* pam, ppm, pgm, pbm
+* xbm"
   (replace-regexp-in-string
    "[^[:print:]]" ""
    (with-temp-buffer
@@ -240,6 +247,27 @@ FINISH-TIME is the desired end time of the OUTPUT video."
                    "-f" "rawvideo"
                    "pipe:1")
      (buffer-string))))
+
+
+(defun ffmpeg-x-face-to-pbm (x-face)
+  "Use ffmpeg to generate a valid binary `pbm' image from a X-FACE string."
+  (with-temp-buffer
+    (insert x-face)
+    (call-process-region (point-min)
+                         (point-max)
+                         "ffmpeg"
+                         t
+                         t
+                         nil
+                         "-loglevel" "error"
+                         "-codec:v0" "xface"
+                         "-f" "rawvideo"
+                         "-s:v0" "48x48"
+                         "-i" "pipe:0"
+                         "-codec:v1" "pbm"
+                         "-f" "rawvideo"
+                         "pipe:1")
+    (buffer-string)))
 
 
 (provide 'ffmpeg)
