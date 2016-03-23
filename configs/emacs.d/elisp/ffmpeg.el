@@ -253,20 +253,23 @@ Recommended formats are:
   "Use ffmpeg to generate a valid binary `pbm' image from a X-FACE string."
   (with-temp-buffer
     (insert x-face)
-    (call-process-region (point-min)
-                         (point-max)
-                         "ffmpeg"
-                         t
-                         t
-                         nil
-                         "-loglevel" "error"
-                         "-codec:v0" "xface"
-                         "-f" "rawvideo"
-                         "-s:v0" "48x48"
-                         "-i" "pipe:0"
-                         "-codec:v1" "pbm"
-                         "-f" "rawvideo"
-                         "pipe:1")
+    (set-buffer-multibyte nil)   ; Image must be in unibyte format.
+    (let ((coding-system-for-read 'raw-text)
+          (coding-system-for-write 'binary))
+      (call-process-region (point-min)
+                           (point-max)
+                           "ffmpeg"
+                           'delete
+                           t
+                           nil
+                           "-loglevel" "error"
+                           "-codec:v0" "xface"
+                           "-f" "rawvideo"
+                           "-s:v0" "48x48"
+                           "-i" "pipe:0"
+                           "-codec:v1" "pbm"
+                           "-f" "rawvideo"
+                           "pipe:1"))
     (buffer-string)))
 
 
