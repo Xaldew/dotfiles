@@ -40,7 +40,8 @@
 
 (when (and (not (executable-find "compface"))
            (executable-find "ffmpeg"))
-  (print "Got ffmpeg but not compface."))
+  (setq gnus-treat-display-x-face 'head)
+  (advice-add 'uncompface :override #'ffmpeg-x-face-to-pbm))
 
 
 (setq gnus-x-face
