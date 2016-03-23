@@ -44,10 +44,10 @@
   (advice-add 'uncompface :override #'ffmpeg-x-face-to-pbm))
 
 
-(setq gnus-x-face
-      (concat
-       " \"c-YF%wh2UV[&70j\\TQ\"|I$N2MV5Bl9M#-'b8LY\"Uj&MdHG{>XlY$75f|39nWaV0Hct7_<F"
-       " @ph<915nhG[R:lgWJf\"`rhaUXTJ?D$.y[u%<[(q*fl`PR0I;hx!sfbm}Q={Hk0O3M4u\\7b\\"))
+(defvar my-gnus-x-face
+  (concat
+   " \"c-YF%wh2UV[&70j\\TQ\"|I$N2MV5Bl9M#-'b8LY\"Uj&MdHG{>XlY$75f|39nWaV0Hct7_<F"
+   " @ph<915nhG[R:lgWJf\"`rhaUXTJ?D$.y[u%<[(q*fl`PR0I;hx!sfbm}Q={Hk0O3M4u\\7b\\"))
 
 
 (defun my-x-face ()
