@@ -39,10 +39,35 @@
       (string= (user-login-name) "guswal01")))
 
 
-(when (and (not (executable-find "compface"))
-           (executable-find "ffmpeg"))
-  (setq gnus-treat-display-x-face 'head)
-  (advice-add 'uncompface :override #'ffmpeg-x-face-to-pbm))
+(defun my-terminal-x-face (x-face)
+  "Insert a display of the X-FACE in the mail header."
+  (end-of-line)
+  (insert "\n")
+  (insert
+   (with-temp-buffer
+     (insert x-face)
+     (call-process-region (point-min)
+                          (point-max)
+                          "unicode_x_face.py"
+                          'delete
+                          t
+                          nil)
+     (goto-char (point-min))
+     (while (not (eobp))
+       (insert "X-Face-Display: ")
+       (beginning-of-line 2))
+     (goto-char (point-max))
+     (delete-char -1)
+     (buffer-string))))
+
+
+(setq gnus-treat-display-x-face 'head)
+(if (display-graphic-p)
+    (when (and (not (executable-find "compface"))
+               (executable-find "ffmpeg"))
+      (advice-add 'uncompface :override #'ffmpeg-x-face-to-pbm))
+  (when (executable-find "unicode_x_face.py")
+    (setq gnus-article-x-face-command 'my-terminal-x-face)))
 
 
 (defvar my-gnus-x-face
