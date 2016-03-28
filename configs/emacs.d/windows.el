@@ -29,6 +29,11 @@ PATH-LIST indicates that the path is list of semicolon separated unix paths."
   (setq visible-bell t)
   (setq ring-bell-function 'ignore))
 
+(when (and (cygwin-p)
+           (not (display-graphic-p)))
+  ;; Add proper scrolling for Emacs under Cygwin.
+  (global-set-key (kbd "<mouse-4>") (lambda () (interactive) (scroll-down 1)))
+  (global-set-key (kbd "<mouse-5>") (lambda () (interactive) (scroll-up 1))))
 
 (when (and (not (cygwin-p)) (windows-os-p))
   ;; Setup dictionary for using Hunspell with Flyspell-mode.
