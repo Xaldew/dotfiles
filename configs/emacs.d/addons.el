@@ -88,7 +88,6 @@
   (add-hook 'snippet-mode-hook #'my/snippet-hook))
 
 
-
 (use-package auto-complete
   :ensure t
   :commands (auto-complete-mode global-auto-complete-mode)
@@ -517,6 +516,12 @@
   :bind ("C-c x k" . browse-kill-ring)
   :config
   (setq browse-kill-ring-highlight-current-entry t))
+
+
+(use-package iedit
+  :ensure t
+  :defer t
+  :bind ("C-c x i" . iedit-mode))
 
 
 (use-package mmm-mode
