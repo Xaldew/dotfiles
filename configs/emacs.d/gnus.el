@@ -67,12 +67,28 @@
       gnus-x-face)))
 
 
+(defun my-face ()
+  "Retrieve a random Face if they are available."
+  (let* ((dir gnus-face-directory)
+         (files (if (file-directory-p dir)
+                    (directory-files dir t "[^.]")
+                  '()))
+         (rnd-file (if files
+                       (nth (random (length files)) files)
+                     '()))
+         (face (if rnd-file
+                   (gnus-face-from-file rnd-file)
+                 "")))
+    face))
+
+
 (setq gnus-posting-styles
       '((".*"
          (name "Gustaf Waldemarson")
          (address "gustaf.waldemarson@gmail.com")
          ("X-Message-SMTP-Method" "smtp smtp.gmail.com 587")
          (X-Face (my-x-face))
+         (Face (my-face))
          (signature (format "Written at home from %s."
                             (replace-regexp-in-string "\n" "" (emacs-version))))
          ;; (x-url (getenv "WWW_HOME"))
