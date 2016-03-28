@@ -6,6 +6,7 @@
 ;;; Code:
 
 (require 'gnus)
+(require 'gnus-fun)
 (require 'ffmpeg)
 
 (setq gnus-select-method
@@ -105,7 +106,7 @@
 (setq gnus-thread-sort-functions #'gnus-thread-sort-by-most-recent-date)
 
 
-(when window-system
+(when (display-graphic-p)
   (setq gnus-sum-thread-tree-indent "  ")
   (setq gnus-sum-thread-tree-root "● ")
   (setq gnus-sum-thread-tree-false-root "◯ ")
@@ -126,5 +127,6 @@
        "%1{%B%}"
        "%s\n"))
 (setq gnus-summary-display-arrow t)
+
 
 ;;; gnus.el ends here
