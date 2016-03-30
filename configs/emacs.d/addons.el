@@ -589,6 +589,14 @@
   (my-mmm-markdown-auto-class "shell" 'shell-script-mode))
 
 
+(use-package powerline
+  :ensure t
+  :defer t
+  :if (display-graphic-p)
+  :init
+  (powerline-center-theme))
+
+
 ;; Install various major-mode packages and defer where it is possible.
 (use-package graphviz-dot-mode :ensure t :defer t)
 (use-package glsl-mode         :ensure t :defer t)
