@@ -9,12 +9,14 @@
 (require 'gnus-fun)
 (require 'ffmpeg)
 
-(setq gnus-select-method
-      '(nnimap "gmail"
-	       (nnimap-address "imap.gmail.com")
-	       (nnimap-server-port "imaps")
-	       (nnimap-stream ssl)
-               (nnir-search-engine imap)))
+(setq gnus-select-method '(nnml "Default"))
+
+(add-to-list 'gnus-secondary-select-methods
+             '(nnimap "gmail"
+                      (nnimap-address "imap.gmail.com")
+                      (nnimap-server-port "imaps")
+                      (nnimap-stream ssl)
+                      (nnir-search-engine imap)))
 
 (add-to-list 'gnus-secondary-select-methods
              '(nnimap "ARM"
@@ -24,6 +26,7 @@
                       (nnir-search-engine imap)))
 
 (add-to-list 'gnus-secondary-select-methods '(nntp "news.gwene.org"))
+
 
 (setq smtpmail-smtp-service 587
       gnus-ignored-newsgroups "^to\\.\\|^[0-9. ]+\\( \\|$\\)\\|^[\"]\"[#'()]")
@@ -73,7 +76,8 @@
 (defvar my-gnus-x-face
   (concat
    " \"c-YF%wh2UV[&70j\\TQ\"|I$N2MV5Bl9M#-'b8LY\"Uj&MdHG{>XlY$75f|39nWaV0Hct7_<F"
-   " @ph<915nhG[R:lgWJf\"`rhaUXTJ?D$.y[u%<[(q*fl`PR0I;hx!sfbm}Q={Hk0O3M4u\\7b\\"))
+   " @ph<915nhG[R:lgWJf\"`rhaUXTJ?D$.y[u%<[(q*fl`PR0I;hx!sfbm}Q={Hk0O3M4u\\7b\\")
+  "Fallback to use when no other X-Face or Face are available.")
 
 
 (defun my-x-face ()
@@ -90,7 +94,7 @@
                    "")))
     (if (not (string= "" x-face))
         x-face
-      gnus-x-face)))
+      my-gnus-x-face)))
 
 
 (defun my-face ()
