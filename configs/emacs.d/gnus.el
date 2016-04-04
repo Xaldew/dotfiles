@@ -70,7 +70,7 @@
                (executable-find "ffmpeg"))
       (advice-add 'uncompface :override #'ffmpeg-x-face-to-pbm))
   (when (executable-find "unicode_x_face.py")
-    (setq gnus-article-x-face-command 'my-terminal-x-face)))
+    (setq gnus-article-x-face-command #'my-terminal-x-face)))
 
 
 (defvar my-gnus-x-face
