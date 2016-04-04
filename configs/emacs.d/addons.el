@@ -597,6 +597,19 @@
   (powerline-center-theme))
 
 
+(use-package gnus-desktop-notify
+  :ensure t
+  :defer t
+  :after alert
+  :init
+  (add-hook 'gnus-startup-hook #'gnus-desktop-notify-mode)
+  (add-hook 'gnus-startup-hook #'gnus-demon-add-scanmail))
+
+
+(use-package alert
+  :ensure t
+  :defer t)
+
 ;; Install various major-mode packages and defer where it is possible.
 (use-package graphviz-dot-mode :ensure t :defer t)
 (use-package glsl-mode         :ensure t :defer t)
