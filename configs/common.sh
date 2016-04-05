@@ -284,6 +284,13 @@ git-dl()
 }
 
 
+grep-find()
+{
+    # Grep for things from files found by find.
+    find . -type f -exec grep --color -nH -e $1 {} +
+}
+
+
 ## Emacs and emacsclient aliases and utility functions.
 
 # Terminal Emacsclient.
