@@ -610,6 +610,14 @@
   :ensure t
   :defer t)
 
+
+(use-package beacon
+  :ensure t
+  :defer t
+  :init
+  (beacon-mode 1))
+
+
 ;; Install various major-mode packages and defer where it is possible.
 (use-package graphviz-dot-mode :ensure t :defer t)
 (use-package glsl-mode         :ensure t :defer t)
