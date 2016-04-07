@@ -1,15 +1,15 @@
 #!/usr/bin/env sh
-# Install the latest development relase of GNU global (gtags).
+# Install a specific release of GNU global (gtags).
 
 # DEB: sudo apt-get bison flex gperf
 
 
 cd $objects_dir
 if [ ! -d $objects_dir/global ]; then
-    url="ftp://ftp.gnu.org/pub/gnu/global/global-6.5.1.tar.gz"
+    url="ftp://ftp.gnu.org/pub/gnu/global/global-6.5.4.tar.gz"
     file=`basename $url`
     wget --quiet $url --output-document=$file
-    tar -zxf $file --transform='s/-6.5.1//g'
+    tar -zxf $file --transform='s/-6.5.4//g'
     rm $file
 fi
 
