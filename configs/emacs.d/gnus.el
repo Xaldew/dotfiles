@@ -134,6 +134,9 @@
 ;; Always sort threads by most recent date.
 (setq gnus-thread-sort-functions #'gnus-thread-sort-by-most-recent-date)
 
+;; Always cache articles.
+(setq gnus-use-cache t)
+
 
 (when (display-graphic-p)
   (setq gnus-sum-thread-tree-indent "  ")
@@ -147,9 +150,9 @@
 (setq gnus-summary-line-format
       (concat
        "%0{%U%R%z%}"
-       "%3{│%}" "%1{%&user-date;%}" "%3{│%}"  ; Date
+       "%3{│%}" "%1{%-17,17&user-date;%}" "%3{│%}"  ; Date
        "  "
-       "%4{%-20,20f%}"                        ; Name
+       "%4{%-20,20f%}"                              ; Name
        "  "
        "%3{│%}"
        " "
