@@ -614,7 +614,15 @@
 
 (use-package alert
   :ensure t
-  :defer t)
+  :defer t
+  :init
+  (cond
+   ((eq system-type 'gnu/linux)
+    (setq alert-default-style 'notifications))
+   ((or (windows-os-p))
+    (setq alert-default-style 'toaster))
+   (t
+    (setq alert-default-style 'mode-line))))
 
 
 (use-package beacon
