@@ -280,4 +280,8 @@ function to call."
 (setq ediff-window-setup-function #'ediff-setup-windows-plain)
 
 
+;; Simple HTML Renderer - Fix bright backgrounds.
+(setq shr-color-visible-luminance-min 70)
+
+
 ;;; settings.el ends here
