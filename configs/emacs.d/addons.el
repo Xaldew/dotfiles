@@ -589,12 +589,18 @@
   (my-mmm-markdown-auto-class "shell" 'shell-script-mode))
 
 
-(use-package powerline
+(use-package smart-mode-line
   :ensure t
   :defer t
-  :if (display-graphic-p)
   :init
-  (powerline-center-theme))
+  (setq sml/theme 'dark)
+  (sml/setup))
+
+
+(use-package smart-mode-line-powerline-theme
+  :ensure t
+  :defer t
+  :after (powerline smart-mode-line))
 
 
 (use-package gnus-desktop-notify
