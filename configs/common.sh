@@ -418,7 +418,7 @@ alias g++-defines="g++ -dM -E - < /dev/null"
 
 alias latexmk="latexmk -pdf"
 
-alias valgrind="valgrind --track-origins=yes --leak-check=full"
+alias valgrind="valgrind --track-origins=yes --leak-check=full --show-reachable=yes"
 alias helgrind="\valgrind --tool=helgrind"
 alias qemu-arm="qemu-arm -L /usr/arm-linux-gnueabihf"
 
