@@ -604,8 +604,12 @@
   :defer t
   :after alert
   :init
+  (defun my/gnus-notifications ()
+    "Personal function for setting appropriate mail scanning times."
+    (gnus-demon-add-handler 'gnus-demon-scan-news 5 2)
+    (gnus-demon-add-handler 'gnus-demon-scan-mail 5 2))
   (add-hook 'gnus-startup-hook #'gnus-desktop-notify-mode)
-  (add-hook 'gnus-startup-hook #'gnus-demon-add-scanmail))
+  (add-hook 'gnus-startup-hook #'my/gnus-demons))
 
 
 (use-package alert
