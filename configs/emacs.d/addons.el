@@ -185,7 +185,9 @@
   (add-hook 'flycheck-mode-hook #'my-flycheck-hook))
 
 (use-package flycheck-pos-tip
-  :ensure flycheck
+  :ensure t
+  :defer t
+  :after flycheck
   :init
   (unless (fboundp 'x-hide-tip)
     (defalias 'x-hide-tip 'ignore))
@@ -200,7 +202,7 @@
       (popup-tip message)))
   (setq flycheck-pos-tip-display-errors-tty-function 'my-flycheck-popup))
 
-(use-package flycheck-irony :ensure flycheck)
+(use-package flycheck-irony :ensure t :defer t :after flycheck)
 
 
 ;; Add CSS-eldoc to the css-hook.
@@ -597,12 +599,6 @@
   (sml/setup))
 
 
-(use-package smart-mode-line-powerline-theme
-  :ensure t
-  :defer t
-  :after (powerline smart-mode-line))
-
-
 (use-package gnus-desktop-notify
   :ensure t
   :defer t
@@ -627,6 +623,7 @@
 
 (use-package beacon
   :ensure t
+  :pin melpa
   :defer t
   :init
   (beacon-mode 1))
