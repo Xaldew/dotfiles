@@ -82,34 +82,25 @@
 
 (defun my-x-face ()
   "Retrieve a random X-Face or a fallback if none are available."
-  (let* ((dir gnus-x-face-directory)
-         (files (if (file-directory-p dir)
-                    (directory-files dir t ".xbm")
-                  '()))
-         (rnd-file (if files
-                       (nth (random (length files)) files)
-                     '()))
-         (x-face (if rnd-file
-                     (ffmpeg-create-x-face rnd-file)
-                   "")))
-    (if (not (string= "" x-face))
-        x-face
+  (let ((dir gnus-x-face-directory)
+        (files nil))
+    (if (and (file-directory-p dir)
+             (setq files (directory-files dir t ".xbm")))
+        (ffmpeg-create-x-face (nth (random (length files)) files))
       my-gnus-x-face)))
+
+
+(defun my-get-face-files ()
+  "Retrieve Face images if they are available in `gnus-face-directory'."
+  (let ((dir gnus-face-directory))
+    (and (file-directory-p dir)
+         (directory-files dir t "[^.]"))))
 
 
 (defun my-face ()
   "Retrieve a random Face if they are available."
-  (let* ((dir gnus-face-directory)
-         (files (if (file-directory-p dir)
-                    (directory-files dir t "[^.]")
-                  '()))
-         (rnd-file (if files
-                       (nth (random (length files)) files)
-                     '()))
-         (face (if rnd-file
-                   (gnus-face-from-file rnd-file)
-                 "")))
-    face))
+  (let ((files (my-get-face-files)))
+    (and files (gnus-face-from-file (nth (random (length files) files))))))
 
 
 (setq gnus-posting-styles
