@@ -635,7 +635,48 @@
 
 (use-package hydra
   :ensure t
-  :defer t) ;; TODO: Add hydras.
+  :defer t
+  :config
+  (defhydra hydra-rectangle (:body-pre (rectangle-mark-mode 1)
+                                       :color pink
+                                       :post (deactivate-mark))
+    "
+  ^_k_^    _e_: Exchange  _c_: Copy    _o_:  Open        _si_: String Insert   _U_: Upcase
+_h_   _l_  _r_: Reset     _p_: Paste   _C_:  Clear       _sr_: String Replace  _D_: Downcase
+  ^_j_^    _u_: Undo      _d_: Delete  _n_:  Number      _RR_: Register Read
+^^^^       ^ ^            _y_: Yank    _w_:  Whitespace  _RI_: Register Insert
+^^^^       ^ ^            ^ ^          ^ ^               ^  ^
+"
+    ("h" rectangle-backward-char nil)
+    ("l" rectangle-forward-char nil)
+    ("k" rectangle-previous-line nil)
+    ("j" rectangle-next-line nil)
+
+    ("e" rectangle-exchange-point-and-mark nil)
+    ("r" (if (region-active-p) (deactivate-mark) (rectangle-mark-mode 1)) nil)
+    ("C-x SPC" (if (region-active-p) (deactivate-mark) (rectangle-mark-mode 1)) nil)
+    ("u" undo nil)
+
+    ("c" copy-rectangle-as-kill nil)
+    ("p" kill-rectangle nil)
+    ("d" delete-rectangle nil)
+    ("y" yank-rectangle nil)
+
+    ("o" open-rectangle nil)
+    ("C" clear-rectangle nil)
+    ("n" rectangle-number-lines nil)
+    ("w" delete-whitespace-rectangle nil)
+
+    ("si" string-insert-rectangle nil)
+    ("sr" string-rectangle nil)
+    ("RR" copy-rectangle-to-register nil)
+    ("RI" insert-register nil)
+
+    ("U" upcase-rectangle nil)
+    ("D" downcase-rectangle nil)
+
+    ("q" nil "Quit"))
+  (global-set-key (kbd "C-x SPC") 'hydra-rectangle/body))
 
 
 ;; Install various major-mode packages and defer where it is possible.
