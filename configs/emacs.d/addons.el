@@ -770,10 +770,15 @@ _h_   _l_  _r_: Reset     _p_: Paste   _C_:  Clear       _sr_: String Replace  _
 
 
 ;; Add various themes.
-(use-package aurora-theme   :defer t :ensure t)
-(use-package zenburn-theme  :defer t :ensure t)
-(use-package niflheim-theme :defer t :ensure t)
-(use-package sublime-themes :defer t :ensure t)
+(use-package aurora-theme    :defer t :ensure t)
+(use-package zenburn-theme   :defer t :ensure t)
+(use-package niflheim-theme  :defer t :ensure t)
+(use-package sublime-themes  :defer t :ensure t)
+(use-package solarized-theme :defer t :ensure t)
+(use-package color-theme-approximate
+  :ensure t
+  :init
+  (add-hook 'after-init-hook #'color-theme-approximate-on))
 
 ;; Install miscellaneous packages.
 (use-package evil :functions (evil-ace-jump-exit-recursive-edit) :defer t :ensure t)
