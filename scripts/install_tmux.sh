@@ -18,8 +18,7 @@ if [ ! -d $objects_dir/libevent ]; then
     sh autogen.sh
     ./configure \
 	--prefix=$local_prefix_dir \
-	--mandir=$local_prefix_dir/share/man \
-	--disable-shared
+	--mandir=$local_prefix_dir/share/man
     make -j8 install
     rm -r $tmp
 fi
@@ -33,11 +32,11 @@ fi
 
 cd $objects_dir/tmux
 sh autogen.sh
-LIBEVENT_CFLAGS="-I${local_prefix_dir}/include" \
-               LIBEVENT_LIBS="-L${local_prefix_dir}/lib -levent" \
+
+env LIBEVENT_CFLAGS="-I${local_prefix_dir}/include" \
+    LIBEVENT_LIBS="-L${local_prefix_dir}/lib -levent" \
     ./configure \
     --prefix=$local_prefix_dir \
-    --mandir=$local_prefix_dir/share/man \
-    --enable-static
+    --mandir=$local_prefix_dir/share/man
 make -j4
 make install
