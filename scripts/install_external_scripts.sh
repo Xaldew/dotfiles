@@ -45,7 +45,7 @@ base_url=https://raw.githubusercontent.com/git/git/master/contrib/completion/
 ) &
 
 # Install HG prompt.
-if [ ! -d $objects_dir/hg-prompt ]; then
+if command -v hg > /dev/null 2>&1 && [ ! -d $objects_dir/hg-prompt ]; then
     hg --quiet clone \
        http://bitbucket.org/sjl/hg-prompt $objects_dir/hg-prompt
 fi
