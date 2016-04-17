@@ -334,7 +334,14 @@
   :config
   (use-package emms-player-mpv :ensure t :pin melpa)
   (emms-all)
-  (emms-default-players))
+  (emms-default-players)
+  ;; Add midi formats to VLC-player
+  (emms-player-set
+   emms-player-vlc
+   'regex
+   (concat "\\`\\(http[s]?\\|mms\\)://\\|"
+           (apply #'emms-player-simple-regexp
+                  `("mid" "midi" ,@emms-player-base-format-list)))))
 
 
 (use-package anzu
