@@ -731,19 +731,33 @@ _h_   _l_  _r_: Reset     _p_: Paste   _C_: Clear       _sr_: String Replace    
   :config
   ;; y is not used by default
   (defhydra hydra-gnus-summary (:color blue)
-    "Do?"
-    ("n" gnus-summary-insert-new-articles "Refresh / N")
-    ("f" gnus-summary-mail-forward "Forward C-c C-f")
-    ("!" gnus-summary-tick-article-forward "Mail -> disk !")
-    ("p" gnus-summary-put-mark-as-read "Mail <- disk")
-    ("c" gnus-summary-catchup-and-exit "Read all c")
-    ("e" gnus-summary-resend-message-edit "Resend S D e")
-    ("R" gnus-summary-reply-with-original "Reply with original R")
-    ("r" gnus-summary-reply "Reply r")
-    ("W" gnus-summary-wide-reply-with-original "Reply all with original S W")
-    ("w" gnus-summary-wide-reply "Reply all S w")
-    ("#" gnus-topic-mark-topic "mark #")
-    ("q" nil "cancel"))
+    "
+Sending/Replying^^             ^Mark^                     ^Actions^
+----------------------------------------------------------------
+_r_: Reply                     _!_: Pin mail              _g_: Refresh
+_R_: Reply with original       _p_: Mark as read          _q_: Quit
+_w_: Wide reply                _u_: Unread mail
+_W_: Wide reply with original  _mc_: Read all
+_f_: Forward                   _mp_: Mark processable
+_e_: Resend                    _mu_: Unmark processable
+
+"
+    ("r" gnus-summary-reply "r")
+    ("R" gnus-summary-reply-with-original "R")
+    ("w" gnus-summary-wide-reply "S w")
+    ("W" gnus-summary-wide-reply-with-original "S W")
+    ("f" gnus-summary-mail-forward "C-c C-f")
+    ("e" gnus-summary-resend-message-edit "S D e")
+
+    ("!" gnus-summary-tick-article-forward "!")
+    ("p" gnus-summary-mark-as-read-forward "d")
+    ("u" gnus-summary-clear-mark-forward "M c")
+    ("mc" gnus-summary-catchup "M C")
+    ("mp" gnus-summary-mark-processable "#")
+    ("mu" gnus-summary-unmark-as-processable "M-#")
+
+    ("g" gnus-summary-insert-new-articles "/ N")
+    ("q" nil "Quit"))
   (define-key gnus-summary-mode-map "y" 'hydra-gnus-summary/body))
 
 
