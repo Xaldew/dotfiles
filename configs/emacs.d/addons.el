@@ -625,13 +625,18 @@
   :ensure t
   :defer t
   :init
-  (cond
-   ((eq system-type 'gnu/linux)
-    (setq alert-default-style 'notifications))
-   ((or (windows-os-p))
-    (setq alert-default-style 'toaster))
-   (t
-    (setq alert-default-style 'mode-line))))
+  (setq alert-default-style
+        (cond
+         ((executable-find "notify-send")
+          'libnotify)
+         ((eq system-type 'gnu/linux)
+          'notifications)
+         ((executable-find "growlnotify")
+          'growl)
+         ((executable-find "toaster")
+          'toaster)
+         (t
+          'mode-line))))
 
 
 (use-package beacon
