@@ -642,6 +642,7 @@
 
 (use-package hydra
   :ensure t
+  :pin melpa
   :defer t
   :config
   (defhydra hydra-rectangle (:body-pre (rectangle-mark-mode 1)
