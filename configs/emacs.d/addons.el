@@ -750,6 +750,7 @@ _h_   _l_  _r_: Reset     _p_: Paste   _C_:  Clear       _sr_: String Replace  _
 
 
 ;; Install various major-mode packages and defer where it is possible.
+(use-package abc-mode          :ensure t :defer t)
 (use-package graphviz-dot-mode :ensure t :defer t)
 (use-package glsl-mode         :ensure t :defer t)
 (use-package cmake-mode        :ensure t :defer t)
@@ -764,9 +765,8 @@ _h_   _l_  _r_: Reset     _p_: Paste   _C_:  Clear       _sr_: String Replace  _
 (use-package opencl-mode       :ensure t :defer t)
 (use-package rust-mode         :ensure t :defer t)
 (use-package flycheck-rust     :ensure t :defer t)
-
-(use-package powershell :ensure t)
-;;(use-package ahk-mode   :ensure t)
+(use-package powershell :ensure t :defer t)
+(use-package ahk-mode   :ensure t :defer t)
 
 
 ;; Add various themes.
