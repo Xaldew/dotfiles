@@ -63,6 +63,7 @@
   :diminish yas-minor-mode
   :commands (yas-global-mode yas-minor-mode)
   :init
+  (setq yas-verbosity 1)
   (add-hook 'after-init-hook #'yas-global-mode)
   :config
   ;; Rebind trigger to C-o to avoid stateful behaviors.
