@@ -656,11 +656,11 @@
                                        :color pink
                                        :post (deactivate-mark))
     "
-  ^_k_^    _e_: Exchange  _c_: Copy    _o_:  Open        _si_: String Insert   _U_: Upcase
-_h_   _l_  _r_: Reset     _p_: Paste   _C_:  Clear       _sr_: String Replace  _D_: Downcase
-  ^_j_^    _u_: Undo      _d_: Delete  _n_:  Number      _RR_: Register Read
-^^^^       ^ ^            _y_: Yank    _w_:  Whitespace  _RI_: Register Insert
-^^^^       ^ ^            ^ ^          ^ ^               ^  ^
+  ^_k_^    _e_: Exchange  _c_: Copy    _o_: Open        _si_: String Insert     _U_: Upcase
+_h_   _l_  _r_: Reset     _p_: Paste   _C_: Clear       _sr_: String Replace    _D_: Downcase
+  ^_j_^    _u_: Undo      _d_: Delete  _n_: Number      _RR_: Register Read
+^^^^       ^ ^            _y_: Yank    _w_: Whitespace  _RI_: Register Insert
+^^^^       ^ ^            ^ ^          ^ ^              ^  ^
 "
     ("h" rectangle-backward-char nil)
     ("l" rectangle-forward-char nil)
