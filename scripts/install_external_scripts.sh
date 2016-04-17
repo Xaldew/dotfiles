@@ -51,7 +51,7 @@ if command -v hg > /dev/null 2>&1 && [ ! -d $objects_dir/hg-prompt ]; then
 fi
 
 # Download and install GDB STL beautifiers.
-if [ ! -d $objects_dir/gdb_addons ]; then
+if command -v svn >/dev/null 2>&1 && [ ! -d $objects_dir/gdb_addons ]; then
     mkdir --parents $objects_dir/gdb_addons
     if [ ! -d $objects_dir/gdb_python_stl ]; then
 	svn co svn://gcc.gnu.org/svn/gcc/trunk/libstdc++-v3/python \
@@ -74,7 +74,8 @@ if [ ! -x $local_prefix_dir/bin/lein ]; then
 fi
 
 # Install LanguageTool for spell- and grammarchecking.
-if [ ! -d $local_prefix_dir/bin/languagetool ]; then
+if command -v java >/dev/null 2>&1 && \
+       [ ! -d $local_prefix_dir/bin/languagetool ]; then
     dest=$local_prefix_dir/bin/languagetool
     mkdir --parents $dest
     tmpdir=$(mktemp --directory)
@@ -93,7 +94,7 @@ if [ ! -d $local_prefix_dir/bin/languagetool ]; then
 fi
 
 # Install Emacs Cask.
-if ! command -v cask >/dev/null 2>&1; then
+if ! command -v cask >/dev/null 2>&1 && command -v emacs >/dev/null 2>&1; then
     git clone --quiet https://github.com/cask/cask.git $objects_dir/cask
     $objects_dir/cask/bin/cask upgrade-cask
 fi
