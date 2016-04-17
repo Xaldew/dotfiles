@@ -637,7 +637,7 @@
   :pin melpa
   :defer t
   :init
-  (beacon-mode 1))
+  (add-hook 'emacs-startup-hook #'beacon-mode))
 
 
 (use-package hydra
