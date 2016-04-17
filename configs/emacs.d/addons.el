@@ -604,7 +604,8 @@
   :defer t
   :init
   (setq sml/theme 'dark)
-  (sml/setup))
+  ;; `sml/setup' must be called manually the first time for the Emacs server.
+  (add-hook 'emacs-startup-hook #'sml/setup))
 
 
 (use-package gnus-desktop-notify
