@@ -652,6 +652,73 @@
   :pin melpa
   :defer t
   :config
+  (defhydra hydra-dired (:color pink)
+    "
+Opening^^          ^Marking^                    ^Point/Mark Actions^
+--------------------------------------------------------------------------------
+_e_: Open file     _m_: Mark          _A_: Search  _P_: Print      _M_: Chmod
+_f_: Open file     _u_: Unmark        _C_: Copy    _R_: Rename     _O_: Chown
+_o_: Display file  _t_: Toggle marks  _D_: Delete  _S_: Symlink    _X_: Shell
+_v_: View file     _U_: Unmark all    _G_: Chgrp   _H_: Hardlink   _c_: Compress
+
+
+New/Delete^^          ^Navigate^            ^Views^            ^Addons^
+--------------------------------------------------------------------------------
+_+_: New directory    _nu_: Go up directory  _g_: Refresh       _wd_: Wdired on
+_d_: Delete mark       _j_: Goto file        _s_: Sort files    _Ti_: Image-dired
+_x_: Execute delete    _i_: Insert subdir   _hd_: Hide details  _Tv_: View Image
+_._: Clean directory   ^ ^                  _ha_: Hide all
+
+"
+    ("k" dired-prev-line nil)
+    ("j" dired-next-line nil)
+
+    ("e" dired-find-file nil)
+    ("f" dired-find-file nil)
+    ("o" dired-display-file nil)
+    ("v" dired-view-file nil)
+
+    ("m" dired-mark nil)
+    ("u" dired-unmark nil)
+    ("t" dired-toggle-marks nil)
+    ("U" dired-unmark-all-marks nil)
+
+    ("A" dired-do-find-regexp nil)
+    ("C" dired-do-copy nil)
+    ("D" dired-do-delete nil)
+    ("G" dired-do-chgrp nil)
+
+    ("P" dired-do-print nil)
+    ("R" dired-do-rename nil)
+    ("S" dired-do-symlink nil)
+    ("H" dired-do-hardlink nil)
+
+    ("M" dired-do-chmod nil)
+    ("O" dired-do-chown nil)
+    ("X" dired-do-shell-command nil)
+    ("c" dired-do-compress nil)
+
+    ("+" dired-create-directory nil)
+    ("d" dired-flag-file-deletion nil)
+    ("x" dired-do-flagged-delete nil)
+    ("." dired-clean-directory nil)
+
+    ("nu" dired-up-directory nil)
+    ("j" dired-goto-file nil)
+    ("i" dired-maybe-insert-subdir nil)
+
+    ("g" revert-buffer nil)
+    ("hd" dired-hide-details-mode nil)
+    ("ha" dired-hide-all nil)
+    ("s" dired-sort-toggle-or-edit nil)
+
+    ("wd" wdired-change-to-wdired-mode nil :head blue :exit t)
+    ("Ti" image-dired-dired-toggle-marked-thumbs nil)
+    ("Tv" image-dired-dired-display-external nil)
+
+    ("q" nil "Quit"))
+  (define-key dired-mode-map [remap dired-summary] 'hydra-dired/body)
+
   (defhydra hydra-rectangle (:body-pre (rectangle-mark-mode 1)
                                        :color pink
                                        :post (deactivate-mark))
