@@ -861,8 +861,8 @@ _e_: Resend                    _mu_: Unmark processable
 (use-package opencl-mode       :ensure t :defer t)
 (use-package rust-mode         :ensure t :defer t)
 (use-package flycheck-rust     :ensure t :defer t)
-(use-package powershell :ensure t :defer t)
-(use-package ahk-mode   :ensure t :defer t)
+(use-package powershell        :ensure t :defer t)
+(use-package ahk-mode          :ensure t :defer t)
 
 
 ;; Add various themes.
