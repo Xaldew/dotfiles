@@ -834,14 +834,42 @@ _e_: Resend                    _mu_: Unmark processable
   :config
   ;; y is not used by default
   (defhydra hydra-gnus-article (:color blue)
-    "Do?"
+    "
+Sending/Replying^^             ^Treatment^            ^Display^             ^Actions^
+----------------------------------------------------------------
+_r_: Reply                     _t_: Toggle headers    _wg_: Gravatar        _s_: Summary Hydra
+_R_: Reply with original       _r_: Caesar            _wf_: Face            _v_: View MIME
+_w_: Wide reply                _m_: Morse             _wx_: X-Face          _o_: Save MIME
+_W_: Wide reply with original  _u_: UTF-8 -> ASCII    _ws_: Smileys         _g_: Refresh
+_f_: Forward                   _o_: Deuglify Outlook  _ww_: Show images     _q_: Quit
+_e_: Resend                    _F_: Fill long lines   _wd_: Remove images
+
+"
+    ("r" gnus-article-reply "r")
+    ("R" gnus-article-reply-with-original "R")
+    ("w" gnus-article-wide-reply "S w")
+    ("W" gnus-article-wide-reply-with-original "S W")
     ("f" gnus-summary-mail-forward "Forward")
-    ("R" gnus-article-reply-with-original "Reply with original R")
-    ("r" gnus-article-reply "Reply r")
-    ("W" gnus-article-wide-reply-with-original "Reply all with original S W")
-    ("o" gnus-mime-save-part "Save attachment at point o")
-    ("w" gnus-article-wide-reply "Reply all S w")
-    ("q" nil "cancel"))
+    ("e" gnus-summary-resend-message-edit "S D e")
+
+    ("t" gnus-summary-toggle-header "t")
+    ("r" gnus-summary-caesar-message "W r")
+    ("m" gnus-summary-morse-message "W m")
+    ("u" gnus-article-treat-non-ascii "W U")
+    ("o" gnus-article-outlook-deuglify-article "W Y f")
+    ("F" gnus-article-fill-long-lines "W Q")
+
+    ("wg" gnus-treat-from-gravatar "W D h")
+    ("wf" gnus-article-display-face "W D d")
+    ("wx" gnus-article-display-x-face "W D x")
+    ("ws" gnus-treat-smiley "W D s")
+    ("wi" gnus-html-show-images "W D W")
+    ("wd" gnus-article-remove-images "W D D")
+
+    ("s" hydra-gnus-summary/body nil :exit t)
+    ("o" gnus-mime-save-part "o")
+    ("g" gnus-summary-show-article "g")
+    ("q" nil "Quit"))
   (define-key gnus-article-mode-map "y" 'hydra-gnus-article/body))
 
 
