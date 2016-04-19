@@ -830,10 +830,10 @@ _DEL_: Delete topic          _Td_: Remove group from topic
   :after hydra
   :config
   ;; y is not used by default
-  (defhydra hydra-gnus-summary (:color blue)
+  (defhydra hydra-gnus-summary (:color pink)
     "
 Sending/Replying^^             ^Mark^                     ^Actions^
-----------------------------------------------------------------
+----------------------------------------------------------------------
 _r_: Reply                     _!_: Pin mail              _g_: Refresh
 _R_: Reply with original       _p_: Mark as read          _q_: Quit
 _w_: Wide reply                _u_: Unread mail
@@ -842,12 +842,12 @@ _f_: Forward                   _mp_: Mark processable
 _e_: Resend                    _mu_: Unmark processable
 
 "
-    ("r" gnus-summary-reply "r")
-    ("R" gnus-summary-reply-with-original "R")
-    ("w" gnus-summary-wide-reply "S w")
-    ("W" gnus-summary-wide-reply-with-original "S W")
-    ("f" gnus-summary-mail-forward "C-c C-f")
-    ("e" gnus-summary-resend-message-edit "S D e")
+    ("r" gnus-summary-reply "r" :color blue)
+    ("R" gnus-summary-reply-with-original "R" :color blue)
+    ("w" gnus-summary-wide-reply "S w" :color blue)
+    ("W" gnus-summary-wide-reply-with-original "S W" :color blue)
+    ("f" gnus-summary-mail-forward "C-c C-f" :color blue)
+    ("e" gnus-summary-resend-message-edit "S D e" :color blue)
 
     ("!" gnus-summary-tick-article-forward "!")
     ("p" gnus-summary-mark-as-read-forward "d")
@@ -857,7 +857,7 @@ _e_: Resend                    _mu_: Unmark processable
     ("mu" gnus-summary-unmark-as-processable "M-#")
 
     ("g" gnus-summary-insert-new-articles "/ N")
-    ("q" nil "Quit"))
+    ("q" nil nil))
   (define-key gnus-summary-mode-map "y" 'hydra-gnus-summary/body))
 
 
