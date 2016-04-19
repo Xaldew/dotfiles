@@ -866,7 +866,7 @@ _e_: Resend                    _mu_: Unmark processable
   :after hydra
   :config
   ;; y is not used by default
-  (defhydra hydra-gnus-article (:color blue)
+  (defhydra hydra-gnus-article (:color pink)
     "
 Sending/Replying^^             ^Treatment^            ^Display^             ^Actions^
 ----------------------------------------------------------------
@@ -878,12 +878,12 @@ _f_: Forward                   _o_: Deuglify Outlook  _dw_: Show images     _q_:
 _e_: Resend                    _F_: Fill long lines   _dd_: Remove images
 
 "
-    ("r" gnus-article-reply "r")
-    ("R" gnus-article-reply-with-original "R")
-    ("w" gnus-article-wide-reply "S w")
-    ("W" gnus-article-wide-reply-with-original "S W")
-    ("f" gnus-summary-mail-forward "Forward")
-    ("e" gnus-summary-resend-message-edit "S D e")
+    ("r" gnus-article-reply "r" :color blue)
+    ("R" gnus-article-reply-with-original "R" :color blue)
+    ("w" gnus-article-wide-reply "S w" :color blue)
+    ("W" gnus-article-wide-reply-with-original "S W" :color blue)
+    ("f" gnus-summary-mail-forward "C-c C-f" :color blue)
+    ("e" gnus-summary-resend-message-edit "S D e" :color blue)
 
     ("t" gnus-summary-toggle-header "t")
     ("r" gnus-summary-caesar-message "W r")
@@ -903,7 +903,7 @@ _e_: Resend                    _F_: Fill long lines   _dd_: Remove images
     ("v" gnus-mime-view-part "v")
     ("o" gnus-mime-save-part "o")
     ("g" gnus-summary-show-article "g")
-    ("q" nil "Quit"))
+    ("q" nil nil))
   (define-key gnus-article-mode-map "y" 'hydra-gnus-article/body))
 
 
