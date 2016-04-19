@@ -779,17 +779,44 @@ _h_   _l_  _r_: Reset     _p_: Paste   _C_: Clear       _sr_: String Replace    
   :config
   ;; y is not used by default
   (defhydra hydra-gnus-group (:color blue)
-    "Do?"
-    ("a" gnus-group-list-active "REMOTE groups A A")
-    ("l" gnus-group-list-all-groups "LOCAL groups L")
-    ("c" gnus-topic-catchup-articles "Read all c")
-    ("G" gnus-group-make-nnir-group "Search server G G")
-    ("g" gnus-group-get-new-news "Refresh g")
-    ("s" gnus-group-enter-server-mode "Servers")
-    ("m" gnus-group-new-mail "Compose m OR C-x m")
-    ("#" gnus-topic-mark-topic "mark #")
-    ("q" nil "cancel"))
-  (define-key gnus-group-mode-map "y" 'hydra-gnus-group/body))
+    "
+Views^^                     ^Marking^               ^Actions^
+-------------------------------------------------------------------
+_a_: List active groups     _#_: Mark group         _m_: Write mail
+_l_: List unread groups     _u_: Unmark group       _c_: Read all
+_L_: List all groups        _k_: Kill group         _z_: Suspend
+_g_: Refresh news           _w_: Kill region        _q_: Quit
+_s_: Server view            _y_: Yank group(s)
+_t_: Topic view
+
+Topic View^^                     ^Marking^
+-------------------------------------------------------------------
+_TAB_: Indent Topic              _T#_: Mark Topic
+ _TD_: Remove group from topic   _Tu_: Unmark Topic
+ _TH_: Toggle empty topics       _Tp_: Pin Topic
+ _Tn_: Create topic
+ _Tr_: Rename Topic
+_DEL_: Delete topic
+"
+    ("a" gnus-group-list-active "A A")
+    ("l" gnus-group-list-groups "l")
+    ("L" gnus-group-list-all-groups "L")
+    ("g" gnus-group-get-new-news "g")
+    ("s" gnus-group-enter-server-mode "^")
+    ("t" gnus-topic-mode "t")
+
+    ("#" gnus-group-mark-group "#")
+    ("u" gnus-group-unmark-group "M-#")
+    ("k" gnus-group-kill-group "C-k")
+    ("w" gnus-group-kill-region "C-w")
+    ("y" gnus-group-yank-group "C-y")
+
+    ("T#" gnus-topic-mark-topic "T #")
+    ("Tu" gnus-topic-unmark-topic "T M-#")
+    ("m" gnus-group-new-mail "m")
+    ("c" gnus-topic-catchup-articles "c")
+    ("q" nil "Quit"))
+  (define-key gnus-group-mode-map "?" 'hydra-gnus-group/body))
 
 
 (use-package gnus-sum    ;; gnus-summary-mode
