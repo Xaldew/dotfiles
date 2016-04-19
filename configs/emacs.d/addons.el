@@ -837,12 +837,12 @@ _e_: Resend                    _mu_: Unmark processable
     "
 Sending/Replying^^             ^Treatment^            ^Display^             ^Actions^
 ----------------------------------------------------------------
-_r_: Reply                     _t_: Toggle headers    _wg_: Gravatar        _s_: Summary Hydra
-_R_: Reply with original       _r_: Caesar            _wf_: Face            _v_: View MIME
-_w_: Wide reply                _m_: Morse             _wx_: X-Face          _o_: Save MIME
-_W_: Wide reply with original  _u_: UTF-8 -> ASCII    _ws_: Smileys         _g_: Refresh
-_f_: Forward                   _o_: Deuglify Outlook  _ww_: Show images     _q_: Quit
-_e_: Resend                    _F_: Fill long lines   _wd_: Remove images
+_r_: Reply                     _t_: Toggle headers    _dg_: Gravatar        _s_: Summary Hydra
+_R_: Reply with original       _r_: Caesar            _df_: Face            _v_: View MIME
+_w_: Wide reply                _m_: Morse             _dx_: X-Face          _o_: Save MIME
+_W_: Wide reply with original  _u_: UTF-8 -> ASCII    _ds_: Smileys         _g_: Refresh
+_f_: Forward                   _o_: Deuglify Outlook  _dw_: Show images     _q_: Quit
+_e_: Resend                    _F_: Fill long lines   _dd_: Remove images
 
 "
     ("r" gnus-article-reply "r")
@@ -859,14 +859,15 @@ _e_: Resend                    _F_: Fill long lines   _wd_: Remove images
     ("o" gnus-article-outlook-deuglify-article "W Y f")
     ("F" gnus-article-fill-long-lines "W Q")
 
-    ("wg" gnus-treat-from-gravatar "W D h")
-    ("wf" gnus-article-display-face "W D d")
-    ("wx" gnus-article-display-x-face "W D x")
-    ("ws" gnus-treat-smiley "W D s")
-    ("wi" gnus-html-show-images "W D W")
-    ("wd" gnus-article-remove-images "W D D")
+    ("dg" gnus-treat-from-gravatar "W D h")
+    ("df" gnus-article-display-face "W D d")
+    ("dx" gnus-article-display-x-face "W D x")
+    ("ds" gnus-treat-smiley "W D s")
+    ("dw" gnus-html-show-images "W D W")
+    ("dd" gnus-article-remove-images "W D D")
 
     ("s" hydra-gnus-summary/body nil :exit t)
+    ("v" gnus-mime-view-part "v")
     ("o" gnus-mime-save-part "o")
     ("g" gnus-summary-show-article "g")
     ("q" nil "Quit"))
