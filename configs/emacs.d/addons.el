@@ -778,44 +778,50 @@ _h_   _l_  _r_: Reset     _p_: Paste   _C_: Clear       _sr_: String Replace    
   :after hydra
   :config
   ;; y is not used by default
-  (defhydra hydra-gnus-group (:color blue)
+  (defhydra hydra-gnus-group (:color pink)
     "
-Views^^                     ^Marking^               ^Actions^
+Views^^                   ^Marking^                 ^Actions^
 -------------------------------------------------------------------
-_a_: List active groups     _#_: Mark group         _m_: Write mail
-_l_: List unread groups     _u_: Unmark group       _c_: Read all
-_L_: List all groups        _k_: Kill group         _z_: Suspend
-_g_: Refresh news           _w_: Kill region        _q_: Quit
-_s_: Server view            _y_: Yank group(s)
+_a_: List active groups   _#_: Mark group/topic     _m_: Write mail
+_l_: List unread groups   _u_: Unmark group/topic   _c_: Read all
+_L_: List all groups      _k_: Kill group           _z_: Suspend
+_g_: Refresh news         _w_: Kill region          _q_: Quit
+_s_: Server view          _y_: Yank group(s)
 _t_: Topic view
 
-Topic View^^                     ^Marking^
+Modify Topics^^           ^Topic Views^
 -------------------------------------------------------------------
-_TAB_: Indent Topic              _T#_: Mark Topic
- _TD_: Remove group from topic   _Tu_: Unmark Topic
- _TH_: Toggle empty topics       _Tp_: Pin Topic
- _Tn_: Create topic
- _Tr_: Rename Topic
-_DEL_: Delete topic
+ _Tn_: Create topic       _<tab>_: Indent topic
+ _Tr_: Rename Topic   _<backtab>_: Unindent topic
+_DEL_: Delete topic          _Td_: Remove group from topic
+^                           ^_Th_: Toggle empty topics
 "
     ("a" gnus-group-list-active "A A")
     ("l" gnus-group-list-groups "l")
     ("L" gnus-group-list-all-groups "L")
     ("g" gnus-group-get-new-news "g")
-    ("s" gnus-group-enter-server-mode "^")
+    ("s" gnus-group-enter-server-mode "^" :color blue)
     ("t" gnus-topic-mode "t")
 
-    ("#" gnus-group-mark-group "#")
-    ("u" gnus-group-unmark-group "M-#")
+    ("#" gnus-topic-mark-topic "T #")
+    ("u" gnus-group-unmark-topic "M-#")
     ("k" gnus-group-kill-group "C-k")
     ("w" gnus-group-kill-region "C-w")
     ("y" gnus-group-yank-group "C-y")
 
-    ("T#" gnus-topic-mark-topic "T #")
-    ("Tu" gnus-topic-unmark-topic "T M-#")
-    ("m" gnus-group-new-mail "m")
+    ("m" gnus-group-new-mail "m" :color blue)
     ("c" gnus-topic-catchup-articles "c")
-    ("q" nil "Quit"))
+    ("z" gnus-group-suspend "z" :color blue)
+    ("q" nil nil)
+
+    ("Tn" gnus-topic-create-topic "T n")
+    ("Tr" gnus-topic-rename "T r")
+    ("DEL" gnus-topic-delete "T DEL")
+
+    ("<tab>" gnus-topic-indent "T TAB")
+    ("<backtab>" gnus-topic-unindent)
+    ("Td" gnus-topic-remove-group "T D")
+    ("Th" gnus-topic-toggle-display-empty-topics "T H"))
   (define-key gnus-group-mode-map "?" 'hydra-gnus-group/body))
 
 
