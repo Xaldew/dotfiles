@@ -827,18 +827,17 @@ _DEL_: Delete topic          _Td_: Remove group from topic
   :defer t
   :after hydra
   :config
-  ;; y is not used by default
   (defhydra hydra-gnus-summary (:color pink)
     "
-Sending/Replying^^             ^Mark^                     ^Actions^
-----------------------------------------------------------------------
-_r_: Reply                     _!_: Pin mail              _g_: Refresh
-_R_: Reply with original       _p_: Mark as read          _q_: Quit
-_w_: Wide reply                _u_: Unread mail
-_W_: Wide reply with original  _mc_: Read all
-_f_: Forward                   _mp_: Mark processable
-_e_: Resend                    _mu_: Unmark processable
-
+Sending/Replying^^             ^Marking^                  ^Actions^
+----------------------------------------------------------------------------
+_r_: Reply                     _!_: Pin mail              _a_: Article Hydra
+_R_: Reply with original       _?_: Mark as dormant       _g_: Refresh
+_w_: Wide reply                _p_: Mark as read          _q_: Quit
+_W_: Wide reply with original  _u_: Unread mail
+_f_: Forward                   _mc_: Read all
+_e_: Resend                    _mp_: Mark processable
+^^                             _mu_: Unmark processable
 "
     ("r" gnus-summary-reply "r" :color blue)
     ("R" gnus-summary-reply-with-original "R" :color blue)
@@ -848,15 +847,17 @@ _e_: Resend                    _mu_: Unmark processable
     ("e" gnus-summary-resend-message-edit "S D e" :color blue)
 
     ("!" gnus-summary-tick-article-forward "!")
+    ("?" gnus-summary-mark-as-dormant "?")
     ("p" gnus-summary-mark-as-read-forward "d")
     ("u" gnus-summary-clear-mark-forward "M c")
     ("mc" gnus-summary-catchup "M C")
-    ("mp" gnus-summary-mark-processable "#")
+    ("mp" gnus-summary-mark-as-processable "#")
     ("mu" gnus-summary-unmark-as-processable "M-#")
 
+    ("a" hydra-gnus-article/body nil :exit t)
     ("g" gnus-summary-insert-new-articles "/ N")
     ("q" nil nil))
-  (define-key gnus-summary-mode-map "y" 'hydra-gnus-summary/body))
+  (define-key gnus-summary-mode-map "?" 'hydra-gnus-summary/body))
 
 
 (use-package gnus-art   ;; gnus-article-mode
