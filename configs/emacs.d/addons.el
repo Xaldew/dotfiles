@@ -776,7 +776,6 @@ _h_   _l_  _r_: Reset     _x_: Kill    _C_: Clear       _sr_: String Replace    
   :defer t
   :after hydra
   :config
-  ;; y is not used by default
   (defhydra hydra-gnus-group (:color pink)
     "
 Views^^                   ^Marking^                 ^Actions^
@@ -808,7 +807,7 @@ _DEL_: Delete topic          _Td_: Remove group from topic
     ("w" gnus-group-kill-region "C-w")
     ("y" gnus-group-yank-group "C-y")
 
-    ("m" gnus-group-new-mail "m" :color blue)
+    ("m" gnus-group-mail "m" :color blue)
     ("c" gnus-topic-catchup-articles "c")
     ("z" gnus-group-suspend "z" :color blue)
     ("q" nil nil)
