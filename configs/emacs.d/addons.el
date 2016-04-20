@@ -766,10 +766,18 @@ _h_   _l_  _r_: Reset     _x_: Kill    _C_: Clear       _sr_: String Replace    
   :after hydra
   :config
   (defhydra hydra-message (:color blue)
-    "Do?"
-    ("ca" mml-attach-file "Attach C-c C-a")
-    ("cc" message-send-and-exit "Send C-c C-c")
-    ("q" nil "cancel")))
+    "
+ca: Attach file.
+cc: Send message.
+cu: Toggle importance.
+cn: Request read receipt.
+
+"
+    ("ca" mml-attach-file "C-c C-a")
+    ("cc" message-send-and-exit "C-c C-c")
+    ("cu" message-insert-or-toggle-importance "C-c C-u")
+    ("cn" message-insert-disposition-notification-to "C-c M-n")
+    ("q" nil "Quit")))
 
 
 (use-package gnus-group
