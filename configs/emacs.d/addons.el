@@ -864,16 +864,15 @@ _e_: Resend                    _mp_: Mark processable
   :defer t
   :after hydra
   :config
-  ;; y is not used by default
   (defhydra hydra-gnus-article (:color pink)
     "
-Sending/Replying^^             ^Treatment^            ^Display^             ^Actions^
-----------------------------------------------------------------
-_r_: Reply                     _t_: Toggle headers    _dg_: Gravatar        _s_: Summary Hydra
-_R_: Reply with original       _r_: Caesar            _df_: Face            _v_: View MIME
-_w_: Wide reply                _m_: Morse             _dx_: X-Face          _o_: Save MIME
-_W_: Wide reply with original  _u_: UTF-8 -> ASCII    _ds_: Smileys         _g_: Refresh
-_f_: Forward                   _o_: Deuglify Outlook  _dw_: Show images     _q_: Quit
+Sending/Replying^^             ^Treatment^            ^Display^            ^Actions^
+-----------------------------------------------------------------------------------------------
+_r_: Reply                     _t_: Toggle headers    _dg_: Gravatar       _s_: Summary Hydra
+_R_: Reply with original       _c_: Caesar            _df_: Face           _v_: View MIME
+_w_: Wide reply                _m_: Morse             _dx_: X-Face         _o_: Save MIME
+_W_: Wide reply with original  _u_: UTF-8 -> ASCII    _ds_: Smileys        _g_: Refresh/Revert
+_f_: Forward                   _o_: Deuglify Outlook  _dw_: Show images    _q_: Quit
 _e_: Resend                    _F_: Fill long lines   _dd_: Remove images
 
 "
@@ -885,7 +884,7 @@ _e_: Resend                    _F_: Fill long lines   _dd_: Remove images
     ("e" gnus-summary-resend-message-edit "S D e" :color blue)
 
     ("t" gnus-summary-toggle-header "t")
-    ("r" gnus-summary-caesar-message "W r")
+    ("c" gnus-summary-caesar-message "W r")
     ("m" gnus-summary-morse-message "W m")
     ("u" gnus-article-treat-non-ascii "W U")
     ("o" gnus-article-outlook-deuglify-article "W Y f")
@@ -903,7 +902,7 @@ _e_: Resend                    _F_: Fill long lines   _dd_: Remove images
     ("o" gnus-mime-save-part "o")
     ("g" gnus-summary-show-article "g")
     ("q" nil nil))
-  (define-key gnus-article-mode-map "y" 'hydra-gnus-article/body))
+  (define-key gnus-article-mode-map "?" 'hydra-gnus-article/body))
 
 
 ;; Install various major-mode packages and defer where it is possible.
