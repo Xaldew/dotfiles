@@ -228,6 +228,7 @@ Non-stop mode only stops the current thread."
                                (expand-file-name user-emacs-directory))
                               "templates")))
     (add-to-list 'srecode-map-load-path template-dir 'append)))
+(setq semantic-idle-scheduler-idle-time 60)
 (add-hook 'prog-mode-hook 'semantic-mode)
 (add-hook 'semantic-mode-hook 'srecode-minor-mode)
 (add-hook 'srecode-minor-mode-hook 'my-srecode-hook)
