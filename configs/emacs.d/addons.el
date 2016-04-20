@@ -724,10 +724,9 @@ _._: Clean directory   ^ ^                  _ha_: Hide all
                                        :post (deactivate-mark))
     "
   ^_k_^    _e_: Exchange  _c_: Copy    _o_: Open        _si_: String Insert     _U_: Upcase
-_h_   _l_  _r_: Reset     _p_: Paste   _C_: Clear       _sr_: String Replace    _D_: Downcase
-  ^_j_^    _u_: Undo      _d_: Delete  _n_: Number      _RR_: Register Read
-^^^^       ^ ^            _y_: Yank    _w_: Whitespace  _RI_: Register Insert
-^^^^       ^ ^            ^ ^          ^ ^              ^  ^
+_h_   _l_  _r_: Reset     _x_: Kill    _C_: Clear       _sr_: String Replace    _D_: Downcase
+  ^_j_^    _u_: Undo      _y_: Yank    _n_: Number      _RR_: Register Read
+^^^^       ^ ^            _d_: Delete  _w_: Whitespace  _RI_: Register Insert
 "
     ("h" rectangle-backward-char nil)
     ("l" rectangle-forward-char nil)
@@ -739,23 +738,23 @@ _h_   _l_  _r_: Reset     _p_: Paste   _C_: Clear       _sr_: String Replace    
     ("C-x SPC" (if (region-active-p) (deactivate-mark) (rectangle-mark-mode 1)) nil)
     ("u" undo nil)
 
-    ("c" copy-rectangle-as-kill nil)
-    ("p" kill-rectangle nil)
-    ("d" delete-rectangle nil)
-    ("y" yank-rectangle nil)
+    ("c" copy-rectangle-as-kill nil :color blue)
+    ("x" kill-rectangle nil :color blue)
+    ("d" delete-rectangle nil :color blue)
+    ("y" yank-rectangle nil :color blue)
 
-    ("o" open-rectangle nil)
-    ("C" clear-rectangle nil)
-    ("n" rectangle-number-lines nil)
-    ("w" delete-whitespace-rectangle nil)
+    ("o" open-rectangle nil :color blue)
+    ("C" clear-rectangle nil :color blue)
+    ("n" rectangle-number-lines nil :color blue)
+    ("w" delete-whitespace-rectangle nil :color blue)
 
-    ("si" string-insert-rectangle nil)
-    ("sr" string-rectangle nil)
-    ("RR" copy-rectangle-to-register nil)
-    ("RI" insert-register nil)
+    ("si" string-insert-rectangle nil :color blue)
+    ("sr" string-rectangle nil :color blue)
+    ("RR" copy-rectangle-to-register nil :color blue)
+    ("RI" insert-register nil :color blue)
 
-    ("U" upcase-rectangle nil)
-    ("D" downcase-rectangle nil)
+    ("U" upcase-rectangle nil :color blue)
+    ("D" downcase-rectangle nil :color blue)
 
     ("q" nil "Quit"))
   (global-set-key (kbd "C-x SPC") 'hydra-rectangle/body))
