@@ -738,8 +738,8 @@ _h_   _l_  _r_: Reset     _x_: Kill    _C_: Clear       _sr_: String Replace    
     ("C-x SPC" (if (region-active-p) (deactivate-mark) (rectangle-mark-mode 1)) nil)
     ("u" undo nil)
 
-    ("c" copy-rectangle-as-kill nil :color blue)
-    ("x" kill-rectangle nil :color blue)
+    ("c" copy-rectangle-as-kill nil)
+    ("x" kill-rectangle nil)
     ("d" delete-rectangle nil :color blue)
     ("y" yank-rectangle nil :color blue)
 
@@ -757,7 +757,7 @@ _h_   _l_  _r_: Reset     _x_: Kill    _C_: Clear       _sr_: String Replace    
     ("D" downcase-rectangle nil :color blue)
 
     ("q" nil "Quit"))
-  (global-set-key (kbd "C-x SPC") 'hydra-rectangle/body))
+  (global-set-key (kbd "C-x SPC") #'hydra-rectangle/body))
 
 
 ;; Gnus addons configurations.
