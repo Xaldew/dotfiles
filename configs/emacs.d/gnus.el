@@ -152,5 +152,8 @@
        "%s\n"))
 (setq gnus-summary-display-arrow t)
 
+;; Enable delayed article sending.
+(gnus-delay-initialize)
+
 
 ;;; gnus.el ends here
