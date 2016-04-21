@@ -27,7 +27,6 @@
 (my-define-group "C-c p" projects)
 (my-define-group "C-c s" search-and-symbols)
 (my-define-group "C-c v" version-control)
-;;(my-define-group "C-c w" windows-and-frames)
 (my-define-group "C-c x" text)
 (my-define-group "C-c x a" align)
 
@@ -663,7 +662,6 @@ _f_: Open file     _u_: Unmark        _C_: Copy    _R_: Rename     _O_: Chown
 _o_: Display file  _t_: Toggle marks  _D_: Delete  _S_: Symlink    _X_: Shell
 _v_: View file     _U_: Unmark all    _G_: Chgrp   _H_: Hardlink   _c_: Compress
 
-
 New/Delete^^          ^Navigate^            ^Views^            ^Addons^
 --------------------------------------------------------------------------------
 _+_: New directory    _nu_: Go up directory  _g_: Refresh       _wd_: Wdired on
@@ -865,14 +863,14 @@ _h_   _l_  _r_: Reset     _x_: Kill    _C_: Clear       _sr_: String Replace    
   :defer t
   :after hydra
   :config
-  (defhydra hydra-message (:color blue)
+  (defhydra hydra-message (:color blue :hint nil)
     "
 Generic Mail^^                ^Editing Commands^           ^Actions^
 --------------------------------------------------------------------------------
 _ca_: Attach file             _ci_: Insert file            _cc_: Send message
-_cu_: Toggle importance       _ce_: Elide region           _cd_: Suspend message
-_cn_: Request read receipt    _cr_: Caesar shift region    _ck_: Abort message
-_cw_: Change to wide reply    _cm_: Morse region
+_cu_: Toggle importance       _ce_: Elide region           _cj_: Send delayed
+_cn_: Request read receipt    _cr_: Caesar shift region    _cd_: Suspend message
+_cw_: Change to wide reply    _cm_: Morse region           _ck_: Abort message
 "
     ("ca" mml-attach-file nil)
     ("cu" message-insert-or-toggle-importance nil)
@@ -885,6 +883,7 @@ _cw_: Change to wide reply    _cm_: Morse region
     ("cm" morse-region nil)
 
     ("cc" message-send-and-exit nil)
+    ("cj" gnus-delay-article nil)
     ("cd" message-dont-send nil)
     ("ck" message-kill-buffer nil)
     ("C-c ?" describe-mode nil)
