@@ -652,6 +652,8 @@
   :pin melpa
   :defer t
   :config
+  (require 'hydra-examples)
+
   (defhydra hydra-dired (:color pink)
     "
 Opening^^          ^Marking^                    ^Point/Mark Actions^
@@ -718,6 +720,63 @@ _._: Clean directory   ^ ^                  _ha_: Hide all
 
     ("q" nil "Quit"))
   (define-key dired-mode-map [remap dired-summary] 'hydra-dired/body)
+
+  (defhydra hydra-windowing (:color red :hint nil)
+    "
+Navigate^^    ^Splitting^       ^Buffers^      ^Windows/Frames^    ^Scroll^
+-------------------------------------------------------------------------
+  ^_j_^       Horizontal:  _x_  Previous:  _p_   Close Window: _c_     ^_a_^
+_h_ + _l_     Vertical:    _v_  Next:      _n_   Close other:  _o_     ^|^
+  ^_k_^       Winner undo: _u_  Select:    _b_   New Frame:    _N_     ^_z_^
+^^^^          Winner redo: _U_  Find file: _f_   Delete Frame: _D_      ^ ^
+^^^^                       ^ ^             ^ ^                 ^ ^      ^ ^
+Resize^^    ^Addons^                     ^Register^    ^Miscellaneous^
+-------------------------------------------------------------------------
+  ^_J_^     Ace delete window:    _d_    Save: _ri_    Quit: _q_
+_H_ + _L_   Ace Swap windows:     _s_    Jump: _rj_
+  ^_K_^     Ace maximize window:  _i_
+^^^^        Projectile find file: _F_
+^^^^                              ^ ^
+"
+    ("h" windmove-left)
+    ("j" windmove-down)
+    ("k" windmove-up)
+    ("l" windmove-right)
+
+    ("H" hydra-move-splitter-left)
+    ("J" hydra-move-splitter-down)
+    ("K" hydra-move-splitter-up)
+    ("L" hydra-move-splitter-right)
+
+    ("z" scroll-up-line)
+    ("a" scroll-down-line)
+
+    ("x" split-window-below)
+    ("v" split-window-right)
+    ("u" winner-undo)
+    ("U" winner-redo)
+
+    ("p" previous-buffer)
+    ("n" next-buffer)
+    ("b" ido-switch-buffer)
+    ("f" ido-find-file)
+
+    ("c" delete-window)
+    ("o" delete-other-windows)
+    ("N" my-new-gui-frame)
+    ("D" delete-frame)
+
+    ("d" ace-delete-window)
+    ("s" ace-swap-window)
+    ("i" ace-maximize-window)
+    ("F" projectile-find-file)
+
+    ("ri" window-configuration-to-register)
+    ("rj" jump-to-register)
+
+    ("q" nil))
+  (global-set-key (kbd "C-c w") #'hydra-windowing/body)
+
 
   (defhydra hydra-rectangle (:body-pre (rectangle-mark-mode 1)
                                        :color pink
