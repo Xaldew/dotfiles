@@ -721,6 +721,47 @@ _._: Clean directory   ^ ^                  _ha_: Hide all
     ("q" nil "Quit"))
   (define-key dired-mode-map [remap dired-summary] 'hydra-dired/body)
 
+
+  (defhydra hydra-help (:exit t)
+    "
+  Describe        ^^Keys                    ^^Search                    ^^Documentation
+  ---------------------------------------------------------------------------------------
+  _f_: Function     _k_: Keybinding           _a_: Apropros               _i_: Info
+  _p_: Package      _w_: Where-is             _d_: Apropos Docstrings     _n_: Woman
+  _m_: Mode         _b_: Show all bindings    _s_: Info by symbol
+  _v_: Variable
+
+  "
+    ;; Describe
+    ("f" describe-function nil)
+    ("p" describe-package nil)
+    ("m" describe-mode nil)
+    ("v" describe-variable nil)
+    ("y" describe-syntax nil)
+
+    ("b" describe-bindings nil)
+    ("c" describe-key-briefly nil)
+    ("k" describe-key nil)
+    ("w" where-is nil)
+
+    ;; Search
+    ("a" apropos-command nil)
+    ("d" apropos-documentation nil)
+    ("s" info-lookup-symbol nil)
+
+    ;; Documentation
+    ("i" info nil)
+    ("n" woman nil)
+
+    ("e" view-echo-area-messages "messages")
+    ("l" view-lossage "lossage")
+    ("C" describe-coding-system "coding-system")
+    ("I" describe-input-method "input-method")
+
+    ("q" help-quit "quit"))
+  (global-set-key (kbd "C-c h") #'hydra-help/body)
+
+
   (defhydra hydra-windowing (:color red :hint nil)
     "
 Navigate^^    ^Splitting^       ^Buffers^      ^Windows/Frames^    ^Scroll^
