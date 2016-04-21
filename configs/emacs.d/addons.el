@@ -826,17 +826,29 @@ _h_   _l_  _r_: Reset     _x_: Kill    _C_: Clear       _sr_: String Replace    
   :config
   (defhydra hydra-message (:color blue)
     "
-ca: Attach file.
-cc: Send message.
-cu: Toggle importance.
-cn: Request read receipt.
-
+Generic Mail^^                ^Editing Commands^           ^Actions^
+--------------------------------------------------------------------------------
+_ca_: Attach file             _ci_: Insert file            _cc_: Send message
+_cu_: Toggle importance       _ce_: Elide region           _cd_: Suspend message
+_cn_: Request read receipt    _cr_: Caesar shift region    _ck_: Abort message
+_cw_: Change to wide reply    _cm_: Morse region
 "
-    ("ca" mml-attach-file "C-c C-a")
-    ("cc" message-send-and-exit "C-c C-c")
-    ("cu" message-insert-or-toggle-importance "C-c C-u")
-    ("cn" message-insert-disposition-notification-to "C-c M-n")
-    ("q" nil "Quit")))
+    ("ca" mml-attach-file nil)
+    ("cu" message-insert-or-toggle-importance nil)
+    ("cn" message-insert-disposition-notification-to nil)
+    ("cw" message-insert-wide-reply nil)
+
+    ("ci" message-mark-insert-file nil)
+    ("ce" message-elide-region nil)
+    ("cr" rot13-region nil)
+    ("cm" morse-region nil)
+
+    ("cc" message-send-and-exit nil)
+    ("cd" message-dont-send nil)
+    ("ck" message-kill-buffer nil)
+    ("C-c ?" describe-mode nil)
+    ("q" nil "Quit"))
+  (define-key message-mode-map (kbd "C-c ?") #'hydra-message/body))
 
 
 (use-package gnus-group
@@ -887,7 +899,7 @@ _DEL_: Delete topic          _Td_: Remove group from topic
     ("<backtab>" gnus-topic-unindent)
     ("Td" gnus-topic-remove-group "T D")
     ("Th" gnus-topic-toggle-display-empty-topics "T H"))
-  (define-key gnus-group-mode-map "?" 'hydra-gnus-group/body))
+  (define-key gnus-group-mode-map "?" #'hydra-gnus-group/body))
 
 
 (use-package gnus-sum    ;; gnus-summary-mode
@@ -924,7 +936,7 @@ _e_: Resend                    _mp_: Mark processable
     ("a" hydra-gnus-article/body nil :exit t)
     ("g" gnus-summary-insert-new-articles "/ N")
     ("q" nil nil))
-  (define-key gnus-summary-mode-map "?" 'hydra-gnus-summary/body))
+  (define-key gnus-summary-mode-map "?" #'hydra-gnus-summary/body))
 
 
 (use-package gnus-art   ;; gnus-article-mode
@@ -969,7 +981,7 @@ _e_: Resend                    _F_: Fill long lines   _dd_: Remove images
     ("o" gnus-mime-save-part "o")
     ("g" gnus-summary-show-article "g")
     ("q" nil nil))
-  (define-key gnus-article-mode-map "?" 'hydra-gnus-article/body))
+  (define-key gnus-article-mode-map "?" #'hydra-gnus-article/body))
 
 
 ;; Install various major-mode packages and defer where it is possible.
