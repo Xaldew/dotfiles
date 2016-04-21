@@ -172,6 +172,12 @@ Do not print to the minibuffer if PRINT-MESSAGE is given."
 	  sentences)))))
 
 
+(defun my-new-gui-frame ()
+  "Create a new gui frame of the current buffer."
+  (interactive)
+  (make-frame `((display . ,(getenv "DISPLAY")))))
+
+
 (defun my-show-in-mode-line (text &optional buffer delay)
   "Display TEXT in the mode line of BUFFER.
 
