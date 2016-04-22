@@ -728,6 +728,7 @@ _._: Clean directory   ^ ^                  _ha_: Hide all
   _p_: Package      _w_: Where-is             _d_: Apropos Docstrings     _n_: Woman
   _m_: Mode         _b_: Show all bindings    _s_: Info by symbol
   _v_: Variable
+  _S_: Symbol
 
   "
     ;; Describe
@@ -735,6 +736,7 @@ _._: Clean directory   ^ ^                  _ha_: Hide all
     ("p" describe-package nil)
     ("m" describe-mode nil)
     ("v" describe-variable nil)
+    ("S" describe-symbol nil)
     ("y" describe-syntax nil)
 
     ("b" describe-bindings nil)
