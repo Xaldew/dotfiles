@@ -762,6 +762,45 @@ _._: Clean directory   ^ ^                  _ha_: Hide all
   (global-set-key (kbd "C-c h") #'hydra-help/body)
 
 
+  (defhydra hydra-kmacro (:hint nil
+                          :color pink
+                          :pre (when defining-kbd-macro
+                                 (kmacro-end-macro 1)))
+  "
+  ^Create-Cycle^   ^Basic^           ^Insert^        ^Save^         ^Edit^
+╭─────────────────────────────────────────────────────────────────────────╯
+     ^_i_^           [_e_] Execute    [_n_] Insert    [_b_] Name      [_'_] Previous
+     ^^↑^^           [_d_] Delete     [_t_] Set       [_K_] Key       [_,_] Last
+ _j_ ←   → _l_       [_o_] Edit       [_a_] Add       [_x_] Register
+     ^^↓^^           [_r_] Region     [_f_] Format    [_B_] Defun
+     ^_k_^           [_m_] Step
+    ^^   ^^          [_s_] Swap
+Last Macro: %(key-description last-kbd-macro)
+"
+  ("j" kmacro-start-macro :color blue)
+  ("l" kmacro-end-or-call-macro-repeat)
+  ("i" kmacro-cycle-ring-previous)
+  ("k" kmacro-cycle-ring-next)
+  ("r" apply-macro-to-region-lines)
+  ("d" kmacro-delete-ring-head)
+  ("e" kmacro-end-or-call-macro-repeat)
+  ("o" kmacro-edit-macro-repeat)
+  ("m" kmacro-step-edit-macro)
+  ("s" kmacro-swap-ring)
+  ("n" kmacro-insert-counter)
+  ("t" kmacro-set-counter)
+  ("a" kmacro-add-counter)
+  ("f" kmacro-set-format)
+  ("b" kmacro-name-last-macro)
+  ("K" kmacro-bind-to-key)
+  ("B" insert-kbd-macro)
+  ("x" kmacro-to-register)
+  ("'" kmacro-edit-macro)
+  ("," edit-kbd-macro)
+  ("q" nil :color blue))
+  (global-set-key (kbd "C-c k") #'hydra-kmacro/body)
+
+
   (defhydra hydra-windowing (:color red :hint nil)
     "
 Navigate^^    ^Splitting^      ^Buffers^      ^Windows/Frames^     ^Scroll^
