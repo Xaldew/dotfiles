@@ -764,20 +764,20 @@ _._: Clean directory   ^ ^                  _ha_: Hide all
 
   (defhydra hydra-windowing (:color red :hint nil)
     "
-Navigate^^    ^Splitting^       ^Buffers^      ^Windows/Frames^    ^Scroll^
+Navigate^^    ^Splitting^      ^Buffers^      ^Windows/Frames^     ^Scroll^
 -------------------------------------------------------------------------
-  ^_j_^       Horizontal:  _x_  Previous:  _p_   Close Window: _c_     ^_a_^
-_h_ + _l_     Vertical:    _v_  Next:      _n_   Close other:  _o_     ^|^
-  ^_k_^       Winner undo: _u_  Select:    _b_   New Frame:    _N_     ^_z_^
-^^^^          Winner redo: _U_  Find file: _f_   Delete Frame: _D_      ^ ^
-^^^^                       ^ ^             ^ ^                 ^ ^      ^ ^
-Resize^^    ^Addons^                     ^Register^    ^Miscellaneous^
+  ^_k_^       _x_: Horizontal  _p_: Previous   _c_: Close Window:      ^_a_^
+_h_ + _l_     _v_: Vertical    _n_: Next       _o_: Close other:       ^|^
+  ^_j_^       ^ ^              _b_: Select     _N_: New Frame:         ^_z_^
+^^^^          ^ ^              _f_: Find file  _D_: Delete Frame:      ^^ ^^
+^^^^          ^ ^              ^ ^             ^ ^                      ^ ^
+Resize^^     ^Addons^                    ^Save/Restore^       ^Miscellaneous^
 -------------------------------------------------------------------------
-  ^_J_^     Ace delete window:    _d_    Save: _ri_    Quit: _q_
-_H_ + _L_   Ace Swap windows:     _s_    Jump: _rj_
-  ^_K_^     Ace maximize window:  _i_
-^^^^        Projectile find file: _F_
-^^^^                              ^ ^
+  ^_K_^       _d_: Ace delete window:      _u_: Winner undo     _q_: Quit
+_H_ + _L_     _s_: Ace Swap windows:       _U_: Winner redo
+  ^_J_^       _i_: Ace maximize window:   _ri_: Register Save
+^^^^          _F_: Projectile find file:  _rj_: Register Jump
+^^^^          ^ ^                         ^  ^
 "
     ("h" windmove-left)
     ("j" windmove-down)
