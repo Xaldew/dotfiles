@@ -625,20 +625,21 @@
   :ensure t
   :defer t
   :init
-  (setq alert-default-style
-        (cond
-         ((executable-find "notify-send")
-          'libnotify)
-         ((eq system-type 'gnu/linux)
-          'notifications)
-         ((executable-find "growlnotify")
-          (if (windows-os-p)
-              'growl-windows
-            'growl))
-         ((executable-find "toaster")
-          'toaster)
-         (t
-          'mode-line)))
+  (customize-set-variable
+   'alert-default-style
+   (cond
+    ((executable-find "notify-send")
+     'libnotify)
+    ((eq system-type 'gnu/linux)
+     'notifications)
+    ((executable-find "growlnotify")
+     (if (windows-os-p)
+         'growl-windows
+       'growl))
+    ((executable-find "toaster")
+     'toaster)
+    (t
+     'mode-line)))
   :config
   (alert-define-style
    'growl-windows

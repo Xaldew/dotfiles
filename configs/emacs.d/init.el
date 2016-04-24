@@ -9,18 +9,17 @@
 ;; Prefer the newer files when loading.
 (setq load-prefer-newer t)
 
-(defun load-user-file (file)
-  "Load FILE from the current user's Emacs configuration directory."
-  (interactive "f")
-  (load (expand-file-name file user-emacs-directory)))
-
+;; Set path for Custom variables.
+(setq custom-file "~/.emacs.d/custom.el")
 
 ;; Add `~/.emacs.d/elisp' to the initial load path.
 (add-to-list 'load-path (expand-file-name "~/.emacs.d/elisp"))
 
-;; Set path for Custom variables.
-(setq custom-file "~/.emacs.d/custom.el")
-(load custom-file 'no-errors)
+
+(defun load-user-file (file)
+  "Load FILE from the current user's Emacs configuration directory."
+  (interactive "f")
+  (load (expand-file-name file user-emacs-directory)))
 
 
 ;; Load settings independent on external plugins.
@@ -61,5 +60,8 @@
 
 ;; Load external addons if possible.
 (load-user-file "addons")
+
+;; Load custom-file for possible local overrides.
+(load custom-file 'no-errors)
 
 ;;; init.el ends here
