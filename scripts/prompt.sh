@@ -40,41 +40,45 @@ sh_color_off()
 
 bzr_prompt_info()
 {
-    bzr_cb=$(bzr nick 2> /dev/null | \
-		    grep -v "ERROR" | \
-		    cut -d ":" -f2 | \
-		    awk -F / '{print " (bzr::"$1")"}')
-    if [ -n "$bzr_cb" ]; then
-	bzr_dirty=""
-	[ -n "`bzr status`" ] && bzr_dirty="$(sh_fg_rgb 155 0 0) *"
-	printf "%s" "$bzr_cb$bzr_dirty"
+    bzr_cb=$(bzr nick 2> /dev/null)
+    if [ $? -eq 0 ]; then
+        bzr_cb=$(printf $bzr_db | \
+                     grep -v "ERROR" | \
+		     cut -d ":" -f2 | \
+		     awk -F / '{print " (bzr::"$1")"}')
+        if [ -n "$bzr_cb" ]; then
+	    bzr_dirty=""
+	    [ -n "`bzr status`" ] && bzr_dirty="$(sh_fg_rgb 155 0 0) *"
+	    printf "%s" "$bzr_cb$bzr_dirty"
+        fi
     fi
 }
 
 git_prompt_info()
 {
-    git name-rev HEAD 2> /dev/null 1> /dev/null && __git_ps1 " (git::%s)"
+    __git_ps1 " (git::%s)" 2> /dev/null
 }
 
 svn_prompt_info()
 {
     info=$(svn info 2>/dev/null)
-    svn_rev=$(printf "%s" "${info}" | sed -ne 's#^Revision: ##p' | awk '{print $1}')
-    svn_root=$(printf "%s" "$info}" | sed -ne 's#^Repository Root: ##p')
-    svn_url=$(printf "%s" "${info}" | sed -ne 's#^URL: ##p')
-    svn_branch=$(printf "%s" "${svn_url}" |
-			sed -e 's#^'"${svn_root}"'##g' |
-			sed "s|^/branches/||" |
-			awk '{print $1}' |
-			sed -e 's|\([^/]\+\)/\?.*|\1|')
-
-    if [ "${svn_branch#*trunk}" != "${svn_branch}" ]; then
-    	svn_branch=""
-    else
-	svn_branch="::${svn_branch}"
-    fi
-    if [ -n "${svn_rev}" ]; then
-	printf " (svn::%s%s)" $svn_rev "$svn_branch"
+    if [ $? -eq 0 ]; then
+        svn_rev=$(printf "%s" "${info}" | sed -ne 's#^Revision: ##p' | awk '{print $1}')
+        svn_root=$(printf "%s" "$info}" | sed -ne 's#^Repository Root: ##p')
+        svn_url=$(printf "%s" "${info}" | sed -ne 's#^URL: ##p')
+        svn_branch=$(printf "%s" "${svn_url}" |
+			 sed -e 's#^'"${svn_root}"'##g' |
+			 sed "s|^/branches/||" |
+			 awk '{print $1}' |
+			 sed -e 's|\([^/]\+\)/\?.*|\1|')
+        if [ "${svn_branch#*trunk}" != "${svn_branch}" ]; then
+    	    svn_branch=""
+        else
+	    svn_branch="::${svn_branch}"
+        fi
+        if [ -n "${svn_rev}" ]; then
+	    printf " (svn::%s%s)" $svn_rev "$svn_branch"
+        fi
     fi
 }
 
