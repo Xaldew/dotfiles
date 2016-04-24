@@ -15,13 +15,37 @@
 (defun cygwin-windows-path (path &optional path-list)
   "Convert the given path to a Cygwin compatible Path.
 
+Do not convert the PATH if running under Windows-nt.
+
 PATH is a Cygwin path on unix format.
 
 PATH-LIST indicates that the path is list of semicolon separated unix paths."
-  (replace-regexp-in-string
-   "[\n\r]*\\'" ""
-   (shell-command-to-string
-    (concat "cygpath --windows " (when path-list "--path ") path))))
+  (if (cygwin-p)
+      (replace-regexp-in-string
+       "[\n\r]*\\'" ""
+       (shell-command-to-string
+        (concat "cygpath --windows " (when path-list "--path ") path)))
+    path))
+
+
+(defun windows-growlnotify (priority title message)
+  "Issue a Growl notification with `growlnotify'.
+
+Send a message with PRIORITY to Growl with the TITLE and MESSAGE."
+  (call-process "growlnotify"
+                nil
+                "*growl*"
+                nil
+                "/application:emacs"
+                (format "/i:%s"
+                        (cygwin-windows-path
+                         (file-truename
+                          (concat
+                           invocation-directory
+                           "../share/icons/hicolor/48x48/apps/emacs.png"))))
+                (format "/p:%S" priority)
+                (format "/t:%S" title)
+                message))
 
 
 (when (windows-os-p)
