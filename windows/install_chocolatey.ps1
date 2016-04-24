@@ -31,7 +31,8 @@ $packages = @(
     "skype",
     "f.lux",
     "cygwin",
-    "cyg-get"
+    "cyg-get",
+    "growl"
 )
 
 Write-Host "Installing: $packages"
