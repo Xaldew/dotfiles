@@ -632,11 +632,24 @@
          ((eq system-type 'gnu/linux)
           'notifications)
          ((executable-find "growlnotify")
-          'growl)
+          (if (windows-os-p)
+              'growl-windows
+            'growl))
          ((executable-find "toaster")
           'toaster)
          (t
-          'mode-line))))
+          'mode-line)))
+  :config
+  (alert-define-style
+   'growl-windows
+   :title "Growl for Windows"
+   :notifier
+   (lambda (info)
+     (let ((title (plist-get info :title))
+           (msg (plist-get info :message))
+           (prio (cdr (assq (plist-get info :severity)
+                            alert-growl-priorities))))
+       (windows-growlnotify prio title msg)))))
 
 
 (use-package beacon
