@@ -55,6 +55,10 @@ Send a message with PRIORITY to Growl with the TITLE and MESSAGE."
 
 (when (and (cygwin-p)
            (not (display-graphic-p)))
+  (let ((path "/cygdrive/c/Program Files (x86)/Growl for Windows"))
+    (when (file-exists-p path)
+      (add-to-list 'exec-path path)))
+
   ;; Add proper scrolling for Emacs under Cygwin.
   (global-set-key (kbd "<mouse-4>") (lambda () (interactive) (scroll-down 1)))
   (global-set-key (kbd "<mouse-5>") (lambda () (interactive) (scroll-up 1))))
