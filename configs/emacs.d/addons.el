@@ -1080,6 +1080,86 @@ _e_: Resend                    _F_: Fill long lines   _dd_: Remove images
   (define-key gnus-article-mode-map "?" #'hydra-gnus-article/body))
 
 
+(use-package delim-col
+  :after hydra
+  :config
+  (defhydra hydra-delim-col (:color pink :hint nil)
+    "
+Actions^^                ^Presets^               ^Options^
+-----------------------------------------------------------------------------------------------
+_r_: Apply on region     _pl_: Python lists       _B_: Before all columns     [%`delimit-columns-str-before]
+_R_: Apply on rectangle  _pd_: Python dictionary  _s_: Column separator       [%`delimit-columns-str-separator]
+^ ^                      _ps_: Python set         _A_: After all columns      [%`delimit-columns-str-after]
+^ ^                      _dd_: Default            _b_: Before each column     [%`delimit-columns-before]
+^ ^                      ^  ^                     _a_: After each column      [%`delimit-columns-separator]
+^ ^                      ^  ^                     _S_: Separator regex        [%`delimit-columns-after]
+^ ^                      ^  ^                     _e_: Odd number of columns  [%`delimit-columns-extra]
+^ ^                      ^  ^                     _f_: Formatting             [%`delimit-columns-format]
+"
+    ("B" (lambda (str)
+           (interactive "s")
+           (setq delimit-columns-str-before str)))
+    ("s" (lambda (str)
+           (interactive "s")
+           (setq delimit-columns-str-separator str)))
+    ("A" (lambda (str)
+           (interactive "s")
+           (setq delimit-columns-str-after str)))
+    ("b" (lambda (str)
+           (interactive "s")
+           (setq delimit-columns-before str)))
+    ("S" (lambda (str)
+           (interactive "s")
+           (setq delimit-columns-separator str)))
+    ("a" (lambda (str)
+           (interactive "s")
+           (setq delimit-columns-after str)))
+    ("e" (lambda ()
+           (interactive)
+           (setq delimit-columns-extra (not delimit-columns-extra))))
+    ("f" (lambda ()
+           (interactive)
+           (setq delimit-columns-format
+                 (cond ((eq delimit-columns-format nil)
+                        t)
+                       ((eq delimit-columns-format t)
+                        'separator)
+                       ((eq delimit-columns-format 'separator)
+                        'padding)
+                       ((eq delimit-columns-format 'padding)
+                        nil)))))
+
+    ("pl" (lambda ()
+            (interactive)
+            (setq delimit-columns-str-before "[")
+            (setq delimit-columns-str-separator ", ")
+            (setq delimit-columns-str-after "]")
+            (setq delimit-columns-separator "[[:space:]]")
+            (setq delimit-columns-format 'padding)))
+    ("pd" (lambda () (interactive)
+            (setq delimit-columns-str-before "")
+            (setq delimit-columns-str-separator ": ")
+            (setq delimit-columns-str-after ",")
+            (setq delimit-columns-before "")
+            (setq delimit-columns-separator "[[:space:]]")
+            (setq delimit-columns-format 'padding)))
+    ("ps" (lambda () (interactive) nil))
+    ("dd" (lambda () (interactive)
+            (custom-reevaluate-setting 'delimit-columns-str-before)
+            (custom-reevaluate-setting 'delimit-columns-str-separator)
+            (custom-reevaluate-setting 'delimit-columns-str-before)
+            (custom-reevaluate-setting 'delimit-columns-before)
+            (custom-reevaluate-setting 'delimit-columns-separator)
+            (custom-reevaluate-setting 'delimit-columns-after)
+            (custom-reevaluate-setting 'delimit-columns-extra)
+            (custom-reevaluate-setting 'delimit-columns-format)))
+
+    ("r" delimit-columns-region)
+    ("R" delimit-columns-rectangle)
+    ("q" nil nil))
+  (global-set-key (kbd "C-c a") #'hydra-delim-col/body))
+
+
 ;; Install various major-mode packages and defer where it is possible.
 (use-package abc-mode          :ensure t :defer t)
 (use-package graphviz-dot-mode :ensure t :defer t)
