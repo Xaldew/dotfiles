@@ -1156,8 +1156,7 @@ _R_: Apply on rectangle  _pd_: Python dictionary  _s_: Column separator       [%
 
     ("r" delimit-columns-region)
     ("R" delimit-columns-rectangle)
-    ("q" nil nil))
-  (global-set-key (kbd "C-c a") #'hydra-delim-col/body))
+    ("q" nil nil)))
 
 
 ;; Install various major-mode packages and defer where it is possible.
