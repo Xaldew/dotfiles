@@ -740,7 +740,7 @@ _._: Clean directory   ^ ^                  _ha_: Hide all
   Describe        ^^Keys                    ^^Search                    ^^Documentation
   ---------------------------------------------------------------------------------------
   _f_: Function     _k_: Keybinding           _a_: Apropros               _i_: Info
-  _p_: Package      _w_: Where-is             _d_: Apropos Docstrings     _n_: Woman
+  _p_: Package      _w_: Where-is             _d_: Apropos Docstrings     _n_: WoMan
   _m_: Mode         _b_: Show all bindings    _s_: Info by symbol
   _v_: Variable
   _S_: Symbol
