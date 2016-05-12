@@ -205,10 +205,10 @@ Non-stop mode only stops the current thread."
 
 (defun my-help-mode-hook ()
   "Personal hook for `help-mode'."
-  (define-key help-mode-map [f5] 'describe-symbol)
-  (define-key help-mode-map [f7] 'describe-function)
-  (define-key help-mode-map [f9] 'describe-mode))
-(add-hook 'help-mode-hook 'my-help-mode-hook)
+  (define-key help-mode-map [f5] #'describe-symbol)
+  (define-key help-mode-map [f7] #'describe-function)
+  (define-key help-mode-map [f9] #'describe-mode))
+(add-hook 'help-mode-hook #'my-help-mode-hook)
 
 ;; Search more extensively when using apropos.
 (setq apropos-do-all t)
