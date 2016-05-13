@@ -848,7 +848,8 @@ _H_ + _L_     _s_: Ace Swap windows:       _U_: Winner redo
 
     ("x" split-window-below)
     ("v" split-window-right)
-    ("u" winner-undo)
+    ("u" (progn (winner-undo)
+                (setq this-command 'winner-undo)))
     ("U" winner-redo)
 
     ("p" previous-buffer)
