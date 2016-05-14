@@ -29,24 +29,13 @@ if (Test-Administrator)
     cmd /c assoc .hpp=CodeFile
 }
 
-# Copy all Bash configuration.
-Copy-Item -Path $dotfilesDir/configs/bashrc -Destination $HOME/.bashrc -Force
-Copy-Item -Path $dotfilesDir/configs/bash_aliases -Destination $HOME/.bash_aliases -Force
+# Copy AutoHotkey configuration to the default load path.
+Write-Output "`$dotfilesDir = '$dotfilesdir'" | Out-File $profile
+Write-Output ". `$dotfilesDir'/windows/profile.ps1'" | Out-File -Append $profile
 
-
-# Copy all Git configuration.
-Copy-Item -Path $dotfilesDir/windows/gitconfig -Destination $HOME/.gitconfig -Force
-Copy-Item -Path $dotfilesDir/configs/gitignore -Destination $HOME/.gitignore -Force
-
-
-# Copy all Emacs configuration.
-# Note that it is placed in both APPDATA and HOME since that is where Emacs
-# looks for configuration files by default.
-New-Item -Path $HOME/.emacs.d -ItemType Directory -Force | Out-Null
-Copy-Item $dotfilesDir/configs/emacs.d/* -Destination $HOME/.emacs.d/ -Force -Recurse
+# Copy all Emacs configuration to APPDATA as a backup.
 New-Item -Path $Env:APPDATA/.emacs.d -ItemType Directory -Force | Out-Null
 Copy-Item $dotfilesDir/configs/emacs.d/* -Destination $Env:APPDATA/.emacs.d/ -Force -Recurse
-
 
 # Copy AutoHotkey configuration to the default load path.
 $docDir = [environment]::GetFolderPath("MyDocuments")
@@ -69,13 +58,4 @@ if (!(Test-Path -Path $Env:HOMEDRIVE/Hunspell -PathType Container))
     Get-ChildItem $HOME/git/dictionaries -Recurse |
       Where-Object { $_.Name -Match '.*\.(dic|dat|aff)' } |
       Copy-Item -Destination $Env:HOMEDRIVE/Hunspell
-}
-
-# Make a symbolic link to LanguageTool inside the bin folder.
-if (!(Test-Path -Path $Env:ChocolateyPath/bin/languagetool -PathType Container))
-{
-    $ltPkg = Get-Package languagetool
-    $ltDir = [io.path]::combine((Split-Path -Parent $ltPkg.Source), "tools")
-    $ltDir = [io.path]::combine($ltDir, "LanguageTool-" + $ltPkg.Version)
-    cmd /c mklink /J "$Env:ChocolateyPath\bin\languagetool" "$ltDir"
 }
