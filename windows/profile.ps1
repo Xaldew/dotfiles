@@ -41,6 +41,8 @@ if (!$profile.Contains("NuGet_profile"))
             $cpref = [ConsoleColor]::Yellow
         }
         write-host "`[" -n -f $cpref
+        write-host "$($env:USERNAME.ToLower())" -n -f $chost
+        write-host "@" -n -f $cloc
         write-host "$($env:COMPUTERNAME.ToLower())" -n -f $chost
         write-host " | " -n -f $cdelim
         write-host (shorten-path (pwd).Path) -n -f $cloc
