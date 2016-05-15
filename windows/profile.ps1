@@ -53,6 +53,13 @@ if (!$profile.Contains("NuGet_profile"))
     }
 }
 
+# Enable PowerShell Readline.
+if ($host.Name -eq 'ConsoleHost')
+{
+    Import-Module PSReadline
+    Set-PSReadlineOption -EditMode Emacs
+}
+
 # Move to HOME directory by default.
 set-location $HOME
 
