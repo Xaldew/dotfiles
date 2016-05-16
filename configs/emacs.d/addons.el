@@ -42,7 +42,7 @@
   :diminish (which-key-mode)
   :init (which-key-mode)
   :config
-  (setq which-key-idle-delay 0.4
+  (setq which-key-idle-delay 0.8
         which-key-key-replacement-alist
         '(("<\\([[:alnum:]-]+\\)>" . "\\1")
           ("up" . "↑")
@@ -155,7 +155,7 @@
 ;; Add C-c h as toggle command for hide/show-comments.
 (use-package hide-comnt
   :ensure t
-  :bind ("C-c c h" . hide/show-comments-toggle))
+  :bind ("C-c x h" . hide/show-comments-toggle))
 
 
 ;; Change tab width for coffee-mode.
@@ -814,6 +814,30 @@ Last Macro: %(key-description last-kbd-macro)
   ("," edit-kbd-macro)
   ("q" nil :color blue))
   (global-set-key (kbd "C-c k") #'hydra-kmacro/body)
+
+
+  (defhydra hydra-compilation (:color red :hint nil)
+    "
+Command              ^^Options
+-------------------------------------------------------------------------
+_c_: Compile           _f_: Follow output [%`compilation-scroll-output]
+_r_: Recompile         _t_: Threshold     [%`compilation-skip-threshold]
+_g_: Grep              _K_: Always Kill   [%`compilation-always-kill]
+_k_: Kill compilation  ^ ^                [%`compile-command]
+_R_: Rename buffer
+^^^^
+"
+    ("c" compile :color blue)
+    ("r" recompile :color blue)
+    ("g" grep-find :color blue)
+    ("k" kill-compilation :color blue)
+    ("R" (with-current-buffer "*compilation*" (rename-uniquely)))
+
+    ("f" (setq compilation-scroll-output (not compilation-scroll-output)))
+    ("t" (setq compilation-skip-threshold (% (1+ compilation-skip-threshold) 3)))
+    ("K" (setq compilation-always-kill (not compilation-always-kill)))
+    ("q" nil))
+  (global-set-key (kbd "C-c c") #'hydra-compilation/body)
 
 
   (defhydra hydra-windowing (:color red :hint nil)
