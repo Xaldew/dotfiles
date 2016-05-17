@@ -109,8 +109,7 @@
          (address "gustaf.waldemarson@gmail.com")
          ("X-Message-SMTP-Method" "smtp smtp.gmail.com 587")
          (X-Face (my-x-face))
-         (signature (format "Written at home from %s."
-                            (replace-regexp-in-string "\n" "" (emacs-version))))
+         (signature (format "Written at home on GNU Emacs %s." emacs-version))
          ;; (x-url (getenv "WWW_HOME"))
          )
         ((my-get-face-files) ; Add Face image if possible.
@@ -118,8 +117,7 @@
         ((my-posting-from-work-p)
          (address "gustaf.waldemarson@arm.com")
          ("X-Message-SMTP-Method" "smtp smtp.office365.com 587")
-         (signature (format "Written at work from %s."
-                            (replace-regexp-in-string "\n" "" (emacs-version))))
+         (signature (format "Written at work on GNU Emacs %s." emacs-version))
          (organization "ARM Ltd."))))
 
 
