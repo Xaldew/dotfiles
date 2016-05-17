@@ -19,9 +19,7 @@
        (define-prefix-command ',command)
        (bind-key ,prefix #',command ,map))))
 
-(my-define-group "C-c a" applications)
 ;;(my-define-group "C-c o" org)
-(my-define-group "C-c c" compile-and-comments)
 (my-define-group "C-c h" help)
 (my-define-group "C-c i" insertion)
 (my-define-group "C-c p" projects)
@@ -152,7 +150,6 @@
   (add-to-list 'auto-mode-alist '("gitignore\\'" . gitignore-mode)))
 
 
-;; Add C-c h as toggle command for hide/show-comments.
 (use-package hide-comnt
   :ensure t
   :bind ("C-c x h" . hide/show-comments-toggle))
@@ -496,12 +493,8 @@
 
 
 (use-package sx ; StackExchange client for Emacs
-  :ensure t
-  :bind (("C-c a a" . sx-ask)
-         ("C-c a s" . sx-tab-all-questions)
-         ("C-c a q" . sx-tab-all-questions)
-         ("C-c a f" . sx-tab-all-questions)
-         ("C-c a n" . sx-tab-newest)))
+  :defer t
+  :ensure t)
 
 (use-package sx-compose ; Write questions/answers for Stack Exchange
   :ensure sx
@@ -1190,6 +1183,31 @@ _R_: Apply on rectangle  _pd_: Python dictionary  _s_: Column separator       [%
     ("r" delimit-columns-region)
     ("R" delimit-columns-rectangle)
     ("q" nil nil)))
+
+
+(use-package hydra
+  :defer t
+  :after (eww sx emms)
+  :config
+  (defhydra hydra-apps (:color blue :hint nil)
+    "
+Browser            ^^Stack Exchange    ^^Music
+-------------------------------------------------------------------------
+_bo_: EWW Open       _so_: SX Open       _mo_: EMMS Open
+_bb_: EWW Bookmarks  _sa_: SX Ask        _mp_: EMMS play file
+^ ^                  _sn_: SX Newest
+"
+    ("bo" eww)
+    ("bb" eww-list-bookmarks)
+
+    ("so" sx-tab-all-questions)
+    ("sa" sx-ask)
+    ("sn" sx-tab-newest)
+
+    ("mo" emms-smart-browse)
+    ("mp" emms-play-file)
+    ("q" nil))
+  (global-set-key (kbd "C-c a") #'hydra-apps/body))
 
 
 ;; Install various major-mode packages and defer where it is possible.
