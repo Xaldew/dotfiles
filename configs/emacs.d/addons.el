@@ -954,11 +954,13 @@ _h_   _l_  _r_: Reset     _x_: Kill    _C_: Clear       _sr_: String Replace    
 Generic Mail^^                ^Editing Commands^           ^Actions^
 --------------------------------------------------------------------------------
 _ca_: Attach file             _ci_: Insert file            _cc_: Send message
-_cu_: Toggle importance       _ce_: Elide region           _cj_: Send delayed
-_cn_: Request read receipt    _cr_: Caesar shift region    _cd_: Suspend message
-_cw_: Change to wide reply    _cm_: Morse region           _ck_: Abort message
+_cb_: Attach Buffer           _ce_: Elide region           _cj_: Send delayed
+_cu_: Toggle importance       _cr_: Caesar shift region    _cd_: Suspend message
+_cn_: Request read receipt    _cm_: Morse region           _ck_: Abort message
+_cw_: Change to wide reply    _cq_: Quote region
 "
     ("ca" mml-attach-file nil)
+    ("cb" mml-attach-buffer nil)
     ("cu" message-insert-or-toggle-importance nil)
     ("cn" message-insert-disposition-notification-to nil)
     ("cw" message-insert-wide-reply nil)
@@ -967,6 +969,7 @@ _cw_: Change to wide reply    _cm_: Morse region           _ck_: Abort message
     ("ce" message-elide-region nil)
     ("cr" rot13-region nil)
     ("cm" morse-region nil)
+    ("cq" comment-dwim nil)
 
     ("cc" message-send-and-exit nil)
     ("cj" gnus-delay-article nil)
