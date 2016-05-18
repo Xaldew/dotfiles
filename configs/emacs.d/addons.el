@@ -1195,8 +1195,8 @@ _R_: Apply on rectangle  _pd_: Python dictionary  _s_: Column separator       [%
 Browser            ^^Stack Exchange    ^^Music
 -------------------------------------------------------------------------
 _bo_: EWW Open       _so_: SX Open       _mo_: EMMS Open
-_bb_: EWW Bookmarks  _sa_: SX Ask        _mp_: EMMS play file
-^ ^                  _sn_: SX Newest
+_bb_: EWW Bookmarks  _sa_: SX Ask        _mp_: EMMS play library file
+^ ^                  _sn_: SX Newest     _mf_: EMMS play local file
 "
     ("bo" eww)
     ("bb" eww-list-bookmarks)
@@ -1207,6 +1207,8 @@ _bb_: EWW Bookmarks  _sa_: SX Ask        _mp_: EMMS play file
 
     ("mo" emms-smart-browse)
     ("mp" emms-play-file)
+    ("mf" (let (emms-source-file-default-directory)
+            (call-interactively #'emms-play-file)))
     ("q" nil))
   (global-set-key (kbd "C-c a") #'hydra-apps/body))
 
