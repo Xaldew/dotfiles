@@ -817,7 +817,7 @@ _c_: Compile        _n_: Next            _f_: Follow output [%`compilation-scrol
 _r_: Recompile      _p_: Previous        _t_: Threshold     [%`compilation-skip-threshold]
 _g_: Grep           _N_: Go to Next      _K_: Always Kill   [%`compilation-always-kill]
 _k_: Kill           _P_: Go to Previous  ^ ^                [%`compile-command]
-_R_: Rename buffer
+_R_: Rename buffer  _F_: Follow sources
 ^^^^
 "
     ("c" compile :color blue)
@@ -830,6 +830,7 @@ _R_: Rename buffer
     ("p" compilation-previous-error)
     ("N" next-error)
     ("P" previous-error)
+    ("F" next-error-follow-minor-mode)
 
     ("f" (setq compilation-scroll-output (not compilation-scroll-output)))
     ("t" (setq compilation-skip-threshold (% (1+ compilation-skip-threshold) 3)))
