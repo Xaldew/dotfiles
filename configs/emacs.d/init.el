@@ -32,8 +32,6 @@
 (load-user-file "cmode")
 (load-user-file "cppmode")
 (load-user-file "pymode")
-(load-user-file "module-mk-parser")
-(load-user-file "parse-cdb")
 
 
 ;; Update and load autoload cookies for the local files.
