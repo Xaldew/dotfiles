@@ -14,7 +14,7 @@ fi
 if [ $OSTYPE = "cygwin" ]; then
     conf=" --with-w32 "
 else
-    conf=" --with-imagemagick --with-x-toolkit=lucid"
+    conf=""
 fi
 
 
@@ -29,8 +29,6 @@ git clean --force
 
 git checkout -B emacs-25 origin/emacs-25
 sh autogen.sh
-./configure --prefix=$local_prefix_dir \
-	    --mandir=$local_prefix_dir/share/man \
-            $conf
+./configure --prefix="$local_prefix_dir" $conf
 make -j4
 make install
