@@ -2,7 +2,9 @@
 # Install the latest development release of Emacs.
 
 # DEB: sudo apt-get install libmagickcore-dev libmagickwand-dev libgtk-3-dev
-# libjpeg-dev libgif-dev libtiff-dev libxpm-dev libxaw7-dev
+# libjpeg-dev libgif-dev libtiff-dev libxpm-dev librsvg2-dev libdbus-1-dev
+# libgnutls-dev libxml2-dev
+
 
 if [ ! -d $objects_dir/emacs ]; then
     git clone git://git.savannah.gnu.org/emacs.git $objects_dir/emacs
