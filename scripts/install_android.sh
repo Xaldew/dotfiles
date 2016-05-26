@@ -14,14 +14,13 @@ android_sdk()
 
 android_ndk()
 {
-    url=http://dl.google.com/android/ndk/android-ndk-r10e-linux-x86_64.bin
+    url=http://dl.google.com/android/repository/android-ndk-r11c-linux-x86_64.zip
     if [ ! -d $objects_dir/android_ndk ]; then
-	wget $url --output-document=$objects_dir/android_ndk.bin --quiet
+	wget $url --output-document=$objects_dir/android_ndk.zip --quiet
 	(cd $objects_dir &&
-		chmod a+x android_ndk.bin &&
-		./android_ndk.bin &&
-		mv android-ndk-r10e android_ndk &&
-		rm ./android_ndk.bin)
+             unzip android_ndk.zip &&
+	     mv android-ndk-r11c android_ndk &&
+	     rm ./android_ndk.zip)
     fi
 }
 
