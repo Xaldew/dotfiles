@@ -59,7 +59,7 @@ cygwin_clip()
         # putclip/getclip cannot handle utf-8. So prioritize /dev/clipboard.
         cat - | putclip --no-conv
     else
-        printf "ERROR: No Cygwin clipboard utility found.\n" >&2
+        exit 1
     fi
 }
 
@@ -70,7 +70,7 @@ osx_clip()
     if command -v pbcopy > /dev/null 2>&1; then
         pbcopy -pboard $pasteboard -
     else
-        printf "ERROR: No OSX clipboard utility found.\n" >&2
+        exit 1
     fi
 }
 
@@ -85,7 +85,7 @@ unix_clip()
     elif command -v tmux > /dev/null 2>&1 && [ -n "$TMUX" ]; then
         tmux set-buffer "`cat -`"
     else
-        printf "ERROR: No Unix clipboard utility found.\n" >&2
+        exit 1
     fi
 }
 
