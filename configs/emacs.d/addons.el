@@ -1234,6 +1234,7 @@ _bb_: EWW Bookmarks  _sa_: SX Ask     _mp_: EMMS Play library file
 (use-package flycheck-rust     :ensure t :defer t)
 (use-package powershell        :ensure t :defer t)
 (use-package ahk-mode          :ensure t :defer t)
+(use-package dts-mode          :ensure t :defer t :pin melpa)
 
 
 ;; Add various themes.
