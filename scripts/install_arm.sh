@@ -5,6 +5,9 @@
 # Note that doing this elsewhere will likely break things.
 cat >> ~/.bashrc <<EOF
 
+# Source common utilities.
+source \$dotfiles_dir/scripts/get_distribution.sh
+
 # Initialize tool to load modules.
 source /arm/tools/setup/init/bash
 
@@ -49,8 +52,6 @@ export PATH=\$HW_UTILS_DIR/i686-linux:\$PATH
 module load eda
 module load swdev
 module load util
-module load git/git/v2.0.0       # Missing git-svn plugin.
-module load vim/vim/7.3
 module load arm/rascdevkit/1.1.4
 module load ccache/ccache/3.1.4
 module load gnu/gdb/7.5          # No python scripting support.
@@ -65,6 +66,13 @@ module load doxygen/doxygen/1.8.2
 module load codesourcery/linuxeabi/arm-2011q1
 module load smartbear/codecollab/8.1.8100
 
+if [ "\`get_dist -i\`" = "ubuntu" ]; then
+   module load git/git/2.7.0
+else
+   # Running CentOS. Load CentOS specific packages.
+   module load vim/vim/7.3
+   module load git/git/v2.0.0       # Missing git-svn plugin.
+fi
 
 #### Aliases
 alias maketest=" (goto_repo && cd test/system/ && \
