@@ -1216,6 +1216,79 @@ _bb_: EWW Bookmarks  _sa_: SX Ask     _mp_: EMMS Play library file
   (global-set-key (kbd "C-c a") #'hydra-apps/body))
 
 
+(use-package calendar
+  :defer t
+  :config
+  (setq calendar-week-start-day 1)
+  (setq calendar-date-style 'iso))
+
+
+(use-package holidays
+  :defer t
+  :after calendar
+  :config
+  (defun swedish-easter (year)
+    "Calculate the date for the Swedish Easter holiday in YEAR."
+    (let* ((century (1+ (/ year 100)))
+           (shifted-epact (% (+ 14 (* 11 (% year 19))
+                                (- (/ (* 3 century) 4))
+                                (/ (+ 5 (* 8 century)) 25)
+                                (* 30 century))
+                             30))
+           (adjusted-epact (if (or (= shifted-epact 0)
+                                   (and (= shifted-epact 1)
+                                        (< 10 (% year 19))))
+                               (1+ shifted-epact)
+                             shifted-epact))
+           (paschal-moon (- (calendar-absolute-from-gregorian
+                             (list 4 19 year))
+                            adjusted-epact)))
+      (calendar-dayname-on-or-before 0 (+ paschal-moon 7))))
+
+  (setq holiday-local-holidays
+        '((holiday-fixed 1 1 "Nyårsdagen")
+          (holiday-fixed 1 6 "Trettondedag jul")
+          (holiday-fixed 1 13 "Tjogondag Knut")
+
+          ;; Easter
+          (filter-visible-calendar-holidays
+           (mapcar
+            (lambda (day)
+              (list (calendar-gregorian-from-absolute
+                     (+ (swedish-easter displayed-year) (car day)))
+                    (cadr day)))
+            '((  -2 "Långfredagen")
+              (  -1 "Påskafton")
+              (   0 "Påskdagen")
+              (  +1 "Annandag påsk")
+              ( +39 "Kristi himmelfärdsdag")
+              ( +49 "Pingstdagen")
+              ( +50 "Annandag pingst"))))
+          (holiday-fixed 5 1 "Första maj")
+
+          (let ((midsommar-d (calendar-dayname-on-or-before
+                            6 (calendar-absolute-from-gregorian
+                               (list 6 26 displayed-year)))))
+          ;; Midsummer
+          (filter-visible-calendar-holidays
+          (list
+           (list
+            (calendar-gregorian-from-absolute (1- midsommar-d))
+            "Midsommarafton")
+           (list
+            (calendar-gregorian-from-absolute midsommar-d)
+            "Midsommardagen")
+           ;; Halloween
+           (list
+            (calendar-gregorian-from-absolute
+             (calendar-dayname-on-or-before
+              6 (calendar-absolute-from-gregorian
+                 (list 11 6 displayed-year))))
+            "Alla helgons dag"))))
+
+          (holiday-fixed 12 25 "Juldagen")
+          (holiday-fixed 12 26 "Annandag jul"))))
+
 ;; Install various major-mode packages and defer where it is possible.
 (use-package abc-mode          :ensure t :defer t)
 (use-package graphviz-dot-mode :ensure t :defer t)
