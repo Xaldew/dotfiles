@@ -1216,6 +1216,13 @@ _bb_: EWW Bookmarks  _sa_: SX Ask     _mp_: EMMS Play library file
   (global-set-key (kbd "C-c a") #'hydra-apps/body))
 
 
+(use-package modern-cpp-font-lock
+  :ensure t
+  :defer t
+  :init
+  (add-to-list 'c++-mode-hook #'modern-c++-font-lock-mode))
+
+
 (use-package calendar
   :defer t
   :config
