@@ -1227,67 +1227,54 @@ _bb_: EWW Bookmarks  _sa_: SX Ask     _mp_: EMMS Play library file
   :defer t
   :after calendar
   :config
-  (defun swedish-easter (year)
-    "Calculate the date for the Swedish Easter holiday in YEAR."
-    (let* ((century (1+ (/ year 100)))
-           (shifted-epact (% (+ 14 (* 11 (% year 19))
-                                (- (/ (* 3 century) 4))
-                                (/ (+ 5 (* 8 century)) 25)
-                                (* 30 century))
-                             30))
-           (adjusted-epact (if (or (= shifted-epact 0)
-                                   (and (= shifted-epact 1)
-                                        (< 10 (% year 19))))
-                               (1+ shifted-epact)
-                             shifted-epact))
-           (paschal-moon (- (calendar-absolute-from-gregorian
-                             (list 4 19 year))
-                            adjusted-epact)))
-      (calendar-dayname-on-or-before 0 (+ paschal-moon 7))))
-
   (setq holiday-local-holidays
         '((holiday-fixed 1 1 "Nyårsdagen")
           (holiday-fixed 1 6 "Trettondedag jul")
           (holiday-fixed 1 13 "Tjogondag Knut")
 
           ;; Easter
-          (filter-visible-calendar-holidays
-           (mapcar
-            (lambda (day)
-              (list (calendar-gregorian-from-absolute
-                     (+ (swedish-easter displayed-year) (car day)))
-                    (cadr day)))
-            '((  -2 "Långfredagen")
-              (  -1 "Påskafton")
-              (   0 "Påskdagen")
-              (  +1 "Annandag påsk")
-              ( +39 "Kristi himmelfärdsdag")
-              ( +49 "Pingstdagen")
-              ( +50 "Annandag pingst"))))
+          (holiday-easter-etc -47 "Fettisdagen")
+          (holiday-easter-etc -46 "Askonsdagen")
+          (holiday-easter-etc  -3 "Skärtorsdagen")
+          (holiday-easter-etc  -2 "Långfredagen")
+          (holiday-easter-etc  -1 "Påskafton")
+          (holiday-easter-etc   0 "Påskdagen")
+          (holiday-easter-etc  +1 "Annandag påsk")
+          (holiday-easter-etc +39 "Kristi himmelfärdsdag")
+          (holiday-easter-etc +49 "Pingstdagen")
+          (holiday-easter-etc +50 "Annandag pingst")
+
+          (holiday-fixed 4 30 "Valborgsmässoafton")
           (holiday-fixed 5 1 "Första maj")
+          (holiday-fixed 6 6 "Sveriges Nationaldag")
 
-          (let ((midsommar-d (calendar-dayname-on-or-before
-                            6 (calendar-absolute-from-gregorian
-                               (list 6 26 displayed-year)))))
-          ;; Midsummer
-          (filter-visible-calendar-holidays
-          (list
-           (list
-            (calendar-gregorian-from-absolute (1- midsommar-d))
-            "Midsommarafton")
-           (list
-            (calendar-gregorian-from-absolute midsommar-d)
-            "Midsommardagen")
-           ;; Halloween
-           (list
-            (calendar-gregorian-from-absolute
-             (calendar-dayname-on-or-before
-              6 (calendar-absolute-from-gregorian
-                 (list 11 6 displayed-year))))
-            "Alla helgons dag"))))
+          (holiday-sexp '(calendar-gregorian-from-absolute
+                          (1- (calendar-dayname-on-or-before
+                               6 (calendar-absolute-from-gregorian
+                                  (list 6 26 year)))))
+                        "Midsommarafton")
+          (holiday-sexp '(calendar-gregorian-from-absolute
+                          (calendar-dayname-on-or-before
+                           6 (calendar-absolute-from-gregorian
+                              (list 6 26 year))))
+                        "Midsommardagen")
+          (holiday-sexp '(calendar-gregorian-from-absolute
+                          (calendar-dayname-on-or-before
+                           6 (calendar-absolute-from-gregorian
+                              (list 11 6 year))))
+                        "Alla helgons dag")
 
+          (holiday-float 12 0 -4 "Första advent" 24)
+          (holiday-float 12 0 -3 "Andra advent"  24)
+          (holiday-float 12 0 -2 "Tredje advent" 24)
+          (holiday-float 12 0 -1 "Fjärde advent" 24)
+          (holiday-fixed 12 10 "Nobeldagen")
+          (holiday-fixed 12 13 "Lucia")
+
+          (holiday-fixed 12 24 "Julafton")
           (holiday-fixed 12 25 "Juldagen")
-          (holiday-fixed 12 26 "Annandag jul"))))
+          (holiday-fixed 12 26 "Annandag jul")
+          (holiday-fixed 12 31 "Nyårsafton"))))
 
 ;; Install various major-mode packages and defer where it is possible.
 (use-package abc-mode          :ensure t :defer t)
