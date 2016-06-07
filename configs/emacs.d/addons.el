@@ -1192,18 +1192,14 @@ _R_: Apply on rectangle  _pd_: Python dictionary  _s_: Column separator       [%
   :config
   (defhydra hydra-apps (:color blue :hint nil)
     "
-Browser            ^^Stack Exchange ^^Music                       ^^Mail
--------------------------------------------------------------------------
-_bo_: EWW Open       _so_: SX Open    _mo_: EMMS Open               _go_: GNUS Open
-_bb_: EWW Bookmarks  _sa_: SX Ask     _mp_: EMMS Play library file
-^ ^                  _sn_: SX Newest  _mf_: EMMS Play local file
+Browser             ^^Music                  ^^Mail           ^^Calendar           ^^Stack Exchange
+---------------------------------------------------------------------------------------------------
+_bo_: EWW Open       _mo_: EMMS Open          _go_: GNUS Open  _co_: Calendar Open  _so_: SX Open
+_bb_: EWW Bookmarks  _mp_: EMMS Play library  ^  ^             _ch_: Holidays       _sa_: SX Ask
+^ ^                  _mf_: EMMS Play local    ^  ^             _cl_: Holidays List  _sn_: SX Newest
 "
     ("bo" eww)
     ("bb" eww-list-bookmarks)
-
-    ("so" sx-tab-all-questions)
-    ("sa" sx-ask)
-    ("sn" sx-tab-newest)
 
     ("mo" emms-smart-browse)
     ("mp" emms-play-file)
@@ -1211,6 +1207,14 @@ _bb_: EWW Bookmarks  _sa_: SX Ask     _mp_: EMMS Play library file
             (call-interactively #'emms-play-file)))
 
     ("go" gnus)
+
+    ("so" sx-tab-all-questions)
+    ("sa" sx-ask)
+    ("sn" sx-tab-newest)
+
+    ("co" calendar)
+    ("ch" holidays)
+    ("cl" holiday-list)
 
     ("q" nil))
   (global-set-key (kbd "C-c a") #'hydra-apps/body))
