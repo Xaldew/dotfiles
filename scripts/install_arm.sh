@@ -126,24 +126,28 @@ function count_h264_frames()
 # Setup environment for building android/android-kernel stuff.
 function android_env()
 {
-    export ANDROID_BASE=/work/mydroid
-    export MYDROID=/work/mydroid/android
-    export TOP=/work/mydroid/android
-    export KDIR=/work/mydroid/kernel
-    export ROOTFS=/work/mydroid/rootfs
-    export ANDROID_PRODUCT_OUT=/work/mydroid/android/out/target/product/armboard_v7a
-    export ANDROID_HOST_OUT=/work/mydroid/android/out/host/linux-x86/
-    export ARCH=arm
+    export DEMO=\$WORK/demo
+    export ANDROID_BASE=\$DEMO/android
+    export TOP=\$ANDROID_BASE
+    export KDIR=\$DEMO/kernel
+    export ROOTFS=\$DEMO/rootfs
+    export ANDROID_PRODUCT_OUT=\$ANDROID_BASE/out/target/product/juno-eng
+    export ANDROID_HOST_OUT=\$ANDROID_BASE/out/host/linux-x86/
+    export ARCH=arm64
     export HW=1
-    export CROSS_COMPILE=arm-eabi-
-    export BASE_PATH=ssh://\$USER@login2.euhpc.arm.com/arm/mpd/thirdparty/bsp/android/midgard
-    export PATH=\$PATH:/work/mydroid/android/prebuilts/gcc/linux-x86/arm/arm-eabi-4.7/bin
+    export CROSS_COMPILE=aarch64-linux-gnu-
+    export STAY_OFF_MY_LAWN=1
+    # export BASE_PATH=ssh://\$USER@login2.euhpc.arm.com/arm/mpd/thirdparty/bsp/android/midgard
+    # export PATH=\$PATH:\$ANDROID_BASE/prebuilts/gcc/linux-x86/aarch64/aarch64-linux-android-5.1-linaro/bin
+
+    # Use system default instead of these broken modules.
     module unload sun/jdk/1.8.0_11
-    if [ -d "\$MYDROID" ]; then
-        source \$MYDROID/build/envsetup.sh
-        my_pwd=\$(pwd)
-        cd \$MYDROID && lunch armboard_v7a-eng
-        cd \$my_pwd
+    module unload python/python
+    if [ -d "\$ANDROID_BASE" ]; then
+        source \$ANDROID_BASE/build/envsetup.sh
+        pushd \$ANDROID_BASE > /dev/null
+        lunch juno-eng
+        popd > /dev/null
     fi
     # Currently, the demobox resides on this IP.
     export ADBHOST=10.44.11.54
