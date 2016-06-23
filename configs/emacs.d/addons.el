@@ -818,9 +818,11 @@ _r_: Recompile      _p_: Previous        _t_: Threshold     [%`compilation-skip-
 _g_: Grep           _N_: Go to Next      _K_: Always Kill   [%`compilation-always-kill]
 _k_: Kill           _P_: Go to Previous  ^ ^                [%`compile-command]
 _R_: Rename buffer  _F_: Follow sources
+_s_: Compile shell
 ^^^^
 "
     ("c" compile :color blue)
+    ("s" (let ((current-prefix-arg '(t))) (call-interactively #'compile)) :color blue)
     ("r" recompile :color blue)
     ("g" grep-find :color blue)
     ("k" kill-compilation :color blue)
