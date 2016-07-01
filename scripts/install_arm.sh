@@ -150,7 +150,7 @@ function android_env()
         popd > /dev/null
     fi
     # Currently, the demobox resides on this IP.
-    export ADBHOST=10.44.11.54
+    export ADBHOST=10.44.11.22
 }
 
 function strip_h264()
