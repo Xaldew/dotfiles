@@ -23,8 +23,8 @@
 ;;; Commentary:
 
 ;; This package allows Emacs to copy to and paste from the system clipboard(s)
-;; when running in terminal mode. It uses the external command-line tool anyclip
-;; which interacts with various other tools depending on the underlying
+;; when running in terminal mode.  It uses the external command-line tool
+;; anyclip which interacts with various other tools depending on the underlying
 ;; platform.
 ;;
 ;; To use: (anyclip-mode)
