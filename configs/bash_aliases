@@ -7,7 +7,7 @@ fi
 
 greet_user()
 {
-    # Function to greet the user and siplay  a useful and funny ASCII artwork.
+    # Function to greet the user and diplay a funny ASCII artwork.
     if command -v cowsay >/dev/null 2>&1; then
 	cowfiles=($(cowsay -l | tail -n +2))
 	cowfile=${cowfiles[$RANDOM % ${#cowfiles[@]} ]}
