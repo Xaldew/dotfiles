@@ -1,0 +1,13 @@
+# -*- mode: snippet -*-
+# Insert template for Project Euler problems.
+# name: Python Project Euler Template
+# key: euler
+# type: snippet
+# contributer: Gustaf Waldemarson
+# --
+#!/usr/bin/env python
+
+defr$0
+
+if __name__ == '__main__':
+    print("Python Euler$1: %d" % euler$1($2))
