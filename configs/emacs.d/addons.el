@@ -351,6 +351,16 @@
   (add-hook 'after-init-hook #'global-anzu-mode))
 
 
+(use-package pyimport
+  :ensure t
+  :init
+  (defun my-pyimport-hook ()
+    "Personal hook for pyimport keys."
+    (define-key python-mode-map (kbd "C-c C-u") #'pyimport-remove-unused)
+    (define-key python-mode-map (kbd "C-c C-i") #'pyimport-insert-missing))
+  (add-hook 'python-mode-hook #'my-pyimport-hook))
+
+
 (use-package pyvenv
   :ensure t
   :init
