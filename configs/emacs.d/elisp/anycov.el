@@ -163,24 +163,26 @@
 
 (defun anycov-add-buffer-overlays (buffer)
   "Add coverage overlays to BUFFER."
-  (let* ((file     (file-truename (buffer-file-name buffer)))
-         (lines    (gethash file anycov--line-hits))
-         (branches (gethash file anycov--branch-hits))
-         (buffer-lines (line-number-at-pos (point-max))))
-    (save-excursion
-      (with-current-buffer buffer
-        (goto-char (point-min))
-        (anycov-clear-overlays)
-        (overlay-recenter (point-max))
-        (print branches)
-        (print lines)
-        (cl-loop for i from 1 to (1+ buffer-lines)
-                 do
-                 (anycov-add-line-overlay buffer
-                                          (plist-get lines i)
-                                          (plist-member branches i)
-                                          (plist-get branches i))
-                 (forward-line 1))))))
+  (save-excursion
+    (with-current-buffer buffer
+      (let* ((file     (file-truename (buffer-file-name buffer)))
+             (lines    (gethash file anycov--line-hits))
+             (branches (gethash file anycov--branch-hits))
+             (buffer-lines (line-number-at-pos (point-max))))
+        (when (or lines branches)
+          (goto-char (point-min))
+          (anycov-clear-overlays)
+          (overlay-recenter (point-max))
+          (print branches)
+          (print lines)
+          (print buffer-lines)
+          (cl-loop for i from 1 to (1+ buffer-lines)
+                   do
+                   (anycov-add-line-overlay buffer
+                                            (plist-get lines i)
+                                            (plist-member branches i)
+                                            (plist-get branches i))
+                   (forward-line 1)))))))
 
 
 (defun anycov-add-line-overlay (buffer hit branch branch-end)
