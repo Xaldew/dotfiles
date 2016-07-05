@@ -6,7 +6,7 @@
 ;; Keywords: convenience, tools, coverage
 ;; Created: 2016-07-01
 ;; Version: 0.0.1
-;; Package-Requires: ((async "1.9"))
+;; Package-Requires: ((async "1.9") (popup "1.5"))
 
 ;; This program is free software; you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by
@@ -33,6 +33,7 @@
 
 (require 'cl-lib)
 (require 'xml)
+(require 'popup)
 
 ;;; Utils:
 
@@ -156,6 +157,18 @@
   nil)
 
 
+(defun anycov-display-tooltip (window object pos)
+  "Display a popup in WINDOW.
+
+OBJECT is either a buffer, overlay or a string.
+
+POS either of:
+* Position in the OBJECT buffer.
+* Position of the overlay.
+* Position inside the string."
+  nil)
+
+
 (defun anycov-clear-overlays ()
   "Clear all overlays in the current buffer."
   (remove-overlays (point-min) (point-max) 'coverage t))
@@ -205,7 +218,10 @@ BRANCH-END.  This value is nil when the branch is fully covered."
       (when branch
         (setq branch-ovl (make-overlay end (+ end 1) buffer))
         (overlay-put branch-ovl 'coverage t)
-        (overlay-put branch-ovl 'branch branch-end)
+        (when branch-end
+          (overlay-put branch-ovl
+                       'help-echo
+                       (format "Missing branches: %s" branch-end)))
         (overlay-put branch-ovl 'priority anycov-overlay-priority)
         (overlay-put branch-ovl 'face (if branch-end
                                           (cons 'background-color "dark orange")
