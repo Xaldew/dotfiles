@@ -249,14 +249,36 @@ if not found."
       (anycov--locate-dominating-file ".coverage.xml")))
 
 
+(defun anycov--find-file-hook ()
+  "Add coverage data to a buffer after loading if such data exist."
+  (let* ((name (buffer-file-name)))
+    (message (format "anycov.el: Loading coverage data for file: %s." name))
+    (anycov-add-buffer-overlays (current-buffer))))
+
+
+(defun anycov--clear-all-buffers ()
+  "Remove coverage data from all active buffers."
+  (maphash (lambda (key &ignore)
+             (when (get-file-buffer key)
+               (with-current-buffer (get-file-buffer key)
+                 (anycov-clear-overlays))))
+           anycov--line-hits))
+
+
 (defun anycov--turn-on ()
   "Turn on `anycov-mode'."
-  nil)
+  (setq anycov--loaded-file-path (anycov-find-coverage-data))
+  (when)
+  (dolist (buf (buffer-list))
+    (when (buffer-file-name buf)
+      (anycov-add-buffer-overlays buf)))
+  (add-hook 'find-file-hook #'anycov--find-file-hook))
 
 
 (defun anycov--turn-off ()
   "Turn off `anycov-mode'."
-  nil)
+  (remove-hook 'find-file-hook #'anycov--find-file-hook)
+  (anycov--clear-all-buffers))
 
 
 ;;;###autoload
