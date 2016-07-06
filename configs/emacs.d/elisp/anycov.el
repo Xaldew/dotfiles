@@ -96,7 +96,7 @@
 (defvar anycov--branch-hits (make-hash-table :test 'equal)
   "Association list over files and line hits.")
 
-(defvar anycov--loaded-filepath nil
+(defvar anycov--loaded-file nil
   "The currently loaded coverage data file.")
 
 
@@ -184,9 +184,6 @@ POS either of:
           (goto-char (point-min))
           (anycov-clear-overlays)
           (overlay-recenter (point-max))
-          (print branches)
-          (print lines)
-          (print buffer-lines)
           (cl-loop for i from 1 to (1+ buffer-lines)
                    do
                    (anycov-add-line-overlay buffer
@@ -263,13 +260,29 @@ if not found."
            anycov--line-hits))
 
 
-(defun anycov--turn-on ()
-  "Turn on `anycov-mode'."
-  (setq anycov--loaded-file-path (anycov-find-coverage-data))
-  (when)
+(defun anycov--load-coverage (file)
+  "Load coverage data stored in FILE."
+  (pcase (file-name-extension file)
+    ("lcov" (anycov--parse-lcov file))
+    ("xml"  (anycov-read-xml file))
+    (`(,_   (user-error "Anycov.el: Unsupported coverage data format")))))
+
+
+(defun anycov--apply-coverage ()
+  "Apply the loaded coverage data to all applicable buffers."
   (dolist (buf (buffer-list))
     (when (buffer-file-name buf)
-      (anycov-add-buffer-overlays buf)))
+      (anycov-add-buffer-overlays buf))))
+
+
+(defun anycov--turn-on ()
+  "Turn on `anycov-mode'."
+  (unless anycov--loaded-file
+    (setq anycov--loaded-file (anycov--find-coverage-data)))
+  (if (not anycov--loaded-file)
+      (user-error "Anycov.el: No coverage data found")
+    (anycov--load-coverage anycov--loaded-file)
+    (anycov--apply-coverage))
   (add-hook 'find-file-hook #'anycov--find-file-hook))
 
 
