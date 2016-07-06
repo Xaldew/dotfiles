@@ -135,7 +135,6 @@
   (let* ((xml (xml-parse-file file))
          (src-dirs (anycov--read-sources-tag xml))
          (pkgs (assoc-recursive xml 'coverage 'packages))
-         (i 0)
          (file)
          (lines))
     (dolist (pkg pkgs)
@@ -144,12 +143,11 @@
         (dolist (cls (alist-get 'classes pkg))
           (when (and (listp cls)
                      (eq 'class (car cls)))
-            (setq file (concat (file-name-as-directory (nth i src-dirs))
+            (setq file (concat (file-name-as-directory (nth 0 src-dirs))
                                (alist-get 'filename (nth 1 cls))))
             (setq lines (anycov--read-class-tag cls))
             (puthash file (nth 0 lines) anycov--line-hits)
-            (puthash file (nth 1 lines) anycov--branch-hits)))
-        (cl-incf i)))))
+            (puthash file (nth 1 lines) anycov--branch-hits)))))))
 
 
 (defun anycov-read-lcov (file)
