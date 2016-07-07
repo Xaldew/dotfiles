@@ -301,6 +301,16 @@ if not found."
     (anycov--turn-off)))
 
 
+;;;###autoload
+(defun anycov-select-coverage (file &optional no-start)
+  "Select FILE as coverage data file.
+
+Also restart `anycov-mode' unless NO-START is set as prefix argument."
+  (interactive "fP")
+  (setq anycov--loaded-file file)
+  (anycov-mode))
+
+
 (provide 'anycov)
 
 ;;; anycov.el ends here
