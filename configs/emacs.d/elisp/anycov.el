@@ -100,18 +100,17 @@
   "The currently loaded coverage data file.")
 
 
-(defun anycov--read-sources-tag (xml)
+(defun anycov--parse-sources (xml)
   "Read the `sources' tag with XML directories from the XML."
   (let ((srcs (assoc-recursive xml 'coverage 'sources))
         (out))
     (dolist (src srcs out)
       (when (and (listp src)
                  (eq 'source (car src)))
-        (setq out (append out (cddr src)))))
-    out))
+        (setq out (append out (cddr src)))))))
 
 
-(defun anycov--read-class-tag (class)
+(defun anycov--parse-class (class)
   "Read the `Cobertura' CLASS."
   (let ((lines (alist-get 'lines class))
         (lines-out)
@@ -130,10 +129,10 @@
     (list lines-out branch-out)))
 
 
-(defun anycov-read-xml (file)
+(defun anycov--parse-xml (file)
   "Read the `Cobertura' compliant XML schema in FILE."
   (let* ((xml (xml-parse-file file))
-         (src-dirs (anycov--read-sources-tag xml))
+         (src-dirs (anycov--parse-sources xml))
          (pkgs (assoc-recursive xml 'coverage 'packages))
          (file)
          (lines))
@@ -145,17 +144,17 @@
                      (eq 'class (car cls)))
             (setq file (concat (file-name-as-directory (nth 0 src-dirs))
                                (alist-get 'filename (nth 1 cls))))
-            (setq lines (anycov--read-class-tag cls))
+            (setq lines (anycov--parse-class cls))
             (puthash file (nth 0 lines) anycov--line-hits)
             (puthash file (nth 1 lines) anycov--branch-hits)))))))
 
 
-(defun anycov-read-lcov (file)
+(defun anycov--parse-lcov (file)
   "Read the `lcov' formatted FILE."
   nil)
 
 
-(defun anycov-display-tooltip (window object pos)
+(defun anycov--display-tooltip (window object pos)
   "Display a popup in WINDOW.
 
 OBJECT is either a buffer, overlay or a string.
@@ -167,12 +166,12 @@ POS either of:
   nil)
 
 
-(defun anycov-clear-overlays ()
+(defun anycov--clear-overlays ()
   "Clear all overlays in the current buffer."
   (remove-overlays (point-min) (point-max) 'coverage t))
 
 
-(defun anycov-add-buffer-overlays (buffer)
+(defun anycov--add-buffer-overlays (buffer)
   "Add coverage overlays to BUFFER."
   (save-excursion
     (with-current-buffer buffer
@@ -182,18 +181,18 @@ POS either of:
              (buffer-lines (line-number-at-pos (point-max))))
         (when (or lines branches)
           (goto-char (point-min))
-          (anycov-clear-overlays)
+          (anycov--clear-overlays)
           (overlay-recenter (point-max))
           (cl-loop for i from 1 to (1+ buffer-lines)
                    do
-                   (anycov-add-line-overlay buffer
-                                            (plist-get lines i)
-                                            (plist-member branches i)
-                                            (plist-get branches i))
+                   (anycov--add-line-overlay buffer
+                                             (plist-get lines i)
+                                             (plist-member branches i)
+                                             (plist-get branches i))
                    (forward-line 1)))))))
 
 
-(defun anycov-add-line-overlay (buffer hit branch branch-end)
+(defun anycov--add-line-overlay (buffer hit branch branch-end)
   "Add an overlay to BUFFER the current line if the coverage HIT the line.
 
 If the line contains a missed BRANCH, add an additional overlay
@@ -248,7 +247,7 @@ if not found."
   "Add coverage data to a buffer after loading if such data exist."
   (let* ((name (buffer-file-name)))
     (message (format "anycov.el: Loading coverage data for file: %s." name))
-    (anycov-add-buffer-overlays (current-buffer))))
+    (anycov--add-buffer-overlays (current-buffer))))
 
 
 (defun anycov--clear-all-buffers ()
@@ -256,7 +255,7 @@ if not found."
   (maphash (lambda (key &ignore)
              (when (get-file-buffer key)
                (with-current-buffer (get-file-buffer key)
-                 (anycov-clear-overlays))))
+                 (anycov--clear-overlays))))
            anycov--line-hits))
 
 
@@ -264,7 +263,7 @@ if not found."
   "Load coverage data stored in FILE."
   (pcase (file-name-extension file)
     ("lcov" (anycov--parse-lcov file))
-    ("xml"  (anycov-read-xml file))
+    ("xml"  (anycov--parse-xml file))
     (`(,_   (user-error "Anycov.el: Unsupported coverage data format")))))
 
 
@@ -272,7 +271,7 @@ if not found."
   "Apply the loaded coverage data to all applicable buffers."
   (dolist (buf (buffer-list))
     (when (buffer-file-name buf)
-      (anycov-add-buffer-overlays buf))))
+      (anycov--add-buffer-overlays buf))))
 
 
 (defun anycov--turn-on ()
