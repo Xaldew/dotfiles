@@ -151,7 +151,69 @@
 
 (defun anycov--parse-lcov (file)
   "Read the `lcov' formatted FILE."
-  nil)
+  (with-temp-buffer
+    (insert-file-contents file)
+    (let ((lines '())
+          (branches '())
+          (total-branches '())
+          (funcs '())
+          (m0)
+          (m1)
+          (cnt)
+          (src-file))
+      (while (not (eobp))
+        (cond
+         ((looking-at-p "TN:")         ; Test numbers.
+          (setq src-file nil))
+         ((looking-at "SF:\\(.*\\)")   ; Source file-name.
+          (setq src-file (buffer-substring-no-properties
+                          (match-beginning 1)
+                          (match-end 1))))
+         ((looking-at "FN:\\([[:digit:]]+\\),\\(.*\\)")  ; Function name
+          (setq m0 (string-to-number (buffer-substring (match-beginning 1)
+                                                       (match-end 1))))
+          (setq m1 (buffer-substring-no-properties (match-beginning 2)
+                                                   (match-end 2)))
+          (setq lines (plist-put lines m0 0))
+          (setq funcs (plist-put funcs m1 m0)))
+         ((looking-at "FNDA:\\([[:digit:]]+\\),\\(.*\\)")  ; Function hit count.
+          (setq m0 (string-to-number (buffer-substring (match-beginning 1)
+                                                       (match-end 1))))
+          (setq m1 (buffer-substring-no-properties (match-beginning 2)
+                                                   (match-end 2)))
+          (when (plist-member funcs m1)
+            (setq lines (plist-put lines (plist-get funcs m1) m0))))
+         ((looking-at-p "FNF:\\([[:digit:]]+\\)")  ; Functions found.
+          nil)
+         ((looking-at-p "FNH:\\([[:digit:]]+\\)")  ; Functions hit.
+          nil)
+         ((looking-at "BRDA:\\([[:digit:]]+\\),\\([[:digit:]]+\\),\\([[:digit:]]+\\),\\(.*\\)")
+          ;; Branch hit.
+          (setq m0 (string-to-number (buffer-substring (match-beginning 1)
+                                                       (match-end 1))))
+          (setq m1 (buffer-substring-no-properties (match-beginning 4)
+                                                   (match-end 4)))
+          ;; TODO: Save the branch frequency counts.
+          (setq cnt (or (plist-get total-branches m0) 0))
+          (setq total-branches (plist-put total-branches (1+ cnt)))
+          (unless (string= m1 "-")
+            (setq cnt (or (plist-get branches m0) 0))
+            (setq branches (plist-put branches m0 (1+)))))
+         ((looking-at-p "BRF:\\([[:digit:]]+\\)") ; Branches Found.
+          nil)
+         ((looking-at-p "BRH:\\([[:digit:]]+\\)") ; Branches hit.
+          nil)
+         ((looking-at "DA:\\([[:digit:]]+\\),\\([[:digit:]]+\\)") ; Line found.
+          ;; TODO: Implement.
+          nil)
+         ((looking-at-p "LF:\\([[:digit:]]+\\)")  ; Lines found.
+          nil)
+         ((looking-at-p "LH:\\([[:digit:]]+\\)")  ; Lines hit.
+          nil)
+         ((looking-at-p "end_of_record")
+          ;; TODO: Commit accumulated data and reset record storage.
+          nil))
+        (forward-line 1)))))
 
 
 (defun anycov--display-tooltip (window object pos)
