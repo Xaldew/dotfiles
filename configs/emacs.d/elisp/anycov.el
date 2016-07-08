@@ -115,11 +115,26 @@
         (setq out (append out (cddr src)))))))
 
 
+(defun anycov--parse-condition-coverage (string)
+  "Parse the `condition-coverage' XML tag inside STRING.
+
+Return a list of of numbers corresponding to the number of
+branches covered and the total number of branches.  Return (0 0)
+upon failure."
+  (if (string-match
+       "[[:digit:]]+% ?(\\([[:digit:]]+\\)/\\([[:digit:]]+\\))"
+       string)
+      (list (string-to-number (match-string 1 string))
+            (string-to-number (match-string 2 string)))
+  (list 0 0)))
+
+
 (defun anycov--parse-class (class)
   "Read the `Cobertura' CLASS."
   (let ((lines (alist-get 'lines class))
+        (cnt)
         (lines-out)
-        (branch-out))
+        (branches))
     (dolist (l lines)
       (when (and l (listp l))
         (setq l (nth 1 l))
@@ -128,10 +143,12 @@
                          (string-to-number (alist-get 'number l))
                          (string-to-number (alist-get 'hits l))))
         (when (alist-get 'branch l)
-          (setq branch-out (plist-put branch-out
-                                      (string-to-number (alist-get 'number l))
-                                      (alist-get 'missing-branches l))))))
-    (list lines-out branch-out)))
+          (setq cnt (anycov--parse-condition-coverage
+                     (alist-get 'condition-coverage l)))
+          (setq branches (plist-put branches
+                                    (string-to-number (alist-get 'number l))
+                                    cnt)))))
+    (list lines-out branches)))
 
 
 (defun anycov--parse-xml (file)
@@ -160,7 +177,6 @@
     (insert-file-contents file)
     (let ((lines '())
           (branches '())
-          (total-branches '())
           (funcs '())
           (m0)
           (m1)
@@ -199,14 +215,11 @@
           (setq m1 (buffer-substring-no-properties (match-beginning 4)
                                                    (match-end 4)))
           ;; TODO: Save the branch frequency counts.
-          (setq cnt (or (plist-get total-branches m0) 0))
-          (setq total-branches (plist-put total-branches m0 (1+ cnt)))
-          (if (string= m1 "-")
-              (progn
-                (setq cnt (or (plist-get branches m0) 0))
-                (setq branches (plist-put branches m0 cnt)))
-            (setq cnt (or (plist-get branches m0) 0))
-            (setq branches (plist-put branches m0 (1+ cnt)))))
+          (setq cnt (or (plist-get branches m0) (list 0 0)))
+          (cl-incf (nth 1 cnt))
+          (unless (string= m1 "-")
+            (cl-incf (nth 0 cnt)))
+          (setq branches (plist-put branches m0 cnt)))
          ((looking-at-p "BRF:\\([[:digit:]]+\\)") ; Branches Found.
           nil)
          ((looking-at-p "BRH:\\([[:digit:]]+\\)") ; Branches hit.
@@ -228,7 +241,6 @@
           (setq funcs '())
           (setq lines '())
           (setq branches '())
-          (setq total-branches '())
           (setq src-file nil))
          ((t
            (user-error "Anycov.el: Lcov parsing error: %s"
