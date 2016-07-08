@@ -79,21 +79,26 @@
   "Face used for lines missed by the line coverage analysis."
   :group 'anycov)
 
-(defface anycov-branch-hit
+(defface anycov-branch-hit-all
   '((t :inherit font-lock-constant-face))
-  "Face used for lines hit by the line coverage analysis."
+  "Face used for lines with fully covered branches."
+  :group 'anycov)
+
+(defface anycov-branch-hit-partial
+  '((t :inherit font-lock-constant-face))
+  "Face used for lines with partially covered branches."
   :group 'anycov)
 
 (defface anycov-branch-miss
   '((t :inherit font-lock-constant-face))
-  "Face used for lines missed by the line coverage analysis."
+  "Face used for lines with missed branch coverage."
   :group 'anycov)
 
 
-(defvar anycov--line-hits (make-hash-table :test 'equal)
+(defvar anycov--line-hits (make-hash-table :test #'equal)
   "Association list over files and line hits.")
 
-(defvar anycov--branch-hits (make-hash-table :test 'equal)
+(defvar anycov--branch-hits (make-hash-table :test #'equal)
   "Association list over files and line hits.")
 
 (defvar anycov--loaded-file nil
