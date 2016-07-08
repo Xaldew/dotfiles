@@ -195,24 +195,40 @@
                                                    (match-end 4)))
           ;; TODO: Save the branch frequency counts.
           (setq cnt (or (plist-get total-branches m0) 0))
-          (setq total-branches (plist-put total-branches (1+ cnt)))
-          (unless (string= m1 "-")
+          (setq total-branches (plist-put total-branches m0 (1+ cnt)))
+          (if (string= m1 "-")
+              (progn
+                (setq cnt (or (plist-get branches m0) 0))
+                (setq branches (plist-put branches m0 cnt)))
             (setq cnt (or (plist-get branches m0) 0))
-            (setq branches (plist-put branches m0 (1+)))))
+            (setq branches (plist-put branches m0 (1+ cnt)))))
          ((looking-at-p "BRF:\\([[:digit:]]+\\)") ; Branches Found.
           nil)
          ((looking-at-p "BRH:\\([[:digit:]]+\\)") ; Branches hit.
           nil)
          ((looking-at "DA:\\([[:digit:]]+\\),\\([[:digit:]]+\\)") ; Line found.
-          ;; TODO: Implement.
-          nil)
+          (setq m0 (string-to-number (buffer-substring (match-beginning 1)
+                                                       (match-end 1))))
+          (setq cnt (string-to-number (buffer-substring (match-beginning 2)
+                                                        (match-end 2))))
+          (setq lines (plist-put lines m0 cnt)))
          ((looking-at-p "LF:\\([[:digit:]]+\\)")  ; Lines found.
           nil)
          ((looking-at-p "LH:\\([[:digit:]]+\\)")  ; Lines hit.
           nil)
-         ((looking-at-p "end_of_record")
-          ;; TODO: Commit accumulated data and reset record storage.
-          nil))
+         ((and (looking-at-p "end_of_record") src-file)
+          ;; Commit accumulated data and reset record storage.
+          (puthash src-file lines    anycov--line-hits)
+          (puthash src-file branches anycov--branch-hits)
+          (setq funcs '())
+          (setq lines '())
+          (setq branches '())
+          (setq total-branches '())
+          (setq src-file nil))
+         ((t
+           (user-error "Anycov.el: Lcov parsing error: %s"
+                       (buffer-substring (line-beginning-position)
+                                         (line-end-position))))))
         (forward-line 1)))))
 
 
