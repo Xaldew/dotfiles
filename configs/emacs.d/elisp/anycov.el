@@ -282,17 +282,15 @@ POS either of:
                    do
                    (anycov--add-line-overlay buffer
                                              (plist-get lines i)
-                                             (plist-member branches i)
                                              (plist-get branches i))
                    (forward-line 1)))))))
 
 
-(defun anycov--add-line-overlay (buffer hit branch branch-end)
+(defun anycov--add-line-overlay (buffer hit branch)
   "Add an overlay to BUFFER the current line if the coverage HIT the line.
 
-If the line contains a missed BRANCH, add an additional overlay
-next to the line overlay.  Set the `branch' overlay property to
-BRANCH-END.  This value is nil when the branch is fully covered."
+If the line contains a BRANCH add an additional overlay next to
+the line overlay to indicate branch coverage."
   (let* ((beg (line-beginning-position))
          (end (+ 1 beg))
          (line-ovl)
@@ -307,14 +305,22 @@ BRANCH-END.  This value is nil when the branch is fully covered."
       (when branch
         (setq branch-ovl (make-overlay end (+ end 1) buffer))
         (overlay-put branch-ovl 'coverage t)
-        (when branch-end
-          (overlay-put branch-ovl
-                       'help-echo
-                       (format "Missing branches: %s" branch-end)))
+        (overlay-put branch-ovl
+                     'help-echo
+                     (format "Branch coverage: %d%% (%d/%d)"
+                             (* 100 (/ (nth 0 branch)
+                                       (float (nth 1 branch))))
+                             (nth 0 branch)
+                             (nth 1 branch)))
         (overlay-put branch-ovl 'priority anycov-overlay-priority)
-        (overlay-put branch-ovl 'face (if branch-end
-                                          'anycov-branch-hit-partial
-                                        'anycov-branch-hit-all))))))
+        (overlay-put branch-ovl 'face (cond
+                                       ((equal (nth 0 branch)
+                                               (nth 1 branch))
+                                        'anycov-branch-hit-all)
+                                       ((> (nth 0 branch) 0)
+                                        'anycov-branch-hit-partial)
+                                       (t
+                                        'anycov-branch-miss)))))))
 
 
 (defun anycov--locate-dominating-file (file)
