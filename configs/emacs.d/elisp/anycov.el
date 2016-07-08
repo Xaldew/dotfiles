@@ -385,13 +385,14 @@ if not found."
 
 
 ;;;###autoload
-(defun anycov-select-coverage (file &optional no-start)
+(defun anycov-select-coverage (file no-restart)
   "Select FILE as coverage data file.
 
-Also restart `anycov-mode' unless NO-START is set as prefix argument."
-  (interactive "fP")
+Also restart `anycov-mode' unless NO-RESTART is set as prefix argument."
+  (interactive "f\nP")
   (setq anycov--loaded-file file)
-  (anycov-mode))
+  (unless no-restart
+    (anycov-mode)))
 
 
 (provide 'anycov)
