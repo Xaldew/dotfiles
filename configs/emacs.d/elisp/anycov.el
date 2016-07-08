@@ -70,27 +70,27 @@
 
 
 (defface anycov-line-hit
-  '((t :inherit font-lock-constant-face))
+  '((t (:background "green4")))
   "Face used for lines hit by the line coverage analysis."
   :group 'anycov)
 
 (defface anycov-line-miss
-  '((t :inherit font-lock-constant-face))
+  '((t (:background "red4")))
   "Face used for lines missed by the line coverage analysis."
   :group 'anycov)
 
 (defface anycov-branch-hit-all
-  '((t :inherit font-lock-constant-face))
+  '((t (:background "dark cyan")))
   "Face used for lines with fully covered branches."
   :group 'anycov)
 
 (defface anycov-branch-hit-partial
-  '((t :inherit font-lock-constant-face))
+  '((t (:background "dark orange")))
   "Face used for lines with partially covered branches."
   :group 'anycov)
 
 (defface anycov-branch-miss
-  '((t :inherit font-lock-constant-face))
+  '((t (:background "dark red")))
   "Face used for lines with missed branch coverage."
   :group 'anycov)
 
@@ -290,8 +290,8 @@ BRANCH-END.  This value is nil when the branch is fully covered."
       (overlay-put line-ovl 'coverage t)
       (overlay-put line-ovl 'priority anycov-overlay-priority)
       (overlay-put line-ovl 'face (if (> hit 0)
-                                      (cons 'background-color "green4")
-                                    (cons 'background-color "red4")))
+                                      'anycov-line-hit
+                                    'anycov-line-miss))
       (when branch
         (setq branch-ovl (make-overlay end (+ end 1) buffer))
         (overlay-put branch-ovl 'coverage t)
@@ -301,9 +301,8 @@ BRANCH-END.  This value is nil when the branch is fully covered."
                        (format "Missing branches: %s" branch-end)))
         (overlay-put branch-ovl 'priority anycov-overlay-priority)
         (overlay-put branch-ovl 'face (if branch-end
-                                          (cons 'background-color "dark orange")
-                                        (cons 'background-color "dark cyan"))))
-      )))
+                                          'anycov-branch-hit-partial
+                                        'anycov-branch-hit-all))))))
 
 
 (defun anycov--locate-dominating-file (file)
