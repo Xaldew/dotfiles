@@ -21,6 +21,12 @@ if [ -d "$objects_dir/android_ndk/" ]; then
     PATH="$objects_dir/android_ndk":$PATH
 fi
 
+# Add paths to the Go language toolchain.
+if [ -d "$objects_dir/golang" ]; then
+    export GOROOT="$objects_dir/golang"
+    PATH=$PATH:$GOROOT/bin
+fi
+
 ## Add Emacs Cask PATH
 if [ -d "$objects_dir/cask" ]; then
     PATH="$objects_dir/cask/bin":$PATH
