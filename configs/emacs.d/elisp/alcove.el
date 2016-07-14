@@ -1,4 +1,4 @@
-;;; anycov.el --- Interface for coverage overlays  -*- lexical-binding: t; -*-
+;;; alcove.el --- Interface for coverage overlays  -*- lexical-binding: t; -*-
 
 ;; Copyright (C) 2016 Free Software Foundation, Inc.
 
@@ -44,7 +44,7 @@
   alist)
 
 
-(defvar anycov--comment-faces
+(defvar alcove--comment-faces
   '(font-lock-string-face
     font-lock-comment-face
     font-lock-doc-face
@@ -52,60 +52,60 @@
   "Faces corresponding to comments in various buffers.")
 
 
-(defun anycov--comment-p (pos)
+(defun alcove--comment-p (pos)
   "Detect if POS is within a comment."
   (let ((f (get-text-property pos 'face)))
-    (memq f anycov--comment-faces)))
+    (memq f alcove--comment-faces)))
 
 
 ;;; Custom variables:
 
-(defgroup anycov nil
+(defgroup alcove nil
   "Test coverage overlay for Emacs."
   :group 'tools)
 
 
-(defcustom anycov-overlay-priority 10
+(defcustom alcove-overlay-priority 10
   "Priority for all overlays created by this package.")
 
 
-(defface anycov-line-hit
+(defface alcove-line-hit
   '((t (:background "green4")))
   "Face used for lines hit by the line coverage analysis."
-  :group 'anycov)
+  :group 'alcove)
 
-(defface anycov-line-miss
+(defface alcove-line-miss
   '((t (:background "red4")))
   "Face used for lines missed by the line coverage analysis."
-  :group 'anycov)
+  :group 'alcove)
 
-(defface anycov-branch-hit-all
+(defface alcove-branch-hit-all
   '((t (:background "dark cyan")))
   "Face used for lines with fully covered branches."
-  :group 'anycov)
+  :group 'alcove)
 
-(defface anycov-branch-hit-partial
+(defface alcove-branch-hit-partial
   '((t (:background "dark orange")))
   "Face used for lines with partially covered branches."
-  :group 'anycov)
+  :group 'alcove)
 
-(defface anycov-branch-miss
+(defface alcove-branch-miss
   '((t (:background "dark red")))
   "Face used for lines with missed branch coverage."
-  :group 'anycov)
+  :group 'alcove)
 
 
-(defvar anycov--line-hits (make-hash-table :test #'equal)
+(defvar alcove--line-hits (make-hash-table :test #'equal)
   "Association list over files and line hits.")
 
-(defvar anycov--branch-hits (make-hash-table :test #'equal)
+(defvar alcove--branch-hits (make-hash-table :test #'equal)
   "Association list over files and line hits.")
 
-(defvar anycov--loaded-file nil
+(defvar alcove--loaded-file nil
   "The currently loaded coverage data file.")
 
 
-(defun anycov--parse-sources (xml)
+(defun alcove--parse-sources (xml)
   "Read the `sources' tag with XML directories from the XML."
   (let ((srcs (assoc-recursive xml 'coverage 'sources))
         (out))
@@ -115,7 +115,7 @@
         (setq out (append out (cddr src)))))))
 
 
-(defun anycov--parse-condition-coverage (string)
+(defun alcove--parse-condition-coverage (string)
   "Parse the `condition-coverage' XML tag inside STRING.
 
 Return a list of of numbers corresponding to the number of
@@ -129,7 +129,7 @@ upon failure."
   (list 0 0)))
 
 
-(defun anycov--parse-class (class)
+(defun alcove--parse-class (class)
   "Read the `Cobertura' CLASS."
   (let ((lines (alist-get 'lines class))
         (cnt)
@@ -143,7 +143,7 @@ upon failure."
                          (string-to-number (alist-get 'number l))
                          (string-to-number (alist-get 'hits l))))
         (when (alist-get 'branch l)
-          (setq cnt (anycov--parse-condition-coverage
+          (setq cnt (alcove--parse-condition-coverage
                      (alist-get 'condition-coverage l)))
           (setq branches (plist-put branches
                                     (string-to-number (alist-get 'number l))
@@ -151,10 +151,10 @@ upon failure."
     (list lines-out branches)))
 
 
-(defun anycov--parse-xml (file)
+(defun alcove--parse-xml (file)
   "Read the `Cobertura' compliant XML schema in FILE."
   (let* ((xml (xml-parse-file file))
-         (src-dirs (anycov--parse-sources xml))
+         (src-dirs (alcove--parse-sources xml))
          (pkgs (assoc-recursive xml 'coverage 'packages))
          (file)
          (lines))
@@ -166,12 +166,12 @@ upon failure."
                      (eq 'class (car cls)))
             (setq file (concat (file-name-as-directory (nth 0 src-dirs))
                                (alist-get 'filename (nth 1 cls))))
-            (setq lines (anycov--parse-class cls))
-            (puthash file (nth 0 lines) anycov--line-hits)
-            (puthash file (nth 1 lines) anycov--branch-hits)))))))
+            (setq lines (alcove--parse-class cls))
+            (puthash file (nth 0 lines) alcove--line-hits)
+            (puthash file (nth 1 lines) alcove--branch-hits)))))))
 
 
-(defun anycov--parse-lcov (file)
+(defun alcove--parse-lcov (file)
   "Read the `lcov' formatted FILE."
   (with-temp-buffer
     (insert-file-contents file)
@@ -236,20 +236,20 @@ upon failure."
           nil)
          ((and (looking-at-p "end_of_record") src-file)
           ;; Commit accumulated data and reset record storage.
-          (puthash src-file lines    anycov--line-hits)
-          (puthash src-file branches anycov--branch-hits)
+          (puthash src-file lines    alcove--line-hits)
+          (puthash src-file branches alcove--branch-hits)
           (setq funcs '())
           (setq lines '())
           (setq branches '())
           (setq src-file nil))
          ((t
-           (user-error "Anycov.el: Lcov parsing error: %s"
+           (user-error "Alcove.el: Lcov parsing error: %s"
                        (buffer-substring (line-beginning-position)
                                          (line-end-position))))))
         (forward-line 1)))))
 
 
-(defun anycov--display-tooltip (window object pos)
+(defun alcove--display-tooltip (window object pos)
   "Display a popup in WINDOW.
 
 OBJECT is either a buffer, overlay or a string.
@@ -261,32 +261,32 @@ POS either of:
   nil)
 
 
-(defun anycov--clear-overlays ()
+(defun alcove--clear-overlays ()
   "Clear all overlays in the current buffer."
   (remove-overlays (point-min) (point-max) 'coverage t))
 
 
-(defun anycov--add-buffer-overlays (buffer)
+(defun alcove--add-buffer-overlays (buffer)
   "Add coverage overlays to BUFFER."
   (save-excursion
     (with-current-buffer buffer
       (let* ((file     (file-truename (buffer-file-name buffer)))
-             (lines    (gethash file anycov--line-hits))
-             (branches (gethash file anycov--branch-hits))
+             (lines    (gethash file alcove--line-hits))
+             (branches (gethash file alcove--branch-hits))
              (buffer-lines (line-number-at-pos (point-max))))
         (when (or lines branches)
           (goto-char (point-min))
-          (anycov--clear-overlays)
+          (alcove--clear-overlays)
           (overlay-recenter (point-max))
           (cl-loop for i from 1 to (1+ buffer-lines)
                    do
-                   (anycov--add-line-overlay buffer
+                   (alcove--add-line-overlay buffer
                                              (plist-get lines i)
                                              (plist-get branches i))
                    (forward-line 1)))))))
 
 
-(defun anycov--add-line-overlay (buffer hit branch)
+(defun alcove--add-line-overlay (buffer hit branch)
   "Add an overlay to BUFFER the current line if the coverage HIT the line.
 
 If the line contains a BRANCH add an additional overlay next to
@@ -298,10 +298,10 @@ the line overlay to indicate branch coverage."
     (when hit
       (setq line-ovl (make-overlay beg end buffer))
       (overlay-put line-ovl 'coverage t)
-      (overlay-put line-ovl 'priority anycov-overlay-priority)
+      (overlay-put line-ovl 'priority alcove-overlay-priority)
       (overlay-put line-ovl 'face (if (> hit 0)
-                                      'anycov-line-hit
-                                    'anycov-line-miss))
+                                      'alcove-line-hit
+                                    'alcove-line-miss))
       (when branch
         (setq branch-ovl (make-overlay end (+ end 1) buffer))
         (overlay-put branch-ovl 'coverage t)
@@ -312,18 +312,18 @@ the line overlay to indicate branch coverage."
                                        (float (nth 1 branch))))
                              (nth 0 branch)
                              (nth 1 branch)))
-        (overlay-put branch-ovl 'priority anycov-overlay-priority)
+        (overlay-put branch-ovl 'priority alcove-overlay-priority)
         (overlay-put branch-ovl 'face (cond
                                        ((equal (nth 0 branch)
                                                (nth 1 branch))
-                                        'anycov-branch-hit-all)
+                                        'alcove-branch-hit-all)
                                        ((> (nth 0 branch) 0)
-                                        'anycov-branch-hit-partial)
+                                        'alcove-branch-hit-partial)
                                        (t
-                                        'anycov-branch-miss)))))))
+                                        'alcove-branch-miss)))))))
 
 
-(defun anycov--locate-dominating-file (file)
+(defun alcove--locate-dominating-file (file)
   "Search upwards in the file hierarchy for FILE.
 
 Return the full path to the file if found, otherwise return
@@ -333,85 +333,85 @@ nil."
       (concat dir file))))
 
 
-(defun anycov--find-coverage-data ()
+(defun alcove--find-coverage-data ()
   "Search upwards in the file hierarchy for coverage data.
 
 By default, this package will look for a file called
 `coverage.xml'.  When found, return the path to the file or nil
 if not found."
-  (or (anycov--locate-dominating-file "coverage.xml")
-      (anycov--locate-dominating-file ".coverage.xml")))
+  (or (alcove--locate-dominating-file "coverage.xml")
+      (alcove--locate-dominating-file ".coverage.xml")))
 
 
-(defun anycov--find-file-hook ()
+(defun alcove--find-file-hook ()
   "Add coverage data to a buffer after loading if such data exist."
   (let* ((name (buffer-file-name)))
-    (message (format "anycov.el: Loading coverage data for file: %s." name))
-    (anycov--add-buffer-overlays (current-buffer))))
+    (message (format "alcove.el: Loading coverage data for file: %s." name))
+    (alcove--add-buffer-overlays (current-buffer))))
 
 
-(defun anycov--clear-all-buffers ()
+(defun alcove--clear-all-buffers ()
   "Remove coverage data from all active buffers."
   (maphash (lambda (key &ignore)
              (when (get-file-buffer key)
                (with-current-buffer (get-file-buffer key)
-                 (anycov--clear-overlays))))
-           anycov--line-hits))
+                 (alcove--clear-overlays))))
+           alcove--line-hits))
 
 
-(defun anycov--load-coverage (file)
+(defun alcove--load-coverage (file)
   "Load coverage data stored in FILE."
   (pcase (file-name-extension file)
-    ("lcov" (anycov--parse-lcov file))
-    ("xml"  (anycov--parse-xml file))
-    (`(,_   (user-error "Anycov.el: Unsupported coverage data format")))))
+    ("lcov" (alcove--parse-lcov file))
+    ("xml"  (alcove--parse-xml file))
+    (`(,_   (user-error "Alcove.el: Unsupported coverage data format")))))
 
 
-(defun anycov--apply-coverage ()
+(defun alcove--apply-coverage ()
   "Apply the loaded coverage data to all applicable buffers."
   (dolist (buf (buffer-list))
     (when (buffer-file-name buf)
-      (anycov--add-buffer-overlays buf))))
+      (alcove--add-buffer-overlays buf))))
 
 
-(defun anycov--turn-on ()
-  "Turn on `anycov-mode'."
-  (unless anycov--loaded-file
-    (setq anycov--loaded-file (anycov--find-coverage-data)))
-  (if (not anycov--loaded-file)
-      (user-error "Anycov.el: No coverage data found")
-    (anycov--load-coverage anycov--loaded-file)
-    (anycov--apply-coverage))
-  (add-hook 'find-file-hook #'anycov--find-file-hook))
+(defun alcove--turn-on ()
+  "Turn on `alcove-mode'."
+  (unless alcove--loaded-file
+    (setq alcove--loaded-file (alcove--find-coverage-data)))
+  (if (not alcove--loaded-file)
+      (user-error "Alcove.el: No coverage data found")
+    (alcove--load-coverage alcove--loaded-file)
+    (alcove--apply-coverage))
+  (add-hook 'find-file-hook #'alcove--find-file-hook))
 
 
-(defun anycov--turn-off ()
-  "Turn off `anycov-mode'."
-  (remove-hook 'find-file-hook #'anycov--find-file-hook)
-  (anycov--clear-all-buffers))
+(defun alcove--turn-off ()
+  "Turn off `alcove-mode'."
+  (remove-hook 'find-file-hook #'alcove--find-file-hook)
+  (alcove--clear-all-buffers))
 
 
 ;;;###autoload
-(define-minor-mode anycov-mode
+(define-minor-mode alcove-mode
   "Minor mode to visualize code coverage information."
   :global t
   :lighter " acov"
-  (if anycov-mode
-      (anycov--turn-on)
-    (anycov--turn-off)))
+  (if alcove-mode
+      (alcove--turn-on)
+    (alcove--turn-off)))
 
 
 ;;;###autoload
-(defun anycov-select-coverage (file no-restart)
+(defun alcove-select-coverage (file no-restart)
   "Select FILE as coverage data file.
 
-Also restart `anycov-mode' unless NO-RESTART is set as prefix argument."
+Also restart `alcove-mode' unless NO-RESTART is set as prefix argument."
   (interactive "f\nP")
-  (setq anycov--loaded-file file)
+  (setq alcove--loaded-file file)
   (unless no-restart
-    (anycov-mode)))
+    (alcove-mode)))
 
 
-(provide 'anycov)
+(provide 'alcove)
 
-;;; anycov.el ends here
+;;; alcove.el ends here
