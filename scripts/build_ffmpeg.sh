@@ -1,7 +1,9 @@
 #!/usr/bin/env bash
 # A script to download and install the latest ffmpeg and all related libraries.
 
-# DEB: sudo apt-get install nasm libass-dev libtheora-dev libvorbis-dev
+# DEB: sudo apt-get install nasm libsdl1.2-dev
+
+set -e
 
 mkdir --parents \
       $objects_dir/ffmpeg \
@@ -33,9 +35,11 @@ install_vorbis()
 	git -C vorbis pull
     fi
     cd $objects_dir/ffmpeg/vorbis
+    ./autogen.sh
     ./configure \
 	--prefix=$objects_dir/ffmpeg/ffmpeg_build \
-	--enable-static
+	--enable-static \
+        --disable-shared
     make
     make install
 }
@@ -52,7 +56,8 @@ install_theora()
     ./autogen.sh
     ./configure \
 	--prefix=$objects_dir/ffmpeg/ffmpeg_build \
-	--enable-static
+	--enable-static \
+        --disable-shared
     make
     make install
 }
@@ -78,10 +83,10 @@ install_libx264()
 {
     # Compile and install libx264.
     cd $objects_dir/ffmpeg
-    if [ ! -d libx264 ]; then
+    if [ ! -d x264 ]; then
 	git clone git://git.videolan.org/x264.git
     else
-	git -C libx264 pull
+	git -C x264 pull
     fi
     cd $objects_dir/ffmpeg/x264
     ./configure \
@@ -95,10 +100,10 @@ install_libx265()
 {
     # Compile and install libx265 (HEVC)
     cd $objects_dir/ffmpeg
-    if [ ! -d libx265 ]; then
+    if [ ! -d x265 ]; then
 	hg clone https://bitbucket.org/multicoreware/x265
     else
-	git -C libx265 pull
+	hg --cwd x265 pull
     fi
     cd $objects_dir/ffmpeg/x265/build/linux
     cmake \
@@ -122,6 +127,25 @@ install_libvpx()
     ./configure \
 	--prefix=$objects_dir/ffmpeg/ffmpeg_build \
 	--disable-examples
+    make
+    make install
+}
+
+install_ogg()
+{
+    # Install ogg audio container accessor.
+    cd $objects_dir/ffmpeg
+    if [ ! -d ogg ]; then
+	git clone git://git.xiph.org/ogg.git
+    else
+	git -C ogg pull
+    fi
+    cd ogg
+    ./autogen.sh
+    ./configure \
+	--prefix=$objects_dir/ffmpeg/ffmpeg_build \
+        --enable-static \
+	--disable-shared
     make
     make install
 }
@@ -186,15 +210,17 @@ install_fdk_aac()
 # Several packets need yasm, wait for it first.
 install_yasm
 
+export PKG_CONFIG_PATH=$objects_dir/ffmpeg/ffmpeg_build/lib/pkgconfig
 export PATH=$PATH:$objects_dir/ffmpeg/ffmpeg_build/bin
 
+install_ogg
+install_libopus
 install_vorbis
 install_theora
 install_libass
 install_libx264
 install_libx265
 install_libvpx
-install_libopus
 install_libmp3_lame
 install_fdk_aac
 
@@ -246,6 +272,7 @@ PKG_CONFIG_PATH=$objects_dir/ffmpeg/ffmpeg_build/lib/pkgconfig \
 	       --extra-cflags=-I$objects_dir/ffmpeg/ffmpeg_build/include \
 	       --extra-ldflags=-L$objects_dir/ffmpeg/ffmpeg_build/lib \
 	       --enable-static \
+               --enable-ffplay \
 	       --disable-shared \
 	       --enable-gpl \
 	       --enable-nonfree \
