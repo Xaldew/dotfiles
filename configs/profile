@@ -27,9 +27,12 @@ if [ -d "$objects_dir/golang" ]; then
     PATH=$PATH:$GOROOT/bin
 fi
 
-## Add Emacs Cask PATH
+## Add Emacs Cask and version managers.
 if [ -d "$objects_dir/cask" ]; then
     PATH="$objects_dir/cask/bin":$PATH
+fi
+if [ -d "$objects_dir/evm" ]; then
+    PATH="$objects_dir/evm/bin":$PATH
 fi
 
 ## Add private scripts and compiled binaries.
