@@ -121,7 +121,8 @@
 (global-subword-mode t)
 
 ;; Save the point location in each visited file.
-(save-place-mode t)
+(when (fboundp #' save-place-mode)
+  (save-place-mode t))
 
 ;; Ignore case when looking for files and buffers.
 (setq read-buffer-completion-ignore-case t)
