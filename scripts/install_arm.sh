@@ -67,11 +67,13 @@ module load codesourcery/linuxeabi/arm-2011q1
 module load smartbear/codecollab/8.1.8100
 
 if [ "\`get_dist -i\`" = "ubuntu" ]; then
+   # Running Ubuntu. Fix broken default packages.
    module load git/git/2.7.0
+   module unload python/python
 else
    # Running CentOS. Load CentOS specific packages.
    module load vim/vim/7.3
-   module load git/git/v2.0.0       # Missing git-svn plugin.
+   module load git/git/v2.0.0
 fi
 
 #### Aliases
