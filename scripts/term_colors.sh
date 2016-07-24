@@ -103,17 +103,25 @@ done
 printf "\33[0m\n\n"
 
 
-# printf "Truecolor Test:\n"
-# for r in `seq 0 64 255`; do
-#     for g in `seq 0 64 255`; do
-# 	for b in `seq 0 64 255`; do
-# 	    printf "\33[48;2;%s;%s;%sm " "$i" "$j" "$k"
-# 	done
-# 	printf "\n"
-#     done
-# done
-# printf "\33[0m\n\n"
-
+printf "Truecolor Test:\n"
+str="/"
+for col in `seq 0 76`; do
+    r=$((255 - $col * 255 / 76))
+    g=$(($col * 510 / 76))
+    b=$(($col * 255 / 76))
+    if [ $g -gt 255 ]; then
+        g=$((510 - $g))
+    fi
+    printf "\033[48;2;%d;%d;%dm" $r $g $b
+    printf "\033[38;2;%d;%d;%dm" $((255 - $r)) $((255 - $g)) $((255 - $b))
+    printf "%s\033[0m" $str
+    if [ $str = "\\" ]; then
+        str="/"
+    else
+        str="\\"
+    fi
+done
+printf "\n";
 
 
 lerp()
@@ -137,5 +145,4 @@ rgb2term()
     printf "%0.f\n" `printf "$fmt" | bc --mathlib --standard`
 }
 
-
-printf "%s\n" "$(lerp 0.5 0 1 0 5)"
+# printf "%s\n" "$(lerp 0.5 0 1 0 5)"
