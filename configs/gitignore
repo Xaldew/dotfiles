@@ -41,6 +41,7 @@ flycheck*
 .clang-format
 
 # Ignore various GNU global/ctags/etags file formats.
+gtags.conf
 TAGS
 GPATH
 GTAGS
