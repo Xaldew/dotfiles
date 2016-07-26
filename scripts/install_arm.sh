@@ -27,7 +27,7 @@ export ARGUS_IPADDR=10.44.10.244
 
 #### Exports
 export ARM_PROJECT_NR=PJ01433
-export SCRATCH="/scratch/\$USER"
+export SCRATCH="/arm/scratch/\$USER"
 export HW_UTILS_DIR="\$WORK/asic_util"
 export WORKSPACE_DIR="\$WORK/mve6"
 export MVE_MODEL_DIR="\$SCRATCH/git-mve6/model"
