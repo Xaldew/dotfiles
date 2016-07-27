@@ -30,7 +30,8 @@
 
 
 (use-package anyclip-mode
-  :if (not (display-graphic-p))
+  :if (and (not (display-graphic-p))
+           (executable-find "anyclip"))
   :init
   (anyclip-mode t))
 
