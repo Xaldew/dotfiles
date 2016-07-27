@@ -104,6 +104,16 @@ scm_status()
 }
 
 
+scm_light_status()
+{
+    local on_nfs=$(stat -f -L --format="%T" . 2>/dev/null)
+    if [ "$on_nfs" != 'nfs' ]; then
+	git=$(git_prompt_info)
+	printf "$(sh_fg_rgb 0 155 0)%s$(sh_color_off)" "${git}"
+    fi
+}
+
+
 # Display the status of the last command.
 # A red sign means failed, blue means success.
 cmd_status()
@@ -159,8 +169,8 @@ _dir_chomp ()
     echo "${p[*]}"
 }
 
-# Set the prompt.
-set_prompt()
+
+heavy_prompt()
 {
     last_status=$?
     PS1="["
@@ -175,4 +185,17 @@ set_prompt()
     PS1+="$(cmd_status ${last_status}) "
 }
 
-export PROMPT_COMMAND='set_prompt'
+
+light_prompt()
+{
+    last_status=$?
+    PS1="["
+    PS1+="$(sh_fg_rgb  65 135  65)$(virtualenv_info)$(sh_color_off)"
+    PS1+="$(sh_fg_rgb 135 135 135)\u$(sh_color_off)"
+    PS1+="$(sh_fg_rgb 220 220 220)@$(sh_color_off)"
+    PS1+="$(sh_fg_rgb 120 120 120)\h$(sh_color_off)"
+    PS1+=$(_dir_chomp "$PWD" 20)
+    PS1+=$(scm_light_status)
+    PS1+="]"
+    PS1+="$(cmd_status ${last_status}) "
+}

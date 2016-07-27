@@ -33,6 +33,10 @@ print-help()
     -c         --clean               Clean up all the previously installed
                                      configuration.
 
+    -p         --prompt OPT          Select the type of prompt to use. OPT
+                                     may be one of: {heavy, light}.
+                                     Default: heavy.
+
     -o DIR     --objects DIR         Set the directory to use for compiled
                                      objects and external tools.
                                      Default: "$HOME/git/installs" or the
@@ -61,6 +65,10 @@ defaults()
     env["dotfiles_dir"]="${dotfiles_dir}"
     env["objects_dir"]="${objects_dir}"
     env["local_prefix_dir"]="${local_prefix_dir}"
+    env["PROMPT_COMMAND"]="${PROMPT_COMMAND}"
+    if [ -n $force_colors ]; then
+        env["force_colors"]=${force_colors}
+    fi
 }
 
 install-packages()
@@ -138,6 +146,15 @@ while [ $i -lt ${#args[@]} ]; do
 	cmds+=(work-config)
     elif [ $a == "-c" -o $a == "--clean" ]; then
 	cmds+=(clean)
+    elif [ $a == "-p" -o $a == "--prompt" ]; then
+        : $(( i = i + 1 ))
+        a=${args[$i]}
+        if [ $a == "heavy" -o $a == "light" ]; then
+            env["PROMPT_COMMAND"]=${a}_prompt
+        else
+            printf "Invalid prompt value.\n"
+	    print-help
+        fi
     elif [ $a == "-o" -o $a == "--objects" ]; then
 	: $(( i = i + 1 ))
 	a=$(readlink --canonicalize ${args[$i]})
