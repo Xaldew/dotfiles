@@ -73,14 +73,11 @@ install-packages()
 install-external-programs()
 {
     echo "Installing all external software packages."
-    . $dotfiles_dir/scripts/install_global.sh
+    . $dotfiles_dir/scripts/install_external_scripts.sh
     . $dotfiles_dir/scripts/install_tmux.sh
+    . $dotfiles_dir/scripts/install_universal_ctags.sh
+    . $dotfiles_dir/scripts/install_global.sh
     . $dotfiles_dir/scripts/install_emacs.sh
-    . $dotfiles_dir/scripts/install_exuberant_ctags.sh
-    . $dotfiles_dir/scripts/install_android.sh
-    . $dotfiles_dir/scripts/install_llvm.sh
-    . $dotfiles_dir/scripts/install_gcc.sh
-    . $dotfiles_dir/scripts/install_ffmpeg.sh
 }
 
 dotfiles()

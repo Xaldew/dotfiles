@@ -7,9 +7,6 @@ mkdir --parents \
       $local_prefix_dir/bin \
       $local_prefix_dir/share/man
 
-# Install various external tools and utilities.
-. $dotfiles_dir/scripts/install_external_scripts.sh
-
 
 # Install all configuration files and plugins.
 ln -fs $dotfiles_dir/configs/inputrc $HOME/.inputrc
