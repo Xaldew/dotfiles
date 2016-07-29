@@ -1326,6 +1326,8 @@ _bb_: EWW Bookmarks  _mp_: EMMS Play library  ^  ^             _ch_: Holidays   
 (use-package powershell        :ensure t :defer t)
 (use-package ahk-mode          :ensure t :defer t)
 (use-package dts-mode          :ensure t :defer t :pin melpa)
+(use-package go-mode           :ensure t :defer t :pin melpa)
+(use-package yaml-mode         :ensure t :defer t :pin melpa)
 
 
 ;; Add various themes.
