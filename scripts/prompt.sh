@@ -194,6 +194,7 @@ light_prompt()
     PS1+="$(sh_fg_rgb 135 135 135)\u$(sh_color_off)"
     PS1+="$(sh_fg_rgb 220 220 220)@$(sh_color_off)"
     PS1+="$(sh_fg_rgb 120 120 120)\h$(sh_color_off)"
+    PS1+=" "
     PS1+=$(_dir_chomp "$PWD" 20)
     PS1+=$(scm_light_status)
     PS1+="]"
