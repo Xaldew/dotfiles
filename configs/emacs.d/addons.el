@@ -1300,6 +1300,13 @@ _bb_: EWW Bookmarks  _mp_: EMMS Play library  ^  ^             _ch_: Holidays   
           (holiday-fixed 12 26 "Annandag jul")
           (holiday-fixed 12 31 "Nyårsafton"))))
 
+
+(use-package ruby-mode
+  :defer t
+  :config
+  (customize-set-variable ' ruby-indent-level 4))
+
+
 ;; Install various major-mode packages and defer where it is possible.
 (use-package abc-mode          :ensure t :defer t)
 (use-package graphviz-dot-mode :ensure t :defer t)
