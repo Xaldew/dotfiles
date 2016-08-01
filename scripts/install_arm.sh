@@ -192,6 +192,7 @@ export TERMCAP=\$HOME/.termcap
 
 # Override the prompt override.
 source $dotfiles_dir/scripts/prompt.sh
+export PROMPT_COMMAND=light_prompt
 
 # Reset LC_ALL to unset.
 export LC_ALL=
