@@ -1240,6 +1240,12 @@ _bb_: EWW Bookmarks  _mp_: EMMS Play library  ^  ^             _ch_: Holidays   
   (add-to-list 'c++-mode-hook #'modern-c++-font-lock-mode))
 
 
+(use-package org
+  :defer t
+  :config
+  (customize-set-variable 'org-log-into-drawer t))
+
+
 (use-package calendar
   :defer t
   :config
