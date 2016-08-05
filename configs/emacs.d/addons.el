@@ -194,7 +194,7 @@
   (defun my-flycheck-popup (errors)
     "Display the ERRORS in the old popup-el interface inside terminals."
     (let ((message (mapconcat
-                    #'flycheck-error-format-message-and-id
+		    #'flycheck-error-format-message-and-id
                     errors
                     "\n\n")))
       (popup-tip message)))
@@ -394,7 +394,30 @@
   :if (executable-find "clang-format")
   :ensure t
   :init
-  (global-set-key (kbd "C-c f") 'clang-format-region))
+  (defvar my-clang-format-styles
+    (directory-files
+     (concat user-emacs-directory "styles/") :full "[^.]")
+    "My collection of clang-format styles.")
+
+  (defun clang-format-create-style (root style beg end)
+    "Use clang-format to automatically  the selected region.
+
+Creates a .clang-format file in ROOT with the selected STYLE
+before formatting the region [BEG, END] if such a file does not
+already exist."
+    (interactive
+     (let ((root (locate-dominating-file default-directory ".clang-format"))
+           (styles my-clang-format-styles))
+       (list (or root (read-directory-name "Root directory: " nil nil t))
+             (if root
+                 (concat root ".clang-format")
+               (completing-read "Style: " styles nil t nil nil styles))
+             (region-beginning) (region-end))))
+    (condition-case nil
+        (copy-file style (concat root ".clang-format"))
+      (file-already-exists nil))
+    (clang-format-region beg end))
+  (global-set-key (kbd "C-c f") #'clang-format-create-style))
 
 
 ;; Fix LaTeX settings and AucTeX.
