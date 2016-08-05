@@ -31,4 +31,7 @@
 ;; Cask files are written in Emacs lisp.
 (add-to-list 'auto-mode-alist '("Cask\\'" . emacs-lisp-mode))
 
+;; Add auto-env `.env' files to `shell-script-mode'.
+(add-to-list 'auto-mode-alist '("\\(/\\|\\`\\)\\.env\\'" . shell-script-mode))
+
 ;;; file-assoc.el ends here
