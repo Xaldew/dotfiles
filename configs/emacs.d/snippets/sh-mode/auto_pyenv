@@ -1,0 +1,11 @@
+# -*- mode: snippet -*-
+# name: auto_pyenv
+# key: pyenv
+# type: snippet
+# contributer: Gustaf Waldemarson
+# --
+#!/usr/bin/env bash
+dir="\$( builtin cd "\$( dirname "\${BASH_SOURCE}" )" && pwd )"
+if [ -f $dir/venv/bin/activate ]; then
+   . $dir/venv/bin/activate
+fi
