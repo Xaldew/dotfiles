@@ -258,10 +258,12 @@
 
 (use-package projectile
   :ensure t
+  :init
+  (add-hook 'text-mode-hook #'projectile-mode)
+  (add-hook 'prog-mode-hook #'projectile-mode)
   :config
-  (projectile-global-mode)
-  (setq projectile-mode-line '(:eval (format " Prj[%s]"
-                                             (projectile-project-name))))
+  (setq projectile-mode-line
+        '(:eval (format " Prj[%s]" (projectile-project-name))))
   (when (executable-find "uni-ctags")
     (setq projectile-tags-command "uni-ctags -Re -f \"%s\" %s")))
 
