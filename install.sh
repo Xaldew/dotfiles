@@ -22,7 +22,7 @@ print-help()
 
     -e         --external-programs   Install all external utilities.
 
-    -d         --dotfiles            Install all configuration dotfiles."
+    -d         --dotfiles            Install all configuration dotfiles.
 
     -a         --autostart           Install autostart programs.
 
@@ -50,9 +50,6 @@ print-help()
     -tc NUM    --colors NUM          Force the use of 8, 16, 88 or 256 colors
                                      in the terminal windows. Any other values
                                      are invalid.
-
-    -r DIR     --ram-disk DIR        Select a directory to setup as a RAMDISK.
-                                     (Not yet implemented.)
 
 EOF
     exit 1
