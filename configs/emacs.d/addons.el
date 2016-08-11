@@ -1230,11 +1230,11 @@ _R_: Apply on rectangle  _pd_: Python dictionary  _s_: Column separator       [%
   :config
   (defhydra hydra-apps (:color blue :hint nil)
     "
-Browser             ^^Music                  ^^Mail           ^^Calendar           ^^Stack Exchange
+Browser            ^^Music                  ^^Mail/Chat      ^^Calendar           ^^Stack Exchange
 ---------------------------------------------------------------------------------------------------
 _bo_: EWW Open       _mo_: EMMS Open          _go_: GNUS Open  _co_: Calendar Open  _so_: SX Open
-_bb_: EWW Bookmarks  _mp_: EMMS Play library  ^  ^             _ch_: Holidays       _sa_: SX Ask
-^ ^                  _mf_: EMMS Play local    ^  ^             _cl_: Holidays List  _sn_: SX Newest
+_bb_: EWW Bookmarks  _mp_: EMMS Play library  _ge_: ERC        _ch_: Holidays       _sa_: SX Ask
+^ ^                  _mf_: EMMS Play local    _gb_: Bitlbee    _cl_: Holidays List  _sn_: SX Newest
 "
     ("bo" eww)
     ("bb" eww-list-bookmarks)
@@ -1245,6 +1245,8 @@ _bb_: EWW Bookmarks  _mp_: EMMS Play library  ^  ^             _ch_: Holidays   
             (call-interactively #'emms-play-file)))
 
     ("go" gnus)
+    ("ge" erc)
+    ("gb" bitlbee)
 
     ("so" sx-tab-all-questions)
     ("sa" sx-ask)
@@ -1269,6 +1271,24 @@ _bb_: EWW Bookmarks  _mp_: EMMS Play library  ^  ^             _ch_: Holidays   
   :defer t
   :config
   (customize-set-variable 'org-log-into-drawer t))
+
+
+(use-package erc
+  :defer t
+  :init
+  (defun bitlbee-close ()
+    "Close the SSH tunnel to the `Bitlbee' server."
+    (delete-process "bitlbee")
+    (remove-hook 'erc-kill-server-hook #'bitlbee-close))
+
+  (defun bitlbee ()
+    "Start SSH tunnel to the `Bitlbee' server and then start `ERC'.
+
+When `ERC' exits the SSH process is killed from `erc-kill-server-hook'."
+    (interactive)
+    (start-process "bitlbee" "*bitlbee*" "ssh" "-N" "bitlbee")
+    (add-hook 'erc-kill-server-hook #'bitlbee-close)
+    (call-interactively #'erc)))
 
 
 (use-package calendar
