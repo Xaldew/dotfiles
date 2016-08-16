@@ -171,8 +171,7 @@ install_libopus()
 install_libmp3_lame()
 {
     # Install mp3 lame audio codec.
-    url=http://downloads.sourceforge.net/project/
-    url+=lame/lame/3.99/lame-3.99.5.tar.gz
+    url=http://downloads.sourceforge.net/project/lame/lame/3.99/lame-3.99.5.tar.gz
     cd $objects_dir/ffmpeg
     if [ ! -d lame ]; then
 	mkdir --parents lame
@@ -224,8 +223,8 @@ install_libvpx
 install_libmp3_lame
 install_fdk_aac
 
-pids=()
-fails=0
+# pids=()
+# fails=0
 # install_vorbis &
 # pids+=($!)
 # install_theora &
@@ -246,14 +245,14 @@ fails=0
 # pids+=($!)
 
 # Wait for everything to finish.
-for pid in "${pids[@]}"; do
-    wait $pid || let "fails+=1"
-done
+# for pid in "${pids[@]}"; do
+#     wait $pid || let "fails+=1"
+# done
 
-if [ ! $fails -eq 0 ]; then
-   printf "Warning: Failed to compile something.\n"
-   exit -1
-fi
+# if [ ! $fails -eq 0 ]; then
+#    printf "Warning: Failed to compile something.\n"
+#    exit -1
+# fi
 
 # Finally, compile and install ffmpeg.
 cd $objects_dir/ffmpeg
