@@ -70,6 +70,7 @@ if [ "\`get_dist -i\`" = "ubuntu" ]; then
    # Running Ubuntu. Fix broken default packages.
    module load git/git/2.7.0
    module unload python/python
+   module unload imagemagick/imagemagick
 else
    # Running CentOS. Load CentOS specific packages.
    module load vim/vim/7.3
@@ -98,7 +99,7 @@ alias bissh="ssh lun-login2.lund.arm.com"
 alias sudo='sudo env PATH=\$PATH'
 
 # Use local python install for Python 3.
-alias python3='python3.5'
+alias python3='python3.4'
 
 
 #### Functions
@@ -128,7 +129,8 @@ function count_h264_frames()
 # Setup environment for building android/android-kernel stuff.
 function android_env()
 {
-    export DEMO=\$WORK/demo
+    export SSD=/ssd_data
+    export DEMO=\$SSD
     export ANDROID_BASE=\$DEMO/android
     export TOP=\$ANDROID_BASE
     export KDIR=\$DEMO/kernel
@@ -139,8 +141,8 @@ function android_env()
     export HW=1
     export CROSS_COMPILE=aarch64-linux-gnu-
     export STAY_OFF_MY_LAWN=1
-    # export BASE_PATH=ssh://\$USER@login2.euhpc.arm.com/arm/mpd/thirdparty/bsp/android/midgard
-    # export PATH=\$PATH:\$ANDROID_BASE/prebuilts/gcc/linux-x86/aarch64/aarch64-linux-android-5.1-linaro/bin
+    export USE_CCACHE=1
+    export CCACHE_DIR=\$SSD/.ccache
 
     # Use system default instead of these broken modules.
     module unload sun/jdk/1.8.0_11
@@ -149,6 +151,11 @@ function android_env()
         source \$ANDROID_BASE/build/envsetup.sh
         pushd \$ANDROID_BASE > /dev/null
         lunch juno-eng
+
+        if [ ! -d "\$CCACHE_DIR" ]; then
+             prebuilts/misc/linux-x86/ccache/ccache -M 50G
+        fi
+
         popd > /dev/null
     fi
     # Currently, the demobox resides on this IP.
@@ -202,5 +209,4 @@ export LANGUAGE=en_US.utf8
 # Undo GNU global tags configuration - requires pygments.
 unset GTAGSCONF
 unset GTAGSLABEL
-
 EOF
