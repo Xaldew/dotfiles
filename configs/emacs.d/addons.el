@@ -304,6 +304,9 @@
   :pin melpa
   :commands paredit-mode
   :diminish paredit-mode
+  :bind (:map paredit-mode-map
+              ("C-h" . paredit-backward-delete)
+              ("M-h" . paredit-backward-kill-word))
   :init
   (add-hook 'emacs-lisp-mode-hook #'paredit-mode)
   (add-hook 'lisp-mode-hook       #'paredit-mode)
@@ -1269,6 +1272,8 @@ _bb_: EWW Bookmarks  _mp_: EMMS Play library  _ge_: ERC        _ch_: Holidays   
 
 (use-package org
   :defer t
+  :bind (:map org-mode-map
+              ("M-h" . backward-kill-word))
   :config
   (customize-set-variable 'org-log-into-drawer t))
 
