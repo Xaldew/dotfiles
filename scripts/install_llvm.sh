@@ -28,7 +28,7 @@ fi
 
 # Compile llvm.
 cd $objects_dir/llvm
-mkdir build
+mkdir -p build
 cd build
 cmake -G "Unix Makefiles" \
       -DCMAKE_INSTALL_PREFIX=$local_prefix_dir \
