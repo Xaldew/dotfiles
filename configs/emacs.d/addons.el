@@ -397,31 +397,32 @@
 (use-package clang-format
   :if (executable-find "clang-format")
   :ensure t
+  :bind ("C-c f" . clang-format-create-style)
   :init
-  (defvar my-clang-format-styles
+  (defvar my-clang-styles
     (directory-files
      (concat user-emacs-directory "styles/") :full "[^.]")
     "My collection of clang-format styles.")
 
-  (defun clang-format-create-style (root style beg end)
-    "Use clang-format to automatically  the selected region.
+  (defun clang-format--find-or-create-style ()
+    "Find or create a `.clang-format' file with style and root directory."
+    (let* ((dir default-directory)
+           (styles my-clang-styles)
+           (found (locate-dominating-file dir ".clang-format"))
+           (root  (or found (read-directory-name "Root directory: " nil nil t)))
+           (style (or found (completing-read "Style: " styles nil t nil nil styles))))
+      (unless found
+        (copy-file style (concat root ".clang-format")))
+      (list (region-beginning) (region-end))))
 
-Creates a .clang-format file in ROOT with the selected STYLE
-before formatting the region [BEG, END] if such a file does not
-already exist."
-    (interactive
-     (let ((root (locate-dominating-file default-directory ".clang-format"))
-           (styles my-clang-format-styles))
-       (list (or root (read-directory-name "Root directory: " nil nil t))
-             (if root
-                 (concat root ".clang-format")
-               (completing-read "Style: " styles nil t nil nil styles))
-             (region-beginning) (region-end))))
-    (condition-case nil
-        (copy-file style (concat root ".clang-format"))
-      (file-already-exists nil))
-    (clang-format-region beg end))
-  (global-set-key (kbd "C-c f") #'clang-format-create-style))
+  (defun clang-format-create-style (beg end)
+    "Use clang-format to automatically format the selected region.
+
+Creates a `.clang-format' file at a selected root directory and
+with the selected style before formatting the region [BEG, END]
+if such a file does not already exist."
+    (interactive (clang-format--find-or-create-style))
+    (clang-format-region beg end)))
 
 
 ;; Fix LaTeX settings and AucTeX.
