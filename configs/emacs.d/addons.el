@@ -20,10 +20,8 @@
        (bind-key ,prefix #',command ,map))))
 
 ;;(my-define-group "C-c o" org)
-(my-define-group "C-c h" help)
 (my-define-group "C-c i" insertion)
 (my-define-group "C-c p" projects)
-(my-define-group "C-c s" search-and-symbols)
 (my-define-group "C-c v" version-control)
 (my-define-group "C-c x" text)
 (my-define-group "C-c x a" align)
@@ -282,7 +280,8 @@
   (unless (display-graphic-p) (setq aw-scope 'frame)))
 (use-package ace-jump-mode
   :ensure t
-  :bind ("C-c SPC" . ace-jump-mode))
+  :bind (("C-c SPC" . ace-jump-mode)
+         ("C-c n"   . ace-jump-mode)))
 
 
 ;; Add expand-region configuration.
