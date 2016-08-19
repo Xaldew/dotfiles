@@ -1,4 +1,11 @@
-;; Set some global key bindings.
+;;; keybinds.el -- Define personal key-binding overrides.
+
+;;; Commentary:
+;; Set some personal key bindings.
+
+;;; Code:
+
+;;; Global keys that are unset by Emacs conventions.
 (global-set-key [f5]  'compile)
 (global-set-key [f6]  'vc-dir)
 (global-set-key [f7]  'gdb)
@@ -28,3 +35,8 @@
 
 ;; Enable M-* to pop-tag-mark. This is the default in Emacs pre-25.1.
 (global-set-key (kbd "M-*") 'pop-tag-mark)
+
+
+(provide 'keybinds)
+
+;;; keybinds.el ends here
