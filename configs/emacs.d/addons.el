@@ -1275,6 +1275,10 @@ _bb_: EWW Bookmarks  _mp_: EMMS Play library  _ge_: ERC        _ch_: Holidays   
   :bind (:map org-mode-map
               ("M-h" . backward-kill-word))
   :config
+  (let ((org-dir (concat user-emacs-directory "org")))
+    (customize-set-variable 'org-directory org-dir)
+    (unless (file-directory-p org-dir)
+      (message "Warning: `%s' directory doesn't exist." org-dir)))
   (customize-set-variable 'org-log-into-drawer t))
 
 
