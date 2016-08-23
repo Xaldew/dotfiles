@@ -1278,6 +1278,24 @@ _bb_: EWW Bookmarks  _mp_: EMMS Play library  _ge_: ERC        _ch_: Holidays   
   (customize-set-variable 'org-log-into-drawer t))
 
 
+(use-package bbdb
+  :defer t
+  :ensure t
+  :init
+  (bbdb-initialize 'gnus 'mail 'message)
+  :config
+  (setq bbdb-send-mail-style 'gnus
+        bbdb-complete-name-full-completion t
+        bbdb-completion-type 'primary-or-name
+        bbdb-complete-name-allow-cycling t
+        bbdb-offer-save 1
+        bbdb-use-pop-up t
+        bbdb-electric-p t
+        bbdb-popup-target-lines 1))
+
+(use-package bbdb-vcard :defer t :ensure t)
+
+
 (use-package erc
   :defer t
   :init
