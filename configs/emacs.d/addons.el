@@ -1274,18 +1274,20 @@ _bb_: EWW Bookmarks  _mp_: EMMS Play library  _ge_: ERC        _ch_: Holidays   
   :defer t
   :bind (:map org-mode-map
               ("M-h" . backward-kill-word))
+  :init
+  (setq org-directory (file-name-as-directory
+                       (concat user-emacs-directory "org")))
+  (unless (file-directory-p org-directory)
+    (message "Warning: `%s' directory doesn't exist." org-directory))
   :config
-  (let ((org-dir (concat user-emacs-directory "org")))
-    (customize-set-variable 'org-directory org-dir)
-    (unless (file-directory-p org-dir)
-      (message "Warning: `%s' directory doesn't exist." org-dir)))
-  (customize-set-variable 'org-log-into-drawer t))
+  (setq org-log-into-drawer t))
 
 
 (use-package bbdb
   :defer t
   :ensure t
   :init
+  (setq bbdb-file (concat org-directory "bbdb"))
   (bbdb-initialize 'gnus 'mail 'message)
   :config
   (setq bbdb-send-mail-style 'gnus
