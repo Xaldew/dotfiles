@@ -1,16 +1,27 @@
-;; C++
+;;; cppmode.el -- C++ mode settings an functions.
+
+;;; Commentary:
+;; Functions and utilities for `c++-mode'.
+
+;;; Code:
+
 (require 'cwarn)
 
-;; Setup functions for starting header files in the correct modes.
+
+;;;; Setup functions for starting header files in the correct modes.
+
 (defun c-header-test-p ()
-  "Test if the header file is a C-mode header"
-  (and (string= (file-name-extension (buffer-file-name)) "h")
+  "Test if the header file is a C-mode header."
+  (and (buffer-file-name)
+       (string= (file-name-extension (buffer-file-name)) "h")
        (file-exists-p
 	(concat (file-name-sans-extension (buffer-file-name)) ".c"))))
 
+
 (defun c++-header-test-p ()
   "Test if the header file is a C++-mode header."
-  (and (string= (file-name-extension (buffer-file-name)) "h")
+  (and (buffer-file-name)
+       (string= (file-name-extension (buffer-file-name)) "h")
        (or (file-exists-p
 	    (concat (file-name-sans-extension (buffer-file-name)) ".C"))
 	   (file-exists-p
@@ -23,6 +34,7 @@
 	    (concat (file-name-sans-extension (buffer-file-name)) ".cpp"))
 	   (c++-scan-header-p))))
 
+
 (defun c++-scan-header-p ()
   "Scan the header and return true if any C++ exclusive keywords are detected."
   (let (is-c++-header)
@@ -32,6 +44,19 @@
 	    (setq is-c++-header t)
 	  (forward-line))))
     is-c++-header))
+
+
+(defun c/c++-list-files ()
+  "List all C/C++ files in the current folder."
+  (directory-files (file-name-directory (buffer-file-name)) nil
+		   ".+\.\\(c\\|C\\|cc\\|cxx\\|cpp\\|c\+\+\\)\\'"))
+
+
+(add-to-list 'magic-mode-alist '(c-header-test-p   . c-mode))
+(add-to-list 'magic-mode-alist '(c++-header-test-p . c++-mode))
+
+
+;;;; C++ coding style configuration.
 
 (defconst my-c++-style
   '("stroustrup"
@@ -56,16 +81,13 @@
 			       (arglist-cont-nonempty)))))
 (c-add-style "my-c++-style" my-c++-style)
 
-(defun c/c++-list-files ()
-  "List all C/C++ files in the current folder."
-  (directory-files (file-name-directory (buffer-file-name)) nil
-		   ".+\.\\(c\\|C\\|cc\\|cxx\\|cpp\\|c\+\+\\)\\'"))
 
 (defun my-c++-mode-hook ()
+  "Personal `c++-mode'-hook."
   (c-set-style "my-c++-style")
   (auto-fill-mode)
   (add-to-list 'cwarn-configuration '(c++-mode (not reference)))
   (cwarn-mode))
 (add-hook 'c++-mode-hook 'my-c++-mode-hook)
-(add-to-list 'magic-mode-alist '(c-header-test-p   . c-mode))
-(add-to-list 'magic-mode-alist '(c++-header-test-p . c++-mode))
+
+;;; cppmode.el ends here
