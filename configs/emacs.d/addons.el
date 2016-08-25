@@ -1280,7 +1280,9 @@ _bb_: EWW Bookmarks  _mp_: EMMS Play library  _ge_: ERC        _ch_: Holidays   
   (unless (file-directory-p org-directory)
     (message "Warning: `%s' directory doesn't exist." org-directory))
   :config
-  (setq org-log-into-drawer t))
+  (customize-set-variable 'org-export-with-sub-superscript '{})
+  (customize-set-variable 'org-use-sub-superscript '{})
+  (customize-set-variable 'org-log-into-drawer t))
 
 
 (use-package bbdb
