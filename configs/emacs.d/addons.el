@@ -140,13 +140,22 @@
 ;; Activate Magit.
 (use-package magit
   :ensure t
-  :demand t
+  :defer t
+  :mode ("gitignore\\'" . gitignore-mode)
   :init
   (setq magit-last-seen-setup-instructions "1.4.0")
   :bind ("C-c g" . magit-status)
   :config
-  (use-package magit-gerrit :ensure t)
-  (add-to-list 'auto-mode-alist '("gitignore\\'" . gitignore-mode)))
+  (defun magit-push-to-gerrit ()
+    (interactive)
+    (magit-git-command "push origin HEAD:refs/for/master" (magit-toplevel)))
+
+  (magit-define-popup-action 'magit-push-popup
+    ?m
+    "Push to gerrit"
+    #'magit-push-to-gerrit))
+
+(use-package magit-gerrit :ensure t :defer t)
 
 
 (use-package hide-comnt
@@ -699,6 +708,7 @@ if such a file does not already exist."
   :defer t
   :config
   (require 'hydra-examples)
+  (require 'dired)
 
   (defhydra hydra-dired (:color pink)
     "
