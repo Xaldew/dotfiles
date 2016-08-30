@@ -1404,6 +1404,27 @@ When `ERC' exits the SSH process is killed from `erc-kill-server-hook'."
           (holiday-fixed 12 31 "Nyårsafton"))))
 
 
+(use-package calfw
+  :ensure t
+  :defer t
+  :commands (cfw:open-calendar-buffer)
+  :init
+  (autoload #'cfw:org-create-source "calfw-org")
+  (autoload #'cfw:cal-create-source "calfw-cal")
+  (autoload #'cfw:ical-create-source "calfw-ical")
+  (defun my-calfw ()
+    "Open my `calfw' calendar."
+    (interactive)
+    (cfw:open-calendar-buffer
+     :contents-sources
+     (list
+      (cfw:org-create-source "Green")
+      ;; (cfw:cal-create-source "Orange")
+      ;; (cfw:ical-create-source "Moon" "~/moon.ics" "Gray")
+      ;; (cfw:ical-create-source "gcal" "https://..../basic.ics" "IndianRed")
+      ))))
+
+
 (use-package ruby-mode
   :defer t
   :config
