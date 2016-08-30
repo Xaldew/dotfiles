@@ -286,11 +286,22 @@
   :ensure t
   :bind ("C-x o" . ace-window)
   :config
+  (setq aw-keys '(?a ?s ?d ?f ?g ?h ?j ?k ?l))
   (unless (display-graphic-p) (setq aw-scope 'frame)))
-(use-package ace-jump-mode
+
+(use-package ace-link
   :ensure t
-  :bind (("C-c SPC" . ace-jump-mode)
-         ("C-c n"   . ace-jump-mode)))
+  :defer t
+  :init
+  (ace-link-setup-default))
+
+(use-package avy
+  :ensure t
+  :defer t
+  :bind (("C-c SPC" . avy-goto-char)
+         ("C-c n"   . avy-goto-char))
+  :config
+  (setq avy-all-windows t))
 
 
 ;; Add expand-region configuration.
