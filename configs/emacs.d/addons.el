@@ -147,13 +147,26 @@
   :bind ("C-c g" . magit-status)
   :config
   (defun magit-push-to-gerrit ()
+    "Use `magit' to push for `gerrit' review."
     (interactive)
     (magit-git-command "push origin HEAD:refs/for/master" (magit-toplevel)))
 
   (magit-define-popup-action 'magit-push-popup
-    ?m
+    ?G
     "Push to gerrit"
-    #'magit-push-to-gerrit))
+    #'magit-push-to-gerrit)
+
+  (defun magit-stash-and-pull ()
+    "Use `magit' to stash, pull, and pop the stash."
+    (interactive)
+    (magit-call-git "stash")
+    (magit-call-git "pull")
+    (magit-stash-pop "stash@{0}"))
+
+  (magit-define-popup-action 'magit-pull-popup
+    ?s
+    "Stash and pull"
+    #'magit-stash-and-pull))
 
 (use-package magit-gerrit :ensure t :defer t)
 
