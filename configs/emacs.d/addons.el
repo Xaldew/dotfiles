@@ -1425,17 +1425,25 @@ When `ERC' exits the SSH process is killed from `erc-kill-server-hook'."
   (autoload #'cfw:org-create-source "calfw-org")
   (autoload #'cfw:cal-create-source "calfw-cal")
   (autoload #'cfw:ical-create-source "calfw-ical")
-  (defun my-calfw ()
-    "Open my `calfw' calendar."
+  (defun my-public-calfw ()
+    "Open my public `calfw' calendar."
     (interactive)
     (cfw:open-calendar-buffer
      :contents-sources
-     (list
-      (cfw:org-create-source "Green")
-      ;; (cfw:cal-create-source "Orange")
-      ;; (cfw:ical-create-source "Moon" "~/moon.ics" "Gray")
-      ;; (cfw:ical-create-source "gcal" "https://..../basic.ics" "IndianRed")
-      ))))
+     (cl-remove-if
+      #'null
+      (list
+       (cfw:org-create-source "Green")
+       (when (file-exists-p diary-file)
+         (cfw:cal-create-source "Orange"))
+       (cfw:ical-create-source
+        "gcal"
+        "https://calendar.google.com/calendar/ical/gustaf.waldemarson%40gmail.com/public/basic.ics"
+        "Gray")
+       (cfw:ical-create-source
+        "office365"
+        "https://outlook.office365.com/owa/calendar/0bfa28483d924c06ac17b2b35a0e37f0@arm.com/a67bb5853e7c4ec2b36228bac2c64dbd10275722062663688238/calendar.ics"
+        "IndianRed"))))))
 
 
 (use-package uimage
