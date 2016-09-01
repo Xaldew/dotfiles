@@ -1438,6 +1438,18 @@ When `ERC' exits the SSH process is killed from `erc-kill-server-hook'."
       ))))
 
 
+(use-package uimage
+  :ensure t
+  :defer t
+  :init
+  (defun my-uimage-hook ()
+    "Check if are using a graphical frame before starting `uimage-mode'."
+    (when (display-graphic-p)
+      (uimage-mode)))
+  (add-hook 'Info-mode-hook #'my-uimage-hook)
+  (add-hook 'wiki-mode-hook #'my-uimage-hook))
+
+
 (use-package ruby-mode
   :defer t
   :config
