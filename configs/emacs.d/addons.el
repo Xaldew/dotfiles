@@ -20,7 +20,6 @@
        (bind-key ,prefix #',command ,map))))
 
 ;;(my-define-group "C-c o" org)
-(my-define-group "C-c i" insertion)
 (my-define-group "C-c p" projects)
 (my-define-group "C-c v" version-control)
 (my-define-group "C-c x" text)
@@ -821,7 +820,7 @@ _._: Clean directory   ^ ^                  _ha_: Hide all
   ---------------------------------------------------------------------------------------
   _f_: Function     _k_: Keybinding           _a_: Apropros               _i_: Info
   _p_: Package      _w_: Where-is             _d_: Apropos Docstrings     _n_: WoMan
-  _m_: Mode         _b_: Show all bindings    _s_: Info by symbol
+  _m_: Mode         _b_: Show all bindings    _s_: Info by symbol         _h_: _H_elm-_D_ash
   _v_: Variable
   _S_: Symbol
 
@@ -847,6 +846,9 @@ _._: Clean directory   ^ ^                  _ha_: Hide all
     ;; Documentation
     ("i" info nil)
     ("n" woman nil)
+    ("h" helm-dash-at-point nil)
+    ("H" helm-dash nil)
+    ("D" helm-dash-async-install-docset nil)
 
     ("e" view-echo-area-messages "messages")
     ("l" view-lossage "lossage")
@@ -1472,10 +1474,18 @@ When `ERC' exits the SSH process is killed from `erc-kill-server-hook'."
   (add-hook 'wiki-mode-hook #'my-uimage-hook))
 
 
+(use-package helm-dash
+  :ensure t
+  :defer t
+  :pin melpa
+  :init
+  (setq helm-dash-common-docsets '("Python3")))
+
+
 (use-package ruby-mode
   :defer t
   :config
-  (customize-set-variable ' ruby-indent-level 4))
+  (customize-set-variable 'ruby-indent-level 4))
 
 
 ;; Install various major-mode packages and defer where it is possible.
