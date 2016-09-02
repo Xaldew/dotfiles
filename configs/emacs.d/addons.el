@@ -1514,6 +1514,7 @@ When `ERC' exits the SSH process is killed from `erc-kill-server-hook'."
 
 ;; Install miscellaneous packages.
 (use-package evil :functions (evil-ace-jump-exit-recursive-edit) :defer t :ensure t)
+(use-package debbugs :ensure t :defer t)
 (use-package elpy  :defer t :ensure t)
 (use-package irony :defer t :ensure t)
 (use-package irony-eldoc :defer t :ensure t)
