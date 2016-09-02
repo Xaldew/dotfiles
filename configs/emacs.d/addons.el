@@ -60,6 +60,7 @@
   :commands (yas-global-mode yas-minor-mode)
   :init
   (setq yas-verbosity 1)
+  (defvar yas-active-p nil "Is yasnippet currently expanding a snippet?")
   (add-hook 'after-init-hook #'yas-global-mode)
   :config
   ;; Rebind trigger to C-o to avoid stateful behaviors.
@@ -73,6 +74,18 @@
   (define-key yas-keymap [backtab]     nil)
   (define-key yas-keymap (kbd "C-o") 'yas-next-field-or-maybe-expand)
   (define-key yas-keymap (kbd "C-u") 'yas-prev-field)
+
+  (defun my-before-snippet-hook ()
+    "Set `yas-active-p' to true."
+    (setq yas-active-p t))
+
+  (defun my-after-snippet-hook ()
+    "Set `yas-active-p' to true."
+    (setq yas-active-p nil))
+
+  (add-hook 'yas-before-expand-snippet-hook #'my-before-snippet-hook)
+  (add-hook 'yas-after-exit-snippet-hook    #'my-after-snippet-hook)
+
   (defun my/snippet-hook ()
     "Hook for Yasnippet-mode."
     (setq-local whitespace-style '(face
@@ -618,7 +631,8 @@ if such a file does not already exist."
 
   (defun rst-python-front-verify ()
     "Verify that we're looking at a python docstring."
-    (rst-python-statement-is-docstring (match-string 0)))
+    (and (rst-python-statement-is-docstring (match-string 0))
+         (null yas-active-p)))
 
   (setq mmm-parse-when-idle 't)
   (add-to-list 'mmm-save-local-variables 'adaptive-fill-regexp)
