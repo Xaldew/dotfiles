@@ -19,6 +19,18 @@
        (define-prefix-command ',command)
        (bind-key ,prefix #',command ,map))))
 
+(defmacro set-variable-in-hook (hook variable value &optional name)
+  "Create a proper HOOK function for setting VARIABLE to VALUE.
+
+NAME can be used to set the name of the defined function."
+  (let* ((hname (symbol-name hook))
+         (vname (symbol-name variable))
+         (fname (intern (or name (format "set-%s-in-%s" vname hname)))))
+    `(progn
+       (defun ,fname ()
+         (setq-local ,variable ,value))
+       (add-hook (quote ,hook) (function ,fname)))))
+
 ;;(my-define-group "C-c o" org)
 (my-define-group "C-c p" projects)
 (my-define-group "C-c v" version-control)
