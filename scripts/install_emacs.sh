@@ -13,7 +13,7 @@ else
     git pull
 fi
 
-if [ $OSTYPE = "cygwin" ]; then
+if [ "$OSTYPE" = "cygwin" ]; then
     conf=" --with-w32 "
 else
     conf=""
