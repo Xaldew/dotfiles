@@ -1000,9 +1000,9 @@ _H_ + _L_     _s_: Ace Swap windows:       _U_: Winner redo
   (global-set-key (kbd "C-c w") #'hydra-windowing/body)
 
 
-  (defhydra hydra-rectangle (:body-pre (rectangle-mark-mode 1)
-                                       :color pink
-                                       :post (deactivate-mark))
+  (defhydra hydra-rectangle-mark (:body-pre (rectangle-mark-mode 1)
+                                            :color pink
+                                            :post (deactivate-mark))
     "
   ^_k_^    _e_: Exchange  _c_: Copy    _o_: Open        _si_: String Insert     _U_: Upcase
 _h_   _l_  _r_: Reset     _x_: Kill    _C_: Clear       _sr_: String Replace    _D_: Downcase
@@ -1038,7 +1038,7 @@ _h_   _l_  _r_: Reset     _x_: Kill    _C_: Clear       _sr_: String Replace    
     ("D" downcase-rectangle nil :color blue)
 
     ("q" nil "Quit"))
-  (global-set-key (kbd "C-x SPC") #'hydra-rectangle/body))
+  (global-set-key (kbd "C-x SPC") #'hydra-rectangle-mark/body))
 
 
 ;; Gnus addons configurations.
