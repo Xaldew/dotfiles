@@ -1504,6 +1504,12 @@ When `ERC' exits the SSH process is killed from `erc-kill-server-hook'."
   (customize-set-variable 'ruby-indent-level 4))
 
 
+(use-package csv-mode
+  :defer t
+  :init
+  (setq csv-separators '(";" ":" "," "\t")))
+
+
 ;; Install various major-mode packages and defer where it is possible.
 (use-package abc-mode          :ensure t :defer t)
 (use-package graphviz-dot-mode :ensure t :defer t)
