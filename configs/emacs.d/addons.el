@@ -1087,9 +1087,9 @@ Views^^                   ^Marking^                 ^Actions^
 -------------------------------------------------------------------
 _a_: List active groups   _#_: Mark group/topic     _m_: Write mail
 _l_: List unread groups   _u_: Unmark group/topic   _c_: Read all
-_L_: List all groups      _k_: Kill group           _z_: Suspend
-_g_: Refresh news         _w_: Kill region          _q_: Quit
-_s_: Server view          _y_: Yank group(s)
+_L_: List all groups      _k_: Kill group           _S_: Search
+_g_: Refresh news         _w_: Kill region          _z_: Suspend
+_s_: Server view          _y_: Yank group(s)        _q_: Quit
 _t_: Topic view
 
 Modify Topics^^           ^Topic Views^
@@ -1112,9 +1112,10 @@ _DEL_: Delete topic          _Td_: Remove group from topic
     ("w" gnus-group-kill-region "C-w")
     ("y" gnus-group-yank-group "C-y")
 
-    ("m" gnus-group-mail "m" :color blue)
-    ("c" gnus-topic-catchup-articles "c")
-    ("z" gnus-group-suspend "z" :color blue)
+    ("m" gnus-group-mail             nil :color blue)
+    ("c" gnus-topic-catchup-articles nil :color pink)
+    ("S" gnus-group-make-nnir-group  nil :color blue)
+    ("z" gnus-group-suspend          nil :color blue)
     ("q" nil nil)
 
     ("Tn" gnus-topic-create-topic "T n")
