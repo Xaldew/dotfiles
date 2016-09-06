@@ -1137,31 +1137,32 @@ _DEL_: Delete topic          _Td_: Remove group from topic
     "
 Sending/Replying^^             ^Marking^                  ^Actions^
 ----------------------------------------------------------------------------
-_r_: Reply                     _!_: Pin mail              _a_: Article Hydra
-_R_: Reply with original       _?_: Mark as dormant       _g_: Refresh
-_w_: Wide reply                _p_: Mark as read          _q_: Quit
-_W_: Wide reply with original  _u_: Unread mail
-_f_: Forward                   _mc_: Read all
-_e_: Resend                    _mp_: Mark processable
-^^                             _mu_: Unmark processable
+_r_: Reply                     _!_: Pin mail              _D_: Download MIME
+_R_: Reply with original       _?_: Mark as dormant       _a_: Article Hydra
+_w_: Wide reply                _P_: Mark as read          _g_: Refresh
+_W_: Wide reply with original  _U_: Unread mail           _q_: Quit
+_f_: Forward                   _C_: Read all
+_e_: Resend                    _#_: Mark processable
+^^                             _u_: Unmark processable
 "
-    ("r" gnus-summary-reply "r" :color blue)
-    ("R" gnus-summary-reply-with-original "R" :color blue)
-    ("w" gnus-summary-wide-reply "S w" :color blue)
-    ("W" gnus-summary-wide-reply-with-original "S W" :color blue)
-    ("f" gnus-summary-mail-forward "C-c C-f" :color blue)
-    ("e" gnus-summary-resend-message-edit "S D e" :color blue)
+    ("r" gnus-summary-reply                    nil :color blue)
+    ("R" gnus-summary-reply-with-original      nil :color blue)
+    ("w" gnus-summary-wide-reply               nil :color blue)
+    ("W" gnus-summary-wide-reply-with-original nil :color blue)
+    ("f" gnus-summary-mail-forward             nil :color blue)
+    ("e" gnus-summary-resend-message-edit      nil :color blue)
 
-    ("!" gnus-summary-tick-article-forward "!")
-    ("?" gnus-summary-mark-as-dormant "?")
-    ("p" gnus-summary-mark-as-read-forward "d")
-    ("u" gnus-summary-clear-mark-forward "M c")
-    ("mc" gnus-summary-catchup "M C")
-    ("mp" gnus-summary-mark-as-processable "#")
-    ("mu" gnus-summary-unmark-as-processable "M-#")
+    ("!" gnus-summary-tick-article-forward  nil)
+    ("?" gnus-summary-mark-as-dormant       nil)
+    ("P" gnus-summary-mark-as-read-forward  nil)
+    ("U" gnus-summary-clear-mark-forward    nil)
+    ("C" gnus-summary-catchup               nil)
+    ("#" gnus-summary-mark-as-processable   nil)
+    ("u" gnus-summary-unmark-as-processable nil)
 
+    ("D" gnus-summary-save-parts nil)
     ("a" hydra-gnus-article/body nil :exit t)
-    ("g" gnus-summary-insert-new-articles "/ N")
+    ("g" gnus-summary-insert-new-articles nil)
     ("q" nil nil))
   (define-key gnus-summary-mode-map "?" #'hydra-gnus-summary/body))
 
