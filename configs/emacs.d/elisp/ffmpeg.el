@@ -192,6 +192,7 @@ FINISH-TIME is the desired end time of the OUTPUT video."
                   "-loglevel" "error"
                   "-y"
                   "-i" (file-truename input)
+                  "-codec:v" "huffyuv"
                   "-ss" (number-to-string start-time)
                   "-to" (number-to-string finish-time)
                   tmp-file)
