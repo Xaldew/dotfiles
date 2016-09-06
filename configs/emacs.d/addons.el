@@ -1099,18 +1099,18 @@ Modify Topics^^           ^Topic Views^
 _DEL_: Delete topic          _Td_: Remove group from topic
 ^                           ^_Th_: Toggle empty topics
 "
-    ("a" gnus-group-list-active "A A")
-    ("l" gnus-group-list-groups "l")
-    ("L" gnus-group-list-all-groups "L")
-    ("g" gnus-group-get-new-news "g")
-    ("s" gnus-group-enter-server-mode "^" :color blue)
-    ("t" gnus-topic-mode "t")
+    ("a" gnus-group-list-active       nil)
+    ("l" gnus-group-list-groups       nil)
+    ("L" gnus-group-list-all-groups   nil)
+    ("g" gnus-group-get-new-news      nil)
+    ("s" gnus-group-enter-server-mode nil :color blue)
+    ("t" gnus-topic-mode              nil)
 
-    ("#" gnus-topic-mark-topic "T #")
-    ("u" gnus-group-unmark-topic "M-#")
-    ("k" gnus-group-kill-group "C-k")
-    ("w" gnus-group-kill-region "C-w")
-    ("y" gnus-group-yank-group "C-y")
+    ("#" gnus-topic-mark-topic   nil)
+    ("u" gnus-group-unmark-topic nil)
+    ("k" gnus-group-kill-group   nil)
+    ("w" gnus-group-kill-region  nil)
+    ("y" gnus-group-yank-group   nil)
 
     ("m" gnus-group-mail             nil :color blue)
     ("c" gnus-topic-catchup-articles nil :color pink)
@@ -1118,14 +1118,14 @@ _DEL_: Delete topic          _Td_: Remove group from topic
     ("z" gnus-group-suspend          nil :color blue)
     ("q" nil nil)
 
-    ("Tn" gnus-topic-create-topic "T n")
-    ("Tr" gnus-topic-rename "T r")
-    ("DEL" gnus-topic-delete "T DEL")
+    ("Tn" gnus-topic-create-topic nil)
+    ("Tr" gnus-topic-rename       nil)
+    ("DEL" gnus-topic-delete      nil)
 
-    ("<tab>" gnus-topic-indent "T TAB")
-    ("<backtab>" gnus-topic-unindent)
-    ("Td" gnus-topic-remove-group "T D")
-    ("Th" gnus-topic-toggle-display-empty-topics "T H"))
+    ("<tab>" gnus-topic-indent                   nil)
+    ("<backtab>" gnus-topic-unindent             nil)
+    ("Td" gnus-topic-remove-group                nil)
+    ("Th" gnus-topic-toggle-display-empty-topics nil))
   (define-key gnus-group-mode-map "?" #'hydra-gnus-group/body))
 
 
