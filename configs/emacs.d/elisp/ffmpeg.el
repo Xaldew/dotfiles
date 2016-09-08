@@ -144,6 +144,7 @@ to `ffmpeg-drawtext-filter-options'."
                     "-loglevel" "error"
                     "-y"
                     "-i" (file-truename input)
+                    "-codec:v" "huffyuv"
                     "-filter:v" (format "sendcmd=f=%s,%s"
                                         sendcmd-script filter-opts)
                     (file-truename tmp-file))
