@@ -129,8 +129,9 @@ function count_h264_frames()
 # Setup environment for building android/android-kernel stuff.
 function android_env()
 {
+    location=\${1:-/ssd_data}
     export SSD=/ssd_data
-    export DEMO=\$SSD
+    export DEMO=\${location}
     export ANDROID_BASE=\$DEMO/android
     export TOP=\$ANDROID_BASE
     export KDIR=\$DEMO/kernel
