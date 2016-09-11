@@ -193,6 +193,7 @@ NAME can be used to set the name of the defined function."
     #'magit-stash-and-pull))
 
 (use-package magit-gerrit :ensure t :defer t)
+(use-package magit-annex  :ensure t :defer t)
 
 
 (use-package hide-comnt
