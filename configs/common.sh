@@ -287,8 +287,35 @@ git-dl()
 grep-find()
 {
     # Grep for things from files found by find.
-    find . -type f -exec grep --color -nH -e $1 {} +
+    find . -type f -exec grep --color -nH -e "$@" {} +
 }
+
+
+add_subtitles()
+{
+    vid=${1:?"No video clip set."}
+    sub=${2:?"No subtitle file set."}
+    enc=${3:-UTF-8}
+    lang=${4:-eng}
+    scodec=${5:-srt}
+    tmp=$(mktemp XXXXXXXX.mkv)
+    ffmpeg \
+        -y \
+        -i ${vid} \
+        -sub_charenc ${enc} \
+        -i ${sub} \
+        -map 0 \
+        -map 1 \
+        -c copy \
+        -scodec ${scodec} \
+        -metadata:s:s:0 language=${lang} \
+        ${tmp}
+    # Overwrite if successful.
+    if [ $? -eq 0 ]; then
+        mv -f ${tmp} ${vid}
+    fi
+}
+
 
 
 ## Emacs and emacsclient aliases and utility functions.
