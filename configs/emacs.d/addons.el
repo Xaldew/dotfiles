@@ -630,7 +630,6 @@ if such a file does not already exist."
   :commands mmm-mode
   :init
   (add-hook 'python-mode-hook 'mmm-mode)
-  (add-hook 'markdown-mode-hook 'mmm-mode)
   :config
 
   ;; Add python + rst major mode configuration.
@@ -662,32 +661,7 @@ if such a file does not already exist."
       :insert ((?d embdocstring nil @ "u\"\"\"" @ _ @ "\"\"\"" @))
       :delimiter-mode nil)))
 
-  (mmm-add-mode-ext-class 'python-mode nil 'rst-python-docstrings)
-
-
-  ;; Add markdown + 'any' major-mode configuration.
-  (defun my-mmm-markdown-auto-class (lang &optional submode)
-    "Define a mmm-mode class for LANG in `markdown-mode' using SUBMODE.
- If SUBMODE is not provided, use `LANG-mode' by default."
-    (let ((class (intern (concat "markdown-" lang)))
-          (submode (or submode (intern (concat lang "-mode"))))
-          (front (concat "^```" lang "[\n\r]+"))
-          (back "^```"))
-      (mmm-add-classes (list (list class
-                                   :submode submode
-                                   :front front
-                                   :back back)))
-      (mmm-add-mode-ext-class 'markdown-mode nil class)))
-
-  ;; Add mmm-classes for modes with the same name and major-mode variable.
-  (mapc 'my-mmm-markdown-auto-class
-        '("awk" "bibtex" "c" "cpp" "css" "html" "latex" "lisp" "makefile"
-          "markdown" "python" "r" "ruby" "sql" "stata" "xml"))
-
-  ;; Add mmm-classes for modes with different name and major-mode variable.
-  (my-mmm-markdown-auto-class "fortran" 'f90-mode)
-  (my-mmm-markdown-auto-class "perl" 'cperl-mode)
-  (my-mmm-markdown-auto-class "shell" 'shell-script-mode))
+  (mmm-add-mode-ext-class 'python-mode nil 'rst-python-docstrings))
 
 
 (use-package smart-mode-line
@@ -1502,6 +1476,40 @@ When `ERC' exits the SSH process is killed from `erc-kill-server-hook'."
   (set-variable-in-hook c++-mode-hook     helm-dash-docsets '("C++" "C"))
   :config
   (define-key helm-map (kbd "C-h") #'backward-delete-char))
+
+
+(use-package polymode
+  :ensure t
+  :defer t
+  :config
+  (defcustom pm-host/python
+    (pm-bchunkmode "python" :mode 'python-mode :font-lock-narrow nil)
+    "Python host chunkmode"
+    :group 'hostmodes
+    :type 'object)
+  (defcustom pm-inner/ReST
+    (pm-hbtchunkmode "ReST"
+                     :mode 'rst-mode
+                     :head-reg "^[ \t]*\\(\"\"\"\\|\'\'\'\\)[ \t]*\\w.*$"
+                     :tail-reg "^[ \t]*\\(\"\"\"\\|\'\'\'\\)[ \t]*$"
+                     :head-mode 'body
+                     :tail-mode 'body)
+    "ReST inner chunk."
+    :group 'innermodes
+    :type 'object)
+  (defcustom pm-poly/python+ReST
+    (pm-polymode-one "python+ReST"
+                     :hostmode 'pm-host/python
+                     :innermode 'pm-inner/ReST)
+    "Python and ReST polymode."
+    :group 'polymodes
+    :type 'object)
+  (define-polymode poly-python-mode pm-poly/python+ReST))
+
+(use-package poly-markdown
+  :ensure polymode
+  :defer t
+  :mode ("\\.md" . poly-markdown-mode))
 
 
 (use-package ruby-mode
