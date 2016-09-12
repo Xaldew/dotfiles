@@ -1173,7 +1173,7 @@ _e_: Resend                    _#_: Mark processable
   :defer t
   :after hydra
   :config
-  (defhydra hydra-gnus-article (:color pink)
+  (defhydra hydra-gnus-article (:color pink :hint nil)
     "
 Sending/Replying^^             ^Treatment^            ^Display^            ^Actions^
 -----------------------------------------------------------------------------------------------
@@ -1185,32 +1185,32 @@ _f_: Forward                   _o_: Deuglify Outlook  _dw_: Show images    _q_: 
 _e_: Resend                    _F_: Fill long lines   _dd_: Remove images
 
 "
-    ("r" gnus-article-reply                    nil :color blue)
-    ("R" gnus-article-reply-with-original      nil :color blue)
-    ("w" gnus-article-wide-reply               nil :color blue)
-    ("W" gnus-article-wide-reply-with-original nil :color blue)
-    ("f" gnus-summary-mail-forward             nil :color blue)
-    ("e" gnus-summary-resend-message-edit      nil :color blue)
+    ("r" gnus-article-reply                    :color blue)
+    ("R" gnus-article-reply-with-original      :color blue)
+    ("w" gnus-article-wide-reply               :color blue)
+    ("W" gnus-article-wide-reply-with-original :color blue)
+    ("f" gnus-summary-mail-forward             :color blue)
+    ("e" gnus-summary-resend-message-edit      :color blue)
 
-    ("t" gnus-summary-toggle-header            nil)
-    ("c" gnus-summary-caesar-message           nil)
-    ("m" gnus-summary-morse-message            nil)
-    ("u" gnus-article-treat-non-ascii          nil)
-    ("o" gnus-article-outlook-deuglify-article nil)
-    ("F" gnus-article-fill-long-lines          nil)
+    ("t" gnus-summary-toggle-header)
+    ("c" gnus-summary-caesar-message)
+    ("m" gnus-summary-morse-message)
+    ("u" gnus-article-treat-non-ascii)
+    ("o" gnus-article-outlook-deuglify-article)
+    ("F" gnus-article-fill-long-lines)
 
-    ("dg" gnus-treat-from-gravatar    nil)
-    ("df" gnus-article-display-face   nil)
-    ("dx" gnus-article-display-x-face nil)
-    ("ds" gnus-treat-smiley           nil)
-    ("dw" gnus-html-show-images       nil)
-    ("dd" gnus-article-remove-images  nil)
+    ("dg" gnus-treat-from-gravatar)
+    ("df" gnus-article-display-face)
+    ("dx" gnus-article-display-x-face)
+    ("ds" gnus-treat-smiley)
+    ("dw" gnus-html-show-images)
+    ("dd" gnus-article-remove-images)
 
-    ("s" hydra-gnus-summary/body   nil :exit t)
-    ("v" gnus-mime-view-part       nil)
-    ("o" gnus-mime-save-part       nil)
-    ("g" gnus-summary-show-article nil)
-    ("q" nil nil))
+    ("s" hydra-gnus-summary/body :exit t)
+    ("v" gnus-mime-view-part)
+    ("o" gnus-mime-save-part)
+    ("g" gnus-summary-show-article)
+    ("q" nil :exit t))
   (define-key gnus-article-mode-map "?" #'hydra-gnus-article/body))
 
 
