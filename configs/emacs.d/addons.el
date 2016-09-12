@@ -1135,7 +1135,7 @@ _DEL_: Delete topic          _Td_: Remove group from topic
   :defer t
   :after hydra
   :config
-  (defhydra hydra-gnus-summary (:color pink)
+  (defhydra hydra-gnus-summary (:color pink :hint nil)
     "
 Sending/Replying^^             ^Marking^                  ^Actions^
 ----------------------------------------------------------------------------
@@ -1147,25 +1147,25 @@ _f_: Forward                   _C_: Read all
 _e_: Resend                    _#_: Mark processable
 ^^                             _u_: Unmark processable
 "
-    ("r" gnus-summary-reply                    nil :color blue)
-    ("R" gnus-summary-reply-with-original      nil :color blue)
-    ("w" gnus-summary-wide-reply               nil :color blue)
-    ("W" gnus-summary-wide-reply-with-original nil :color blue)
-    ("f" gnus-summary-mail-forward             nil :color blue)
-    ("e" gnus-summary-resend-message-edit      nil :color blue)
+    ("r" gnus-summary-reply                    :color blue)
+    ("R" gnus-summary-reply-with-original      :color blue)
+    ("w" gnus-summary-wide-reply               :color blue)
+    ("W" gnus-summary-wide-reply-with-original :color blue)
+    ("f" gnus-summary-mail-forward             :color blue)
+    ("e" gnus-summary-resend-message-edit      :color blue)
 
-    ("!" gnus-summary-tick-article-forward  nil)
-    ("?" gnus-summary-mark-as-dormant       nil)
-    ("P" gnus-summary-mark-as-read-forward  nil)
-    ("U" gnus-summary-clear-mark-forward    nil)
-    ("C" gnus-summary-catchup               nil)
-    ("#" gnus-summary-mark-as-processable   nil)
-    ("u" gnus-summary-unmark-as-processable nil)
+    ("!" gnus-summary-tick-article-forward)
+    ("?" gnus-summary-mark-as-dormant)
+    ("P" gnus-summary-mark-as-read-forward)
+    ("U" gnus-summary-clear-mark-forward)
+    ("C" gnus-summary-catchup)
+    ("#" gnus-summary-mark-as-processable)
+    ("u" gnus-summary-unmark-as-processable)
 
-    ("D" gnus-summary-save-parts nil)
-    ("a" hydra-gnus-article/body nil :exit t)
-    ("g" gnus-summary-insert-new-articles nil)
-    ("q" nil nil))
+    ("D" gnus-summary-save-parts)
+    ("a" hydra-gnus-article/body :exit t)
+    ("g" gnus-summary-insert-new-articles)
+    ("q" nil :exit t))
   (define-key gnus-summary-mode-map "?" #'hydra-gnus-summary/body))
 
 
