@@ -1002,6 +1002,7 @@ _H_ + _L_     _s_: Ace Swap windows:       _U_: Winner redo
 
 
   (defhydra hydra-rectangle-mark (:body-pre (rectangle-mark-mode 1)
+                                            :hint nil
                                             :color pink
                                             :post (deactivate-mark))
     "
@@ -1010,35 +1011,35 @@ _h_   _l_  _r_: Reset     _x_: Kill    _C_: Clear       _sr_: String Replace    
   ^_j_^    _u_: Undo      _y_: Yank    _n_: Number      _RR_: Register Read
 ^^^^       ^ ^            _d_: Delete  _w_: Whitespace  _RI_: Register Insert
 "
-    ("h" rectangle-backward-char nil)
-    ("l" rectangle-forward-char nil)
-    ("k" rectangle-previous-line nil)
-    ("j" rectangle-next-line nil)
+    ("h" rectangle-backward-char)
+    ("l" rectangle-forward-char)
+    ("k" rectangle-previous-line)
+    ("j" rectangle-next-line)
 
-    ("e" rectangle-exchange-point-and-mark nil)
-    ("r" (if (region-active-p) (deactivate-mark) (rectangle-mark-mode 1)) nil)
-    ("C-x SPC" (if (region-active-p) (deactivate-mark) (rectangle-mark-mode 1)) nil)
-    ("u" undo nil)
+    ("e" rectangle-exchange-point-and-mark)
+    ("r" (if (region-active-p) (deactivate-mark) (rectangle-mark-mode 1)))
+    ("C-x SPC" (if (region-active-p) (deactivate-mark) (rectangle-mark-mode 1)))
+    ("u" undo)
 
-    ("c" copy-rectangle-as-kill nil)
-    ("x" kill-rectangle nil)
-    ("d" delete-rectangle nil :color blue)
-    ("y" yank-rectangle nil :color blue)
+    ("c" copy-rectangle-as-kill)
+    ("x" kill-rectangle)
+    ("d" delete-rectangle :color blue)
+    ("y" yank-rectangle   :color blue)
 
-    ("o" open-rectangle nil :color blue)
-    ("C" clear-rectangle nil :color blue)
-    ("n" rectangle-number-lines nil :color blue)
-    ("w" delete-whitespace-rectangle nil :color blue)
+    ("o" open-rectangle              :color blue)
+    ("C" clear-rectangle             :color blue)
+    ("n" rectangle-number-lines      :color blue)
+    ("w" delete-whitespace-rectangle :color blue)
 
-    ("si" string-insert-rectangle nil :color blue)
-    ("sr" string-rectangle nil :color blue)
-    ("RR" copy-rectangle-to-register nil :color blue)
-    ("RI" insert-register nil :color blue)
+    ("si" string-insert-rectangle    :color blue)
+    ("sr" string-rectangle           :color blue)
+    ("RR" copy-rectangle-to-register :color blue)
+    ("RI" insert-register            :color blue)
 
-    ("U" upcase-rectangle nil :color blue)
-    ("D" downcase-rectangle nil :color blue)
+    ("U" upcase-rectangle   :color blue)
+    ("D" downcase-rectangle :color blue)
 
-    ("q" nil "Quit"))
+    ("q" t "Quit" :exit t))
   (global-set-key (kbd "C-x SPC") #'hydra-rectangle-mark/body))
 
 
