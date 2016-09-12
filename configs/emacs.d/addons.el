@@ -1058,24 +1058,24 @@ _cu_: Toggle importance       _cr_: Caesar shift region    _cd_: Suspend message
 _cn_: Request read receipt    _cm_: Morse region           _ck_: Abort message
 _cw_: Change to wide reply    _cq_: Quote region
 "
-    ("ca" mml-attach-file nil)
-    ("cb" mml-attach-buffer nil)
-    ("cu" message-insert-or-toggle-importance nil)
-    ("cn" message-insert-disposition-notification-to nil)
-    ("cw" message-insert-wide-reply nil)
+    ("ca" mml-attach-file)
+    ("cb" mml-attach-buffer)
+    ("cu" message-insert-or-toggle-importance)
+    ("cn" message-insert-disposition-notification-to)
+    ("cw" message-insert-wide-reply)
 
-    ("ci" message-mark-insert-file nil)
-    ("ce" message-elide-region nil)
-    ("cr" rot13-region nil)
-    ("cm" morse-region nil)
-    ("cq" comment-dwim nil)
+    ("ci" message-mark-insert-file)
+    ("ce" message-elide-region)
+    ("cr" rot13-region)
+    ("cm" morse-region)
+    ("cq" comment-dwim)
 
-    ("cc" message-send-and-exit nil)
-    ("cj" gnus-delay-article nil)
-    ("cd" message-dont-send nil)
-    ("ck" message-kill-buffer nil)
-    ("C-c ?" describe-mode nil)
-    ("q" nil "Quit"))
+    ("cc" message-send-and-exit)
+    ("cj" gnus-delay-article)
+    ("cd" message-dont-send)
+    ("ck" message-kill-buffer)
+    ("C-c ?" describe-mode)
+    ("q" nil "Quit" :exit t))
   (define-key message-mode-map (kbd "C-c ?") #'hydra-message/body))
 
 
