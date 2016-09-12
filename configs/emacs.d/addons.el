@@ -1083,7 +1083,7 @@ _cw_: Change to wide reply    _cq_: Quote region
   :defer t
   :after hydra
   :config
-  (defhydra hydra-gnus-group (:color pink)
+  (defhydra hydra-gnus-group (:color pink :hint nil)
     "
 Views^^                   ^Marking^                 ^Actions^
 -------------------------------------------------------------------
@@ -1101,33 +1101,33 @@ Modify Topics^^           ^Topic Views^
 _DEL_: Delete topic          _Td_: Remove group from topic
 ^                           ^_Th_: Toggle empty topics
 "
-    ("a" gnus-group-list-active       nil)
-    ("l" gnus-group-list-groups       nil)
-    ("L" gnus-group-list-all-groups   nil)
-    ("g" gnus-group-get-new-news      nil)
-    ("s" gnus-group-enter-server-mode nil :color blue)
-    ("t" gnus-topic-mode              nil)
+    ("a" gnus-group-list-active)
+    ("l" gnus-group-list-groups)
+    ("L" gnus-group-list-all-groups)
+    ("g" gnus-group-get-new-news)
+    ("s" gnus-group-enter-server-mode :color blue)
+    ("t" gnus-topic-mode)
 
-    ("#" gnus-topic-mark-topic   nil)
-    ("u" gnus-group-unmark-topic nil)
-    ("k" gnus-group-kill-group   nil)
-    ("w" gnus-group-kill-region  nil)
-    ("y" gnus-group-yank-group   nil)
+    ("#" gnus-topic-mark-topic)
+    ("u" gnus-group-unmark-topic)
+    ("k" gnus-group-kill-group)
+    ("w" gnus-group-kill-region)
+    ("y" gnus-group-yank-group)
 
-    ("m" gnus-group-mail             nil :color blue)
-    ("c" gnus-topic-catchup-articles nil :color pink)
-    ("S" gnus-group-make-nnir-group  nil :color blue)
-    ("z" gnus-group-suspend          nil :color blue)
+    ("m" gnus-group-mail             :color blue)
+    ("c" gnus-topic-catchup-articles :color pink)
+    ("S" gnus-group-make-nnir-group  :color blue)
+    ("z" gnus-group-suspend          :color blue)
     ("q" nil nil)
 
-    ("Tn" gnus-topic-create-topic nil)
-    ("Tr" gnus-topic-rename       nil)
-    ("DEL" gnus-topic-delete      nil)
+    ("Tn" gnus-topic-create-topic)
+    ("Tr" gnus-topic-rename)
+    ("DEL" gnus-topic-delete)
 
-    ("<tab>" gnus-topic-indent                   nil)
-    ("<backtab>" gnus-topic-unindent             nil)
-    ("Td" gnus-topic-remove-group                nil)
-    ("Th" gnus-topic-toggle-display-empty-topics nil))
+    ("<tab>" gnus-topic-indent)
+    ("<backtab>" gnus-topic-unindent)
+    ("Td" gnus-topic-remove-group)
+    ("Th" gnus-topic-toggle-display-empty-topics))
   (define-key gnus-group-mode-map "?" #'hydra-gnus-group/body))
 
 
