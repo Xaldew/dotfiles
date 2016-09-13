@@ -1482,18 +1482,26 @@ When `ERC' exits the SSH process is killed from `erc-kill-server-hook'."
   :ensure t
   :defer t
   :config
+  (defvar pm-inner/ReST/head-regexp
+    (concat "^[ \t]*\\(def\\|class\\).*:" ;; Match start of function/class.
+            "\\(?:\n\\)\\{1,\\}"          ;; Match at least 1 newline.
+            "[ \t]*"                      ;; Match optional whitespace.
+            "u?\\(\"\"\"\\|\'\'\'\\)")    ;; Match start of docstring.
+    "Regexp for matching the `head' of a ReST inner mode.")
   (defcustom pm-host/python
-    (pm-bchunkmode "python" :mode 'python-mode :font-lock-narrow nil)
+    (pm-bchunkmode "python"
+                   :mode 'python-mode
+                   :font-lock-narrow nil)
     "Python host chunkmode"
     :group 'hostmodes
     :type 'object)
   (defcustom pm-inner/ReST
     (pm-hbtchunkmode "ReST"
                      :mode 'rst-mode
-                     :head-reg "^[ \t]*\\(\"\"\"\\|\'\'\'\\)[ \t]*\\w.*$"
-                     :tail-reg "^[ \t]*\\(\"\"\"\\|\'\'\'\\)[ \t]*$"
-                     :head-mode 'body
-                     :tail-mode 'body)
+                     :head-reg pm-inner/ReST/head-regexp
+                     :tail-reg "\\(\"\"\"\\|\'\'\'\\)"
+                     :head-mode 'host
+                     :tail-mode 'host)
     "ReST inner chunk."
     :group 'innermodes
     :type 'object)
