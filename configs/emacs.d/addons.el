@@ -1464,6 +1464,29 @@ When `ERC' exits the SSH process is killed from `erc-kill-server-hook'."
   (add-hook 'wiki-mode-hook #'my-uimage-hook))
 
 
+(use-package image-mode
+  :defer t
+  :after (hydra image+)
+  :config
+  (require 'image+)
+  (defhydra imagex-binding (:color pink)
+    "Manipulating Image"
+    ("+" imagex-sticky-zoom-in "zoom in")
+    ("-" imagex-sticky-zoom-out "zoom out")
+    ("M" imagex-sticky-maximize "maximize")
+    ("O" imagex-sticky-restore-original "restore original")
+    ("S" imagex-sticky-save-image "save file")
+    ("r" imagex-sticky-rotate-right "rotate right")
+    ("l" imagex-sticky-rotate-left "rotate left")
+    ("q" nil nil :exit t))
+  (define-key image-mode-map (kbd "?") #'imagex-binding/body))
+
+
+(use-package image+
+  :ensure t
+  :defer t)
+
+
 (use-package helm-dash
   :ensure t
   :defer t
