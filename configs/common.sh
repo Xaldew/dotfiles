@@ -13,6 +13,19 @@ source_if()
     done
 }
 
+contains()
+{
+    # Returns 0 if the specified string contains the specified substring,
+    # otherwise returns 1.
+    str=${1:?"Not given any strings."}
+    substr=${2:?"Missing substring."}
+    if test "${str#*$substr}" != "$str"
+    then
+        return 0    # $substr is in $str
+    else
+        return 1    # $substr is not in $str
+    fi
+}
 
 command_exists()
 {
