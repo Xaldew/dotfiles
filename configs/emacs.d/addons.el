@@ -72,6 +72,14 @@ NAME can be used to set the name of the defined function."
   :init
   (setq yas-verbosity 1)
   (defvar yas-active-p nil "Is yasnippet currently expanding a snippet?")
+  (defvar yas-active-region nil "The start and end of the active snippet.")
+
+  (defun yas-in-snippet-p (tbeg tend)
+  "Test if the region [TBEG, TEND] overlaps the active yasnippet region."
+  (cl-destructuring-bind (ybeg yend) yas-active-region
+    (not (or (and (< ybeg tbeg) (< yend tbeg))
+             (and (< tbeg ybeg) (< tend ybeg))))))
+
   (add-hook 'after-init-hook #'yas-global-mode)
   :config
   ;; Rebind trigger to C-o to avoid stateful behaviors.
@@ -87,12 +95,14 @@ NAME can be used to set the name of the defined function."
   (define-key yas-keymap (kbd "C-u") 'yas-prev-field)
 
   (defun my-before-snippet-hook ()
-    "Set `yas-active-p' to true."
-    (setq yas-active-p t))
+    "Set `yas-active-p' to t and the active region bounds."
+    (setq yas-active-p t)
+    (setq yas-active-region (list yas-snippet-beg yas-snippet-end)))
 
   (defun my-after-snippet-hook ()
-    "Set `yas-active-p' to true."
-    (setq yas-active-p nil))
+    "Set `yas-active-p' to nil and clear active region bounds."
+    (setq yas-active-p nil)
+    (setq yas-active-region nil))
 
   (add-hook 'yas-before-expand-snippet-hook #'my-before-snippet-hook)
   (add-hook 'yas-after-exit-snippet-hook    #'my-after-snippet-hook)
