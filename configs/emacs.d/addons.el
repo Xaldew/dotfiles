@@ -1522,12 +1522,23 @@ _-_: Zoom out _o_: Restore original  _l_: Rotate left   _q_: Quit
   :ensure t
   :defer t
   :config
-  (defvar pm-inner/ReST/head-regexp
+  (defvar ReST-head-regexp
     (concat "^[ \t]*\\(def\\|class\\).*:" ;; Match start of function/class.
             "\\(?:\n\\)\\{1,\\}"          ;; Match at least 1 newline.
             "[ \t]*"                      ;; Match optional whitespace.
             "u?\\(\"\"\"\\|\'\'\'\\)")    ;; Match start of docstring.
     "Regexp for matching the `head' of a ReST inner mode.")
+
+  (defvar ReST-tail-regexp
+    "\\(\"\"\"\\|\'\'\'\\)"
+    "Regexp for matching the `tail' of a ReST inner mode.")
+
+  (defun ReST-match-head (ahead)
+    (pm--default-matcher ReST-head-regexp ahead))
+
+  (defun ReST-match-tail (ahead)
+    (pm--default-matcher ReST-tail-regexp ahead))
+
   (defcustom pm-host/python
     (pm-bchunkmode "python"
                    :mode 'python-mode
@@ -1535,11 +1546,12 @@ _-_: Zoom out _o_: Restore original  _l_: Rotate left   _q_: Quit
     "Python host chunkmode"
     :group 'hostmodes
     :type 'object)
+
   (defcustom pm-inner/ReST
     (pm-hbtchunkmode "ReST"
                      :mode 'rst-mode
-                     :head-reg pm-inner/ReST/head-regexp
-                     :tail-reg "\\(\"\"\"\\|\'\'\'\\)"
+                     :head-reg ReST-head-regexp
+                     :tail-reg ReST-tail-regexp
                      :head-mode 'host
                      :tail-mode 'host)
     "ReST inner chunk."
