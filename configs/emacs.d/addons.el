@@ -1469,17 +1469,24 @@ When `ERC' exits the SSH process is killed from `erc-kill-server-hook'."
   :after (hydra image+)
   :config
   (require 'image+)
-  (defhydra imagex-binding (:color pink)
-    "Manipulating Image"
-    ("+" imagex-sticky-zoom-in "zoom in")
-    ("-" imagex-sticky-zoom-out "zoom out")
-    ("M" imagex-sticky-maximize "maximize")
-    ("O" imagex-sticky-restore-original "restore original")
-    ("S" imagex-sticky-save-image "save file")
-    ("r" imagex-sticky-rotate-right "rotate right")
-    ("l" imagex-sticky-rotate-left "rotate left")
-    ("q" nil nil :exit t))
-  (define-key image-mode-map (kbd "?") #'imagex-binding/body))
+  (defhydra imagex-hydra (:color pink :hint nil)
+    "
+Zoom         ^^Manipulate           ^^Rotate           ^^Actions
+--------------------------------------------------------------------------------
+_+_: Zoom in  _m_: Maximize          _r_: Rotate right  _a_: Auto adjust
+_-_: Zoom out _o_: Restore original  _l_: Rotate left   _q_: Quit
+^ ^           _s_: Save    ^ ^
+"
+    ("+" imagex-sticky-zoom-in)
+    ("-" imagex-sticky-zoom-out)
+    ("m" imagex-sticky-maximize)
+    ("o" imagex-sticky-restore-original)
+    ("s" imagex-sticky-save-image)
+    ("r" imagex-sticky-rotate-right)
+    ("l" imagex-sticky-rotate-left)
+    ("a" imagex-auto-adjust-mode)
+    ("q" nil))
+  (define-key image-mode-map (kbd "?") #'imagex-hydra/body))
 
 
 (use-package image+
