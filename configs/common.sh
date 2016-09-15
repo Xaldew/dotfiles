@@ -55,14 +55,14 @@ swap-caps()
     # In practice, this swaps the X keyboard options: ctrl:nocaps and
     # caps:escape.
     current=`setxkbmap -query | awk '$1 ~ /^options/ { print $2 }'`
-    if [ "$current" = "ctrl:nocaps" ]; then
+    if contains $current "ctrl:nocaps" ; then
         setxkbmap -option ''
         setxkbmap -option 'caps:escape' \
                   -option 'grp:sclk_toggle' \
                   -option 'grp:rctrl_rshift_toggle' \
                   -option 'grp_led:scroll' \
                   -layout se,us
-    elif [ "$current" = "caps:escape" ]; then
+    elif contains $current "caps:escape" ; then
         setxkbmap -option ''
         setxkbmap -option 'ctrl:nocaps' \
                   -option 'grp:sclk_toggle' \
