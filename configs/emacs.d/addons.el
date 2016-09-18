@@ -1480,13 +1480,13 @@ When `ERC' exits the SSH process is killed from `erc-kill-server-hook'."
   :after (hydra image+)
   :config
   (require 'image+)
-  (defhydra imagex-hydra (:color pink :hint nil)
+  (defhydra imagex-hydra (:color red :hint nil)
     "
 Zoom         ^^Manipulate           ^^Rotate           ^^Actions
 --------------------------------------------------------------------------------
 _+_: Zoom in  _m_: Maximize          _r_: Rotate right  _a_: Auto adjust
-_-_: Zoom out _o_: Restore original  _l_: Rotate left   _q_: Quit
-^ ^           _s_: Save    ^ ^
+_-_: Zoom out _o_: Restore original  _l_: Rotate left   _i_: Imagemagick Hydra
+^ ^           _s_: Save              ^ ^                _q_: Quit
 "
     ("+" imagex-sticky-zoom-in)
     ("-" imagex-sticky-zoom-out)
@@ -1496,8 +1496,33 @@ _-_: Zoom out _o_: Restore original  _l_: Rotate left   _q_: Quit
     ("r" imagex-sticky-rotate-right)
     ("l" imagex-sticky-rotate-left)
     ("a" imagex-auto-adjust-mode)
+    ("i" imagemagick-hydra/body :exit t)
     ("q" nil))
-  (define-key image-mode-map (kbd "?") #'imagex-hydra/body))
+
+  (defhydra imagemagick-hydra (:color red :hint nil)
+    "
+Zoom           ^^Manipulate           ^^Rotate           ^^Actions
+--------------------------------------------------------------------------------
+_+_: Zoom in    _h_: Fit to height     _r_: Rotate right  _a_: Auto adjust
+_-_: Zoom out   _w_: Fit to width      _l_: Rotate left   _i_: Image+ Hydra
+_s_: Set scale  _o_: Restore original  _R_: Rotate free   _q_: Quit
+"
+    ("+" (image-transform-set-scale (* image-transform-scale 1.1)))
+    ("-" (image-transform-set-scale (* image-transform-scale 0.9)))
+    ("s" image-transform-set-scale)
+
+    ("h" image-transform-fit-to-height)
+    ("w" image-transform-fit-to-width)
+    ("o" image-transform-reset)
+
+    ("r" (image-transform-set-rotation  (+ image-transform-rotation 90)))
+    ("l" (image-transform-set-rotation  (- image-transform-rotation 90)))
+    ("R" image-transform-set-rotation)
+
+    ("a" imagex-auto-adjust-mode)
+    ("i" imagex-hydra/body :exit t)
+    ("q" nil))
+  (define-key image-mode-map (kbd "?") #'imagemagick-hydra/body))
 
 
 (use-package image+
