@@ -1279,18 +1279,19 @@ _R_: Apply on rectangle  _pd_: Python dictionary  _s_: Column separator       [%
 
 (use-package hydra
   :defer t
-  :after (eww sx emms)
+  :after (eww sx emms calc)
   :config
   (defhydra hydra-apps (:color blue :hint nil)
     "
-Browser            ^^Music                  ^^Mail/Chat      ^^Calendar           ^^Stack Exchange
+Browser/Calculator ^^Music                  ^^Mail/Chat      ^^Calendar           ^^Stack Exchange
 ---------------------------------------------------------------------------------------------------
 _bo_: EWW Open       _mo_: EMMS Open          _go_: GNUS Open  _co_: Calendar Open  _so_: SX Open
 _bb_: EWW Bookmarks  _mp_: EMMS Play library  _ge_: ERC        _ch_: Holidays       _sa_: SX Ask
-^ ^                  _mf_: EMMS Play local    _gb_: Bitlbee    _cl_: Holidays List  _sn_: SX Newest
+_ca_: Calc           _mf_: EMMS Play local    _gb_: Bitlbee    _cl_: Holidays List  _sn_: SX Newest
 "
     ("bo" eww)
     ("bb" eww-list-bookmarks)
+    ("ca" calc)
 
     ("mo" emms-smart-browse)
     ("mp" emms-play-file)
