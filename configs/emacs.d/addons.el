@@ -371,14 +371,14 @@ NAME can be used to set the name of the defined function."
   :pin melpa
   :commands paredit-mode
   :diminish paredit-mode
-  :bind (:map paredit-mode-map
-              ("C-h" . paredit-backward-delete)
-              ("M-h" . paredit-backward-kill-word))
   :init
   (add-hook 'emacs-lisp-mode-hook #'paredit-mode)
   (add-hook 'lisp-mode-hook       #'paredit-mode)
   (add-hook 'scheme-mode-hook     #'paredit-mode)
-  (add-hook 'clojure-mode-hook    #'paredit-mode))
+  (add-hook 'clojure-mode-hook    #'paredit-mode)
+  :config
+  (define-key paredit-mode-map (kbd "C-h") #'paredit-backward-delete)
+  (define-key paredit-mode-map (kbd "M-h") #'paredit-backward-kill-word))
 
 
 ;; Configure Clojure-mode with some additional font-locking.

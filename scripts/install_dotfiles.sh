@@ -8,6 +8,21 @@ mkdir --parents \
       $local_prefix_dir/share/man
 
 
+create_linkfarm()
+{
+    # Create a recrusive linkfarm.
+    local src=${1:?"Missing source directory."}
+    local dst=${2:?"Missing destination directory."}
+    local f=""
+    mkdir --parents ${dst}
+    for f in ${src}/* ${src}/.[!.]* ${src}/..?*;
+    do
+        if [ -d $f ]; then create_linkfarm $f $dst/$(basename $f) ; fi
+        if [ -f $f ]; then ln -fs -T $f $dst/$(basename $f)       ; fi
+    done
+}
+
+
 # Install all configuration files and plugins.
 ln -fs $dotfiles_dir/configs/inputrc $HOME/.inputrc
 ln -fs $dotfiles_dir/configs/bash_aliases $HOME/.bash_aliases
@@ -44,30 +59,14 @@ ln -fs $dotfiles_dir/configs/Xresources $HOME/.Xresources
 ln -fs $dotfiles_dir/configs/latexmkrc $HOME/.latexmkrc
 
 # Install emacs configuration.
-mkdir --parents $HOME/.emacs.d $HOME/.emacs.d/elisp/
-for ef in $dotfiles_dir/configs/emacs.d/*.el
-do
-    ln -fs $ef $HOME/.emacs.d/$(basename $ef)
-done
-ln -fs $dotfiles_dir/configs/emacs.d/init.el $HOME/.emacs
-rm -f \
-   $HOME/.emacs.d/snippets \
-   $HOME/.emacs.d/templates \
-   $HOME/.emacs.d/styles
-ln -fs $dotfiles_dir/configs/emacs.d/snippets $HOME/.emacs.d/snippets
-ln -fs $dotfiles_dir/configs/emacs.d/templates $HOME/.emacs.d/templates
-ln -fs $dotfiles_dir/configs/emacs.d/styles $HOME/.emacs.d/styles
-for ef in $dotfiles_dir/configs/emacs.d/elisp/*.el
-do
-    ln -fs $ef $HOME/.emacs.d/elisp/$(basename $ef)
-done
+create_linkfarm $dotfiles_dir/configs/emacs./ $HOME/.emacs.d
 touch $HOME/.emacs.d/custom.el
 
 # Download the gitolite-conf-mode file.
 if [ ! -r "$HOME/.emacs.d/elisp/gl-conf-mode.el" ]; then
     tmp=$(mktemp --directory)
-    git clone --quiet \
-	git://github.com/llloret/gitolite-emacs.git $tmp/gitolite-emacs
+    url=git://github.com/llloret/gitolite-emacs.git
+    git clone --quiet $url $tmp/gitolite-emacs
     cp --force $tmp/gitolite-emacs/gl-conf-mode.el $HOME/.emacs.d/elisp/
     rm -rf $tmp
 fi
@@ -85,8 +84,7 @@ fi
 ln -fs $dotfiles_dir/configs/vimrc $HOME/.vimrc
 
 # Setup aspell configuration and additional dictionaries.
-rm -f $HOME/.dicts
-ln -fs $dotfiles_dir/configs/dicts $HOME/.dicts
+ln -fs -T $dotfiles_dir/configs/dicts $HOME/.dicts
 
 
 # Create a bashrc file with links to the script directories.
