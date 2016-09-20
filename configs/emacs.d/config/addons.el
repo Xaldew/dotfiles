@@ -1601,6 +1601,16 @@ _s_: Set scale  _o_: Restore original  _R_: Rotate free   _q_: Quit
   :mode ("\\.md" . poly-markdown-mode))
 
 
+(use-package racer
+  :ensure t
+  :defer t
+  :init
+  (add-hook 'rust-mode-hook #'racer-mode)
+  :config
+  (setq racer-rust-src-path (getenv "RUST_SRC_PATH"))
+  (add-hook 'racer-mode-hook #'eldoc-mode))
+
+
 (use-package ruby-mode
   :defer t
   :config
