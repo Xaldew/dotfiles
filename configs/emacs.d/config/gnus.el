@@ -100,7 +100,7 @@
 (defun my-face ()
   "Retrieve a random Face if they are available."
   (let ((files (my-get-face-files)))
-    (and files (gnus-face-from-file (nth (random (length files) files))))))
+    (and files (gnus-face-from-file (nth (random (length files)) files)))))
 
 
 (setq gnus-posting-styles

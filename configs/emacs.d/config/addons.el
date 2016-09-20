@@ -1323,14 +1323,13 @@ _ca_: Calc           _mf_: EMMS Play local    _gb_: Bitlbee    _cl_: Holidays Li
 
 (use-package org
   :defer t
-  :bind (:map org-mode-map
-              ("M-h" . backward-kill-word))
   :init
   (setq org-directory (file-name-as-directory
                        (concat user-emacs-directory "org")))
   (unless (file-directory-p org-directory)
     (message "Warning: `%s' directory doesn't exist." org-directory))
   :config
+  (define-key org-mode-map (kbd "M-h") #'backward-kill-word)
   (customize-set-variable 'org-export-with-sub-superscript '{})
   (customize-set-variable 'org-use-sub-superscript '{})
   (customize-set-variable 'org-log-into-drawer t))

@@ -59,7 +59,7 @@ ln -fs $dotfiles_dir/configs/Xresources $HOME/.Xresources
 ln -fs $dotfiles_dir/configs/latexmkrc $HOME/.latexmkrc
 
 # Install emacs configuration.
-create_linkfarm $dotfiles_dir/configs/emacs./ $HOME/.emacs.d
+create_linkfarm $dotfiles_dir/configs/emacs.d $HOME/.emacs.d
 touch $HOME/.emacs.d/custom.el
 
 # Download the gitolite-conf-mode file.

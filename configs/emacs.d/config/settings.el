@@ -267,7 +267,7 @@ function to call."
 
 ;; GNUS settings.
 (setq gnus-home-directory (expand-file-name "gnus/" user-emacs-directory)
-      gnus-init-file	  (expand-file-name "gnus.el" user-emacs-directory)
+      gnus-init-file	  (expand-file-name "gnus.el" user-emacs-config)
       gnus-directory      (expand-file-name "news/" gnus-home-directory)
       message-directory	  (expand-file-name "mail/" gnus-home-directory))
 

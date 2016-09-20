@@ -6,6 +6,10 @@
 ;;
 ;;; Code:
 
+;; Define the location of user configuration.
+(defvar user-emacs-config (concat user-emacs-directory "config/")
+  "The directory containing user-specific configuration.")
+
 ;; Prefer the newer files when loading.
 (setq load-prefer-newer t)
 
@@ -19,7 +23,7 @@
 (defun load-user-file (file)
   "Load FILE from the current user's Emacs configuration directory."
   (interactive "f")
-  (load (expand-file-name file user-emacs-directory)))
+  (load (expand-file-name file user-emacs-config)))
 
 
 ;; Load settings independent on external plugins.
