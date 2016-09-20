@@ -1610,6 +1610,12 @@ _s_: Set scale  _o_: Restore original  _R_: Rotate free   _q_: Quit
   (setq racer-rust-src-path (getenv "RUST_SRC_PATH"))
   (add-hook 'racer-mode-hook #'eldoc-mode))
 
+(use-package cargo
+  :ensure t
+  :defer t
+  :init
+  (add-hook 'rust-mode-hook #'cargo-minor-mode))
+
 
 (use-package ruby-mode
   :defer t
