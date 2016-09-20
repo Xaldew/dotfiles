@@ -159,16 +159,20 @@ NAME can be used to set the name of the defined function."
   :init
   (add-hook 'after-init-hook #'global-company-mode)
   :config
-  (use-package company-math :defer t :ensure t)
-  (use-package company-irony :defer t :ensure t)
-  (use-package company-anaconda
-    :defer t
-    :ensure t
-    :config
-    (add-to-list 'company-backends 'company-anaconda))
-  (use-package company-c-headers :defer t :ensure t)
-  (use-package company-quickhelp :defer t :ensure t)
-  (setq company-idle-delay .1))
+  (setq company-idle-delay .1)
+  (setq company-tooltip-align-annotations t))
+
+(use-package company-math      :defer t :ensure company)
+(use-package company-c-headers :defer t :ensure company)
+(use-package company-quickhelp :defer t :ensure company)
+(use-package company-irony     :defer t :ensure company)
+
+(use-package company-anaconda
+  :defer t
+  :ensure company
+  :config
+  (add-to-list 'company-backends 'company-anaconda))
+
 
 
 ;; Activate Magit.
