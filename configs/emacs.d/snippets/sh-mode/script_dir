@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: Posix Script Directory
+# key: sdir
+# --
+dir=$(CDPATH= cd -- "\$(dirname -- "\$0")" && pwd -P)$0
