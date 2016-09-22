@@ -333,7 +333,6 @@ NAME can be used to set the name of the defined function."
   :config (c-add-style "google" google-c-style))
 
 
-;; Add ace-jump and ace-window configuration.
 (use-package ace-window
   :ensure t
   :bind ("C-x o" . ace-window)
@@ -1545,6 +1544,42 @@ _s_: Set scale  _o_: Restore original  _R_: Rotate free   _q_: Quit
   (set-variable-in-hook c++-mode-hook     helm-dash-docsets '("C++" "C"))
   :config
   (define-key helm-map (kbd "C-h") #'backward-delete-char))
+
+
+(use-package dumb-jump
+  :ensure t
+  :defer t
+  :after hydra
+  :config
+
+  (defhydra jump-hydra (:color blue :columns 4)
+    "Reference Jumping"
+    ("x" xref-hydra/body      "Xref"       :exit t)
+    ("d" dumb-jump-hydra/body "dumb-jump"  :exit t)
+    ("g" ggtags-hydra/body    "GNU Global" :exit t)
+    ("a" ag-hydra/body        "Ag"         :exit t)
+    ("q" nil                  "Quit"       :exit t))
+  (global-set-key (kbd "C-c j") #'jump-hydra/body)
+
+  (defhydra xref-hydra (:color red :columns 4)
+    "Xref Jumping"
+    ("d" xref-find-definitions              "Definitions")
+    ("f" xref-find-definitions-other-frame  "Definitions other frame")
+    ("w" xref-find-definitions-other-window "Definitions other window")
+    ("r" xref-find-references               "References")
+    ("a" xref-find-apropos                  "Apropos")
+    ("b" jump-hydra/body "Go Back" :exit t)
+    ("q" nil             "Quit"    :exit t))
+
+
+  (defhydra dumb-jump-hydra (:color red :columns 4)
+    "Dumb-Jump Jumping"
+    ("g" dumb-jump-go              "Definitions")
+    ("o" dumb-jump-go-other-window "Definitions other window")
+    ("p" dumb-jump-back            "Pop stack")
+    ("l" dumb-jump-quick-look      "Quick look")
+    ("b" jump-hydra/body "Go Back" :exit t)
+    ("q" nil             "Quit"    :exit t)))
 
 
 (use-package polymode
