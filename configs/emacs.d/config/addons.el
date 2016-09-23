@@ -1557,11 +1557,11 @@ _s_: Set scale  _o_: Restore original  _R_: Rotate free   _q_: Quit
     ("x" xref-hydra/body      "Xref"       :exit t)
     ("d" dumb-jump-hydra/body "dumb-jump"  :exit t)
     ("g" ggtags-hydra/body    "GNU Global" :exit t)
-    ("a" ag-hydra/body        "Ag"         :exit t)
+    ("a" grep/ag-hydra/body        "Grep/Ag"         :exit t)
     ("q" nil                  "Quit"       :exit t))
   (global-set-key (kbd "C-c j") #'jump-hydra/body)
 
-  (defhydra xref-hydra (:color red :columns 4)
+  (defhydra xref-hydra (:color pink :columns 4)
     "Xref Jumping"
     ("d" xref-find-definitions              "Definitions")
     ("f" xref-find-definitions-other-frame  "Definitions other frame")
@@ -1572,12 +1572,33 @@ _s_: Set scale  _o_: Restore original  _R_: Rotate free   _q_: Quit
     ("q" nil             "Quit"    :exit t))
 
 
-  (defhydra dumb-jump-hydra (:color red :columns 4)
-    "Dumb-Jump Jumping"
+  (defhydra dumb-jump-hydra (:color pink :columns 4)
+    "Dumb-Jumping"
     ("g" dumb-jump-go              "Definitions")
     ("o" dumb-jump-go-other-window "Definitions other window")
     ("p" dumb-jump-back            "Pop stack")
     ("l" dumb-jump-quick-look      "Quick look")
+    ("b" jump-hydra/body "Go Back" :exit t)
+    ("q" nil             "Quit"    :exit t))
+
+  (defhydra grep/ag-hydra (:color pink :columns 4)
+    "Grep/Ag Jumping"
+    ("G" grep        "Grep")
+    ("g" grep-find   "Grep-Find")
+    ("v" vc-git-grep "Git Prep")
+    ("s" ag          "Ag Search")
+    ("p" ag-project  "Ag Project")
+    ("f" ag-files    "Ag Files")
+    ("b" jump-hydra/body "Go Back" :exit t)
+    ("q" nil             "Quit"    :exit t))
+
+  (defhydra ggtags-hydra (:color pink :columns 4)
+    "GNU Global Jumping"
+    ("d" ggtags-find-definition "Definition")
+    ("r" ggtags-find-reference  "Reference")
+    ("R" ggtags-query-replace   "Replace")
+    ("c" ggtags-create-tags     "Create")
+    ("u" ggtags-update-tags     "Update")
     ("b" jump-hydra/body "Go Back" :exit t)
     ("q" nil             "Quit"    :exit t)))
 
