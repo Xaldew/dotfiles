@@ -1547,7 +1547,7 @@ _s_: Set scale  _o_: Restore original  _R_: Rotate free   _q_: Quit
     ("x" xref-hydra/body      "Xref"       :exit t)
     ("d" dumb-jump-hydra/body "dumb-jump"  :exit t)
     ("g" ggtags-hydra/body    "GNU Global" :exit t)
-    ("a" grep/ag-hydra/body        "Grep/Ag"         :exit t)
+    ("a" grep/ag-hydra/body   "Grep/Ag"    :exit t)
     ("q" nil                  "Quit"       :exit t))
   (global-set-key (kbd "C-c j") #'jump-hydra/body)
 
