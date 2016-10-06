@@ -63,8 +63,6 @@ module load scons/scons/2.3.0
 module load swig/swig/2.0.0
 module load apache/subversion/1.7.3
 module load doxygen/doxygen/1.8.2
-module load codesourcery/linuxeabi/arm-2011q1
-module load smartbear/codecollab/8.1.8100
 
 if [ "\`get_dist -i\`" = "ubuntu" ]; then
    # Running Ubuntu. Fix broken default packages.
@@ -77,57 +75,21 @@ else
    module load git/git/v2.0.0
 fi
 
-#### Aliases
-alias maketest=" (goto_repo && cd test/system/ && \
-    make -j12 MVE_VERSION=V500_R0P1_00REL0 && \
-    make virtex7 MVE_VERSION=V500_R0P1_00REL0 -j12)"
-alias makerel="  (goto_repo && cd test/system/ && \
-    RELEASE=1 make RELEASE=1 MVE_VERSION=V500_R0P1_00REL0 -j12 && \
-    make virtex7 RELEASE=1 MVE_VERSION=V500_R0P1_00REL0 -j12)"
-alias makedbg="  (goto_repo && cd test/system/ && \
-    DEBUG=1 make DEBUG=1 MVE_VERSION=V500_R0P1_00REL0 -j12)"
-alias makeclean="(goto_repo && cd test/system/ && make clean)"
-alias makeutil=" (goto_repo && cd test/system/ && make util -j12)"
-
 # bjobs/bwhat to monitor queue
 alias bi="bsub -Is -P \$ARM_PROJECT_NR -R 'rhe6 && os64' bash"
 alias bs='bsub -P PJ01433 -q normal -R "rhe6 && os64"'
 alias bissh="ssh lun-login2.lund.arm.com"
 
 
-# Preserve the PATH variable when entering (local) sudo.
-alias sudo='sudo env PATH=\$PATH'
-
-# Use local python install for Python 3.
-alias python3='python3.4'
-
-
 #### Functions
-function runtest()
-{
-    (goto_repo && cd test/system/; ./runtest \$@)
-}
-
-## Goto the nearest the mve6 repo. If none is found, goto the default one
-function goto_repo()
-{
-    pwd=\$(pwd)
-    if [[ \$pwd == *mve6* ]]; then
-	repo=\$(pwd | sed 's/mve6.*//')
-	cd \$repo/mve6
-    else
-	cd \$WORKSPACE_DIR/mve6
-    fi
-}
-
-function count_h264_frames()
+count_h264_frames()
 {
     ffprobe -count_frames -show_frames -hide_banner "\$1" | \
         grep pict_type | sort | uniq -c
 }
 
 # Setup environment for building android/android-kernel stuff.
-function android_env()
+android_env()
 {
     location=\${1:-/ssd_data}
     export SSD=/ssd_data
@@ -163,15 +125,9 @@ function android_env()
     export ADBHOST=10.44.11.22
 }
 
-function strip_h264()
-{
-    in=\${1}
-    ffmpeg -i "\$in" -vcodec copy -an -bsf:v h264_mp4toannexb "\${in%.*}.h264"
-}
 
-# Set the arm git config for ARM project repos.
-# Otherwise, commits will not be pushable.
-function set_arm_gitconfig()
+# Set the ARM gitconfig for gerrit repos. Otherwise, commits cannot be pushed.
+set_arm_gitconfig()
 {
     for arg in "\$@";
     do
@@ -198,7 +154,7 @@ export MANPATH=\$MANPATH:/usr/local/texlive/2015/texmf-dist/doc/man
 # messed up. Only needed at work.
 export TERMCAP=\$HOME/.termcap
 
-# Override the prompt override.
+# Explicitly set the prompt - override ARM default.
 source $dotfiles_dir/scripts/prompt.sh
 export PROMPT_COMMAND=light_prompt
 
