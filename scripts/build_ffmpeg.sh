@@ -126,7 +126,10 @@ install_libvpx()
     cd libvpx
     ./configure \
 	--prefix=$objects_dir/ffmpeg/ffmpeg_build \
-	--disable-examples
+        --enable-multi-res-encoding \
+        --enable-experimental \
+        --enable-spatial-svc \
+        --enable-static
     make
     make install
 }
