@@ -184,16 +184,6 @@ NAME can be used to set the name of the defined function."
   (setq magit-last-seen-setup-instructions "1.4.0")
   :bind ("C-c g" . magit-status)
   :config
-  (defun magit-push-to-gerrit ()
-    "Use `magit' to push for `gerrit' review."
-    (interactive)
-    (magit-git-command "push origin HEAD:refs/for/master" (magit-toplevel)))
-
-  (magit-define-popup-action 'magit-push-popup
-    ?G
-    "Push to gerrit"
-    #'magit-push-to-gerrit)
-
   (defun magit-stash-and-pull ()
     "Use `magit' to stash, pull, and pop the stash."
     (interactive)
