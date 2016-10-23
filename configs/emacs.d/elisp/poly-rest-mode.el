@@ -16,28 +16,46 @@
   :group 'hostmodes
   :type 'object)
 
+(defvar pm-ReST-code-regexp
+  (regexp-opt '("code" "code-block" "sourcecode" "highlight"))
+  "Regular expression to match all possible ReST code blocks.")
+
+(defvar pm-ReST-head-regexp
+  (concat "^[^ ]*\\( *\.\. +" pm-ReST-code-regexp "::.*\n"
+          "\\(?: +:.+\n\\)*\\)")      ;; Match 0 or more option lines.
+  "Regular expression to match the `head' of a ReST code block.")
+
+(defvar pm-ReST-retriever-regexp
+  (concat "^[^ ]*\\(?: *\.\. +" pm-ReST-code-regexp ":: \\(.+\\)\\)$")
+  "Regular expression to retrieve the mode of the code block.")
+
+(pm-create-indented-block-matchers "ReST" pm-ReST-head-regexp)
+
 (defcustom pm-inner/ReST-code
   (pm-hbtchunkmode-auto "ReST"
-                        :head-reg "^[ \t]*\\.\\. code::.*$"
-                        :tail-reg "^[^ \t\n]+$"
-                        :retriever-regexp "^[ \t]*\\.\\. code:: +\\(.+\\)"
+                        :head-reg #'pm-ReST-head-matcher
+                        :tail-reg #'pm-ReST-tail-matcher
                         :head-mode 'host
                         :tail-mode 'host
+                        :retriever-regexp pm-ReST-retriever-regexp
                         :font-lock-narrow t)
-  "Restructured Text code chunks."
+  "Restructured Text inner code block mode."
   :group 'innermodes
   :type 'object)
 
+
 (defcustom pm-poly/ReST
   (pm-polymode-multi-auto "ReST"
-                          :hostmode       'pm-host/ReST
+                          :hostmode 'pm-host/ReST
                           :auto-innermode 'pm-inner/ReST-code)
-  "Restructured Text typical configuration."
+  "Restructured Text typical `polymode' configuration."
   :group 'polymodes
   :type 'object)
 
-;;;###autoload (autoload #'poly-markdown-mode "poly-rest-mode")
+
+;;;###autoload (autoload #'poly-rest-mode "poly-rest-mode")
 (define-polymode poly-rest-mode pm-poly/ReST)
+
 
 (defun poly-rest-fixes ()
   "Fix various minor issues that can occur in the poly-ReST-mode."
