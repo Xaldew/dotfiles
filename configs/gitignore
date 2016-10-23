@@ -25,9 +25,12 @@ desktop.ini	     # Windows desktop variables.
 *.out
 *.o
 
-# Ignore python precompiled/optimized binaries
+# Ignore python precompiled/optimized binaries and some versions of virtual
+# environments.
 *.pyc
 *.pyo
+.venv/
+venv/
 
 # Ignore out-of-source build folders.
 /*build*/
@@ -51,5 +54,8 @@ GRTAGS
 compile_commands.json
 complete_cdb.json
 
-# Ignore Rust Cargo.lock files.
+# Ignore Rust Cargo.lock files by default.
 Cargo.lock
+
+# Ignore auto-environment files.
+.env
