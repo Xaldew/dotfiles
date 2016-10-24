@@ -1601,6 +1601,15 @@ _s_: Set scale  _o_: Restore original  _R_: Rotate free   _q_: Quit
   :mode ("\\.md" . poly-markdown-mode))
 
 
+(use-package nameless
+  :ensure t
+  :defer t
+  :init
+  (add-hook 'emacs-lisp-mode-hook #'nameless-mode)
+  :config
+  (define-key nameless-mode-map (kbd "_") #'nameless-insert-name-or-self-insert))
+
+
 (use-package racer
   :ensure t
   :defer t
