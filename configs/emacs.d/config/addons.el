@@ -1593,53 +1593,7 @@ _s_: Set scale  _o_: Restore original  _R_: Rotate free   _q_: Quit
     ("q" nil             "Quit"    :exit t)))
 
 
-(use-package polymode
-  :ensure t
-  :defer t
-  :config
-  (defvar ReST-head-regexp
-    (concat "^[ \t]*\\(def\\|class\\).*:" ;; Match start of function/class.
-            "\\(?:\n\\)\\{1,\\}"          ;; Match at least 1 newline.
-            "[ \t]*"                      ;; Match optional whitespace.
-            "u?\\(\"\"\"\\|\'\'\'\\)")    ;; Match start of docstring.
-    "Regexp for matching the `head' of a ReST inner mode.")
-
-  (defvar ReST-tail-regexp
-    "\\(\"\"\"\\|\'\'\'\\)"
-    "Regexp for matching the `tail' of a ReST inner mode.")
-
-  (defun ReST-match-head (ahead)
-    (pm--default-matcher ReST-head-regexp ahead))
-
-  (defun ReST-match-tail (ahead)
-    (pm--default-matcher ReST-tail-regexp ahead))
-
-  (defcustom pm-host/python
-    (pm-bchunkmode "python"
-                   :mode 'python-mode
-                   :font-lock-narrow nil)
-    "Python host chunkmode"
-    :group 'hostmodes
-    :type 'object)
-
-  (defcustom pm-inner/ReST
-    (pm-hbtchunkmode "ReST"
-                     :mode 'rst-mode
-                     :head-reg ReST-head-regexp
-                     :tail-reg ReST-tail-regexp
-                     :head-mode 'host
-                     :tail-mode 'host)
-    "ReST inner chunk."
-    :group 'innermodes
-    :type 'object)
-  (defcustom pm-poly/python+ReST
-    (pm-polymode-one "python+ReST"
-                     :hostmode 'pm-host/python
-                     :innermode 'pm-inner/ReST)
-    "Python and ReST polymode."
-    :group 'polymodes
-    :type 'object)
-  (define-polymode poly-python-mode pm-poly/python+ReST))
+(use-package polymode :ensure t :defer t)
 
 (use-package poly-markdown
   :ensure polymode
