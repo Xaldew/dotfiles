@@ -1,5 +1,5 @@
 # -*- mode: snippet -*-
-# Insert reST style docstring and function definition.
+# Insert ReST style docstring and function definition.
 # name: Python reST function docstring
 # key: defr
 # type: snippet
