@@ -35,8 +35,8 @@ AHEAD is passed directly to the default matcher."
 (defcustom poly-python-host/python
     (pm-bchunkmode "python"
                    :mode 'python-mode
-                   :init-functions '(poly-python-fixes)
-                   :font-lock-narrow nil)
+                   :font-lock-narrow nil
+                   :init-functions '(poly-python-yas-hook poly-python-fixes))
     "Python host chunkmode."
     :group 'hostmodes
     :type 'object)
@@ -52,9 +52,9 @@ AHEAD is passed directly to the default matcher."
     :group 'innermodes
     :type 'object)
   (defcustom poly-python-poly/python+ReST
-    (pm-polymode-one "python+ReST"
-                     :hostmode 'poly-python-host/python
-                     :innermode 'poly-python-inner/ReST)
+    (pm-polymode-multi "python+ReST"
+                       :hostmode 'poly-python-host/python
+                       :innermodes '(poly-python-inner/ReST))
     "Python and ReST polymode."
     :group 'polymodes
     :type 'object)
@@ -63,10 +63,28 @@ AHEAD is passed directly to the default matcher."
 ;;;###autoload (autoload #'poly-python-mode "poly-python-mode")
 (define-polymode poly-python-mode poly-python-poly/python+ReST)
 
+(defun poly-python-yas-hook ()
+  "Force `yas-indent-line' to `fixed' while using poly-mode."
+  (whitespace-mode -1)
+  (set (make-local-variable 'yas-indent-line) 'fixed))
+
+
+(defun poly-python-before-snippet-hook ()
+  "Inhibit `polymode' buffer-switching during snippet expansion."
+  (advice-add #'polymode-post-command-select-buffer :override #'ignore))
+
+
+(defun poly-python-after-snippet-hook ()
+  "Re-enable `polymode' buffer-switching after snippet expansion."
+  (advice-remove #'polymode-post-command-select-buffer #'ignore))
+
 
 (defun poly-python-fixes ()
   "Fix various minor issues that can occur in the poly-python-mode."
-  (remove-hook 'prog-mode-hook #'whitespace-mode))
+  (add-hook 'yas-before-expand-snippet-hook #'poly-python-before-snippet-hook)
+  (add-hook 'yas-after-exit-snippet-hook    #'poly-python-after-snippet-hook)
+  (add-hook 'rst-mode-hook    #'poly-python-yas-hook)
+  (add-hook 'python-mode-hook #'poly-python-yas-hook))
 
 (provide 'poly-python-mode)
 

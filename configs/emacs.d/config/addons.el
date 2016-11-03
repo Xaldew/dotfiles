@@ -631,10 +631,7 @@ if such a file does not already exist."
   :ensure t
   :defer t
   :commands mmm-mode
-  :init
-  (add-hook 'python-mode-hook 'mmm-mode)
   :config
-
   ;; Add python + rst major mode configuration.
   (defun rst-python-statement-is-docstring (begin)
     "Return true if beginning of statement is BEGIN."
