@@ -41,27 +41,29 @@ AHEAD is passed directly to the default matcher."
     :group 'hostmodes
     :type 'object)
 
-  (defcustom poly-python-inner/ReST
-    (pm-hbtchunkmode "ReST"
-                     :mode 'rst-mode
-                     :head-reg poly-python-ReST-head-regexp
-                     :tail-reg poly-python-ReST-tail-regexp
-                     :head-mode 'host
-                     :tail-mode 'host)
-    "ReST inner chunk."
-    :group 'innermodes
-    :type 'object)
-  (defcustom poly-python-poly/python+ReST
-    (pm-polymode-multi "python+ReST"
-                       :hostmode 'poly-python-host/python
-                       :innermodes '(poly-python-inner/ReST))
-    "Python and ReST polymode."
-    :group 'polymodes
-    :type 'object)
+(defcustom poly-python-inner/ReST
+  (pm-hbtchunkmode "ReST"
+                   :mode 'rst-mode
+                   :head-reg poly-python-ReST-head-regexp
+                   :tail-reg poly-python-ReST-tail-regexp
+                   :head-mode 'host
+                   :tail-mode 'host)
+  "ReST inner chunk."
+  :group 'innermodes
+  :type 'object)
+
+(defcustom poly-python-poly/python+ReST
+  (pm-polymode-multi "python+ReST"
+                     :hostmode 'poly-python-host/python
+                     :innermodes '(poly-python-inner/ReST))
+  "Python and ReST polymode."
+  :group 'polymodes
+  :type 'object)
 
 
 ;;;###autoload (autoload #'poly-python-mode "poly-python-mode")
 (define-polymode poly-python-mode poly-python-poly/python+ReST)
+
 
 (defun poly-python-yas-hook ()
   "Force `yas-indent-line' to `fixed' while using poly-mode."
