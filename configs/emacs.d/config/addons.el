@@ -1607,6 +1607,13 @@ _s_: Set scale  _o_: Restore original  _R_: Rotate free   _q_: Quit
   (define-key nameless-mode-map (kbd "_") #'nameless-insert-name-or-self-insert))
 
 
+(use-package jira-markup-mode
+  :ensure t
+  :defer t
+  :mode (("\\.confluence$" . jira-markup-mode)
+         ("/itsalltext/.*jira.*\\.txt$" . jira-markup-mode)))
+
+
 (use-package racer
   :ensure t
   :defer t
