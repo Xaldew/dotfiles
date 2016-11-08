@@ -1604,6 +1604,7 @@ _s_: Set scale  _o_: Restore original  _R_: Rotate free   _q_: Quit
   :init
   (add-hook 'emacs-lisp-mode-hook #'nameless-mode)
   :config
+  (setq nameless-affect-indentation-and-filling nil)
   (define-key nameless-mode-map (kbd "_") #'nameless-insert-name-or-self-insert))
 
 
