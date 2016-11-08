@@ -1610,8 +1610,18 @@ _s_: Set scale  _o_: Restore original  _R_: Rotate free   _q_: Quit
 (use-package jira-markup-mode
   :ensure t
   :defer t
+  :commands (jira-markup-mode)
   :mode (("\\.confluence$" . jira-markup-mode)
          ("/itsalltext/.*jira.*\\.txt$" . jira-markup-mode)))
+
+
+(use-package markdown-mode
+  :ensure t
+  :defer t
+  :commands (markdown-mode gfm-mode)
+  :mode (("README\\.md\\'" . gfm-mode)
+         ("\\.md\\'"       . markdown-mode)
+         ("\\.markdown\\'" . markdown-mode)))
 
 
 (use-package racer
@@ -1650,7 +1660,6 @@ _s_: Set scale  _o_: Restore original  _R_: Rotate free   _q_: Quit
 (use-package git-commit        :ensure t)
 (use-package gitignore-mode    :ensure t :defer t)
 (use-package gitconfig-mode    :ensure t :defer t)
-(use-package markdown-mode     :ensure t :defer t)
 (use-package dart-mode         :ensure t :defer t)
 (use-package web-mode          :ensure t :defer t)
 (use-package cuda-mode         :ensure t :defer t)
