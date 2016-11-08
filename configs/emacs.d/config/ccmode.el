@@ -1,19 +1,19 @@
-;; Setup settings used in C-like languages such as C/C++/Java.
-(require 'cc-mode)
+;;; ccmode.el --- Personal cc-mode configuration.
+;;
+;;; Commentary:
+;; Personal configuration and setup for C-like languages such as C, C++ and
+;; Java.
+;;
+;;; Code:
 
-(defun my-cc-init-hook ()
-  "Initialization hook for CC-mode runs before any other hooks,
-   but only once per Emacs session.")
-(add-hook 'c-initialization-hook #'my-cc-init-hook)
+(require 'cc-mode)
 
 
 (defface font-lock-format-specifier-face
   '((t (:foreground "OrangeRed1")))
-  "Font Lock mode face used to highlight format specifiers."
+  "Font-lock face used to highlight printf format specifiers."
   :group 'font-lock-faces)
-(defvar font-lock-format-specifier-face
-  'font-lock-format-specifier-face
-  "Face name to use for format specifiers.")
+
 
 (defconst doxygen-font-lock-doc-comments
   `(("\\<\\(FIXME\\|TODO\\):?" 1 font-lock-warning-face prepend)
@@ -26,6 +26,7 @@
 	(c-font-lock-doc-comments "/\\*\\*" limit
 	  doxygen-font-lock-doc-comments))))
   "Function to run for doxygen documentation font-locking.")
+
 
 (defun my-cc-mode-common-hook ()
   "Setup common utilities for all C-like modes."
@@ -49,7 +50,10 @@
                         (c++-mode  . "my-c++-style")
                         (other     . "gnu")))
 
+
 (setq c-doc-comment-style '((java-mode . javadoc)
                             (pike-mode . autodoc)
                             (c-mode    . doxygen)
                             (c++-mode  . doxygen)))
+
+;;; ccmode.el ends here
