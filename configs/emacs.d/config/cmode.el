@@ -1,4 +1,9 @@
+;;; cmode.el --- Personal C configuration.
+;;
+;;; Commentary:
 ;; Setup various C-styles for different projects.
+;;
+;;; Code:
 
 (defconst misra-c-style
   '("bsd"
@@ -24,14 +29,20 @@
 
 
 ;; Linux kernel coding c-style.
-(defun c-lineup-arglist-tabs-only (ignored)
-  "Line up argument lists by tabs, not spaces."
+(declare-function c-langelem-pos     "cc-defs")
+(declare-function c-langelem-2nd-pos "cc-defs")
+(defvar c-syntactic-element)
+(defvar c-basic-offset)
+
+(defun c-lineup-arglist-tabs-only (&rest ignored)
+  "Line up argument lists by tabs, not spaces.
+
+Additional arguments are IGNORED."
   (let* ((anchor (c-langelem-pos c-syntactic-element))
 	 (column (c-langelem-2nd-pos c-syntactic-element))
 	 (offset (- (1+ column) anchor))
 	 (steps (floor offset c-basic-offset)))
-    (* (max steps 1)
-       c-basic-offset)))
+    (* (max steps 1) c-basic-offset)))
 
 (defconst linux-tabs-style
   '("linux"
@@ -39,49 +50,42 @@
     (c-offsets-alist  . ((inextern-lang         . 0)
 			 (arglist-cont-nonempty .
 						(c-lineup-gcc-asm-reg
-						 c-lineup-arglist-tabs-only)))))
+						 c-lineup-arglist-tabs-only))))
+    (c-cleanup-list . (brace-else-brace
+                       brace-elseif-brace)))
   "Linux kernel coding style forbidding use of spaces as whitespace.")
 (c-add-style "linux-tabs-style" linux-tabs-style)
 
 
 ;; Setup functions and variables to guess the style to use.
 (defvar my-c-styles-alist
-  (mapc (lambda (elt)
-	  (cons (purecopy (car elt)) (cdr elt)))
-	'((".*/linux.*/.*\\.[ch]$"    . "linux-tabs-style")
-	  (".*/.*kernel.*/.*\\.[ch]$" . "linux-tabs-style")
-	  (".*/.*linux/.*\\.[ch]$"    . "linux-tabs-style")
-	  (".*/.*mve*.*\\.[ch]$"      . "misra")
-	  (".*c-utils.*\\.[ch]$"      . "linux-tabs-style")))
+  (copy-tree '((".*/linux.*/.*\\.[ch]$"    . "linux-tabs-style")
+               (".*/.*kernel.*/.*\\.[ch]$" . "linux-tabs-style")
+               (".*/.*linux/.*\\.[ch]$"    . "linux-tabs-style")
+               (".*/.*mve*.*\\.[ch]$"      . "misra")
+               (".*c-utils.*\\.[ch]$"      . "linux-tabs-style")))
   "A list of regular expressions to match styles for the c-style guesser.")
 
 
 (defun my-c-style-guesser (filename)
-  "Guess the C style we should use based on the path of the buffer"
+  "Guess the C style we should use based on the FILENAME of the buffer."
   (assoc-default filename my-c-styles-alist 'string-match))
 
 
 (defun my-guess-c-style ()
-  "Attempt to figure out the C-style if the is visible.
+  "Attempt to figure out the C-style for the current buffer.
 
-Note that some modes can get in the way of `buffer-file-name' so
-we check that first.
-
-"
-  (message (format "looking for style for buffer %s" (buffer-file-name)))
+Note that some modes can get in the way of the variable
+`buffer-file-name' so we check that it is non-nil first."
   (when (and buffer-file-name)
     (let ((style (my-c-style-guesser (buffer-file-name))))
-      (if style
-	  (progn
-	    (message (format "Using style: %s." style))
-	    (c-set-style style))
-        (message "Style not found. Defaulting to Misra.")
-	(c-set-style "misra")))))
+      (when style
+        (message (format "Using style: %s." style))
+        (c-set-style style)))))
 
 
 (defun my-c-mode-hook ()
-  "My personal c-mode hook."
-  (interactive)
+  "My personal `c-mode' hook."
   (auto-fill-mode 1)
   (my-guess-c-style))
 
@@ -89,3 +93,5 @@ we check that first.
 ;; Add personal c-mode setup function to c-mode-hook.
 (add-hook 'c-mode-hook #'my-c-mode-hook)
 (add-hook 'c-mode-hook #'cwarn-mode)
+
+;;; cmode.el ends here
