@@ -1677,11 +1677,11 @@ _s_: Set scale  _o_: Restore original  _R_: Rotate free   _q_: Quit
 
 
 ;; Add various themes.
-(use-package aurora-theme    :defer t :ensure t)
 (use-package zenburn-theme   :defer t :ensure t)
 (use-package niflheim-theme  :defer t :ensure t)
 (use-package sublime-themes  :defer t :ensure t)
 (use-package solarized-theme :defer t :ensure t)
+(use-package spacemacs-theme :defer t :ensure t)
 (use-package color-theme-approximate
   :ensure t
   :init
