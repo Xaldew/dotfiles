@@ -6,10 +6,10 @@
 
 cd $objects_dir
 if [ ! -d $objects_dir/global ]; then
-    url="ftp://ftp.gnu.org/pub/gnu/global/global-6.5.4.tar.gz"
+    url="ftp://ftp.gnu.org/pub/gnu/global/global-6.5.5.tar.gz"
     file=`basename $url`
     wget --quiet $url --output-document=$file
-    tar -zxf $file --transform='s/-6.5.4//g'
+    tar -zxf $file --transform='s/-6.5.5//g'
     rm $file
 fi
 
