@@ -174,8 +174,6 @@ NAME can be used to set the name of the defined function."
   (add-to-list 'company-backends 'company-anaconda))
 
 
-
-;; Activate Magit.
 (use-package magit
   :ensure t
   :defer t
