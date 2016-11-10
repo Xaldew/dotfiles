@@ -17,7 +17,7 @@ cd $objects_dir/universal-ctags
 ./configure \
     --prefix=$local_prefix_dir \
     --mandir=$local_prefix_dir/share/man \
-    --program-prefix="uni-" \
+    --program-prefix="u" \
     --disable-etags
 make -j4
 make install

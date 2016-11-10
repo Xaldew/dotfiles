@@ -18,6 +18,7 @@ sh reconf.sh
 ./configure \
     --prefix=$local_prefix_dir \
     --mandir=$local_prefix_dir/share/man \
-    --with-exuberant-ctags=uni-ctags
+    --with-exuberant-ctags=uctags
+    --with-universal-ctags=uctags
 make -j4
 make install
