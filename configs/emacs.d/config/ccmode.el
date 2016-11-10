@@ -21,6 +21,25 @@
   "Additional font-lock definitions for doxygen like-fonts.")
 
 
+(defvar printf-fmt-regexp
+  (concat "[^%]\\(%"
+          "\\(?:[[:digit:]]+\\$\\)?"
+          "[-+' #0*]*"
+          "\\(?:[[:digit:]]*\\|\\*\\|\\*[[:digit:]]+\\$\\)"
+          "\\(?:\\.\\(?:[[:digit:]]*\\|\\*\\|\\*[[:digit:]]+\\$\\)\\)?"
+          "\\(?:[hlLjzt]\\|ll\\|hh\\)?"
+          "\\(?:[aAbdiuoxXDOUfFeEgGcCsSpn]\\|\\[\\^?.[^]]*\\]\\)\\)")
+  "Regular expression to capture all possible `printf' formats in C/C++.")
+
+
+(defun printf-fmt-matcher (end)
+  "Search for `printf' format specifiers within strings up to END."
+  (let (pos (case-fold-search t))
+    (while (and (setq pos (re-search-forward printf-fmt-regexp end t))
+                (null (nth 3 (syntax-ppss pos)))))
+    pos))
+
+
 (defconst doxygen-font-lock-keywords
   `((,(lambda (limit)
 	(c-font-lock-doc-comments "/\\*\\*" limit
@@ -38,8 +57,7 @@
      ;; Add extra constants for true/false and NULL.
      ("\\<\\(true\\|false\\|NULL\\)" . font-lock-constant-face)
      ;; Add a printf() modifier highlighter.
-     ("[^%]\\(%\\([[:digit:]]+\\$\\)?[-+' #0*]*\\([[:digit:]]*\\|\\*\\|\\*[[:digit:]]+\\$\\)\\(\\.\\([[:digit:]]*\\|\\*\\|\\*[[:digit:]]+\\$\\)\\)?\\([hlLjzt]\\|ll\\|hh\\)?\\([aAbdiuoxXDOUfFeEgGcCsSpn]\\|\\[\\^?.[^]]*\\]\\)\\)"
-      1 'font-lock-format-specifier-face prepend))))
+     (printf-fmt-matcher 0 'font-lock-format-specifier-face t))))
 (add-hook 'c-mode-common-hook #'my-cc-mode-common-hook)
 
 
