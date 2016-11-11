@@ -58,6 +58,7 @@
      ("\\<\\(true\\|false\\|NULL\\)" . font-lock-constant-face)
      ;; Add a printf() modifier highlighter.
      (printf-fmt-matcher 0 'font-lock-format-specifier-face t))))
+
 (add-hook 'c-mode-common-hook #'my-cc-mode-common-hook)
 
 
