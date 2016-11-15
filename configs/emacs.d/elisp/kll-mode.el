@@ -86,6 +86,35 @@
     "STLcdNumber9Color")
   "Various KLL variables.  May be hardware dependent.")
 
+(defvar kll-mode-variable-regexp
+  (concat "[[:space:]]*"
+          "\\([a-zA-Z_]+\\)"
+          "[[:space:]]*"
+          "\\(?:=\\)"
+          "[[:space:]]*"
+          "\\([a-zA-Z_]+\\)")
+  "Regular expression to match all KLL variables.")
+
+
+(defvar kll-mode-define-regexp
+  (concat "[[:space:]]*"
+          "\\([a-zA-Z_]+\\)"
+          "[[:space:]]*"
+          "\\(?:=>\\)"
+          "[[:space:]]*"
+          "\\([a-zA-Z_]+\\)")
+  "Regular expression to match all KLL variables.")
+
+
+(defvar kll-mode-animation-regexp
+  (concat "[[:space:]]*"
+          "\\([a-zA-Z_]+\\)"
+          "[[:space:]]*"
+          "\\(?:<=\\)"
+          "[[:space:]]*"
+          "\\([a-zA-Z_]+\\)")
+  "Regular expression to match all KLL variables.")
+
 
 (defvar kll-mode-required-variables
   '("Name"
