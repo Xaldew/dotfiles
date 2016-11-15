@@ -6,7 +6,7 @@
 ;;; Code:
 
 
-(defgroup kll nil
+(defgroup kll-mode nil
   "Keyboard Layout Language support for Emacs."
   :group 'languages
   :version "25.1")
@@ -14,7 +14,7 @@
 
 (defcustom kll-mode-indent-offset 4
   "KLL indentation width - currently unused."
-  :group 'kll
+  :group 'kll-mode
   :type 'integer
   :safe #'integerp)
 
@@ -96,10 +96,13 @@
   "Variables required by KLL.")
 
 
-(defvar kll-mode-font-lock-defaults
-  `((("\"\\.\\*\\?" . font-lock-string-face)  ;; String are between quotes.
-     (,(regexp-opt kll-mode-required-variables  'words) . font-lock-builtin-face)
-     (,(regexp-opt kll-mode-constants 'words)           . font-lock-constant-face))))
+(defvar kll-mode-font-lock-keywords
+  `(((,(regexp-opt kll-mode-constants 'words)          . font-lock-constant-face)
+     (,(regexp-opt kll-mode-capabilities 'words)       . font-lock-function-name-face)
+     (,(regexp-opt kll-mode-prefixes 'words)           . font-lock-type-face)
+     (,(regexp-opt kll-mode-delimiters)                . font-lock-negation-char-face)
+     (,(regexp-opt kll-mode-variables 'words)          . font-lock-variable-name-face)
+     (,(regexp-opt kll-mode-required-variables 'words) . font-lock-preprocessor-face))))
 
 
 (defconst kll-mode-syntax-table
@@ -111,12 +114,18 @@
     table))
 
 
-(define-derived-mode kll-mode prog-mode "Keyboard Layout Language mode"
+(define-derived-mode kll-mode prog-mode "KLL"
+  :group 'kll-mode
   :syntax-table kll-mode-syntax-table
   (setq-local comment-start "# ")
   (setq-local comment-start-skip "#+\\s-*")
+  (setq-local indent-tabs-mode nil)
+  (setq-local font-lock-defaults kll-mode-font-lock-keywords)
   (font-lock-flush))
 
+
+;;;###autoload
+(add-to-list 'auto-mode-alist '("\\.kll\\'" . kll-mode))
 
 (provide 'kll-mode)
 
