@@ -62,57 +62,54 @@
   "KLL delimiter variants.")
 
 
-(defvar kll-mode-variables
-  '("STLcdNumber0"
-    "STLcdNumber1"
-    "STLcdNumber2"
-    "STLcdNumber3"
-    "STLcdNumber4"
-    "STLcdNumber5"
-    "STLcdNumber6"
-    "STLcdNumber7"
-    "STLcdNumber8"
-    "STLcdNumber9"
+(defvar kll-mode-animation-modifiers
+  '("loop"
+    "div"
+    "start"
+    "stop"
+    "interp"
+    "frame")
+  "Valid KLL animation modifiers.")
 
-    "STLcdNumber0Color"
-    "STLcdNumber1Color"
-    "STLcdNumber2Color"
-    "STLcdNumber3Color"
-    "STLcdNumber4Color"
-    "STLcdNumber5Color"
-    "STLcdNumber6Color"
-    "STLcdNumber7Color"
-    "STLcdNumber8Color"
-    "STLcdNumber9Color")
-  "Various KLL variables.  May be hardware dependent.")
 
 (defvar kll-mode-variable-regexp
-  (concat "[[:space:]]*"
-          "\\([a-zA-Z_]+\\)"
-          "[[:space:]]*"
-          "\\(?:=\\)"
-          "[[:space:]]*"
-          "\\([a-zA-Z_]+\\)")
-  "Regular expression to match all KLL variables.")
+  (rx (and (group-n 1 (+ (in "A-Z" "a-z" "0-9" "_")))
+           (* space) "=" (* space)
+           (group-n 2 (+? not-newline))     ; The variable can span lines.
+           (or eol ";")))
+  "Regular expression to match KLL variables.")
+
+
+(defvar kll-mode-capability-regexp
+  (rx (and (* space)
+           (group-n 1 (+ (in "A-Z" "a-z" "0-9" "_")))
+           (* space) "=>" (* space)
+           (group-n 2 (+ (in "A-Z" "a-z" "0-9" "_")))
+           (* space) "(" (group-n 3 (+ anything)) ")" (* space)
+           ";"))
+  "Regular expression to match KLL capabilities.")
 
 
 (defvar kll-mode-define-regexp
-  (concat "[[:space:]]*"
-          "\\([a-zA-Z_]+\\)"
-          "[[:space:]]*"
-          "\\(?:=>\\)"
-          "[[:space:]]*"
-          "\\([a-zA-Z_]+\\)")
-  "Regular expression to match all KLL variables.")
+  (rx (and (* space)
+           (group-n 1 (+ (in "A-Z" "a-z" "0-9" "_")))
+           (* space) "=>" (* space)
+           (group-n 2 (+ (in "A-Z" "a-z" "0-9" "_")))
+           (* space)
+           (or eol ";")))
+  "Regular expression to match KLL defines.")
 
 
 (defvar kll-mode-animation-regexp
   (concat "[[:space:]]*"
-          "\\([a-zA-Z_]+\\)"
+          "\\(A\\)\\["                  ; Animation identifier.
+          "\\([a-zA-Z_]+\\)"            ; Animation label.
+          "\\(?:[[:space:]]*,[[:space:]]*[0-9]+[[:space:]]*\\)?" ; Frame number.
+          "\\]"
           "[[:space:]]*"
           "\\(?:<=\\)"
           "[[:space:]]*"
-          "\\([a-zA-Z_]+\\)")
+          "\\(.+\\);")
   "Regular expression to match all KLL variables.")
 
 
@@ -127,11 +124,18 @@
 
 (defvar kll-mode-font-lock-keywords
   `(((,(regexp-opt kll-mode-constants 'words)          . font-lock-constant-face)
-     (,(regexp-opt kll-mode-capabilities 'words)       . font-lock-function-name-face)
+     (,(regexp-opt kll-mode-capabilities 'words)       . font-lock-keyword-face)
      (,(regexp-opt kll-mode-prefixes 'words)           . font-lock-type-face)
      (,(regexp-opt kll-mode-delimiters)                . font-lock-negation-char-face)
-     (,(regexp-opt kll-mode-variables 'words)          . font-lock-variable-name-face)
-     (,(regexp-opt kll-mode-required-variables 'words) . font-lock-preprocessor-face))))
+     (,(regexp-opt kll-mode-required-variables 'words) . font-lock-preprocessor-face)
+     (,kll-mode-capability-regexp
+      (1 font-lock-variable-name-face)
+      (2 font-lock-function-name-face))
+     (,kll-mode-define-regexp
+      (1 font-lock-variable-name-face)
+      (2 font-lock-preprocessor-face))
+     (,kll-mode-variable-regexp
+      (1 font-lock-variable-name-face)))))
 
 
 (defconst kll-mode-syntax-table
