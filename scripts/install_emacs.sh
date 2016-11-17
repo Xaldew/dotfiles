@@ -31,6 +31,9 @@ git clean --force
 
 git checkout -B emacs-25 origin/emacs-25
 sh autogen.sh
-./configure --prefix="$local_prefix_dir" $conf
+./configure \
+    --prefix="$local_prefix_dir" \
+    --program-transform-name='s/^ctags$/ctags.emacs/' \
+    $conf
 make -j4
 make install
