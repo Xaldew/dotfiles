@@ -45,11 +45,6 @@
   "KLL common capabilities.")
 
 
-(defvar kll-mode-prefixes
-  '("S" "U" "I" "CON" "SYS" "P" "A")
-  "KLL control code types.")
-
-
 (defvar kll-mode-delimiters
   '(":"
     "::"
@@ -70,6 +65,12 @@
     "interp"
     "frame")
   "Valid KLL animation modifiers.")
+
+
+(defvar kll-mode-key-regexp
+  (rx (and word-start
+           (group-n 1 (or "S" "U" "I" "CON" "SYS" "P" "A"))
+           (in digit "\"" ?' "["))))
 
 
 (defvar kll-mode-variable-regexp
@@ -125,8 +126,6 @@
 (defvar kll-mode-font-lock-keywords
   `(((,(regexp-opt kll-mode-constants 'words)          . font-lock-constant-face)
      (,(regexp-opt kll-mode-capabilities 'words)       . font-lock-keyword-face)
-     (,(regexp-opt kll-mode-prefixes 'words)           . font-lock-type-face)
-     (,(regexp-opt kll-mode-delimiters)                . font-lock-negation-char-face)
      (,(regexp-opt kll-mode-required-variables 'words) . font-lock-preprocessor-face)
      (,kll-mode-capability-regexp
       (1 font-lock-variable-name-face)
@@ -135,7 +134,10 @@
       (1 font-lock-variable-name-face)
       (2 font-lock-preprocessor-face))
      (,kll-mode-variable-regexp
-      (1 font-lock-variable-name-face)))))
+      (1 font-lock-variable-name-face))
+     (,kll-mode-key-regexp
+      (1 font-lock-type-face))
+     (,(regexp-opt kll-mode-delimiters) . font-lock-negation-char-face))))
 
 
 (defconst kll-mode-syntax-table
