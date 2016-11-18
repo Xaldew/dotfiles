@@ -1,0 +1,78 @@
+* Character classes. *
+whitespace      = { space | newline | tab } ;
+string          = '"', { all_characters - '"' }, '"' ;
+nat_number      = 1-9, { 0-9 } ;
+pos_number      = 0 | nat_number ;
+hex_number      = "0x", pos_number ;
+integer         = 0 | [ "-" ], nat_number ;
+alphabetic_char = A-Z | a-z ;
+all_characters  = A-Z | a-z | 0-9 | _ ;
+
+
+* Generic KLL statements. *
+kll            = { ( statement, ";" | comment ), whitespace } ;
+comment        = "#", { all_characters | space } ;
+statement      = variable_stmt |
+                 define_stmt |
+                 capability_stmt |
+                 key_mapping_stmt |
+                 property_mapping |
+                 pixel_mapping |
+                 animation_mapping ;
+
+
+* Variable statements. *
+* TODO: Properly handle arrays. *
+kll_id         = alphabetic_char, { all_characters } ;
+variable       = ( string | kll_id ), [ "[", pos_number, "]", ] ;
+variable_stmt  = variable, "=", { ( string | number | variable ) } ;
+
+
+* Define statments. *
+define_stmt = kll_id, "=>", kll_id ;
+
+
+* Capability statements. *
+capability_arg  = ( kll_id, ":", nat_number ) | "" ;
+capability_args = { capability_arg, "," }, capability_arg ;
+capability_stmt = kll_id, "=>", kll_id, "(", capability_args, ")" ;
+
+
+* Key mappings. *
+* TODO: Handle timing and analog values inside ranges. */
+key_delimiter = ":" | "::" | ":+" | ":-" | "i:" | "i::" | "i:+" | "i:-" ;
+key_prefix    = "S" | "U" | "I" | "CON" | "SYS" ;
+press_state   = "P" | "UP" | "UR" | "R" | "H" | "O" ;
+key_state     = "(", pos_number | press_state, ")" ;
+key           = pos_number | hex_number | string ;
+range         = key, "-", key ;
+kll_range     = "[", { ( range | key ), [ key_state ], "," }, ( range | key ), [ key_state ], "]" ;
+key_mapping   = key_prefix, ( key | kll_range ), [ "(" key_state ")" ];
+
+key_mapping_stmt = { key_mapping [ ("," | "+") ] }, key_mapping, key_delimiter, { key_mapping [ ("," | "+") ] }, key_mapping ;
+
+
+* Scan-code property mapping. *
+property         = kll_id, ":", integer ;
+properties       = { property, "," }, property ;
+property_mapping = "S", key, "<=", properties ;
+
+
+* Pixel mappings. *
+channel       = pos_number, ":", nat_number ;
+channels      = { channel, "," }, channel ;
+pixel_mapping = "P", "[", pos_number, "]", "(", channels, ")", ":", ("S", key) | "None" ;
+
+
+* Animation mappings. *
+* TODO: Add animation modifiers. *
+idx_exp    = "i", [ "+", "-" ], pos_number, [ "%" ] ;
+comp       = pos_number | idx_exp ;
+exp        = pos_number | ( ("r" | "c"), ":" comp ) ;
+address    = exp, [ ",", exp ] ;
+op         = "" | "+" | "-" | "+:" | "-:" | "<<" | ">>" ;
+values     = op, pos_number, [ op, pos_number, [ op, pos_number ] ] ;
+pixel      = ( "P" | "PL" ), "[", address, "]", "(", values, ")" ;
+kll_pixel  = pixel | ("U", key) | ("S", key) ;
+kll_pixels = { kll_pixel, "," }, kll_pixel ;
+animation_mapping = "A", "[", kll_id, [ ",", pos_number ], "]", "<=", kll_pixels ;
