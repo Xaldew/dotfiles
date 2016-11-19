@@ -1316,6 +1316,10 @@ _ca_: Calc           _mf_: EMMS Play local    _gb_: Bitlbee    _cl_: Holidays Li
                        (concat user-emacs-directory "org")))
   (unless (file-directory-p org-directory)
     (message "Warning: `%s' directory doesn't exist." org-directory))
+  (defun my-org-hook ()
+    "Personal hook for `org-mode'."
+    (linum-mode -1))
+  (add-hook 'org-mode-hook #'my-org-hook)
   :config
   (define-key org-mode-map (kbd "M-h") #'backward-kill-word)
   (customize-set-variable 'org-export-with-sub-superscript '{})
