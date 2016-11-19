@@ -340,6 +340,18 @@ add_subtitles()
 }
 
 
+add_all_subtitles()
+{
+    vid=${1:?"No video clip set."}
+    dir=${2:?"No subtitle directory given."}
+    for sub in ${dir}/*;
+    do
+        lang=$(basename $sub .srt)
+        echo "Adding ${sub} with language ${lang} to movie..."
+        add_subtitles ${vid} ${sub} UTF-8 ${lang}
+    done
+}
+
 
 ## Emacs and emacsclient aliases and utility functions.
 
