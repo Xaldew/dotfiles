@@ -303,6 +303,15 @@ grep-find()
     find . -type f -exec grep --color -nH -e "$@" {} +
 }
 
+ffprobe_count_subtitles()
+{
+    stream=${1:?"No video clip set."}
+    ffprobe \
+        -loglevel error \
+        -show_entries stream=codec_type \
+        -print_format default=noprint_wrappers=1:nokey=1 \
+        ${stream} | grep "subtitle" | wc --lines
+}
 
 add_subtitles()
 {
@@ -311,6 +320,7 @@ add_subtitles()
     enc=${3:-UTF-8}
     lang=${4:-eng}
     scodec=${5:-srt}
+    sidx=$(ffprobe_count_subtitles ${vid})
     tmp=$(mktemp XXXXXXXX.mkv)
     ffmpeg \
         -y \
@@ -320,8 +330,8 @@ add_subtitles()
         -map 0 \
         -map 1 \
         -c copy \
-        -scodec ${scodec} \
-        -metadata:s:s:0 language=${lang} \
+        -codec:s ${scodec} \
+        -metadata:s:s:${sidx} language="${lang}" \
         ${tmp}
     # Overwrite if successful.
     if [ $? -eq 0 ]; then
