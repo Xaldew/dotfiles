@@ -197,4 +197,15 @@ The text is shown for DELAY seconds (default 2).  The old
                  buf old-mode-line)
     old-mode-line))
 
+
+(defun srt-renumber-file ()
+  "Re-number all lines in the current subrip subtitle file."
+  (interactive)
+  (save-excursion
+    (goto-char (point-min))
+    (let ((cnt 0))
+      (while (search-forward-regexp "^[0-9]+$")
+        (replace-match (number-to-string (cl-incf cnt)))))))
+
+
 ;;; func.el ends here
