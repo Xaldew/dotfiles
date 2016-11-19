@@ -1,4 +1,9 @@
+;;; windows.el --- Windows specific configuration. -*- lexical-binding: t -*-
+
+;;; Commentary:
 ;; File containing various Windows related configurations.
+
+;;; Code:
 
 (defun cygwin-p ()
   "Return true if this is a variant of Cygwin."
