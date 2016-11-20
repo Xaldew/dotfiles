@@ -1610,6 +1610,13 @@ _s_: Set scale  _o_: Restore original  _R_: Rotate free   _q_: Quit
   (define-key nameless-mode-map (kbd "_") #'nameless-insert-name-or-self-insert))
 
 
+(use-package highlight-escape-sequences
+  :ensure t
+  :defer t
+  :init
+  (add-hook 'prog-mode-hook #'hes-mode))
+
+
 (use-package jira-markup-mode
   :ensure t
   :defer t
