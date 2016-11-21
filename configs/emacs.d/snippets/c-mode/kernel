@@ -1,0 +1,10 @@
+# -*- mode: snippet require-final-newline: nil -*-
+# Insert Kernel-space ifdefs.
+# name: Kernel-space ifdefs.
+# key: kern
+# type: snippet
+# constributor: Gustaf Waldemarson
+# --
+#ifdef __KERNEL__
+`(or yas-selected-text (car kill-ring))`$0
+#endif /* __KERNEL__ */
