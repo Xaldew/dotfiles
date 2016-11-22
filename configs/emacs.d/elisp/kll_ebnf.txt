@@ -5,7 +5,7 @@ nat_number      = 1-9, { 0-9 } ;
 pos_number      = 0 | nat_number ;
 hex_number      = "0x", pos_number ;
 integer         = 0 | [ "-" ], nat_number ;
-number          = hex_string | integer ;
+number          = hex_number | integer ;
 alphabetic_char = A-Z | a-z ;
 all_characters  = A-Z | a-z | 0-9 | _ ;
 
@@ -36,47 +36,59 @@ define_stmt = kll_id, "=>", kll_id ;
 
 
 * Capability statements. *
-capability_arg  = ( kll_id, ":", nat_number ) | "" ;
-capability_args = { capability_arg, "," }, capability_arg ;
-capability_stmt = kll_id, "=>", kll_id, "(", capability_args, ")" ;
+capability_param  = ( kll_id, ":", nat_number ) | "" ;
+capability_params = { capability_param, "," }, capability_param ;
+capability_stmt   = kll_id, "=>", kll_id, "(", capability_params, ")" ;
 
 
 * Key mappings. *
-* TODO: Handle timing and analog values inside ranges. *
-* TODO: Handle separate results and triggers. *
-* TODO: Properly handle scan codes. *
+usb_code      = "U", key ;
 scan_code     = "S", (pos_number | hex_number) ;
-key_prefix    = "S" | "U" | "I" | "CON" | "SYS" ;
+consumer_code = "CON", key ;
+system_code   = "SYS", key ;
 key           = pos_number | hex_number | string ;
 key_delimiter = ":" | "::" | ":+" | ":-" | "i:" | "i::" | "i:+" | "i:-" ;
 press_state   = "P" | "UP" | "UR" | "R" | "H" | "O" ;
-key_state     = "(", pos_number | press_state, ")" ;
-range         = key, "-", key ;
-kll_range     = "[", { ( range | key ), [ key_state ], "," }, ( range | key ), [ key_state ], "]" ;
-key_mapping   = key_prefix, ( key | kll_range ), [ "(" key_state ")" ];
-key_mappings  = { key_mapping, [ ("," | "+") ] }, key_mapping ;
+val_range     = key, "-", key ;
 
-time/state    =
-trigger_pre   = "U" | "I" | "CON" | "SYS" ;
-trigger_code  = scan_code | ( trigger_pre, key ) ;
+** Key triggers. **
+analog        = pos_number ;
+time_base     = "s" | "ms" | "us" ;
+time          = pos_number, time_base ;
+key_timing    = [ press_state, ":", ], time ;
+timings       = { press_state, ":", time, "," }, press_state, ":", time ;
+time/state    = analog | press_state | timing | timings ;
+trigger_code  = scan_code | usb_code ;
+ind_state     = "A" | "D" | "OFF" | "ON" ;
+indicator     = "I", key, [ "(",  ind_state, ")" ] ;
 trigger       = trigger_code, "(", time/state, ")" ;
-trigger_map   = trigger | trigger_range;
-trigger_maps  = { trigger_map, ("," | "+") }, trigger_map;
-key_trigger   = trigger_maps ;
-key_result    = key_mappings ;
+key_range     = ( val_range | key ), [ "(", analog, ")" ] ;
+ranges        = { key_range, "," }, key_range ;
+trigger_range = ("U" | "S"), "[", ranges, "]" [ "(", analog, ")" ] ;
+trigger_map   = trigger | indicator | trigger_range ;
+key_trigger   = { trigger_map, ("," | "+") }, trigger_map ;
 key_mapping_stmt = key_trigger, key_delimiter, key_result ;
+
+** Key results. **
+capability_arg  = variable | number | "NULL" ;
+capability_args = { capability_arg, "," }, capability_arg ;
+capability      = kll_id, "(", capability_args, ")" ;
+result_range    = "U", "[", { (val_range | key) ",", (val_range | key) },  "]" ;
+result_codes    = (usb_code | consumer_code | system_code | result_range | capability) [ "(", key_timing, ")" ] ;
+result          =  result_codes | string | "None" ;
+key_result      = { result, ("," | "+") }, result ;
 
 
 * Scan-code property mapping. *
 property         = kll_id, ":", integer ;
 properties       = { property, "," }, property ;
-property_mapping = "S", key, "<=", properties ;
+property_mapping = scan_code "<=", properties ;
 
 
 * Pixel mappings. *
 channel       = pos_number, ":", nat_number ;
 channels      = { channel, "," }, channel ;
-pixel_mapping = "P", "[", pos_number, "]", "(", channels, ")", ":", ( ("S", key) | "None" ) ;
+pixel_mapping = "P", "[", pos_number, "]", "(", channels, ")", ":", ( scan_code | "None" ) ;
 
 
 * Animation mappings. *
