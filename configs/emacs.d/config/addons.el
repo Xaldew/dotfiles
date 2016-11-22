@@ -466,8 +466,9 @@ NAME can be used to set the name of the defined function."
   (defun clang-format--find-or-create-style ()
     "Find or create a `.clang-format' file with style and root directory."
     (let* ((dir default-directory)
+           (prefix current-prefix-arg)
            (styles my-clang-styles)
-           (found (locate-dominating-file dir ".clang-format"))
+           (found (unless prefix (locate-dominating-file dir ".clang-format")))
            (root  (or found (read-directory-name "Root directory: " nil nil t)))
            (style (or found (completing-read "Style: " styles nil t nil nil styles))))
       (unless found
@@ -479,7 +480,10 @@ NAME can be used to set the name of the defined function."
 
 Creates a `.clang-format' file at a selected root directory and
 with the selected style before formatting the region [BEG, END]
-if such a file does not already exist."
+if such a file does not already exist.
+
+When `universal-argument' is set, always query for root directory
+and style."
     (interactive (clang-format--find-or-create-style))
     (clang-format-region beg end)))
 
