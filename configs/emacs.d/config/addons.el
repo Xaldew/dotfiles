@@ -162,6 +162,16 @@ NAME can be used to set the name of the defined function."
   (setq company-idle-delay .1)
   (setq company-tooltip-align-annotations t))
 
+(use-package company-template
+  :ensure company
+  :after company
+  :defer t
+  :config
+  (let ((map company-template-nav-map))
+    (define-key map (kbd "C-o") #'company-template-forward-field)
+    (define-key map [tab] nil)
+    (define-key map (kbd "TAB") nil)))
+
 (use-package company-math      :defer t :ensure company)
 (use-package company-c-headers :defer t :ensure company)
 (use-package company-quickhelp :defer t :ensure company)
