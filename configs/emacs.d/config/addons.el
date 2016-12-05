@@ -31,7 +31,6 @@ NAME can be used to set the name of the defined function."
          (setq-local ,variable ,value))
        (add-hook (quote ,hook) (function ,fname)))))
 
-;;(my-define-group "C-c o" org)
 (my-define-group "C-c p" projects)
 (my-define-group "C-c v" version-control)
 (my-define-group "C-c x" text)
@@ -1336,6 +1335,7 @@ _ca_: Calc           _mf_: EMMS Play local    _gb_: Bitlbee    _cl_: Holidays Li
   (add-hook 'org-mode-hook #'my-org-hook)
   :config
   (define-key org-mode-map (kbd "M-h") #'backward-kill-word)
+  (customize-set-variable 'org-src-fontify-natively t)
   (customize-set-variable 'org-export-with-sub-superscript '{})
   (customize-set-variable 'org-use-sub-superscript '{})
   (customize-set-variable 'org-log-into-drawer t))
