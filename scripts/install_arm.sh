@@ -63,6 +63,7 @@ module load scons/scons/2.3.0
 module load swig/swig/2.0.0
 module load apache/subversion/1.7.3
 module load doxygen/doxygen/1.8.2
+module load codesourcery/linuxeabi/arm-2011q1
 
 if [ "\`get_dist -i\`" = "ubuntu" ]; then
    # Running Ubuntu. Fix broken default packages.
