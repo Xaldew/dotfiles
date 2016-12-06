@@ -6,17 +6,13 @@
 ;;; Code:
 
 
+(require 'smie)
+
+
 (defgroup kll-mode nil
   "Keyboard Layout Language support for Emacs."
   :group 'languages
   :version "25.1")
-
-
-(defcustom kll-mode-indent-offset 4
-  "KLL indentation width - currently unused."
-  :group 'kll-mode
-  :type 'integer
-  :safe #'integerp)
 
 
 (defvar kll-mode-constants
@@ -149,12 +145,56 @@
     table))
 
 
+;;;; SMIE indentation setup.
+
+
+(defcustom kll-mode-indent-offset 4
+  "KLL indentation width - currently unused."
+  :group 'kll-mode
+  :type 'integer
+  :safe #'integerp)
+
+
+(defvar kll-mode-smie-grammar
+  (smie-prec2->grammar
+   (smie-bnf->prec2
+    '((exp)                             ; Variable assignment.
+      (id)                              ; KLL identifier.
+      (stmt (define-stmt)
+            (prop-stmt)
+            ;; (pixmap-stmt)
+            )
+      (stmts (stmts ";" stmts) (stmt))
+      ;; Property assignments.
+      (prop (id ":" exp))
+      (props (props "," props) (prop))
+      (prop-stmt (id "<=" properties))
+      ;; Define statements.
+      (define-stmt (id "=>" id))
+      ;; Pixel mapping statement. TOOD.
+      )
+    '((assoc ";"))
+    '((assoc ","))))
+  "BNF Grammar describing the KLL language for `smie'.")
+
+
+(defun kll-mode-smie-rules (kind token)
+  "Perform indentation of KIND on TOKEN using the `smie' engine."
+  (pcase (cons kind token)
+    (`(:elem . basic)            kll-mode-indent-offset)
+    (`(:elem . args)             kll-mode-indent-offset)
+    (`(:after . ,(or "<=" "=>")) kll-mode-indent-offset)))
+
+
+;;;; Major mode definition.
+
 (define-derived-mode kll-mode prog-mode "KLL"
   :group 'kll-mode
   :syntax-table kll-mode-syntax-table
   (setq-local comment-start "# ")
   (setq-local comment-start-skip "#+\\s-*")
   (setq-local indent-tabs-mode nil)
+  (smie-setup kll-mode-smie-grammar #'kll-mode-smie-rules)
   (setq-local font-lock-defaults kll-mode-font-lock-keywords)
   (font-lock-flush))
 
