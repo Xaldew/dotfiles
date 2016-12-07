@@ -11,20 +11,20 @@
 (global-set-key [f7]  'gdb)
 (global-set-key [f8]  'shell)
 (global-set-key [f9]  'toggle-truncate-lines)
-(global-set-key (kbd "C-h") 'backward-delete-char)
-(global-set-key (kbd "M-h") 'backward-kill-word)
-(global-set-key (kbd "C-c t") 'toggle-truncate-lines)
-(global-set-key (kbd "C-c b") 'browse-url-at-point)
+(global-set-key (kbd "C-h")   #'delete-backward-char)
+(global-set-key (kbd "M-h")   #'backward-kill-word)
+(global-set-key (kbd "C-c t") #'toggle-truncate-lines)
+(global-set-key (kbd "C-c b") #'browse-url-at-point)
 
 ;; Flip the `isearch' and `isearch-regexp' bindings.
-(global-set-key (kbd "C-s") 'isearch-forward-regexp)
-(global-set-key (kbd "C-r") 'isearch-backward-regexp)
-(global-set-key (kbd "C-M-s") 'isearch-forward)
-(global-set-key (kbd "C-M-r") 'isearch-backward)
+(global-set-key (kbd "C-s")   #'isearch-forward-regexp)
+(global-set-key (kbd "C-r")   #'isearch-backward-regexp)
+(global-set-key (kbd "C-M-s") #'isearch-forward)
+(global-set-key (kbd "C-M-r") #'isearch-backward)
 
 ;; Flip the `query-replace' and `query-replace-regexp' bindings.
-(global-set-key (kbd "M-%") 'query-replace-regexp)
-(global-set-key (kbd "C-M-%") 'query-replace)
+(global-set-key (kbd "M-%")   #'query-replace-regexp)
+(global-set-key (kbd "C-M-%") #'query-replace)
 
 ;; Add some extra key binding for M-x.
 (global-set-key (kbd "C-x C-m") 'execute-extended-command)
