@@ -83,7 +83,7 @@
            (* space) "=>" (* space)
            (group-n 2 (+ (in "A-Z" "a-z" "0-9" "_")))
            (* space) "("(group-n 3 (* anything)) ")" (* space)
-           ";"))
+           (or eol ";")))
   "Regular expression to match KLL capabilities.")
 
 
@@ -160,18 +160,24 @@
    (smie-bnf->prec2
     '((exp)                             ; Variable assignment.
       (id)                              ; KLL identifier.
+      (value)                           ; KLL value (string, number, etc).
       (stmt (define-stmt)
             (prop-stmt)
+            (capa-stmt)
             ;; (pixmap-stmt)
             )
       (stmts (stmts ";" stmts) (stmt))
       ;; Property assignments.
-      (prop (id ":" exp))
+      (prop (id ":" value))
       (props (props "," props) (prop))
-      (prop-stmt (id "<=" properties))
+      (prop-stmt (id "<=" props))
       ;; Define statements.
       (define-stmt (id "=>" id))
-      ;; Pixel mapping statement. TOOD.
+      ;; Capability statements.
+      (capa-stmt (id "=>" id "(" props ")"))
+      ;; Pixel mapping statement.
+      ;; (colors (props))
+      ;; (pixmap-stmt ("P" "[" value "]" "(" props ")" ":" exp))
       )
     '((assoc ";"))
     '((assoc ","))))
@@ -182,8 +188,12 @@
   "Perform indentation of KIND on TOKEN using the `smie' engine."
   (pcase (cons kind token)
     (`(:elem . basic)            kll-mode-indent-offset)
-    (`(:elem . args)             kll-mode-indent-offset)
-    (`(:after . ,(or "<=" "=>")) kll-mode-indent-offset)))
+    (`(:elem . args)             0)
+    (`(:before . ,(or ";" ","))  (smie-rule-separator kind))
+    (`(:after . ,(or "<=" "=>")) kll-mode-indent-offset)
+    ;; (`(:close-all . ,_)          t)
+    ;; (`(:list-intro . ,(or "<=" "=>")) t)
+    ))
 
 
 ;;;; Major mode definition.
