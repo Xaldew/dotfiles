@@ -82,7 +82,7 @@
            (group-n 1 (+ (in "A-Z" "a-z" "0-9" "_")))
            (* space) "=>" (* space)
            (group-n 2 (+ (in "A-Z" "a-z" "0-9" "_")))
-           (* space) "(" (group-n 3 (+ anything)) ")" (* space)
+           (* space) "("(group-n 3 (* anything)) ")" (* space)
            ";"))
   "Regular expression to match KLL capabilities.")
 
