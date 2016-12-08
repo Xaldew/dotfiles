@@ -71,6 +71,7 @@
 
 (defvar kll-mode-variable-regexp
   (rx (and (group-n 1 (+ (in "A-Z" "a-z" "0-9" "_")))
+           (? "[" (* (in digit hex-digit)) "]")
            (* space) "=" (* space)
            (group-n 2 (+? not-newline))     ; The variable can span lines.
            (or eol ";")))
