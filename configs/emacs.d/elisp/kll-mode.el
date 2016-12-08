@@ -166,8 +166,8 @@
       (stmt (define-stmt)
             (prop-stmt)
             (capa-stmt)
-            ;; (pixmap-stmt)
-            )
+            (var-stmt)
+            (keymap-stmt))
       (stmts (stmts ";" stmts) (stmt))
       ;; Property assignments.
       (prop (id ":" value))
@@ -177,25 +177,74 @@
       (define-stmt (id "=>" id))
       ;; Capability statements.
       (capa-stmt (id "=>" id "(" props ")"))
-      ;; Pixel mapping statement.
+      ;; Variable statments.
+      (var-stmt (id "=" exp))
+      ;; Pixel mapping statements.
       ;; (colors (props))
       ;; (pixmap-stmt ("P" "[" value "]" "(" props ")" ":" exp))
-      )
+      ;; Key mapping statements.
+      (key (id))
+      (keys (keys "+" keys) (key))
+      (keymap-stmt (keys ":" keys)
+                   (keys "::" keys)
+                   (keys ":+" keys)
+                   (keys ":-" keys)
+                   (keys "i:" keys)
+                   (keys "i::" keys)
+                   (keys "i:+" keys)
+                   (keys "i:-" keys)))
+    '((assoc "+"))
     '((assoc ";"))
-    '((assoc ","))))
+    '((assoc ","))
+    ))
   "BNF Grammar describing the KLL language for `smie'.")
 
 
 (defun kll-mode-smie-rules (kind token)
   "Perform indentation of KIND on TOKEN using the `smie' engine."
+  (message "%s" (cons kind token))
   (pcase (cons kind token)
     (`(:elem . basic)            kll-mode-indent-offset)
     (`(:elem . args)             0)
     (`(:before . ,(or ";" ","))  (smie-rule-separator kind))
     (`(:after . ,(or "<=" "=>")) kll-mode-indent-offset)
     ;; (`(:close-all . ,_)          t)
-    ;; (`(:list-intro . ,(or "<=" "=>")) t)
+    (`(:list-intro . "=")        0)     ; Aligns to first list element.
     ))
+
+
+(defvar kll-keywords-regexp
+  (regexp-opt '("+" "," ";"
+                "<=" "=>" "="
+                ":" "::" ":+" ":-"
+                "i:" "i::" "i:+" "i:-"))
+  "Keywords the `smie' lexer should look for.")
+
+
+(defun kll-smie-forward-token ()
+  "Search forwards for a token to be used by `smie'."
+  (forward-comment (point-max))
+  (cond
+   ((looking-at kll-keywords-regexp)
+    (goto-char (match-end 0))
+    (match-string-no-properties 0))
+   (t (buffer-substring-no-properties
+       (point)
+       (progn (skip-syntax-forward "w_")
+              (point))))))
+
+
+(defun kll-smie-backward-token ()
+  "Search backwards for a token to be used by `smie'."
+  (forward-comment (- (point)))
+  (cond
+   ((looking-back kll-keywords-regexp (- (point) 2) t)
+    (goto-char (match-beginning 0))
+    (match-string-no-properties 0))
+   (t (buffer-substring-no-properties
+       (point)
+       (progn (skip-syntax-backward "w_")
+              (point))))))
 
 
 ;;;; Major mode definition.
@@ -206,7 +255,9 @@
   (setq-local comment-start "# ")
   (setq-local comment-start-skip "#+\\s-*")
   (setq-local indent-tabs-mode nil)
-  (smie-setup kll-mode-smie-grammar #'kll-mode-smie-rules)
+  (smie-setup kll-mode-smie-grammar #'kll-mode-smie-rules
+              :backward-token #'kll-smie-backward-token
+              :forward-token #'kll-smie-forward-token)
   (setq-local font-lock-defaults kll-mode-font-lock-keywords)
   (font-lock-flush))
 
