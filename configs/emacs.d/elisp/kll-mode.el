@@ -160,9 +160,7 @@
 (defvar kll-mode-smie-grammar
   (smie-prec2->grammar
    (smie-bnf->prec2
-    '((exp)                             ; Variable assignment.
-      (id)                              ; KLL identifier.
-      (value)                           ; KLL value (string, number, etc).
+    '((id)                      ; Variable, identifier, integers, strings, etc.
       (stmt (define-stmt)
             (prop-stmt)
             (capa-stmt)
@@ -170,18 +168,15 @@
             (keymap-stmt))
       (stmts (stmts ";" stmts) (stmt))
       ;; Property assignments.
-      (prop (id ":" value))
+      (prop (id ":" id))
       (props (props "," props) (prop))
       (prop-stmt (id "<=" props))
       ;; Define statements.
       (define-stmt (id "=>" id))
       ;; Capability statements.
       (capa-stmt (id "=>" id "(" props ")"))
-      ;; Variable statments.
-      (var-stmt (id "=" exp))
-      ;; Pixel mapping statements.
-      ;; (colors (props))
-      ;; (pixmap-stmt ("P" "[" value "]" "(" props ")" ":" exp))
+      ;; Variable statements.
+      (var-stmt (id "=" id))
       ;; Key mapping statements.
       (key (id))
       (keys (keys "+" keys) (key))
@@ -195,22 +190,18 @@
                    (keys "i:-" keys)))
     '((assoc "+"))
     '((assoc ";"))
-    '((assoc ","))
-    ))
+    '((assoc ","))))
   "BNF Grammar describing the KLL language for `smie'.")
 
 
 (defun kll-mode-smie-rules (kind token)
   "Perform indentation of KIND on TOKEN using the `smie' engine."
-  (message "%s" (cons kind token))
   (pcase (cons kind token)
     (`(:elem . basic)            kll-mode-indent-offset)
     (`(:elem . args)             0)
-    (`(:before . ,(or ";" ","))  (smie-rule-separator kind))
-    (`(:after . ,(or "<=" "=>")) kll-mode-indent-offset)
-    ;; (`(:close-all . ,_)          t)
     (`(:list-intro . "=")        0)     ; Aligns to first list element.
-    ))
+    (`(:before . ,(or ";" ","))  (smie-rule-separator kind))
+    (`(:after . ,(or "<=" "=>")) kll-mode-indent-offset)))
 
 
 (defvar kll-keywords-regexp
