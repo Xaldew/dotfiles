@@ -198,6 +198,29 @@ The text is shown for DELAY seconds (default 2).  The old
     old-mode-line))
 
 
+(defun file-location-args ()
+  "Retrieve the arguments for `move-file'."
+  (list
+   (if buffer-file-name
+       (read-file-name "Move file to: ")
+     (read-file-name "Move file to: "
+                     default-directory
+                     (expand-file-name (file-name-nondirectory (buffer-name))
+                                       default-directory)))))
+
+
+(defun move-file (new-location)
+  "Write this file to NEW-LOCATION, and delete the old one."
+  (interactive (file-location-args))
+  (when (file-exists-p new-location)
+    (delete-file new-location))
+  (let ((old-location (buffer-file-name)))
+    (write-file new-location t)
+    (when (and old-location
+               (file-exists-p new-location))
+      (delete-file old-location))))
+
+
 (defun srt-renumber-file ()
   "Re-number all lines in the current subrip subtitle file."
   (interactive)
