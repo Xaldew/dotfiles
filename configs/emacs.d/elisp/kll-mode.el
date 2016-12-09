@@ -100,16 +100,13 @@
 
 
 (defvar kll-mode-animation-regexp
-  (concat "[[:space:]]*"
-          "\\(A\\)\\["                  ; Animation identifier.
-          "\\([a-zA-Z_]+\\)"            ; Animation label.
-          "\\(?:[[:space:]]*,[[:space:]]*[0-9]+[[:space:]]*\\)?" ; Frame number.
-          "\\]"
-          "[[:space:]]*"
-          "\\(?:<=\\)"
-          "[[:space:]]*"
-          "\\(.+\\);")
-  "Regular expression to match all KLL variables.")
+  (rx (and (* space) "A" (* space)
+           "["
+           (group-n 1 (+? (in "A-Z" "a-z" "0-9" "_"))) ; Animation label.
+           (? (and (* space) "," (* space)))
+           (group-n 2 (* (in digit)))                  ; Frame number.
+           "]"))
+  "Regular expression to match KLL animation declarations.")
 
 
 (defvar kll-mode-required-variables
