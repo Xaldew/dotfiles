@@ -119,9 +119,12 @@
 
 
 (defvar kll-mode-font-lock-keywords
-  `(((,(regexp-opt kll-mode-constants 'words)          . font-lock-constant-face)
-     (,(regexp-opt kll-mode-capabilities 'words)       . font-lock-keyword-face)
-     (,(regexp-opt kll-mode-required-variables 'words) . font-lock-preprocessor-face)
+  `(((,(regexp-opt kll-mode-constants 'words)           . font-lock-constant-face)
+     (,(regexp-opt kll-mode-capabilities 'words)        . font-lock-keyword-face)
+     (,(regexp-opt kll-mode-required-variables 'words)  . font-lock-preprocessor-face)
+     (,(regexp-opt kll-mode-animation-modifiers 'words) . font-lock-preprocessor-face)
+     (,kll-mode-animation-regexp
+      (1 font-lock-variable-name-face))
      (,kll-mode-capability-regexp
       (1 font-lock-variable-name-face)
       (2 font-lock-function-name-face))
