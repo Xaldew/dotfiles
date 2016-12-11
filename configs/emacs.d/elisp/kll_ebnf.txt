@@ -1,4 +1,4 @@
-* Character classes. *
+(* Character classes. *)
 whitespace      = { space | newline | tab } ;
 string          = '"', { all_characters - '"' }, '"' ;
 nat_number      = 1-9, { 0-9 } ;
@@ -10,7 +10,7 @@ alphabetic_char = A-Z | a-z ;
 all_characters  = A-Z | a-z | 0-9 | _ ;
 
 
-* Generic KLL statements. *
+(* Generic KLL statements. *)
 kll            = { ( statement, ";" | comment ), whitespace } ;
 comment        = "#", { all_characters | space } ;
 statement      = variable_stmt |
@@ -22,7 +22,7 @@ statement      = variable_stmt |
                  animation_mapping ;
 
 
-* Variable statements. *
+(* Variable statements. *)
 kll_id          = alphabetic_char, { all_characters } ;
 var_id          = string | kll_id;
 variable        = ( var_id, [ "[", pos_number, "]", ] ) | string | number ;
@@ -31,17 +31,17 @@ array_assign    = var_id, "[", "]", "=", { variable, "," }, variable ;
 variable_stmt   = array_assign | variable_assign;
 
 
-* Define statements. *
+(* Define statements. *)
 define_stmt = kll_id, "=>", kll_id ;
 
 
-* Capability statements. *
+(* Capability statements. *)
 capability_param  = ( kll_id, ":", nat_number ) | "" ;
 capability_params = { capability_param, "," }, capability_param ;
 capability_stmt   = kll_id, "=>", kll_id, "(", capability_params, ")" ;
 
 
-* Key mappings. *
+(* Key mappings. *)
 usb_code      = "U", key ;
 scan_code     = "S", (pos_number | hex_number) ;
 consumer_code = "CON", key ;
@@ -51,7 +51,7 @@ key_delimiter = ":" | "::" | ":+" | ":-" | "i:" | "i::" | "i:+" | "i:-" ;
 press_state   = "P" | "UP" | "UR" | "R" | "H" | "O" ;
 val_range     = key, "-", key ;
 
-** Key triggers. **
+(** Key triggers. **)
 analog        = pos_number ;
 time_base     = "s" | "ms" | "us" ;
 time          = pos_number, time_base ;
@@ -69,7 +69,7 @@ trigger_map   = trigger | indicator | trigger_range ;
 key_trigger   = { trigger_map, ("," | "+") }, trigger_map ;
 key_mapping_stmt = key_trigger, key_delimiter, key_result ;
 
-** Key results. **
+(** Key results. **)
 capability_arg  = variable | number | "NULL" ;
 capability_args = { capability_arg, "," }, capability_arg ;
 capability      = kll_id, "(", capability_args, ")" ;
@@ -79,19 +79,19 @@ result          =  result_codes | string | "None" ;
 key_result      = { result, ("," | "+") }, result ;
 
 
-* Scan-code property mapping. *
+(* Scan-code property mapping. *)
 property         = kll_id, ":", integer ;
 properties       = { property, "," }, property ;
 property_mapping = scan_code "<=", properties ;
 
 
-* Pixel mappings. *
+(* Pixel mappings. *)
 channel       = pos_number, ":", nat_number ;
 channels      = { channel, "," }, channel ;
 pixel_mapping = "P", "[", pos_number, "]", "(", channels, ")", ":", ( scan_code | "None" ) ;
 
 
-* Animation mappings. *
+(* Animation mappings. *)
 idx_exp    = "i", [ "+", "-" ], pos_number, [ "%" ] ;
 comp       = pos_number | idx_exp ;
 exp        = pos_number | ( ("r" | "c"), ":" comp ) ;
