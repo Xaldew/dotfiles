@@ -135,26 +135,27 @@
       (1 font-lock-variable-name-face))
      (,kll-mode-key-regexp
       (1 font-lock-type-face))
-     (,(regexp-opt kll-mode-delimiters) . font-lock-negation-char-face))))
-
-
-(defconst kll-mode-syntax-table
-  (let ((table (make-syntax-table)))
-    (modify-syntax-entry ?' "\""  table) ; String delimiter
-    (modify-syntax-entry ?\" "\"" table) ; String delimiter
-    (modify-syntax-entry ?#  "<" table)  ; Comment start
-    (modify-syntax-entry ?\n ">" table)  ; Comment end
-    table))
+     (,(regexp-opt kll-mode-delimiters) . font-lock-negation-char-face)))
+  "List over `font-lock' specifiers.")
 
 
 ;;;; SMIE indentation setup.
 
 
 (defcustom kll-mode-indent-offset 4
-  "KLL indentation width - currently unused."
+  "KLL indentation width."
   :group 'kll-mode
   :type 'integer
   :safe #'integerp)
+
+
+(defconst kll-mode-syntax-table
+  (let ((table (make-syntax-table)))
+    (modify-syntax-entry ?'  "\""  table) ; String delimiter
+    (modify-syntax-entry ?\" "\"" table)  ; String delimiter
+    (modify-syntax-entry ?#  "<" table)   ; Comment start
+    (modify-syntax-entry ?\n ">" table)   ; Comment end
+    table))
 
 
 (defvar kll-mode-smie-grammar
