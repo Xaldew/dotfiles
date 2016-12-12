@@ -1,3 +1,5 @@
+(* -*- ebnf-mode-style: iso-ebnf -*- *)
+
 (* Basic terminals *)
 letter = "A" | "B" | "C" | "D" | "E" | "F" | "G" |
          "H" | "I" | "J" | "K" | "L" | "M" | "N" |
@@ -32,5 +34,5 @@ rhs = identifier |
       rhs , "|" , rhs |
       rhs , "," , rhs ;
 
-rule = lhs , "=" , rhs , ";"
-                             grammar = { rule } ;
+rule = lhs , "=" , rhs , ";" ;
+grammar = { rule } ;
