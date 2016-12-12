@@ -61,9 +61,8 @@
       (rule (lhs "=" rhs))
       (rules (rules ";" rules) (rule)))
     '((assoc ";"))
-    '((assoc ","))
-    '((assoc "|"))))
-  "Simplfied BNF grammar for `smie' indentation.")
+    '((assoc "|") (assoc ","))))
+  "Simplfied BNF grammar for `smie' indentation of the `iso-ebnf' style.")
 
 
 (defun ebnf-mode-smie-rules (kind token)
