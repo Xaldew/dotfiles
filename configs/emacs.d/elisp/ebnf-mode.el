@@ -26,7 +26,7 @@
 ;;;; Fontification.
 
 
-(defvar ebnf-mode-lhs
+(defvar ebnf-mode-lhs-regexp
   (rx (and bol (* space)
            (group-n 1 (in "A-Z" "a-z")
                     (+ (in "A-Z" "a-z" "0-9" "_")))
@@ -35,7 +35,7 @@
 
 
 (defvar ebnf-mode-font-lock-keywords
-  `(((,ebnf-mode-lhs (1 font-lock-variable-name-face))))
+  `(((,ebnf-mode-lhs-regexp (1 font-lock-variable-name-face))))
   "List over `font-lock' specifiers.")
 
 
@@ -162,8 +162,18 @@
     (`(:elem . basic)            ebnf-mode-indent-offset)
     (`(:elem . args)             ebnf-mode-indent-offset)
     (`(:list-intro . ,(or "=" "=/"))        0)
-    (`(:before . ,(or ";" "/"))  (smie-rule-separator kind))
+    (`(:before . ,(or "NEWLINE-SEPARATOR" "/"))  (smie-rule-separator kind))
     (`(:after . ,(or "=" "=/"))  ebnf-mode-indent-offset)))
+
+
+(defun ebnf-mode-smie-new-rule-p (direction)
+  "Check if the next lines in DIRECTION defines a new rule."
+  (interactive "n")
+  (save-excursion
+    (forward-line direction)
+    (while (looking-at-p "[[:space:]]*$")
+      (forward-line direction))
+    (looking-at-p ebnf-mode-lhs-regexp)))
 
 
 (defun ebnf-mode-smie-abnf-forward-token ()
