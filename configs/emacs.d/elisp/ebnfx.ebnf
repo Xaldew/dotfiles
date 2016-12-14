@@ -1,0 +1,12 @@
+/* -*- ebnf-mode-style: ebnfx -*- */
+
+/* Comment */
+symbol ::= expression |
+ tmp
+
+
+// Second comment.
+expression ::= ( A "|" B ) | ( A B ) |
+A* |
+A+ |
+C?
