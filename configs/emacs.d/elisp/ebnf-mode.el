@@ -18,8 +18,10 @@
   "The EBNF style to associate with the current buffer."
   :group 'ebnf-mode
   :type '(radio :tag "Style"
+                (const iso-ebnf)
 		(const ebnf)
-                (const iso-ebnf))
+                (const abnf)
+                (const ebnfx))
   :safe #'symbolp)
 
 
@@ -47,6 +49,16 @@
   :group 'ebnf-mode
   :type 'integer
   :safe #'integerp)
+
+
+(defun ebnf-debug-lexer (fun)
+  "Debug the lexer FUN."
+  (lambda ()
+    (let ((tok (funcall fun))
+          (nam (symbol-name fun))
+          (pos (point)))
+      (princ (format "%s: %s at %d\n" nam tok pos))
+      tok)))
 
 
 ;;;; `iso-ebnf' style rules.
@@ -163,16 +175,6 @@
     (`(:list-intro . ,(or "=" "=/"))        0)
     (`(:before . ,(or "NEWLINE-SEPARATOR" "/"))  (smie-rule-separator kind))
     (`(:after . ,(or "=" "=/"))  ebnf-mode-indent-offset)))
-
-
-(defun ebnf-debug-lexer (fun)
-  "Debug the lexer FUN."
-  (lambda ()
-    (let ((tok (funcall fun))
-          (nam (symbol-name fun))
-          (pos (point)))
-      (princ (format "%s: %s at %d\n" nam tok pos))
-      tok)))
 
 
 (defun ebnf-mode-smie-abnf-forward-token ()
