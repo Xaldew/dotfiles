@@ -17,13 +17,13 @@ elements       =  alternation *c-wsp
 c-wsp          =  WSP / (c-nl WSP)
 
 c-nl           =  comment /
-CRLF
+                  CRLF
 ; comment or newline
 
 comment        =  ";" *(WSP / VCHAR) CRLF
 
 alternation    =  concatenation
-*(*c-wsp "/" *c-wsp concatenation)
+                  *(*c-wsp "/" *c-wsp concatenation)
 
 
 
@@ -34,7 +34,8 @@ repetition     =  [repeat] element
 repeat         =  1*DIGIT / (*DIGIT "*" *DIGIT)
 
 element        =  rulename / group / option /
-char-val / num-val / prose-val
+                  char-val / num-val / prose-val
+
 
 group          =  "(" *c-wsp alternation *c-wsp ")"
 
@@ -54,7 +55,7 @@ bin-val        =  "b" 1*BIT [ 1*("." 1*BIT) / ("-" 1*BIT) ]
 dec-val        =  "d" 1*DIGIT [ 1*("." 1*DIGIT) / ("-" 1*DIGIT) ]
 
 hex-val        =  "x" 1*HEXDIG
-[ 1*("." 1*HEXDIG) / ("-" 1*HEXDIG) ]
+                  [ 1*("." 1*HEXDIG) / ("-" 1*HEXDIG) ]
 
 prose-val      =  "<" *(%x20-3D / %x3F-7E) ">"
 ; bracketed string of SP and VCHAR without angles

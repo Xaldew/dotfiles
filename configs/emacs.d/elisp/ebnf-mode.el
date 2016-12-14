@@ -29,8 +29,8 @@
 (defvar ebnf-mode-lhs-regexp
   (rx (and bol (* space)
            (group-n 1 (in "A-Z" "a-z")
-                    (+ (in "A-Z" "a-z" "0-9" "_")))
-           (* space) "="))
+                    (+ (in "A-Z" "a-z" "0-9" "_" "-")))
+           (* space) (or "=" "::=")))
   "Regular expression to match and fontify the (E)BNF left hand sides.")
 
 
@@ -157,56 +157,54 @@
 
 (defun ebnf-mode-smie-abnf-rules (kind token)
   "Perform indentation of KIND on TOKEN using the `smie' engine."
-  (print (cons kind token))
   (pcase (cons kind token)
     (`(:elem . basic)            ebnf-mode-indent-offset)
-    (`(:elem . args)             ebnf-mode-indent-offset)
+    (`(:elem . args)             0)
     (`(:list-intro . ,(or "=" "=/"))        0)
     (`(:before . ,(or "NEWLINE-SEPARATOR" "/"))  (smie-rule-separator kind))
     (`(:after . ,(or "=" "=/"))  ebnf-mode-indent-offset)))
 
 
-(defun ebnf-mode-smie-new-rule-p (direction)
-  "Check if the next lines in DIRECTION defines a new rule."
-  (interactive "n")
-  (save-excursion
-    (forward-line direction)
-    (while (looking-at-p "[[:space:]]*$")
-      (forward-line direction))
-    (looking-at-p ebnf-mode-lhs-regexp)))
+(defun ebnf-debug-lexer (fun)
+  "Debug the lexer FUN."
+  (lambda ()
+    (let ((tok (funcall fun))
+          (nam (symbol-name fun))
+          (pos (point)))
+      (princ (format "%s: %s at %d\n" nam tok pos))
+      tok)))
 
 
 (defun ebnf-mode-smie-abnf-forward-token ()
   "Search forwards for a token to be used by `smie' to indent `abnf'."
-  (skip-chars-forward " \t")
   (cond
-   ((looking-at "\n")
-    (goto-char (match-end 0))
+   ((looking-at-p ebnf-mode-lhs-regexp)
+    (skip-chars-forward " \t")
     "NEWLINE-SEPARATOR")
-   ((and (looking-at "[\n;]"))
-    (if (eolp) (forward-char 1) (forward-comment 1))
-    "NEWLINE-SEPARATOR")
-   (t (buffer-substring-no-properties
+   (t
+    (forward-comment (point-max))
+    (if (eobp)
+        "NEWLINE-SEPARATOR"
+      (buffer-substring-no-properties
        (point)
        (progn (if (zerop (skip-syntax-forward "."))
                   (skip-syntax-forward "w_'"))
-              (point))))))
+              (point)))))))
 
 
 (defun ebnf-mode-smie-abnf-backward-token ()
   "Search backwards for a token to be used by `smie' to indent `abnf'."
-  (let ((pos (point)))
+  (cond
+   ((looking-at-p ebnf-mode-lhs-regexp)
+    (skip-chars-forward " \t")
+    "NEWLINE-SEPARATOR")
+   (t
     (forward-comment (- (point)))
-    (cond
-     ((and (> pos (line-end-position)))
-      (skip-chars-forward " \t")
-      "NEWLINE-SEPARATOR")
-     (t
-      (buffer-substring-no-properties
-       (point)
-       (progn (if (zerop (skip-syntax-backward "."))
-                  (skip-syntax-backward "w_'"))
-              (point)))))))
+    (buffer-substring-no-properties
+     (point)
+     (progn (if (zerop (skip-syntax-backward "."))
+                (skip-syntax-backward "w_'"))
+            (point))))))
 
 
 ;;;; Major mode definitions.
