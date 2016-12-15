@@ -1,12 +1,18 @@
 /* -*- ebnf-mode-style: ebnfx -*- */
 
-/* Comment */
 symbol ::= expression |
- tmp
+           tmp
 
+
+/* Comment */
+rule_tmp ::= symbol |
+             expression |
+             test
 
 // Second comment.
 expression ::= ( A "|" B ) | ( A B ) |
-A* |
-A+ |
-C?
+               A* |
+               A+ |
+               C?
+
+// Third Comment.

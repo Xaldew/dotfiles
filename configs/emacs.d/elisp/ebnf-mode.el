@@ -29,7 +29,7 @@
 
 
 (defvar ebnf-mode-lhs-regexp
-  (rx (and bol (* space)
+  (rx (and (* space)
            (group-n 1 (in "A-Z" "a-z")
                     (+ (in "A-Z" "a-z" "0-9" "_" "-")))
            (* space) (or "=" "::=")))
@@ -59,6 +59,13 @@
           (pos (point)))
       (princ (format "%s: %s at %d\n" nam tok pos))
       tok)))
+
+
+(defun ebnf-mode-new-rule-p ()
+  "Check if there is a new rule to be found by looking forward."
+  (save-excursion
+    (forward-comment (point-max))
+    (looking-at-p ebnf-mode-lhs-regexp)))
 
 
 ;;;; `iso-ebnf' style rules.
@@ -179,34 +186,35 @@
 
 (defun ebnf-mode-smie-abnf-forward-token ()
   "Search forwards for a token to be used by `smie' to indent `abnf'."
-  (cond
-   ((looking-at-p ebnf-mode-lhs-regexp)
-    (skip-chars-forward " \t")
-    "NEWLINE-SEPARATOR")
-   (t
+  (let ((pos (point)))
     (forward-comment (point-max))
-    (if (eobp)
-        "NEWLINE-SEPARATOR"
+    (cond
+     ((and (< pos (point))              ; Only emit separator if we have moved.
+           (or (ebnf-mode-new-rule-p)
+               (eobp)))
+      (forward-comment (- (point)))
+      "NEWLINE-SEPARATOR")
+     (t
       (buffer-substring-no-properties
        (point)
-       (progn (if (zerop (skip-syntax-forward "."))
-                  (skip-syntax-forward "w_'"))
+       (progn (skip-syntax-forward "w_'")
               (point)))))))
 
 
 (defun ebnf-mode-smie-abnf-backward-token ()
   "Search backwards for a token to be used by `smie' to indent `abnf'."
-  (cond
-   ((looking-at-p ebnf-mode-lhs-regexp)
-    (skip-chars-forward " \t")
-    "NEWLINE-SEPARATOR")
-   (t
+  (let ((pos (point)))
     (forward-comment (- (point)))
-    (buffer-substring-no-properties
-     (point)
-     (progn (if (zerop (skip-syntax-backward "."))
-                (skip-syntax-backward "w_'"))
-            (point))))))
+    (cond
+     ((and (> pos (point))
+           (ebnf-mode-new-rule-p))
+      "NEWLINE-SEPARATOR")
+     (t
+      (forward-comment (- (point)))
+      (buffer-substring-no-properties
+       (point)
+       (progn (skip-syntax-backward "w_")
+              (point)))))))
 
 
 ;;;; `ebnfx' style rules.
@@ -254,17 +262,18 @@
 
 (defun ebnf-mode-smie-ebnfx-forward-token ()
   "Search forwards for a token to be used by `smie'."
-  (cond
-   ((looking-at-p ebnf-mode-lhs-regexp)
-    (skip-chars-forward " \t")
-    "NEWLINE-SEPARATOR")
-   ((looking-at ebnf-mode-ebnfx-smie-tokens-regexp)
-    (goto-char (match-end 0))
-    (match-string-no-properties 0))
-   (t
+  (let ((pos (point)))
     (forward-comment (point-max))
-    (if (eobp)
-        "NEWLINE-SEPARATOR"
+    (cond
+     ((and (< pos (point))              ; Only emit separator if we have moved.
+           (or (ebnf-mode-new-rule-p)
+               (eobp)))
+      (forward-comment (- (point)))
+      "NEWLINE-SEPARATOR")
+     ((looking-at ebnf-mode-ebnfx-smie-tokens-regexp)
+      (goto-char (match-end 0))
+      (match-string-no-properties 0))
+     (t
       (buffer-substring-no-properties
        (point)
        (progn (skip-syntax-forward "w_'")
@@ -273,19 +282,21 @@
 
 (defun ebnf-mode-smie-ebnfx-backward-token ()
   "Search backwards for a token to be used by `smie'."
-  (cond
-   ((looking-at-p ebnf-mode-lhs-regexp)
-    (skip-chars-forward " \t")
-    "NEWLINE-SEPARATOR")
-   ((looking-back ebnf-mode-ebnfx-smie-tokens-regexp (- (point) 2) t)
-    (goto-char (match-beginning 0))
-    (match-string-no-properties 0))
-   (t
+  (let ((pos (point)))
     (forward-comment (- (point)))
-    (buffer-substring-no-properties
-     (point)
-     (progn (skip-syntax-backward "w_")
-            (point))))))
+    (cond
+     ((and (> pos (point))
+           (ebnf-mode-new-rule-p))
+      "NEWLINE-SEPARATOR")
+     ((looking-back ebnf-mode-ebnfx-smie-tokens-regexp (- (point) 3) t)
+      (goto-char (match-beginning 0))
+      (match-string-no-properties 0))
+     (t
+      (forward-comment (- (point)))
+      (buffer-substring-no-properties
+       (point)
+       (progn (skip-syntax-backward "w_")
+              (point)))))))
 
 
 ;;;; Major mode definitions.
