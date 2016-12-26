@@ -327,11 +327,14 @@ NAME can be used to set the name of the defined function."
 ;; Add the Google C/C++ style to list of all styles.
 (use-package google-c-style
   :ensure t
+  :defer t
+  :after (cc-mode)
   :config (c-add-style "google" google-c-style))
 
 
 (use-package ace-window
   :ensure t
+  :defer t
   :bind ("C-x o" . ace-window)
   :config
   (setq aw-keys '(?a ?s ?d ?f ?g ?h ?j ?k ?l))
@@ -356,12 +359,14 @@ NAME can be used to set the name of the defined function."
 (use-package expand-region
   :functions (er/contract-region)
   :ensure t
+  :defer t
   :bind ("C-c e" . er/expand-region))
 
 
 ;; Add srefactor configuration.
 (use-package srefactor
   :ensure t
+  :defer t
   :bind ("C-c r" . srefactor-refactor-at-point))
 
 
@@ -369,6 +374,7 @@ NAME can be used to set the name of the defined function."
 (use-package paredit
   :ensure t
   :pin melpa
+  :defer t
   :commands paredit-mode
   :diminish paredit-mode
   :init
@@ -403,7 +409,6 @@ NAME can be used to set the name of the defined function."
          ((file-exists-p "~/Musik")
           "~/Musik")))
   :config
-  (use-package emms-player-mpv :ensure t :pin melpa)
   (emms-all)
   (emms-default-players)
   ;; Add midi formats to VLC-player
@@ -413,6 +418,8 @@ NAME can be used to set the name of the defined function."
    (concat "\\`\\(http[s]?\\|mms\\)://\\|"
            (apply #'emms-player-simple-regexp
                   `("mid" "midi" ,@emms-player-base-format-list)))))
+
+(use-package emms-player-mpv :ensure emms :pin melpa :defer t)
 
 
 (use-package anzu
@@ -426,6 +433,7 @@ NAME can be used to set the name of the defined function."
 
 (use-package pyimport
   :ensure t
+  :defer t
   :init
   (defun my-pyimport-hook ()
     "Personal hook for pyimport keys."
@@ -436,12 +444,14 @@ NAME can be used to set the name of the defined function."
 
 (use-package pyvenv
   :ensure t
+  :defer t
   :init
   (add-hook 'python-mode-hook #'pyvenv-mode))
 
 
 (use-package highlight-indentation
   :ensure t
+  :defer t
   :commands highlight-indentation-mode
   :init
   (add-hook 'python-mode-hook #'highlight-indentation-mode))
@@ -449,6 +459,7 @@ NAME can be used to set the name of the defined function."
 
 (use-package anaconda-mode
   :ensure t
+  :defer t
   :if (executable-find "pip")
   :diminish anaconda-mode
   :commands anaconda-mode
@@ -458,6 +469,7 @@ NAME can be used to set the name of the defined function."
 
 (use-package ssh-config-mode
   :ensure t
+  :defer t
   :mode (("ssh_config\\'"      . ssh-config-mode)
          ("\.*ssh\.*config\\'" . ssh-config-mode)))
 
@@ -465,6 +477,7 @@ NAME can be used to set the name of the defined function."
 (use-package clang-format
   :if (executable-find "clang-format")
   :ensure t
+  :defer t
   :bind ("C-c f" . clang-format-create-style)
   :init
   (defvar my-clang-styles
@@ -500,7 +513,9 @@ and style."
 ;; Fix LaTeX settings and AucTeX.
 (use-package auctex
   :ensure t
+  :defer t
   :mode ("\\.tex\\'" . latex-mode)
+  :defines LaTeX-enable-toolbar
   :commands (latex-mode LaTeX-mode plain-tex-mode)
   :init
   (setq TeX-auto-save t)
@@ -558,22 +573,23 @@ and style."
               langtool-check-buffer
               langtool-switch-default-language)
   :ensure t
+  :defer t
   :config
 
+  (defun langtool-cygwin-advice (args)
+    "Convert the buffer-file-name to a Windows compatible path."
+    (cons (cygwin-windows-path (car args)) (cdr args)))
+
+  (defun langtool-filter-advice (proc event)
+    "Delete trailing carriage returns from the process-buffer before parsing."
+    (with-current-buffer (process-buffer proc)
+      (goto-char (point-min))
+      (while (search-forward "\r\n" nil t)
+        (replace-match "\n"))))
+
   (when (cygwin-p)
-    (defun langtool-cygwin-advice (args)
-      "Convert the buffer-file-name to a Windows compatible path."
-      (cons (cygwin-windows-path (car args)) (cdr args)))
     (advice-add 'langtool--invoke-process :filter-args #'langtool-cygwin-advice)
-
-    (defun langtool-filter-advice (proc event)
-      "Delete trailing carriage returns from the process-buffer before parsing."
-      (with-current-buffer (process-buffer proc)
-        (goto-char (point-min))
-        (while (search-forward "\r\n" nil t)
-          (replace-match "\n"))))
     (advice-add 'langtool--process-filter :before #'langtool-filter-advice))
-
 
   (let* ((lt-dir (file-name-as-directory
                   (or (locate-directory "languagetool" exec-path) "")))
@@ -1342,8 +1358,8 @@ _ca_: Calc           _mf_: EMMS Play local    _gb_: Bitlbee    _cl_: Holidays Li
 
 
 (use-package bbdb
-  :defer t
   :ensure t
+  :defer t
   :init
   (setq bbdb-file (concat org-directory "bbdb"))
   (bbdb-initialize 'gnus 'mail 'message)
@@ -1539,6 +1555,7 @@ _s_: Set scale  _o_: Restore original  _R_: Rotate free   _q_: Quit
   :ensure t
   :defer t
   :pin melpa
+  :defines (helm-dash-docsets)
   :init
   (set-variable-in-hook python-mode-hook  helm-dash-docsets '("Python 3"))
   (set-variable-in-hook rust-mode-hook    helm-dash-docsets '("Rust"))
@@ -1681,7 +1698,7 @@ _s_: Set scale  _o_: Restore original  _R_: Rotate free   _q_: Quit
 (use-package graphviz-dot-mode :ensure t :defer t)
 (use-package glsl-mode         :ensure t :defer t)
 (use-package cmake-mode        :ensure t :defer t)
-(use-package git-commit        :ensure t)
+(use-package git-commit        :ensure t :defer t)
 (use-package gitignore-mode    :ensure t :defer t)
 (use-package gitconfig-mode    :ensure t :defer t)
 (use-package dart-mode         :ensure t :defer t)
@@ -1707,6 +1724,7 @@ _s_: Set scale  _o_: Restore original  _R_: Rotate free   _q_: Quit
 (use-package spacemacs-theme :defer t :ensure t)
 (use-package color-theme-approximate
   :ensure t
+  :defer t
   :init
   (add-hook 'after-init-hook #'color-theme-approximate-on))
 
@@ -1722,15 +1740,16 @@ _s_: Set scale  _o_: Restore original  _R_: Rotate free   _q_: Quit
 
 
 ;; Remove the lighter for a number of built in packages.
-(use-package flyspell :diminish flyspell-mode)
-(use-package subword  :diminish subword-mode)
+(use-package flyspell :defer t :diminish flyspell-mode)
+(use-package subword  :defer t  :diminish subword-mode)
 (use-package whitespace
+  :defer t
   :diminish (whitespace-mode
              global-whitespace-mode
              whitespace-newline-mode))
-(use-package eldoc :diminish eldoc-mode)
-(use-package cwarn :commands cwarn-mode :diminish cwarn-mode)
-(use-package abbrev :diminish abbrev-mode)
-(use-package simple :diminish (auto-fill-function))
+(use-package eldoc :defer t :diminish eldoc-mode)
+(use-package cwarn :defer t :commands cwarn-mode :diminish cwarn-mode)
+(use-package abbrev :defer t :diminish abbrev-mode)
+(use-package simple :defer t :diminish (auto-fill-function))
 
 ;;; addons.el ends here
