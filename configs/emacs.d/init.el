@@ -62,6 +62,7 @@
 
 ;; Load external addons if possible.
 (load-user-file "addons")
+(load-user-file "my-hydras")
 
 ;; Load custom-file for possible local overrides.
 (load custom-file 'no-errors)
