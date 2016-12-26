@@ -313,14 +313,15 @@ NAME can be used to set the name of the defined function."
 
 (use-package projectile
   :ensure t
+  :defer t
   :init
   (add-hook 'text-mode-hook #'projectile-mode)
   (add-hook 'prog-mode-hook #'projectile-mode)
   :config
   (setq projectile-mode-line
         '(:eval (format " Prj[%s]" (projectile-project-name))))
-  (when (executable-find "uni-ctags")
-    (setq projectile-tags-command "uni-ctags -Re -f \"%s\" %s")))
+  (when (executable-find "uctags")
+    (setq projectile-tags-command "uctags -Re -f \"%s\" %s")))
 
 
 ;; Add the Google C/C++ style to list of all styles.
