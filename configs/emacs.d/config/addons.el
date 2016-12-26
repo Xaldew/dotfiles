@@ -187,9 +187,8 @@ NAME can be used to set the name of the defined function."
   :ensure t
   :defer t
   :mode ("gitignore\\'" . gitignore-mode)
-  :init
-  (setq magit-last-seen-setup-instructions "1.4.0")
   :bind ("C-c g" . magit-status)
+  :functions (magit-stash-pop magit-define-popup-action)
   :config
   (defun magit-stash-and-pull ()
     "Use `magit' to stash, pull, and pop the stash."
