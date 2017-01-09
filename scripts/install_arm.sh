@@ -26,7 +26,7 @@ export STYX3_AVESW_PATH="/work/mve/linux"
 export ARGUS_IPADDR=10.44.10.244
 
 #### Exports
-export ARM_PROJECT_NR=PJ01433
+export ARM_PROJECT_NR=PJ01921
 export SCRATCH="/arm/scratch/\$USER"
 export HW_UTILS_DIR="\$WORK/asic_util"
 export WORKSPACE_DIR="\$WORK/mve6"
@@ -78,7 +78,7 @@ fi
 
 # bjobs/bwhat to monitor queue
 alias bi="bsub -Is -P \$ARM_PROJECT_NR -R 'rhe6 && os64' bash"
-alias bs='bsub -P PJ01433 -q normal -R "rhe6 && os64"'
+alias bs='bsub -P \$ARM_PROJECT_NR -q normal -R "rhe6 && os64"'
 alias bissh="ssh lun-login2.lund.arm.com"
 
 
