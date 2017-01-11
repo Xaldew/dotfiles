@@ -22,7 +22,7 @@
     "
   Describe        ^^Keys                    ^^Search                    ^^Documentation
   ---------------------------------------------------------------------------------------
-  _f_: Function     _k_: Keybinding           _a_: Apropros               _i_: Info
+  _f_: Function     _k_: Keybinding           _a_: Apropos                _i_: Info
   _p_: Package      _w_: Where-is             _d_: Apropos Docstrings     _n_: WoMan
   _m_: Mode         _b_: Show all bindings    _s_: Info by symbol         _h_: _H_elm-_D_ash
   _v_: Variable
