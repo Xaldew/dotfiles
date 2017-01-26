@@ -84,14 +84,14 @@ NAME can be used to set the name of the defined function."
   ;; Rebind trigger to C-o to avoid stateful behaviors.
   (define-key yas-minor-mode-map (kbd "<tab>") nil)
   (define-key yas-minor-mode-map (kbd "TAB") nil)
-  (define-key yas-minor-mode-map (kbd "C-o") 'yas-expand)
+  (define-key yas-minor-mode-map (kbd "C-o") #'yas-maybe-expand)
 
   (define-key yas-keymap [(tab)]       nil)
   (define-key yas-keymap (kbd "TAB")   nil)
   (define-key yas-keymap [(shift tab)] nil)
   (define-key yas-keymap [backtab]     nil)
-  (define-key yas-keymap (kbd "C-o") 'yas-next-field-or-maybe-expand)
-  (define-key yas-keymap (kbd "C-u") 'yas-prev-field)
+  (define-key yas-keymap (kbd "C-o") #'yas-next-field-or-maybe-expand)
+  (define-key yas-keymap (kbd "C-u") #'yas-prev-field)
 
   (defun my-before-snippet-hook ()
     "Set `yas-active-p' to t and the active region bounds."
