@@ -303,6 +303,40 @@ grep-find()
     find . -type f -exec grep --color -nH -e "$@" {} +
 }
 
+
+bench()
+{
+    # Benchmark a command.
+    #
+    # Runs a command multiple times and outputs the average and standard
+    # deviation.
+    #
+    cnt=$1
+    shift 1
+    tmp=$(mktemp)
+    TIMEFORMAT="%3R"
+    for i in $(seq 0 $cnt)
+    do
+        { time "$@" > /dev/null 2>&1 ; } 2>> $tmp
+    done
+
+    awk -f- $tmp <<'EOF'
+function abs(v) {return v < 0 ? -v : v}
+{
+    for (i = 1; i <= NF; i++) {
+        sum[i] += $i; sumsq[i] += ($i)^2
+    }
+}
+END {
+    for (i = 1; i <= NF; i++) {
+        printf "%f +- %f \n", sum[i]/NR, sqrt(abs(sumsq[i] - sum[i]^2 / NR) / NR)
+    }
+}
+EOF
+    rm $tmp
+}
+
+
 ffprobe_count_subtitles()
 {
     stream=${1:?"No video clip set."}
@@ -312,6 +346,7 @@ ffprobe_count_subtitles()
         -print_format default=noprint_wrappers=1:nokey=1 \
         ${stream} | grep "subtitle" | wc --lines
 }
+
 
 add_subtitles()
 {
