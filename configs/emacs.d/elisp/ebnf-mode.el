@@ -2,7 +2,12 @@
 ;;
 ;;; Commentary:
 ;; Major mode for editing files containing various styles of (E)BNF grammars.
-;; Currently only supports the ISO-EBNF style.
+;; Currently supports the following styles:
+;;
+;;  - iso-ebnf :: `http://www.cl.cam.ac.uk/~mgk25/iso-ebnf.html'
+;;  - ebnf     :: Style built into `ebnf2ps.el'
+;;  - abnf     :: `http://www.ietf.org/rfc/rfc2234.txt'
+;;  - ebnfx    :: `http://www.w3.org/TR/2004/REC-xml-20040204/#sec-notation'
 ;;
 ;;; Code:
 
