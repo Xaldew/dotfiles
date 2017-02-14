@@ -35,7 +35,8 @@
 
 (defun printf-fmt-matcher (end)
   "Search for `printf' format specifiers within strings up to END."
-  (let (pos (case-fold-search t))
+  (let ((pos)
+        (case-fold-search nil))
     (while (and (setq pos (re-search-forward printf-fmt-regexp end t))
                 (null (nth 3 (syntax-ppss pos)))))
     pos))
