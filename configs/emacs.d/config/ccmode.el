@@ -10,7 +10,8 @@
 
 
 (defface font-lock-format-specifier-face
-  '((t (:foreground "OrangeRed1")))
+  '((t . (:inherit font-lock-regexp-grouping-backslash
+         :foreground "OrangeRed1")))
   "Font-lock face used to highlight printf format specifiers."
   :group 'font-lock-faces)
 
@@ -22,8 +23,8 @@
 
 
 (defvar printf-fmt-regexp
-  (concat "[^%]\\(%"
-          "\\(?:[[:digit:]]+\\$\\)?"
+  (concat "\\(%"
+          "\\([[:digit:]]+\\$\\)?"   ; Posix argument position extension.
           "[-+' #0*]*"
           "\\(?:[[:digit:]]*\\|\\*\\|\\*[[:digit:]]+\\$\\)"
           "\\(?:\\.\\(?:[[:digit:]]*\\|\\*\\|\\*[[:digit:]]+\\$\\)\\)?"
@@ -57,7 +58,7 @@
      ;; Add extra constants for true/false and NULL.
      ("\\<\\(true\\|false\\|NULL\\)" . font-lock-constant-face)
      ;; Add a printf() modifier highlighter.
-     (printf-fmt-matcher 1 'font-lock-format-specifier-face t))))
+     (printf-fmt-matcher (0 'font-lock-format-specifier-face prepend)))))
 
 (add-hook 'c-mode-common-hook #'my-cc-mode-common-hook)
 
