@@ -202,6 +202,12 @@ NAME can be used to set the name of the defined function."
     "Stash and pull"
     #'magit-stash-and-pull))
 
+(use-package git-commit
+  :ensure t
+  :defer t
+  :config
+  (setq fill-column 70))
+
 (use-package magit-gerrit :ensure t :defer t)
 (use-package magit-annex  :ensure t :defer t)
 
@@ -1014,7 +1020,6 @@ When `ERC' exits the SSH process is killed from `erc-kill-server-hook'."
 (use-package graphviz-dot-mode :ensure t :defer t)
 (use-package glsl-mode         :ensure t :defer t)
 (use-package cmake-mode        :ensure t :defer t)
-(use-package git-commit        :ensure t :defer t)
 (use-package gitignore-mode    :ensure t :defer t)
 (use-package gitconfig-mode    :ensure t :defer t)
 (use-package dart-mode         :ensure t :defer t)
