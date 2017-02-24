@@ -53,7 +53,7 @@
              "hh"
              "ll"))
       (or (in "aAbdiuoxXDOUfFeEgGcCsSpn")
-          (and "[" (? "^" nonl (* (not (any "]"))) "]"))))
+          (and "[" (? "^") nonl (* (not (in "]"))) "]")))
   "Regular expression to match printf-style format specifiers.")
 
 
