@@ -5,11 +5,13 @@
 ;;
 ;;; Code:
 
+;; Various configuration files.
 (add-to-list 'auto-mode-alist '("emacs\\'" . emacs-lisp-mode))
 (add-to-list 'auto-mode-alist '("bashrc\\'" . shell-script-mode))
 (add-to-list 'auto-mode-alist '("bash_aliases\\'" . shell-script-mode))
 (add-to-list 'auto-mode-alist '("profile\\'" . shell-script-mode))
 (add-to-list 'auto-mode-alist '("gitconfig.*\\'" . gitconfig-mode))
+(add-to-list 'auto-mode-alist '("\\.rc\\'" . conf-mode))
 
 ;; OpenCL Mode.
 (add-to-list 'auto-mode-alist '("\\.cl\\'" . c-mode))
