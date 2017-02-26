@@ -15,6 +15,13 @@
   :group 'font-lock-faces)
 
 
+(defface format-minor-printf-face
+  '((t . (:inherit font-lock-regexp-grouping-backslash
+         :foreground "OrangeRed1")))
+  "Font-lock face used to highlight printf format specifiers."
+  :group 'font-lock-faces)
+
+
 (defconst format-minor--format-rx
   (rx "{"
       (? (group                         ; Field-name.
