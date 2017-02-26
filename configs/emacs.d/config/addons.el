@@ -1015,6 +1015,12 @@ When `ERC' exits the SSH process is killed from `erc-kill-server-hook'."
   (setq csv-separators '(";" ":" "," "\t")))
 
 
+(use-package wdired
+  :defer t
+  :config
+  (setq wdired-allow-to-change-permissions t))
+
+
 ;; Install various major-mode packages and defer where it is possible.
 (use-package abc-mode          :ensure t :defer t)
 (use-package graphviz-dot-mode :ensure t :defer t)
