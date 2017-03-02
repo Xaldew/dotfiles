@@ -41,7 +41,7 @@
           (? (in "_,"))
           (? "." (or (+ digit)
                      (and "*" (+ word) "$")))
-          (? (in "bcdeEfFgGnosxX%"))))
+          (? (in "bcdeEfFgGnosxX%?"))))
       "}")
   "Regular expression to match Python-style format specifiers.")
 
@@ -127,7 +127,7 @@
 
 (format-minor--create-matcher "printf" format-minor--printf-rx)
 (format-minor--create-matcher "format" format-minor--format-rx)
-(format-minor--create-matcher "sh-var" format-minor--sh-var-rx)
+(format-minor--create-matcher "sh-var"        format-minor--sh-var-rx)
 (format-minor--create-matcher "sh-array"      format-minor--sh-array-rx)
 (format-minor--create-matcher "sh-param-exp"  format-minor--sh-param-exp-rx)
 (format-minor--create-matcher "sh-string-sub" format-minor--sh-string-sub-rx)
