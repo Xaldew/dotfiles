@@ -205,6 +205,7 @@ NAME can be used to set the name of the defined function."
 (use-package git-commit
   :ensure t
   :defer t
+  :mode "COMMIT_EDITMSG\\'"
   :config
   (setq fill-column 70))
 
