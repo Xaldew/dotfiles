@@ -257,11 +257,8 @@ NAME can be used to set the name of the defined function."
   :config
   (defun my-flycheck-popup (errors)
     "Display the ERRORS in the old popup-el interface inside terminals."
-    (let ((message (mapconcat
-		    #'flycheck-error-format-message-and-id
-                    errors
-                    "\n\n")))
-      (popup-tip message)))
+    (let ((func #'flycheck-error-format-message-and-id))
+      (popup-tip (mapconcat func errors "\n\n"))))
   (setq flycheck-pos-tip-display-errors-tty-function 'my-flycheck-popup))
 
 (use-package flycheck-irony :ensure t :defer t :after flycheck)
