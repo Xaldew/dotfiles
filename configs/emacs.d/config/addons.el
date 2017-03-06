@@ -207,7 +207,9 @@ NAME can be used to set the name of the defined function."
   :defer t
   :mode "COMMIT_EDITMSG\\'"
   :config
-  (setq fill-column 70))
+  (setq git-commit-fill-column 70)
+  (setq git-commit-style-convention-checks
+        '(non-empty-second-line overlong-summary-line)))
 
 (use-package magit-gerrit :ensure t :defer t)
 (use-package magit-annex  :ensure t :defer t)
