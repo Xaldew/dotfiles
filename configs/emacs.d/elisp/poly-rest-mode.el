@@ -59,8 +59,9 @@
 
 (defun poly-rest-fixes ()
   "Fix various minor issues that can occur in the poly-ReST-mode."
-  (remove-hook 'prog-mode-hook   #'whitespace-mode)
-  (remove-hook 'python-mode-hook #'mmm-mode))
+  (remove-hook 'prog-mode-hook   #'whitespace-mode t)
+  (remove-hook 'python-mode-hook #'mmm-mode        t)
+  (remove-hook 'prog-mode-hook   #'flycheck-mode   t))
 
 (provide 'poly-rest-mode)
 
