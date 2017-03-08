@@ -31,6 +31,8 @@ cd $objects_dir/llvm
 mkdir -p build
 cd build
 cmake -G "Unix Makefiles" \
+      -DCMAKE_C_COMPILER=${CC:-gcc} \
+      -DCMAKE_CXX_COMPILER=${CXX:-g++} \
       -DCMAKE_INSTALL_PREFIX=$local_prefix_dir \
       -DCMAKE_BUILD_TYPE=Release ..
 make -j4
