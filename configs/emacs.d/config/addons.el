@@ -1021,6 +1021,27 @@ When `ERC' exits the SSH process is killed from `erc-kill-server-hook'."
   (setq wdired-allow-to-change-permissions t))
 
 
+(use-package semantic
+  :defer t
+  :disabled
+  :init
+  (add-hook 'prog-mode-hook #'semantic-mode)
+  :config
+  (setq semantic-idle-scheduler-idle-time 60)
+  (add-to-list 'semantic-default-submodes 'global-semantic-idle-summary-mode))
+
+(use-package srecode/map
+  :defer t
+  :disabled
+  :init
+  (add-hook 'semantic-mode-hook #'srecode-minor-mode)
+  :config
+  (setq srecode-insert-ask-variable-method 'field)
+  (let ((tdir (file-name-as-directory
+               (expand-file-name "templates" user-emacs-directory))))
+    (add-to-list 'srecode-map-load-path tdir 'append)))
+
+
 ;; Install various major-mode packages and defer where it is possible.
 (use-package abc-mode          :ensure t :defer t)
 (use-package graphviz-dot-mode :ensure t :defer t)
