@@ -54,9 +54,9 @@ module load swdev
 module load util
 module load arm/rascdevkit/1.1.4
 module load ccache/ccache/3.1.4
-module load gnu/gdb/7.5          # No python scripting support.
+module load gnu/gdb/7.7          # No python scripting support.
 module load gnu/valgrind/3.8.1
-module load gnu/cmake/3.2.3
+module load gnu/cmake/3.5.2
 module load gnu/autoconf
 
 module load scons/scons/2.3.0
