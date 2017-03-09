@@ -941,6 +941,7 @@ When `ERC' exits the SSH process is killed from `erc-kill-server-hook'."
   (set-variable-in-hook shell-script-hook helm-dash-docsets '("Bash"))
   (set-variable-in-hook c-mode-hook       helm-dash-docsets '("C"))
   (set-variable-in-hook c++-mode-hook     helm-dash-docsets '("C++" "C"))
+  (set-variable-in-hook cmake-mode-hook   helm-dash-docsets '("CMake"))
   :config
   (define-key helm-map (kbd "C-h") #'backward-delete-char))
 
