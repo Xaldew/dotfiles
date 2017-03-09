@@ -71,7 +71,8 @@
 
 
 ;; Set up English spellchecking in text-modes and programming modes.
-(customize-set-variable 'ispell-dictionary "en")
+(setq ispell-dictionary "english")
+(setq ispell-local-dictionay "english")
 (add-hook 'prog-mode-hook #'flyspell-prog-mode)
 (add-hook 'text-mode-hook #'flyspell-mode)
 
