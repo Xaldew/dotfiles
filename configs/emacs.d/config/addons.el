@@ -1004,6 +1004,12 @@ When `ERC' exits the SSH process is killed from `erc-kill-server-hook'."
   (add-hook 'rust-mode-hook #'cargo-minor-mode))
 
 
+(use-package jenkins
+  :ensure t
+  :defer t
+  :functions jenkins)
+
+
 (use-package ruby-mode
   :defer t
   :config
