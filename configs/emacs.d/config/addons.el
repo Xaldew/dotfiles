@@ -1022,6 +1022,25 @@ When `ERC' exits the SSH process is killed from `erc-kill-server-hook'."
   (setq wdired-allow-to-change-permissions t))
 
 
+(use-package fortune
+  :defer t
+  :init
+  (setq fortune-dir "/usr/share/games/fortunes/")
+  (setq fortune-file (expand-file-name "wisdom" fortune-dir))
+
+  (defvar my-fortune-file (expand-file-name "fortunes" user-emacs-directory)
+    "My personal `fortune' file.")
+
+  (defun fortune-random ()
+    "Display a random `fortune'."
+    (interactive)
+    (let* ((sys (directory-files fortune-dir :full "^[^.]+$"))
+           (my  (and (file-exists-p my-fortune-file) my-fortune-file))
+           (all (append sys (list my)))
+           (n   (random (length all))))
+      (fortune (nth n all)))))
+
+
 (use-package semantic
   :defer t
   :disabled
