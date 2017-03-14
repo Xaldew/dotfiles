@@ -936,7 +936,7 @@ When `ERC' exits the SSH process is killed from `erc-kill-server-hook'."
   :pin melpa
   :defines (helm-dash-docsets)
   :init
-  (set-variable-in-hook python-mode-hook  helm-dash-docsets '("Python 3"))
+  (set-variable-in-hook python-mode-hook  helm-dash-docsets '("Python 3" "Matplotlib"))
   (set-variable-in-hook rust-mode-hook    helm-dash-docsets '("Rust"))
   (set-variable-in-hook shell-script-hook helm-dash-docsets '("Bash"))
   (set-variable-in-hook c-mode-hook       helm-dash-docsets '("C"))
