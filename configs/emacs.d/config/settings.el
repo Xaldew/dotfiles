@@ -184,10 +184,6 @@ Non-stop mode only stops the current thread."
 
 (defun my-gud-mode-hook ()
   "Personal hook used to initialize global GUD settings."
-  (define-key gud-minor-mode-map [f5] 'gud-step)
-  (define-key gud-minor-mode-map [f6] 'gud-next)
-  (define-key gud-minor-mode-map [f7] 'gud-up)
-  (define-key gud-minor-mode-map [f8] 'gud-down)
   (define-key gud-minor-mode-map [f9] 'gdb-many-windows))
 (add-hook 'gud-mode-hook #'my-gud-mode-hook)
 (add-hook 'gud-mode-hook #'gud-tooltip-mode)
@@ -205,13 +201,6 @@ Non-stop mode only stops the current thread."
 (add-hook 'gdb-locals-mode-hook      #'my-gdb-parent-mode-hook)
 (add-hook 'gdb-registers-mode-hook   #'my-gdb-parent-mode-hook)
 
-
-(defun my-help-mode-hook ()
-  "Personal hook for `help-mode'."
-  (define-key help-mode-map [f5] #'describe-symbol)
-  (define-key help-mode-map [f7] #'describe-function)
-  (define-key help-mode-map [f9] #'describe-mode))
-(add-hook 'help-mode-hook #'my-help-mode-hook)
 
 ;; Search more extensively when using apropos.
 (setq apropos-do-all t)
