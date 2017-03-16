@@ -256,22 +256,4 @@ function to call."
 (setq shr-color-visible-luminance-min 70)
 
 
-;; Add timestamps to *Messages*.
-(defun current-time-microseconds ()
-  "Retrieve the current time in micro-seconds."
-  (let* ((now (current-time)))
-    (concat (format-time-string "[%Y-%m-%dT%T.%6N]" now))))
-
-(defun my-timestamper (fmt &rest ignored)
-  "Add a timestamp before the `message' arguments are IGNORED."
-  (with-current-buffer "*Messages*"
-    (let ((deactivate-mark nil)
-          (inhibit-read-only t))
-      (goto-char (point-max))
-      (unless (bolp) (newline))
-      (insert (current-time-microseconds) " "))))
-
-;; (advice-add 'message :before #'my-timestamper)
-
-
 ;;; settings.el ends here
