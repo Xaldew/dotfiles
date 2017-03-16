@@ -7,8 +7,7 @@
 ;;; Code:
 
 (eval-when-compile
-  (require 'gud)
-  (require 'org))
+  (require 'gud))
 
 ;; Truncate lines by default.
 (setq-default truncate-lines t)
@@ -220,24 +219,6 @@ Non-stop mode only stops the current thread."
 (setq line-number-mode t)
 (setq column-number-mode t)
 (add-hook 'after-init-hook 'global-linum-mode)
-
-
-;; Add org-mode configuration.
-(defun my-start-org-mode (prefix ch)
-  "Start `org-mode'.
-
-PREFIX arguments are still usable with this command.  They are
-simply passed on to the corresponding function.
-
-This function prompts for a character CH to decide which org-mod
-function to call."
-  (interactive "P\ncORG: <l:link, a:agenda, c:capture, b:switchb>")
-  (cond ((= ch ?l) (org-store-link prefix))
-        ((= ch ?a) (org-agenda prefix))
-        ((= ch ?c) (let ((current-prefix-arg prefix))
-                     (call-interactively 'org-capture)))
-        ((= ch ?b) (org-switchb prefix))))
-(global-set-key (kbd "C-c o") 'my-start-org-mode)
 
 
 ;; GNUS settings.

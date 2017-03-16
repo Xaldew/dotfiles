@@ -301,7 +301,20 @@ _._: Clean directory   ^ ^                  _ha_: Hide all
   (define-key dired-mode-map [remap dired-summary] 'hydra-dired/body))
 
 
-;; Gnus addons configurations.
+;; Org hydra configuration.
+(use-package org
+  :defer t
+  :init
+  (defhydra hydra-org (:color blue)
+    "Org"
+    ("l" org-store-link "Links")
+    ("a" org-agenda     "Agenda")
+    ("c" org-capture    "Capture")
+    ("b" org-switchb    "Switch"))
+  (global-set-key (kbd "C-c o") #'hydra-org/body))
+
+
+;; Gnus hydra configuration.
 (use-package message
   :defer t
   :config
