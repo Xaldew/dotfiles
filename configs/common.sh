@@ -171,6 +171,14 @@ extract()
 }
 
 
+rm_dead_links()
+{
+    # Delete dead symlinks recursively from the given or the current directory.
+    start=${1:-.}
+    find ${start} -type l -exec sh -c 'for x; do [ -e "$x" ] || rm "$x"; done' _ {} +
+}
+
+
 dls()
 {
     # List directories.
