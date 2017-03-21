@@ -1,28 +1,34 @@
-;;; format-minor-mode.el --- Highlighting format strings. -*- lexical-binding: t -*-
+;;; hl-formats.el --- Highlighting format strings. -*- lexical-binding: t -*-
 ;;
 ;;; Commentary:
-;; Minor mode for displaying highlights for Python-like format strings.
+;; Minor mode for displaying highlights for output formatting strings.
+;;
+;; Currently supports:
+;;
+;; - `printf', `scanf' %-style formts.
+;; - Most `Rust' and `Python' style formats.
+;; - Some Shell script variable expansions and expressions.
 ;;
 ;;; Code:
 
 (require 'font-lock)
 
 
-(defface format-minor-format-face
+(defface hl-formats-format-face
   '((t . (:inherit font-lock-regexp-grouping-backslash
          :foreground "OrangeRed1")))
   "Font-lock face used to highlight printf format specifiers."
   :group 'font-lock-faces)
 
 
-(defface format-minor-printf-face
+(defface hl-formats-printf-face
   '((t . (:inherit font-lock-regexp-grouping-backslash
          :foreground "OrangeRed1")))
   "Font-lock face used to highlight printf format specifiers."
   :group 'font-lock-faces)
 
 
-(defconst format-minor--format-rx
+(defconst hl-formats--format-rx
   (rx "{"
       (? (group                         ; Field-name.
           (? (group (+ word)))
@@ -46,7 +52,7 @@
   "Regular expression to match Python-style format specifiers.")
 
 
-(defconst format-minor--printf-rx
+(defconst hl-formats--printf-rx
   (rx "%"
       (? (group (+ digit) "$"))
       (* (in "-" "+" "'" " " "#" "*"))
@@ -64,7 +70,7 @@
   "Regular expression to match printf-style format specifiers.")
 
 
-(defconst format-minor--sh-var-rx
+(defconst hl-formats--sh-var-rx
   (rx (group-n 1 "$")
       (or
        (group-n 2 (in "0-9$*@#!?_-"))
@@ -75,10 +81,10 @@
             (? (in "*@"))
             "}")
        (and "{#" (group-n 2 (+ (in "a-z" "A-Z" "0-9" "_"))) "}")))
-  "Regular expression to match shell-variables.")
+  "Regular expression to match shell variables.")
 
 
-(defconst format-minor--sh-array-rx
+(defconst hl-formats--sh-array-rx
   (rx (group-n 1 "$")
       (or
        (and "{#"
@@ -91,7 +97,7 @@
   "Regular expression to match shell array expressions.")
 
 
-(defconst format-minor--sh-param-exp-rx
+(defconst hl-formats--sh-param-exp-rx
   (rx (group-n 1 "$")
       "{"
       (group-n 2 (+ (in "a-z" "A-Z" "0-9" "_"))) (? "[" (+? nonl) "]")
@@ -101,7 +107,7 @@
   "Regular expression to match parameter expansion commands.")
 
 
-(defconst format-minor--sh-string-sub-rx
+(defconst hl-formats--sh-string-sub-rx
   (rx (group-n 1 "$")
       "{"
       (group-n 2 (+ (in "a-z" "A-Z" "0-9" "_"))) (? "[" (+? nonl) "]")
@@ -113,9 +119,9 @@
   "Regular expression to match string substitution commands.")
 
 
-(defmacro format-minor--create-matcher (name regexp)
+(defmacro hl-formats--create-matcher (name regexp)
   "Create a inside-string font-lock matcher with NAME for REGEXP."
-  (let ((fname (intern (format "format-minor--%s-matcher" name))))
+  (let ((fname (intern (format "hl-formats--%s-matcher" name))))
     `(defun ,fname (end)
        "Search for format specifiers within strings up to END."
        (let ((pos)
@@ -125,77 +131,77 @@
          pos))))
 
 
-(format-minor--create-matcher "printf" format-minor--printf-rx)
-(format-minor--create-matcher "format" format-minor--format-rx)
-(format-minor--create-matcher "sh-var"        format-minor--sh-var-rx)
-(format-minor--create-matcher "sh-array"      format-minor--sh-array-rx)
-(format-minor--create-matcher "sh-param-exp"  format-minor--sh-param-exp-rx)
-(format-minor--create-matcher "sh-string-sub" format-minor--sh-string-sub-rx)
+(hl-formats--create-matcher "printf" hl-formats--printf-rx)
+(hl-formats--create-matcher "format" hl-formats--format-rx)
+(hl-formats--create-matcher "sh-var"        hl-formats--sh-var-rx)
+(hl-formats--create-matcher "sh-array"      hl-formats--sh-array-rx)
+(hl-formats--create-matcher "sh-param-exp"  hl-formats--sh-param-exp-rx)
+(hl-formats--create-matcher "sh-string-sub" hl-formats--sh-string-sub-rx)
 
 
-(defvar format-minor--python-matchers
-  '((format-minor--format-matcher (0 'format-minor-format-face prepend))
-    (format-minor--printf-matcher (0 'format-minor-printf-face prepend)))
+(defvar hl-formats--python-matchers
+  '((hl-formats--format-matcher (0 'hl-formats-format-face prepend))
+    (hl-formats--printf-matcher (0 'hl-formats-printf-face prepend)))
   "Font-lock keyword matchers for `python-mode'.")
 
 
-(defvar format-minor--c/c++-matchers
-  '((format-minor--printf-matcher (0 'format-minor-printf-face prepend)))
+(defvar hl-formats--c/c++-matchers
+  '((hl-formats--printf-matcher (0 'hl-formats-printf-face prepend)))
   "Font-lock keyword matchers for `c-mode' and `c++-mode'.")
 
 
-(defvar format-minor--rust-matchers
-  '((format-minor--format-matcher (0 'format-minor-format-face prepend)))
+(defvar hl-formats--rust-matchers
+  '((hl-formats--format-matcher (0 'hl-formats-format-face prepend)))
   "Font-lock keyword matchers for `rust-mode'.")
 
 
-(defvar format-minor--shell-matchers
-  '((format-minor--sh-var-matcher
-     (1 'format-minor-format-face prepend)
-     (2 'format-minor-format-face prepend))
-    (format-minor--sh-array-matcher
-     (1 'format-minor-format-face prepend)
-     (2 'format-minor-format-face prepend))
-    (format-minor--sh-param-exp-matcher
-     (1 'format-minor-format-face prepend)
-     (2 'format-minor-format-face prepend))
-    (format-minor--sh-string-sub-matcher
-     (1 'format-minor-format-face prepend)
-     (2 'format-minor-format-face prepend)))
+(defvar hl-formats--shell-matchers
+  '((hl-formats--sh-var-matcher
+     (1 'hl-formats-format-face prepend)
+     (2 'hl-formats-format-face prepend))
+    (hl-formats--sh-array-matcher
+     (1 'hl-formats-format-face prepend)
+     (2 'hl-formats-format-face prepend))
+    (hl-formats--sh-param-exp-matcher
+     (1 'hl-formats-format-face prepend)
+     (2 'hl-formats-format-face prepend))
+    (hl-formats--sh-string-sub-matcher
+     (1 'hl-formats-format-face prepend)
+     (2 'hl-formats-format-face prepend)))
   "Font-lock keyword matchers for `sh-script-mode'.")
 
 
-(defvar format-minor--keywords-alist
-  `((python-mode . ,format-minor--python-matchers)
-    (c-mode      . ,format-minor--c/c++-matchers)
-    (c++-mode    . ,format-minor--c/c++-matchers)
-    (rust-mode   . ,format-minor--rust-matchers)
-    (sh-mode     . ,format-minor--shell-matchers))
+(defvar hl-formats--keywords-alist
+  `((python-mode . ,hl-formats--python-matchers)
+    (c-mode      . ,hl-formats--c/c++-matchers)
+    (c++-mode    . ,hl-formats--c/c++-matchers)
+    (rust-mode   . ,hl-formats--rust-matchers)
+    (sh-mode     . ,hl-formats--shell-matchers))
   "Keywords given to `font-lock-add-keywords' and `font-lock-remove-keywords'.")
 
 
-(defun format-minor--enable ()
+(defun hl-formats--enable ()
   "Enable additional format specifier highlighting."
-  (cl-loop for (mode . matchers) in format-minor--keywords-alist
+  (cl-loop for (mode . matchers) in hl-formats--keywords-alist
            do (font-lock-add-keywords mode matchers)))
 
 
-(defun format-minor--disable ()
+(defun hl-formats--disable ()
   "Disable the additional format specifier highlighting."
-  (cl-loop for (mode . matchers) in format-minor--keywords-alist
+  (cl-loop for (mode . matchers) in hl-formats--keywords-alist
            do (font-lock-remove-keywords mode matchers)))
 
 
-(define-minor-mode format-minor-mode
+(define-minor-mode hl-formats-mode
   "Provide extra highlighting of format specifiers inside strings."
   :group 'highlighting
   :lighter ""
   :global t
-  (if format-minor-mode
-      (format-minor--enable)
-    (format-minor--disable)))
+  (if hl-formats-mode
+      (hl-formats--enable)
+    (hl-formats--disable)))
 
 
-(provide 'format-minor-mode)
+(provide 'hl-formats)
 
-;;; format-minor-mode.el ends here
+;;; hl-formats.el ends here
