@@ -42,14 +42,14 @@ open()
 }
 
 
-my-shell()
+my_shell()
 {
     # Get your current shell
     ps | grep `echo $$` | awk '{ print $4 }'
 }
 
 
-swap-caps()
+swap_caps()
 {
     # Swap between a Vim friendly Caps == ESC and Emacs Caps == ctrl layout.
     # In practice, this swaps the X keyboard options: ctrl:nocaps and
@@ -93,7 +93,7 @@ mktmpfs()
 }
 
 
-pdf-merge()
+pdf_merge()
 {
     # Merge the listed files into a single pdf called merged.pdf.
     gs \
@@ -106,7 +106,7 @@ pdf-merge()
 }
 
 
-pdf-extract()
+pdf_extract()
 {
     # Function to extract a range of pdf-pages using ghostscript.
     # This function uses 3 arguments:
@@ -127,7 +127,7 @@ pdf-extract()
 }
 
 
-pdf-gray()
+pdf_gray()
 {
     # Function to convert a PDF to another grayscale PDF.
     # this function uses 3 arguments:
@@ -171,7 +171,7 @@ extract()
 }
 
 
-dls ()
+dls()
 {
     # List directories.
     dirs=`ls -l --color | grep "^d" | awk '{ print $9 }' | tr -d "/"`
@@ -264,7 +264,7 @@ find_dropbox()
 }
 
 
-git-dl()
+git_dl()
 {
     # Download a single file from a git repository.
     # In most cases it may be more suitable to use wget or curl instead.
@@ -297,7 +297,7 @@ git-dl()
 }
 
 
-grep-find()
+grep_find()
 {
     # Grep for things from files found by find.
     find . -type f -exec grep --color -nH -e "$@" {} +
@@ -391,19 +391,19 @@ add_all_subtitles()
 ## Emacs and emacsclient aliases and utility functions.
 
 # Terminal Emacsclient.
-nx-emacs-client()
+nx_emacs_client()
 {
     # Start the Emacs client toward the default Emacs daemon socket.
     # Append a new socket name to the arguments to use a different one.
     emacsclient --tty --socket-name=default --alternate-editor="" "$@"
 }
-alias em="nx-emacs-client"
-alias ema="nx-emacs-client"
-alias emac="nx-emacs-client"
-alias emas="nx-emacs-client"
-alias emasc="nx-emacs-client"
-alias emascs="nx-emacs-client"
-alias eam="nx-emacs-client"
+alias em="nx_emacs_client"
+alias ema="nx_emacs_client"
+alias emac="nx_emacs_client"
+alias emas="nx_emacs_client"
+alias emasc="nx_emacs_client"
+alias emascs="nx_emacs_client"
+alias eam="nx_emacs_client"
 
 # Start new non-client nx-Emacs instances.
 alias nem="emacs --no-window-system"
@@ -416,59 +416,59 @@ alias nemasc="emacs --no-window-system"
 
 
 # Graphical Emacsclient.
-graphical-emacs-client()
+graphical_emacs_client()
 {
     # Start the Emacs client toward the default Emacs daemon socket.
     # Append a new socket name to the arguments to use a different one.
     emacsclient --create-frame --socket-name=default --alternate-editor="" "$@" &
 }
-alias ge="graphical-emacs-client"
-alias gem="graphical-emacs-client"
-alias gema="graphical-emacs-client"
-alias gemac="graphical-emacs-client"
-alias gemacs="graphical-emacs-client"
+alias ge="graphical_emacs_client"
+alias gem="graphical_emacs_client"
+alias gema="graphical_emacs_client"
+alias gemac="graphical_emacs_client"
+alias gemacs="graphical_emacs_client"
 
 
 # Start new non-client graphical-Emacs instances.
-new-graphical-emacs()
+new_graphical_emacs()
 {
     \emacs --maximized --no-desktop "$@" &
 }
-alias ngem="new-graphical-emacs"
-alias ngema="new-graphical-emacs"
-alias ngeam="new-graphical-emacs"
-alias ngemac="new-graphical-emacs"
-alias ngemas="new-graphical-emacs"
-alias ngemacs="new-graphical-emacs"
-alias ngemasc="new-graphical-emacs"
+alias ngem="new_graphical_emacs"
+alias ngema="new_graphical_emacs"
+alias ngeam="new_graphical_emacs"
+alias ngemac="new_graphical_emacs"
+alias ngemas="new_graphical_emacs"
+alias ngemacs="new_graphical_emacs"
+alias ngemasc="new_graphical_emacs"
 
 
 # Pipe stdout to temporary file and open that in an Emacs buffer.
-nx-emacspipe()
+nx_emacspipe()
 {
-    tmp=`mktemp` && cat > $tmp && nx-emacs-client $tmp ; rm $tmp
+    tmp=`mktemp` && cat > $tmp && nx_emacs_client $tmp ; rm $tmp
 }
-alias ep="nx-emacspipe"
-alias emp="nx-emacspipe"
-graphical-emacspipe()
+alias ep="nx_emacspipe"
+alias emp="nx_emacspipe"
+graphical_emacspipe()
 {
-    tmp=`mktemp` && cat > $tmp && graphical-emacs-client $tmp ; rm $tmp
+    tmp=`mktemp` && cat > $tmp && graphical_emacs_client $tmp ; rm $tmp
 }
-alias gep="graphical-emacspipe"
-alias gemp="graphical-emacspipe"
+alias gep="graphical_emacspipe"
+alias gemp="graphical_emacspipe"
 
 
 # Start a new Emacs daemon.
-emacs-daemon()
+emacs_daemon()
 {
-    server=${1-default}
+    server=${1:-default}
     shift
     \emacs --daemon=$server "$@"
 }
-alias emd=emacs-daemon
-alias emad=emacs-daemon
-alias emacd=emacs-daemon
-alias emacsd=emacs-daemon
+alias emd=emacs_daemon
+alias emad=emacs_daemon
+alias emacd=emacs_daemon
+alias emacsd=emacs_daemon
 
 
 ## Miscellaneous aliases.
