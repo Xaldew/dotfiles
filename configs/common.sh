@@ -179,6 +179,14 @@ rm_dead_links()
 }
 
 
+rm_empty_files()
+{
+    # Delete empty files recursively from the given or current directory.
+    start=${1:-.}
+    find ${start} -type f -empty -delete
+}
+
+
 dls()
 {
     # List directories.
