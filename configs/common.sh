@@ -272,6 +272,18 @@ find_dropbox()
 }
 
 
+git_root_directory()
+{
+    # Go to the git root directory.
+    git_root=`git rev-parse --show-toplevel 2> /dev/null`
+    if [ -n "$git_root" ]; then
+        cd $git_root
+    else
+        printf "WARN: Not in a git directory.\n"
+    fi
+}
+
+
 git_dl()
 {
     # Download a single file from a git repository.
@@ -527,6 +539,11 @@ alias latexmk="latexmk -pdf"
 alias valgrind="valgrind --track-origins=yes --leak-check=full --show-reachable=yes"
 alias helgrind="\valgrind --tool=helgrind"
 alias qemu-arm="qemu-arm -L /usr/arm-linux-gnueabihf"
+
+alias cdgr="git_root_directory"
+alias gitrd="git_root_directory"
+alias grd="git_root_directory"
+alias git_root="git_root_directory"
 
 alias tgi=git
 alias gti=git
