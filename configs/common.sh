@@ -517,10 +517,6 @@ fi
 alias sshpw="ssh -o PubKeyAuthentication=No"
 alias ssh-lth="ssh dt09gw1@login.student.lth.se"
 
-alias ..='cd ..'
-alias ....='cd ../..'
-alias ......='cd ../../..'
-
 alias sl=ls
 alias ll="ls -lFh"
 alias la="ls -Alh"
