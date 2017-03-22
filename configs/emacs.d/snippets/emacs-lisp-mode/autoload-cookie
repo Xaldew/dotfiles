@@ -1,0 +1,8 @@
+# -*- mode: snippet -*-
+# Insert an Emacs Lisp autoload cookie.
+# name: autoload-cookie
+# key: ac
+# type: snippet
+# contributer: Gustaf Waldemarson
+# --
+;;;###autoload$0
