@@ -94,3 +94,6 @@ Send a message with PRIORITY to Growl with the TITLE and MESSAGE."
   (require 'server)
   (unless (server-running-p)
     (server-start)))
+
+
+;;; windows.el ends here
