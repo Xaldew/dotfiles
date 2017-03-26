@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+# Personal completion functions.
+
+for bc in ${HOME}/.bash_completion.d/* ; do
+    source ${bc}
+done

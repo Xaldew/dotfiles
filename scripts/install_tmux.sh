@@ -30,6 +30,11 @@ if [ ! -d $objects_dir/tmux ]; then
     git checkout tags/2.1
 fi
 
+if [ ! -d $objects_dir/tmux-bash-completion ]; then
+    cd $objects_dir
+    git clone https://github.com/imomaliev/tmux-bash-completion
+fi
+
 cd $objects_dir/tmux
 sh autogen.sh
 
