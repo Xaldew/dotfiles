@@ -1088,7 +1088,10 @@ When `ERC' exits the SSH process is killed from `erc-kill-server-hook'."
 (use-package dts-mode          :ensure t :defer t :pin melpa)
 (use-package go-mode           :ensure t :defer t :pin melpa)
 (use-package yaml-mode         :ensure t :defer t :pin melpa)
-(use-package toml-mode         :ensure t :defer t)
+(use-package toml-mode
+  :ensure t
+  :defer t
+  :mode (("Cargo.lock\\'" . toml-mode)))
 
 
 ;; Add various themes.
