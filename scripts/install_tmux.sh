@@ -45,3 +45,4 @@ env LIBEVENT_CFLAGS="-I${local_prefix_dir}/include" \
     --mandir=$local_prefix_dir/share/man
 make -j4
 make install
+cp -f $objects_dir/tmux-bash-completion/completions/tmux $HOME/.bash_completion.d/tmux-bash-completion.sh

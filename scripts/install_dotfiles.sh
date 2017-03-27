@@ -27,8 +27,8 @@ create_linkfarm()
 ln -fs $dotfiles_dir/configs/inputrc $HOME/.inputrc
 ln -fs $dotfiles_dir/configs/bash_aliases $HOME/.bash_aliases
 ln -fs $dotfiles_dir/configs/bash_profile $HOME/.bash_profile
-ln -fs $dotfiles_dir/configs/bash_profile $HOME/.bash_completion
-mkdir $HOME/.bash_completion.d
+ln -fs $dotfiles_dir/configs/bash_completion $HOME/.bash_completion
+mkdir -p $HOME/.bash_completion.d
 
 
 # Install git and setup user gitconfig and gitignore.

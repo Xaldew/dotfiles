@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 # Personal completion functions.
 
-for bc in ${HOME}/.bash_completion.d/* ; do
+for bc in ${HOME}/.bash_completion.d/*; do
+    test -f "${bc}" || continue
     source ${bc}
 done
