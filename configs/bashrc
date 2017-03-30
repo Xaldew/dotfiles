@@ -64,9 +64,9 @@ fi
 HISTSIZE=10000
 HISTFILESIZE=20000
 
-# Append to the history file; don't overwrite it.
-shopt -s histappend
-shopt -s cmdhist
+shopt -s histappend    # Append to the history file; don't overwrite it.
+shopt -s cmdhist       # Attempt to save multi-line commands as a single entry.
+shopt -s lithist       # Attempt to save multi-line commands to history file.
 
 # Avoid duplicates and erase if found.
 export HISTCONTROL=erasedups
