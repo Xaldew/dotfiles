@@ -42,23 +42,9 @@ fi
 
 #################################################################
 
-# Set XDG_CONFIG_HOME variable if not set.
-if [ -n "$XDG_CONFIG_HOME" -a -d "$HOME/.config" ]; then
-    export XDG_CONFIG_HOME=$HOME/.config
-fi
 
 # Set the terminal to ignore filename completion for more suffixes.
 export FIGNORE=$FIGNORE:svn:.o:.~:\#*\#:.pyc:.pyo
-
-
-# Setup emacs as the default editor.
-if [ "${EDITOR#*emacs}" = "${EDITOR}" ]; then
-    export EDITOR=nx-emacs-client
-fi
-if [ "${VISUAL#*emacs}" = "${VISUAL}" ]; then
-    export VISUAL=graphical-emacs-client
-fi
-
 
 # Change bash-history settings.
 HISTSIZE=10000
@@ -95,22 +81,3 @@ source_if $dotfiles_dir/scripts/yank_readline.sh
 source_if $local_prefix_dir/bin/bashmarks.sh
 source_if $local_prefix_dir/bin/git-completion.bash
 source_if $objects_dir/autoenv/activate.sh
-
-
-# Colors for less and man pages.
-export LESS="-r"
-export LESSOPEN="| pygmentize -g -f terminal256 -O full,style=tango %s"
-export LESS_TERMCAP_mb=$'\E[01;31m'       # begin blinking
-export LESS_TERMCAP_md=$'\E[01;38;5;74m'  # begin bold
-export LESS_TERMCAP_me=$'\E[0m'           # end mode
-export LESS_TERMCAP_se=$'\E[0m'           # end standout-mode
-export LESS_TERMCAP_so=$'\E[38;5;246m'    # begin standout-mode - info box
-export LESS_TERMCAP_ue=$'\E[0m'           # end underline
-export LESS_TERMCAP_us=$'\E[04;38;5;146m' # begin underline
-
-# Add extra man-page directories.
-export MANPATH=$local_prefix_dir/share/man:$MANPATH
-
-# Add GNU global tags configuration.
-export GTAGSCONF="${local_prefix_dir}/share/gtags/gtags.conf"
-export GTAGSLABEL=pygments

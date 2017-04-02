@@ -560,3 +560,40 @@ alias snv=svn
 alias xfce-shortcuts="xfconf-query -c xfce4-keyboard-shortcuts -l -v | \
 cut -d'/' -f4 | awk '{printf \"%-30s\", \$2 ; print \"\\t\" \$1 }' | \
 sort | uniq"
+
+
+# Set a number of common variables.
+
+## Set XDG_CONFIG_HOME variable if not set.
+if [ -n "$XDG_CONFIG_HOME" -a -d "$HOME/.config" ]; then
+    export XDG_CONFIG_HOME=$HOME/.config
+fi
+
+## Setup Emacs as the default editor.
+if [ "${EDITOR#*emacs}" = "${EDITOR}" ]; then
+    export EDITOR=nx_emacs_client
+fi
+if [ "${VISUAL#*emacs}" = "${VISUAL}" ]; then
+    export VISUAL=graphical_emacs_client
+fi
+
+# Colors for less and man pages.
+export LESS="-r"
+export LESSOPEN="| pygmentize -g -f terminal256 -O full,style=tango %s"
+export LESS_TERMCAP_mb=$'\E[01;31m'       # begin blinking
+export LESS_TERMCAP_md=$'\E[01;38;5;74m'  # begin bold
+export LESS_TERMCAP_me=$'\E[0m'           # end mode
+export LESS_TERMCAP_se=$'\E[0m'           # end standout-mode
+export LESS_TERMCAP_so=$'\E[38;5;246m'    # begin standout-mode - info box
+export LESS_TERMCAP_ue=$'\E[0m'           # end underline
+export LESS_TERMCAP_us=$'\E[04;38;5;146m' # begin underline
+
+# Add extra man-page directories.
+export MANPATH=$local_prefix_dir/share/man:$MANPATH
+
+# Add GNU global tags configuration.
+if command_exists global; then
+    export GTAGSCONF="${local_prefix_dir}/share/gtags/gtags.conf"
+    export GTAGSLABEL=pygments
+    export LESSGLOBALTAGS=global
+fi

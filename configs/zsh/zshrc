@@ -52,25 +52,12 @@ autoload -U colors && colors
 [ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
 
 # Source common definitions and utilities.
-if [ -f "$dotfiles_dir/config/common.sh" ]; then
-    . "$dotfiles_dir/config/common.sh"
-fi
-
-# Set XDG_CONFIG_HOME variable if not set.
-if [ -n "$XDG_CONFIG_HOME" -a -d "$HOME/.config" ]; then
-    export XDG_CONFIG_HOME=$HOME/.config
+if [ -f "$dotfiles_dir/configs/common.sh" ]; then
+    . "$dotfiles_dir/configs/common.sh"
 fi
 
 # Set the terminal to ignore filename completion for more suffixes.
 export FIGNORE="$FIGNORE:.svn:.o:.~:\#*\#:.pyc::.pyo"
-
-# Setup emacs as the default editor.
-if [[ ! $EDITOR =~ .*emacs.* ]]; then
-    export EDITOR=nx-emacs-client
-fi
-if [[ ! $VISUAL =~ .*emacs.* ]]; then
-    export VISUAL=graphical-emacs-client
-fi
 
 
 # Add useful bash specific shell-functions.
@@ -90,7 +77,3 @@ bindkey -M menuselect '^M' .accept-line
 
 # Remove zprezto rm alias.
 alias rm=rm
-
-# Add GNU global tags configuration.
-export GTAGSCONF="${local_prefix_dir}/share/gtags/gtags.conf"
-export GTAGSLABEL=pygments
