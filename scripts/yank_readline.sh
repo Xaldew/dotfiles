@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 # Utilities for integrating readline and the X clipboards.
 
-# Verify that xclip is available, and that bash is at least version 4.
-if command -v anyclip > /dev/null 2>&1 && [ $BASH_VERSINFO -ge 4 ]; then
+# Verify that `anyclip` is available, and that bash is at least version 4.
+if command -v anyclip > /dev/null 2>&1 && [ ${BASH_VERSINFO:-0} -ge 4 ]; then
 
     function _cli_discard()
     {
@@ -33,4 +33,42 @@ if command -v anyclip > /dev/null 2>&1 && [ $BASH_VERSINFO -ge 4 ]; then
 	bind -m emacs -x '"\ek": _cli_kill'
 	bind -m emacs -x '"\ey": _cli_yank'
     fi
+
+fi
+
+
+if command -v anyclip > /dev/null 2>&1 && [ -n "${ZSH_VERSION}" ]; then
+
+    anyclip-copy-region-as-kill()
+    {
+        zle copy-region-as-kill
+        print -rn $CUTBUFFER | anyclip
+    }
+    anyclip-kill-region()
+    {
+        zle kill-region
+        print -rn $CUTBUFFER | anyclip
+    }
+    anyclip-kill-line()
+    {
+        zle kill-line
+        print -rn $CUTBUFFER | anyclip
+    }
+    anyclip-yank()
+    {
+        CUTBUFFER=$(anypaste)
+        zle yank
+    }
+
+    zle -N anyclip-copy-region-as-kill
+    zle -N anyclip-kill-region
+    zle -N anyclip-kill-line
+    zle -N anyclip-yank
+    if [ -z "$INSIDE_EMACS" ]; then
+        bindkey -e '\ew' anyclip-copy-region-as-kill
+        bindkey -e '\eu' anyclip-kill-region
+        bindkey -e '\ek' anyclip-kill-line
+        bindkey -e '\ey' anyclip-yank
+    fi
+
 fi
