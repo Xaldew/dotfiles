@@ -33,6 +33,15 @@ base_url=https://raw.githubusercontent.com/git/git/master/contrib/completion/
 	 --output-document=$local_prefix_dir/bin/git-completion.bash
 ) &
 
+# Install Bash-it.
+(
+    url=https://github.com/Bash-it/bash-it.git
+    mkdir -p ${XDG_CONFIG_HOME}
+    if [ ! -d ${XDG_CONFIG_HOME}/bash_it ]; then
+        git clone --depth=1 ${url} ${XDG_CONFIG_HOME}/bash_it
+    fi
+) &
+
 # Install autoenv.
 (
     url=git://github.com/kennethreitz/autoenv.git
@@ -46,8 +55,8 @@ base_url=https://raw.githubusercontent.com/git/git/master/contrib/completion/
 
 # Install HG prompt.
 if command -v hg > /dev/null 2>&1 && [ ! -d $objects_dir/hg-prompt ]; then
-    hg --quiet clone \
-       http://bitbucket.org/sjl/hg-prompt $objects_dir/hg-prompt
+    url="http://bitbucket.org/sjl/hg-prompt"
+    hg --quiet clone ${url} $objects_dir/hg-prompt
 fi
 
 # Download and install GDB STL beautifiers.

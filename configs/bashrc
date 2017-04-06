@@ -81,3 +81,9 @@ source_if $dotfiles_dir/scripts/yank_readline.sh
 source_if $local_prefix_dir/bin/bashmarks.sh
 source_if $local_prefix_dir/bin/git-completion.bash
 source_if $objects_dir/autoenv/activate.sh
+
+# Setup Bash-it.
+export BASH_IT=${XDG_CONFIG_HOME}/bash_it
+export IRC_CLIENT='irssi'
+export SCM_CHECK=false
+source_if ${BASH_IT}/bash_it.sh
