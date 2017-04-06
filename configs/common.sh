@@ -583,7 +583,7 @@ sort | uniq"
 # Set a number of common variables.
 
 ## Set XDG_CONFIG_HOME variable if not set.
-if [ -n "$XDG_CONFIG_HOME" -a -d "$HOME/.config" ]; then
+if [ -z "$XDG_CONFIG_HOME" -a -d "$HOME/.config" ]; then
     export XDG_CONFIG_HOME=$HOME/.config
 fi
 
