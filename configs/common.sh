@@ -499,6 +499,24 @@ alias emacd=emacs_daemon
 alias emacsd=emacs_daemon
 
 
+emacs_hexl_open()
+{
+    # Open the files(s) in Emacs with `hexl-mode`.
+    cmd=${1:-"Missing Emacs command"}
+    files=""
+    shift
+    # Add extra quotes around all files to convert them to `elisp` strings.
+    for a in "$@"; do
+        files="${files} \"${a}\""
+    done
+    lisp="(dolist (f (list ${files})) (save-excursion (hexl-find-file f)))"
+    ${cmd} --eval "${lisp}"
+}
+alias hexl="emacs_hexl_open nx_emacs_client"
+alias ghexl="emacs_hexl_open graphical_emacs_client"
+alias nhexl="emacs_hexl_open nemacs"
+alias nghexl="emacs_hexl_open new_graphical_emacs"
+
 ## Miscellaneous aliases.
 
 # Enable color support of ls and also add handy aliases.
