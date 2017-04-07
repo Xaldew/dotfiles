@@ -39,6 +39,9 @@ base_url=https://raw.githubusercontent.com/git/git/master/contrib/completion/
     mkdir -p ${XDG_CONFIG_HOME}
     if [ ! -d ${XDG_CONFIG_HOME}/bash_it ]; then
         git clone --depth=1 ${url} ${XDG_CONFIG_HOME}/bash_it
+        ${XDG_CONFIG_HOME}/bash_it/install.sh --no-modify-config --silent
+        . ${XDG_CONFIG_HOME}/bash_it/bash_it.sh
+        bash-it enable completion svn tmux makefile
     fi
 ) &
 
