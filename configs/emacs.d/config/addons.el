@@ -777,6 +777,8 @@ and style."
   (defun my-org-hook ()
     "Personal hook for `org-mode'."
     (linum-mode -1))
+  (add-hook 'message-mode-hook #'orgtbl-mode)
+  (add-hook 'message-mode-hook #'orgstruct++-mode)
   (add-hook 'org-mode-hook #'my-org-hook)
   :config
   (define-key org-mode-map (kbd "M-h") #'backward-kill-word)
