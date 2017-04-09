@@ -9,7 +9,25 @@ tmpdir=$(mktemp --directory)
 url=https://github.com/adobe-fonts/source-code-pro/archive/1.017R.zip
 wget $url --output-document=$tmpdir/source_code_pro.zip --quiet
 unzip -q $tmpdir/source_code_pro -d $tmpdir
-cp $tmpdir/source-code-pro-1.017R/OTF/*.otf $HOME/.fonts
+mv $tmpdir/source-code-pro-1.017R/OTF/*.otf $HOME/.fonts
+
+# Download and install Fira Code.
+url=https://github.com/tonsky/FiraCode/releases/download/1.204/FiraCode_1.204.zip
+wget $url --output-document=$tmpdir/fira_code.zip --quiet
+unzip -q $tmpdir/fira_code.zip -d $tmpdir
+mv $tmpdir/ttf/*.ttf $HOME/.fonts
+
+# Download and install Monoid.
+url=https://raw.githubusercontent.com/larsenwork/monoid/2db2d289f4e61010dd3f44e09918d9bb32fb96fd/Monoid.zip
+wget $url --output-document=$tmpdir/fira_code.zip --quiet
+unzip -q $tmpdir/fira_code.zip -d $tmpdir
+mv $tmpdir/*.ttf $HOME/.fonts
+
+# Download and install Iosevka.
+url=https://github.com/be5invis/Iosevka/releases/download/v1.12.3/iosevka-pack-1.12.3.zip
+wget $url --output-document=$tmpdir/fira_code.zip --quiet
+unzip -q $tmpdir/fira_code.zip -d $tmpdir
+mv $tmpdir/*.ttc $HOME/.fonts
 
 # Remove the temporary directory.
 rm -rf $tmpdir
