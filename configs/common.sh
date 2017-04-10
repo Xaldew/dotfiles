@@ -29,7 +29,7 @@ contains()
 
 command_exists()
 {
-    command -v "$1" >/dev/null 2>&1
+    command -v "$1" 1> /dev/null 2> /dev/null
 }
 
 
@@ -229,15 +229,6 @@ unpatch()
     find . -name "*.orig" -o -name "*.rej"  -type f -exec rm {} \;
     find . -name "b" -type d -exec rm -rf {} \;
 }
-
-
-# Create a simple tree implementation if not already available.
-if ! command_exists tree; then
-    tree()
-    {
-	find "$@" -print | sed -e 's;[^/]*/;|____;g;s;____|; |;g'
-    }
-fi
 
 
 rand_int()
@@ -578,6 +569,11 @@ alias snv=svn
 alias xfce-shortcuts="xfconf-query -c xfce4-keyboard-shortcuts -l -v | \
 cut -d'/' -f4 | awk '{printf \"%-30s\", \$2 ; print \"\\t\" \$1 }' | \
 sort | uniq"
+
+# Create a simple tree implementation if not already available.
+if ! command_exists tree ; then
+    alias="find \"$@\" -print | sed -e 's;[^/]*/;|____;g;s;____|; |;g'"
+fi
 
 
 # Set a number of common variables.
