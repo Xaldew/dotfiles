@@ -271,6 +271,18 @@ find_dropbox()
 }
 
 
+terminfo()
+{
+    # See which installed terminals supports the given `terminfo` feature.
+    feature=${1-?"No terminfo feature."}
+    for tc in /usr/share/terminfo/?/*; do
+        if infocmp $(basename $tc) | grep -q "$feature"; then
+            printf "%s\n" ${tc}
+        fi
+    done
+}
+
+
 git_root_directory()
 {
     # Go to the git root directory.
