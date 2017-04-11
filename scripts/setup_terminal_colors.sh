@@ -2,27 +2,44 @@
 
 # Set the color support for the terminals.
 if [ -n "$force_colors" ]; then
-    # explicitly set the terminal to support 256 in e.g., Emacs.
+
+    # Explicitly set the terminal to support 256 in e.g., Emacs.
     export terminal_colors=${force_colors}
     export TERM="xterm-${force_colors}color"
+
 elif command -v tput 1> /dev/null 2>&1; then
 
-    if [ "$COLORTERM" = "gnome-terminal" ] ||
-	   [ "$COLORTERM" = "xfce4-terminal" ]; then
-        export TERM='xterm-256color'
-        export terminal_colors=256
-    elif [ "$OSTYPE" = "cygwin" ];then
-        export TERM='xterm-256color'
-        export terminal_colors=256
-    else
-        # We have color support; assume it's compliant with Ecma-48
-        # (ISO/IEC-6429).
-        export terminal_colors=$(tput -T$TERM colors 2> /dev/null)
-        if [ $? -ne 0 -o -z "$terminal_colors" ]; then
-            # Unknown terminal error.
-            export terminal_colors=0
-        fi
+    # We have color support; assume it's compliant with Ecma-48 (ISO/IEC-6429).
+    export terminal_colors=$(tput -T$TERM colors 2> /dev/null)
+    if [ $? -ne 0 -o -z "$terminal_colors" ]; then
+        # Unknown terminal error.
+        export terminal_colors=0
     fi
+
+elif [ "$OSTYPE" = "cygwin" ]; then
+
+    [ -z "$COLORTERM" ] || export COLORTERM=mintty-truecolor
+    export terminal_colors="truecolor"
+
+elif [ -n "$COLORTERM" ]; then
+
+    case "$COLORTERM" in
+        *24[Bb][Ii][Tt]* | *truecolor* )
+            export terminal_colors="truecolor"
+            ;;
+        *256color )
+            export terminal_colors="256"
+            export TERM="xterm-256color"
+            ;;
+        gnome-terminal )
+            export terminal_colors="truecolor"
+            export TERM=gnome
+            ;;
+        xfce4-terminal )
+            export terminal_colors="256"
+            export TERM=vte
+            ;;
+    esac
 
 else
     # Assume no colors are available.
