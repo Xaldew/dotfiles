@@ -23,11 +23,7 @@ fi
 # Compile and install the latest version of Emacs-25.
 cd $objects_dir/emacs
 make distclean
-git clean --force
-
-# To do a full clean-up, uncomment the following lines.
-# find -name *.elc -type f -print | xargs rm --force
-# find -name *.loaddefs.el* -type f -print | xargs rm --force
+git clean --force -x -d
 
 git checkout -B emacs-25 origin/emacs-25
 sh autogen.sh
