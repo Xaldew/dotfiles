@@ -24,7 +24,7 @@ elif [ "$OSTYPE" = "cygwin" ]; then
 elif [ -n "$COLORTERM" ]; then
 
     case "$COLORTERM" in
-        *24[Bb][Ii][Tt]* | *truecolor* )
+        *24[Bb][Ii][Tt] | *truecolor )
             export terminal_colors="truecolor"
             ;;
         *256color )
@@ -33,11 +33,11 @@ elif [ -n "$COLORTERM" ]; then
             ;;
         gnome-terminal )
             export terminal_colors="truecolor"
-            export TERM=gnome
+            export TERM="gnome-24bit"
             ;;
         xfce4-terminal )
             export terminal_colors="256"
-            export TERM=vte
+            export TERM="vte-24bit"
             ;;
     esac
 
