@@ -524,8 +524,9 @@ alias nghexl="emacs_hexl_open new_graphical_emacs"
 
 # Enable color support of ls and also add handy aliases.
 if [ -x /usr/bin/dircolors ]; then
-    test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || \
-	    eval "$(dircolors -b)"
+    test -r ~/.dircolors && \
+        eval "$(env TERM=xterm dircolors -b ~/.dircolors)" || \
+	    eval "$(env TERM=xterm dircolors -b)"
     # Add default grep options
     alias ls='ls --color=auto'
     alias dir='dir --color=auto'
