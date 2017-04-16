@@ -6,8 +6,8 @@
 ;;
 ;;; Code:
 
-(defun terminal-init-xfce4 ()
-  "Terminal initialization function for `xfce4-terminal'."
+(defun terminal-init-vte ()
+  "Terminal initialization function for `vte' based terminals."
   (tty-run-terminal-initialization (selected-frame) "xterm"))
 
 (defun terminal-init-gnome ()
