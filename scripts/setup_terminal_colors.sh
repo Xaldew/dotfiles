@@ -7,15 +7,6 @@ if [ -n "$force_colors" ]; then
     export terminal_colors=${force_colors}
     export TERM="xterm-${force_colors}color"
 
-elif command -v tput 1> /dev/null 2>&1; then
-
-    # We have color support; assume it's compliant with Ecma-48 (ISO/IEC-6429).
-    export terminal_colors=$(tput -T$TERM colors 2> /dev/null)
-    if [ $? -ne 0 -o -z "$terminal_colors" ]; then
-        # Unknown terminal error.
-        export terminal_colors=0
-    fi
-
 elif [ "$OSTYPE" = "cygwin" ]; then
 
     [ -z "$COLORTERM" ] || export COLORTERM=mintty-truecolor
@@ -37,9 +28,18 @@ elif [ -n "$COLORTERM" ]; then
             ;;
         xfce4-terminal )
             export terminal_colors="256"
-            export TERM="vte-24bit"
+            export TERM="vte-256color"
             ;;
     esac
+
+elif command -v tput 1> /dev/null 2>&1; then
+
+    # We have color support; assume it's compliant with Ecma-48 (ISO/IEC-6429).
+    export terminal_colors=$(tput -T$TERM colors 2> /dev/null)
+    if [ $? -ne 0 -o -z "$terminal_colors" ]; then
+        # Unknown terminal error.
+        export terminal_colors=0
+    fi
 
 else
     # Assume no colors are available.
