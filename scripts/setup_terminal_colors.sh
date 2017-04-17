@@ -20,15 +20,12 @@ elif [ -n "$COLORTERM" ]; then
             ;;
         *256color )
             export terminal_colors="256"
-            export TERM="xterm-256color"
             ;;
         gnome-terminal )
             export terminal_colors="truecolor"
-            export TERM="gnome-24bit"
             ;;
         xfce4-terminal )
             export terminal_colors="256"
-            export TERM="vte-256color"
             ;;
     esac
 
