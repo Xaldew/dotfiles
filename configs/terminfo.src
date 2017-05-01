@@ -1,0 +1,31 @@
+xterm-256color-italics|xterm with 256 colors and italics,
+  use=xterm-256color,
+  sitm=\E[3m, ritm=\E[23m,
+
+xterm-24bit|xterm with 24-bit direct color mode,
+  use=xterm-256color-italics,
+  setb24=\E[48;2;%p1%{65536}%/%d;%p1%{256}%/%{255}%&%d;%p1%{255}%&%dm,
+  setf24=\E[38;2;%p1%{65536}%/%d;%p1%{256}%/%{255}%&%d;%p1%{255}%&%dm,
+
+konsole-24bit|KDE console with 24-bit direct color support,
+  use=konsole-256color,
+  setb24=\E[48;2;%p1%{65536}%/%d;%p1%{256}%/%{255}%&%d;%p1%{255}%&%dm,
+  setf24=\E[38;2;%p1%{65536}%/%d;%p1%{256}%/%{255}%&%d;%p1%{255}%&%dm,
+
+gnome-24bit|GNOME terminal with xterm 256-colors,
+  use=gnome-256color,
+  setb24=\E[48;2;%p1%{65536}%/%d;%p1%{256}%/%{255}%&%d;%p1%{255}%&%dm,
+  setf24=\E[38;2;%p1%{65536}%/%d;%p1%{256}%/%{255}%&%d;%p1%{255}%&%dm,
+
+tmux|Tmux terminal multiplexer,
+  ritm=\E[23m, rmso=\E[27m, sitm=\E[3m, smso=\E[7m, Ms@,
+  use=xterm+tmux, use=screen,
+
+tmux-256color|Tmux with 256 colors,
+  use=xterm+256setaf, use=tmux,
+
+tmux-24bit|Tmux with 24-bit color support,
+  use=tmux-256color,
+  Tc,
+  setb24=\E[48;2;%p1%{65536}%/%d;%p1%{256}%/%{255}%&%d;%p1%{255}%&%dm,
+  setf24=\E[38;2;%p1%{65536}%/%d;%p1%{256}%/%{255}%&%d;%p1%{255}%&%dm,
