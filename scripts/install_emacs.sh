@@ -3,7 +3,7 @@
 
 # DEB: sudo apt-get install libmagickcore-dev libmagickwand-dev libgtk-3-dev
 # libjpeg-dev libgif-dev libtiff-dev libxpm-dev librsvg2-dev libdbus-1-dev
-# libgnutls-dev libxml2-dev
+# libgnutls-dev libxml2-dev gnutls-dev
 # RPM: sudo yum install libXpm-devel giflib-devel libtiff-devel
 
 if [ ! -d $objects_dir/emacs ]; then
@@ -20,12 +20,12 @@ else
 fi
 
 
-# Compile and install the latest version of Emacs-25.
+# Compile and install the latest master version of Emacs.
 cd $objects_dir/emacs
 make distclean
 git clean --force -x -d
 
-git checkout -B emacs-25 origin/emacs-25
+git checkout master
 sh autogen.sh
 ./configure \
     --prefix="$local_prefix_dir" \
