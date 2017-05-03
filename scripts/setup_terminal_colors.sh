@@ -9,7 +9,7 @@ if [ -n "$force_colors" ]; then
 
 elif [ "$OSTYPE" = "cygwin" ]; then
 
-    [ -z "$COLORTERM" ] || export COLORTERM=mintty-truecolor
+    [ -z "$COLORTERM" ] || export COLORTERM=mintty-24bit
     export terminal_colors="truecolor"
 
 elif [ -n "$COLORTERM" ]; then
