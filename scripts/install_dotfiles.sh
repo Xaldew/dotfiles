@@ -22,6 +22,10 @@ create_linkfarm()
     done
 }
 
+# Install common ssh configuration.
+mkdir --parents $HOME/.ssh
+cat $dotfiles_dir/configs/ssh_config >> $HOME/.ssh/config
+
 
 # Install all configuration files and plugins.
 ln -fs $dotfiles_dir/configs/inputrc $HOME/.inputrc

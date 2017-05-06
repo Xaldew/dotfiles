@@ -8,6 +8,11 @@ if [ "$OSTYPE" = "cygwin" ]; then
     {
         cygstart --action=runas $@
     }
+
+    if [ -z "$SSH_AUTH_SOCK" ]; then
+        eval $(ssh-agent) > /dev/null
+    fi
+
 fi
 if [ -f ~/.profile ]; then . ~/.profile; fi
 if [ -f ~/.bashrc ]; then . ~/.bashrc; fi
