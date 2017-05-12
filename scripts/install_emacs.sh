@@ -3,8 +3,10 @@
 
 # DEB: sudo apt-get install libmagickcore-dev libmagickwand-dev libgtk-3-dev
 # libjpeg-dev libgif-dev libtiff-dev libxpm-dev librsvg2-dev libdbus-1-dev
-# libgnutls-dev libxml2-dev gnutls-dev
+# libgnutls-dev libxml2-dev
 # RPM: sudo yum install libXpm-devel giflib-devel libtiff-devel
+
+simple_conf=${1}
 
 if [ ! -d $objects_dir/emacs ]; then
     git clone git://git.savannah.gnu.org/emacs.git $objects_dir/emacs
@@ -15,6 +17,8 @@ fi
 
 if [ "$OSTYPE" = "cygwin" ]; then
     conf=" --with-w32 "
+elif [ -n "$simple_conf" ]; then
+    conf=" --without-all "
 else
     conf=""
 fi
