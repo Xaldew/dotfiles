@@ -18,6 +18,12 @@
   "Terminal initialization function for `konsole'."
   (tty-run-terminal-initialization (selected-frame) "xterm"))
 
+(defun terminal-init-tmux ()
+  "Terminal initialization function for `tmux'."
+  (let ((xterm-extra-capabilities '(modifyOtherKeys)))
+    (tty-run-terminal-initialization (selected-frame) "xterm")))
+
+
 (provide 'terminals)
 
 ;;; terminals.el ends here
