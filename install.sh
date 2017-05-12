@@ -63,9 +63,6 @@ defaults()
     env["objects_dir"]="${objects_dir}"
     env["local_prefix_dir"]="${local_prefix_dir}"
     env["PROMPT_COMMAND"]="${PROMPT_COMMAND}"
-    if [ -n "$force_colors" ]; then
-        env["force_colors"]=${force_colors}
-    fi
 }
 
 install-packages()
