@@ -27,7 +27,7 @@ if [ ! -d $objects_dir/tmux ]; then
     cd $objects_dir
     git clone https://github.com/tmux/tmux.git tmux
     cd $objects_dir/tmux
-    git checkout tags/2.1
+    git checkout tags/2.3
 fi
 
 cd $objects_dir/tmux
