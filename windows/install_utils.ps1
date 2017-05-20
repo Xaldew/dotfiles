@@ -1,8 +1,12 @@
-function unzip($file, $dstPath)
+function unzip($file, $destination)
 {
+    New-Item -ItemType Directory -Force -Path $destination -WarningAction SilentlyContinue | Out-Null
     $shell = new-object -com shell.application
-    New-Item -ItemType Directory -Force -Path $dstPath -WarningAction SilentlyContinue | Out-Null
-    $shell.namespace($dstPath).copyhere($shell.namespace($file.FullName).items())
+    $zip = $shell.Namespace($file)
+    foreach ($item in $zip.items())
+    {
+        $shell.Namespace($destination).copyhere($item)
+    }
 }
 
 
