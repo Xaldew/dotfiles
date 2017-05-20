@@ -52,3 +52,10 @@ function pin-command([string]$dstExe, [string]$exeArgs)
     $pn = $sa.namespace($env:windir).parsename($dstExe)
     $pn.invokeverb('taskbarpin')
 }
+
+function New-TemporaryDirectory
+{
+    $parent = [System.IO.Path]::GetTempPath()
+    [string] $name = [System.Guid]::NewGuid()
+    New-Item -ItemType Directory -Path (Join-Path $parent $name)
+}
