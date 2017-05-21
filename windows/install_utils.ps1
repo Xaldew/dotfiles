@@ -19,17 +19,7 @@ function Test-Administrator
 
 function Test-CommandExists ($cmd)
 {
-    try
-    {
-        if (Get-Command $cmd)
-        {
-            return 1
-        }
-    }
-    catch
-    {
-        return 0
-    }
+    return [bool](Get-Command $cmd -errorAction SilentlyContinue)
 }
 
 
