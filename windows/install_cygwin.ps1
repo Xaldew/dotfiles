@@ -6,10 +6,13 @@ $dotfilesDir = Split-Path -Parent $scriptPath
 . $dotfilesDir/windows/install_utils.ps1
 
 
-if (!(Test-CommandExists cyg-get))
+if (!(Test-CommandExists "cyg-install.exe"))
 {
-    Write-Host "\"cyg-get\" command not found. Please install it first."
-    Exit 1
+    $url = "https://cygwin.com/setup-x86_64.exe"
+    $dst = "$HOME/.local/bin/cyg-install.exe"
+    New-Item -Path $HOME/.local/bin -ItemType Directory -Force | Out-Null
+    $wc = New-Object System.Net.WebClient
+    $wc.DownloadFile($url, $dst)
 }
 
 
@@ -53,6 +56,6 @@ $packages = @(
     "aspell-sv",
     "aspell-en",
     "xclip"
-)
+) -join ","
 
-cyg-get $packages
+cyg-install /q -P $packages
