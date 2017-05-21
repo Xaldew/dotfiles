@@ -14,6 +14,8 @@ $HOME_ROOT = [IO.Path]::GetPathRoot($HOME)
 $TOOLS = "$HOME_ROOT/tools"
 $SCRIPTS = "$HOME/scripts"
 $env:EDITOR = "emacs"
+$env:local_prefix_dir = "$HOME/.local"
+$env:PATH += ";$env:local_prefix_dir/bin"
 
 
 # Define our prompt. Show '~' instead of $HOME.
