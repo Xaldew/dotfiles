@@ -505,7 +505,7 @@ alias emacsd=emacs_daemon
 emacs_hexl_open()
 {
     # Open the files(s) in Emacs with `hexl-mode`.
-    cmd=${1:-"Missing Emacs command"}
+    cmd=${1:?"Missing Emacs command"}
     files=""
     shift
     # Add extra quotes around all files to convert them to `elisp` strings.
@@ -517,7 +517,7 @@ emacs_hexl_open()
 }
 alias hexl="emacs_hexl_open nx_emacs_client"
 alias ghexl="emacs_hexl_open graphical_emacs_client"
-alias nhexl="emacs_hexl_open nemacs"
+alias nhexl="emacs_hexl_open 'emacs --no-window-system'"
 alias nghexl="emacs_hexl_open new_graphical_emacs"
 
 ## Miscellaneous aliases.
