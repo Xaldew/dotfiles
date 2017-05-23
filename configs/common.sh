@@ -475,18 +475,24 @@ alias ngemasc="new_graphical_emacs"
 
 
 # Pipe stdout to temporary file and open that in an Emacs buffer.
-nx_emacspipe()
+emacspipe()
 {
-    tmp=`mktemp` && cat > $tmp && nx_emacs_client $tmp ; rm $tmp
+    cmd=${1:?"Missing Emacs command"}
+    tmp=`mktemp` && cat > $tmp && ${cmd} $tmp ; rm $tmp
 }
-alias ep="nx_emacspipe"
-alias emp="nx_emacspipe"
-graphical_emacspipe()
+new_nx_emacspipe()
 {
-    tmp=`mktemp` && cat > $tmp && graphical_emacs_client $tmp ; rm $tmp
+    tmp=`mktemp` && cat > $tmp && \
+        emacs --no-window-system $tmp </dev/tty ; rm $tmp
 }
-alias gep="graphical_emacspipe"
-alias gemp="graphical_emacspipe"
+alias ep="emacspipe nx_emacs_client"
+alias emp="emacspipe nx_emacs_client"
+alias gep="emacspipe graphical_emacs_client"
+alias gemp="emacspipe graphical_emacs_client"
+alias nep="new_nx_emacspipe"
+alias nemp="new_nx_emacspipe"
+alias ngep="emacspipe 'emacs --maximized --no-desktop'"
+alias ngemp="emacspipe 'emacs --maximized --no-desktop'"
 
 
 # Start a new Emacs daemon.
