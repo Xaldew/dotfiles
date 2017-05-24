@@ -358,6 +358,7 @@
 
 
 (define-derived-mode ebnf-mode prog-mode "EBNF"
+  "Major mode for various EBNF formats."
   :group 'ebnf-mode
   (setq-local indent-tabs-mode nil)
   (setq-local font-lock-defaults ebnf-mode-font-lock-keywords)
