@@ -22,9 +22,11 @@ elif [ -n "$COLORTERM" ]; then
             export terminal_colors="256"
             ;;
         gnome-terminal )
+            export TERM=xterm-256color
             export terminal_colors="truecolor"
             ;;
         xfce4-terminal )
+            export TERM=xterm-256color
             export terminal_colors="256"
             ;;
     esac
