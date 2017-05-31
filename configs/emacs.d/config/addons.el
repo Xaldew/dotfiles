@@ -788,6 +788,12 @@ and style."
   (customize-set-variable 'org-log-into-drawer t))
 
 
+(use-package htmlize
+  :ensure t
+  :pin melpa
+  :defer t)
+
+
 (use-package bbdb
   :ensure t
   :defer t
