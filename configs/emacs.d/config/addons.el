@@ -781,6 +781,21 @@ and style."
   (add-hook 'message-mode-hook #'orgstruct++-mode)
   (add-hook 'org-mode-hook #'my-org-hook)
   :config
+  (setq org-confirm-babel-evaluate nil)
+  (setq org-ditaa-jar-path (executable-find "ditaa"))
+  (setq org-plantuml-jar-path (executable-find "plantuml"))
+  (org-babel-do-load-languages
+   'org-babel-load-languages
+   '((emacs-lisp . t)
+     (dot . t)
+     (ditaa . t)
+     (python . t)
+     (gnuplot . t)
+     (sh . t)
+     (org . t)
+     (plantuml . t)
+     (latex . t)))
+
   (define-key org-mode-map (kbd "M-h") #'backward-kill-word)
   (customize-set-variable 'org-src-fontify-natively t)
   (customize-set-variable 'org-export-with-sub-superscript '{})
