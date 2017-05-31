@@ -993,7 +993,9 @@ When `ERC' exits the SSH process is killed from `erc-kill-server-hook'."
   :commands (markdown-mode gfm-mode)
   :mode (("README\\.md\\'" . gfm-mode)
          ("\\.md\\'"       . markdown-mode)
-         ("\\.markdown\\'" . markdown-mode)))
+         ("\\.markdown\\'" . markdown-mode))
+  :config
+  (define-key markdown-mode-map (kbd "M-h") #'backward-kill-word))
 
 
 (use-package racer
