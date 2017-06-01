@@ -796,6 +796,9 @@ and style."
      (plantuml . t)
      (latex . t)))
 
+  (add-to-list
+   'org-src-lang-modes '("plantuml" . plantuml))
+
   (define-key org-mode-map (kbd "M-h") #'backward-kill-word)
   (customize-set-variable 'org-src-fontify-natively t)
   (customize-set-variable 'org-export-with-sub-superscript '{})
@@ -807,6 +810,15 @@ and style."
   :ensure t
   :pin melpa
   :defer t)
+
+
+(use-package plantuml-mode
+  :ensure t
+  :pin melpa
+  :mode ("\\.plantuml\\'" . plantuml-mode)
+  :defer t
+  :config
+  (setq plantuml-jar-path (executable-find "plantuml")))
 
 
 (use-package bbdb
