@@ -21,6 +21,7 @@ set show-all-if-ambiguous on
 
 # Disable paged completion when the number of options fill the screen.
 set page-completions off
+set completion-query-items -1
 
 
 # To allow the use of 8bit-characters like the german umlauts, uncomment
