@@ -9,18 +9,6 @@ url="http://sourceforge.net/projects/cloc/files/latest/download?source=files"
     chmod u+x $local_prefix_dir/bin/cloc
 ) &
 
-# Install bashmarks.sh
-(
-    tmp=$(mktemp --directory)
-    cd $tmp
-    git clone --quiet git://github.com/huyng/bashmarks.git
-    cd bashmarks
-    sed --in-place \
-	"s|^\(INSTALL_DIR\s*=\s*\)~/.local/bin|\1${local_prefix_dir}/bin|g" \
-	Makefile
-    make install > /dev/null
-) &
-
 # Install git-prompt.sh.
 base_url=https://raw.githubusercontent.com/git/git/master/contrib/completion/
 (
@@ -42,6 +30,7 @@ base_url=https://raw.githubusercontent.com/git/git/master/contrib/completion/
         ${XDG_CONFIG_HOME}/bash_it/install.sh --no-modify-config --silent
         . ${XDG_CONFIG_HOME}/bash_it/bash_it.sh
         bash-it enable completion svn tmux makefile
+        bash-it enable plugin dirs
     fi
 ) &
 
