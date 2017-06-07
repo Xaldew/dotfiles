@@ -7,6 +7,10 @@ set editing-mode emacs
 # Ignore case on tab-completion.
 set completion-ignore-case on
 
+# Highlight matching parentheses.
+set blink-matching-paren on
+
+
 # Enable color display for completions and mark symlinked directories.
 set colored-stats on
 set mark-symlinked-directories on
