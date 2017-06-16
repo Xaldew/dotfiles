@@ -343,8 +343,8 @@
   (setq-local comment-end-skip   "\\s-*\\(\\*/\\)")
   (set-syntax-table ebnf-mode-ebnfx-syntax-table)
   (smie-setup ebnf-mode-smie-ebnfx-grammar #'ebnf-mode-smie-ebnfx-rules
-              :forward-token  (ebnf-debug-lexer #'ebnf-mode-smie-ebnfx-forward-token)
-              :backward-token (ebnf-debug-lexer #'ebnf-mode-smie-ebnfx-backward-token)))
+              :forward-token  #'ebnf-mode-smie-ebnfx-forward-token
+              :backward-token #'ebnf-mode-smie-ebnfx-backward-token))
 
 
 (defun ebnf-mode-after-hack-local-variables ()
