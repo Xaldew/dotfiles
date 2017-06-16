@@ -67,7 +67,7 @@ module load codesourcery/linuxeabi/arm-2011q1
 
 if [ "\`get_dist -i\`" = "ubuntu" ]; then
    # Running Ubuntu. Fix broken default packages.
-   module load git/git/2.7.0
+   # module load git/git/2.7.0  # No git-subtree.
    module unload python/python
    module unload imagemagick/imagemagick
 else
@@ -154,10 +154,6 @@ export MANPATH=\$MANPATH:/usr/local/texlive/2015/texmf-dist/doc/man
 # Sets a more 'modern' termcap file for use with emacs, otherwise colors will be
 # messed up. Only needed at work.
 export TERMCAP=\$HOME/.termcap
-
-# Explicitly set the prompt - override ARM default.
-source $dotfiles_dir/scripts/prompt.sh
-export PROMPT_COMMAND=light_prompt
 
 # Reset LC_ALL to unset.
 export LC_ALL=
