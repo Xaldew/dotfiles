@@ -98,10 +98,12 @@
 
 (defconst terminfo-syntax-table
   (let ((table (make-syntax-table)))
-    (modify-syntax-entry ?#  "<" table)
-    (modify-syntax-entry ?\n ">" table)
+    (modify-syntax-entry ?#   "<" table)
+    (modify-syntax-entry ?\n  ">" table)
     (modify-syntax-entry ?\[  "w" table)
     (modify-syntax-entry ?\]  "w" table)
+    (modify-syntax-entry ?=   "." table)
+    (modify-syntax-entry ?\\  "w" table)
     table)
   "Syntax table rules for `terminfo-mode'.")
 
