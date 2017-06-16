@@ -77,12 +77,61 @@
   (smie-prec2->grammar
    (smie-bnf->prec2
     '((id)
-      (cap (id "=" id))
-      (stmt (id) (cap))
-      (stmts (stmts "," stmts) (stmt)))
+      (str-cap (id "=" id))
+      (cap (id) (str-cap))
+      (caps (caps "," caps) (cap))
+      (term (caps))
+      (terms (terms "TERMSEP" terms) (term)))
     '((assoc "="))
+    '((assoc "TERMSEP"))
     '((assoc ","))))
   "Simplified BNF grammar describing the `terminfo' source files.")
+
+
+(defun terminfo--new-terminal-p ()
+  "Check if a new terminal is found by looking forward."
+  (save-excursion
+    (forward-comment (point-max))
+    (or (looking-at-p terminfo--terminal-rx-1)
+        (looking-at-p terminfo--terminal-rx-2))))
+
+
+(defun terminfo-smie-forward ()
+  "Search forward for a token to be used by `smie'."
+  (let ((pos (point)))
+    (forward-comment (point-max))
+    (cond
+     ((and (< pos (point))              ; Only emit separator if we have moved.
+           (or (terminfo--new-terminal-p)
+               (eobp)))
+      "TERMSEP")
+     ((looking-at "=\\|,")
+      (goto-char (match-end 0))
+      (match-string-no-properties 0))
+     (t
+      (buffer-substring-no-properties
+       (point)
+       (progn (skip-syntax-forward "w_-")
+              (point)))))))
+
+
+(defun terminfo-smie-backward ()
+  "Search backward for a token to be used by `smie'."
+  (let ((pos (point)))
+    (forward-comment (- (point)))
+    (cond
+     ((and (> pos (point))
+           (terminfo--new-terminal-p))
+      "TERMSEP")
+     ((looking-back "=\\|," (- (point) 2) t)
+      (goto-char (match-beginning 0))
+      (match-string-no-properties 0))
+     (t
+      (forward-comment (- (point)))
+      (buffer-substring-no-properties
+       (point)
+       (progn (skip-syntax-backward "w_-")
+              (point)))))))
 
 
 (defun terminfo-smie-rules (kind token)
@@ -93,7 +142,10 @@
     (`(:elem . args)      0)
     (`(:list-intro . ",") 0)
     (`(:after . ",")      (smie-rule-separator kind))
-    (`(:before . ",")     (smie-rule-separator kind))))
+    (`(:before . ",")     (smie-rule-separator kind))
+    (`(:after . "TERMSEP") (smie-rule-separator kind))
+    (`(:before . "TERMSEP") (smie-rule-separator kind))))
+
 
 
 (defconst terminfo-syntax-table
@@ -108,6 +160,16 @@
   "Syntax table rules for `terminfo-mode'.")
 
 
+(defun debug-lexer (fun)
+  "Debug the lexer FUN."
+  (lambda ()
+    (let ((tok (funcall fun))
+          (nam (symbol-name fun))
+          (pos (point)))
+      (princ (format "%s: %s at %d\n" nam tok pos))
+      tok)))
+
+
 (define-derived-mode terminfo-mode prog-mode "terminfo"
   "Major mode for `terminfo' source files."
   :group 'terminfo
@@ -116,7 +178,9 @@
   (setq-local comment-start-skip "#+\\s-*")
   (setq-local syntax-propertize-function
               (syntax-propertize-rules ("[^# \t]+\\(#+\\)" (1 "."))))
-  (smie-setup terminfo-smie-grammar #'terminfo-smie-rules)
+  (smie-setup terminfo-smie-grammar #'terminfo-smie-rules
+              :forward-token (debug-lexer #'terminfo-smie-forward)
+              :backward-token (debug-lexer #'terminfo-smie-backward))
   (setq-local font-lock-defaults terminfo-font-lock-keywords)
   (font-lock-flush))
 
