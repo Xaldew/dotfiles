@@ -21,30 +21,47 @@
   :safe #'integerp)
 
 
-(defconst terminfo--terminal-rx
-  (rx (group (+? nonl)) ?| (group (* nonl)) ",\n")
+(defconst terminfo--terminal-rx-1
+  (rx line-start
+      (group (+ (in alnum "-+")))
+      (+ ?| (group (+ (in alnum space "()-_"))))
+      ",")
+  "Regular expression to capture a `terminfo' terminal definition header.")
+
+(defconst terminfo--terminal-rx-2
+  (rx line-start (group (+ (in alnum "-+"))) ",")
   "Regular expression to capture a `terminfo' terminal definition header.")
 
 
+(defconst terminfo-use-rx
+  (rx (group "use") ?= (group (+ (not (in ",")))))
+  "Regular expression to capture a `terminfo' 'use' capability.")
+
+
 (defconst terminfo--capability-rx-1
-  (rx (group (+ (in "A-Z" "a-z" "0-9"))) (? ?@) ?\,)
+  (rx (group (+ alnum)) (? ?@) ?\,)
   "The first regular expression to capture `terminfo' capabilities.")
 
 
 (defconst terminfo--capability-rx-2
-  (rx (group (+ (in "A-Z" "a-z" "0-9"))) ?# (group (+ digit)) ?\,)
+  (rx (group (+ alnum)) ?# (group (+ digit)) ?\,)
   "The second regular expression to capture `terminfo' capabilities.")
 
 
 (defconst terminfo--capability-rx-3
-  (rx (group (+ (in "A-Z" "a-z" "0-9"))) ?= (group (+ (not (in ",")))))
+  (rx (group (+ alnum)) ?= (group (+ (not (in ",")))))
   "The third regular expression to capture `terminfo' capabilities.")
 
 
 (defconst terminfo-font-lock-keywords
-  `(((,terminfo--terminal-rx
+  `(((,terminfo--terminal-rx-1
       (1 font-lock-function-name-face)
       (2 font-lock-doc-face))
+     (,terminfo--terminal-rx-2
+      (1 font-lock-function-name-face))
+     (,terminfo-use-rx
+      (1 font-lock-variable-name-face)
+      (2 font-lock-preprocessor-face))
      (,terminfo--capability-rx-3
       (1 font-lock-variable-name-face)
       (2 font-lock-string-face))
