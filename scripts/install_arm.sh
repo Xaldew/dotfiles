@@ -155,6 +155,9 @@ export MANPATH=\$MANPATH:/usr/local/texlive/2015/texmf-dist/doc/man
 # messed up. Only needed at work.
 export TERMCAP=\$HOME/.termcap
 
+# Explicitly restore the prompt - override ARM default.
+source_if \${BASH_IT}/bash_it.sh
+
 # Reset LC_ALL to unset.
 export LC_ALL=
 export LANG=en_US.utf8
