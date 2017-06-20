@@ -36,8 +36,12 @@
 	hist = log --pretty=format:\"%h %ad  | %s%d [%an]\" --graph --date=short
 	lol = log --graph --decorate --pretty=oneline --abbrev-commit
 	lola = log --graph --decorate --pretty=oneline --abbrev-commit --all
-	sub-pull = "!f() { cd $1 && git checkout master && git pull && \
-		           git submodule update --init --recursive; }; f"
+	sub-pull = "!f() { \
+	  cd $1 && \
+	  git checkout master && \
+	  git pull && \
+	  git submodule update --init --recursive ; \
+	}; f"
 	pull-all = pull --recurse-submodules
 	pulla = pull --recurse-submodules
 	dif = diff --word-diff
@@ -48,6 +52,18 @@
 	sl = stash list
 	sa = stash apply
 	ss = stash save
+	clone-mirror = "!f() { \
+	  git clone --mirror $1 $(basename $1)/.git && \
+	  cd $(basename $1) && \
+	  git config --bool core.bare false && \
+	  git checkout master ; \
+	}; f"
+	unbare = "!f() { \
+	  mkdir -p .git && \
+	  mv branches config description HEAD hooks info objects refs .git && \
+	  git config --bool core.bare false && \
+	  git checkout master ; \
+	}; f"
 
 # Unix-specific configuration.
 [core]
