@@ -52,6 +52,13 @@
 	sl = stash list
 	sa = stash apply
 	ss = stash save
+	distclean = "!f() { \
+	  git submodule foreach --recursive git clean -xfd && \
+	  git submodule foreach --recursive git reset --hard && \
+	  git clean -xfd && \
+	  git reset --hard && \
+	  git submodule update --init --recursive ; \
+	}; f"
 	clone-mirror = "!f() { \
 	  git clone --mirror $1 $(basename $1)/.git && \
 	  cd $(basename $1) && \
