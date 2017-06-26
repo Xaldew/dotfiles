@@ -262,6 +262,8 @@ NAME can be used to set the name of the defined function."
   (setq flycheck-pos-tip-display-errors-tty-function 'my-flycheck-popup))
 
 (use-package flycheck-irony :ensure t :defer t :after flycheck)
+(use-package flycheck-package :ensure t :defer t)
+(use-package package-lint :ensure t :defer t)
 
 
 ;; Add CSS-eldoc to the css-hook.
