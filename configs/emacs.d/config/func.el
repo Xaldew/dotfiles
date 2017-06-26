@@ -9,6 +9,9 @@
 (declare-function apply-on-rectangle "rect")
 
 
+(defalias 'save-as #'write-buffer)
+
+
 (defun indent-defun ()
   "Indent the currently active defun."
   (interactive)
