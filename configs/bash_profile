@@ -9,6 +9,8 @@ if [ "$OSTYPE" = "cygwin" ]; then
         cygstart --action=runas $@
     }
 
+    mkdir --parents "$HOME/.config"
+
     if [ -z "$SSH_AUTH_SOCK" ]; then
         eval $(ssh-agent) > /dev/null
     fi
