@@ -51,11 +51,13 @@
 ;; Activate 'package and install packages from these repositories.
 (package-initialize)
 (add-to-list 'package-archives
-	     '("gnu" . "http://elpa.gnu.org/packages/"))
+	     '("gnu" . "https://elpa.gnu.org/packages/"))
 (add-to-list 'package-archives
 	     '("marmalade" . "http://marmalade-repo.org/packages/"))
 (add-to-list 'package-archives
              '("melpa" . "http://melpa.org/packages/"))
+(add-to-list 'package-archives
+             '("org" . "http://orgmode.org/elpa/"))
 
 (unless (package-installed-p 'use-package)
   (load-user-file "packages"))
