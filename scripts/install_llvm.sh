@@ -35,5 +35,5 @@ cmake -G "Unix Makefiles" \
       -DCMAKE_CXX_COMPILER=${CXX:-g++} \
       -DCMAKE_INSTALL_PREFIX=$local_prefix_dir \
       -DCMAKE_BUILD_TYPE=Release ..
-make -j4
+make -j2
 make install
