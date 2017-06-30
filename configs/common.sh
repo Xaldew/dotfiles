@@ -623,6 +623,7 @@ export LESS_TERMCAP_us=$'\E[04;38;5;146m' # begin underline
 
 # Add extra man-page directories.
 export MANPATH=$local_prefix_dir/share/man:$MANPATH
+export INFOPATH=$local_prefix_dir/share/info:$INFOPATH
 
 # Add GNU global tags configuration.
 if command_exists global; then
