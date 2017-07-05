@@ -16,11 +16,15 @@ else
     svn checkout $url_base/llvm/$release llvm
     if [ $? -eq 0 ]; then
 	(cd llvm/tools &&
-                svn checkout $url_base/cfe/$release clang)
+             svn checkout $url_base/cfe/$release clang)
         (cd llvm/tools/clang/tools &&
-                svn checkout $url_base/clang-tools-extra/$release extra)
+             svn checkout $url_base/clang-tools-extra/$release extra)
 	(cd llvm/projects &&
-		svn checkout $url_base/compiler-rt/$release compiler-rt)
+	     svn checkout $url_base/compiler-rt/$release compiler-rt)
+	(cd llvm/projects &&
+	     svn checkout $url_base/libcxx/$release libcxx)
+	(cd llvm/projects &&
+	     svn checkout $url_base/libcxxabi/$release libcxxabi)
     else
 	echo "Error: Failed to download LLVM."
     fi
@@ -34,6 +38,8 @@ cmake -G "Unix Makefiles" \
       -DCMAKE_C_COMPILER=${CC:-gcc} \
       -DCMAKE_CXX_COMPILER=${CXX:-g++} \
       -DCMAKE_INSTALL_PREFIX=$local_prefix_dir \
-      -DCMAKE_BUILD_TYPE=Release ..
+      -DLLVM_USE_SANITIZERS="${2}" \
+      -DCMAKE_BUILD_TYPE=Release \
+      ..
 make -j2
 make install
