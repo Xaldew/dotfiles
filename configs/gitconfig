@@ -29,6 +29,7 @@
 	br = branch
 	cl = clone
 	cp = cherry-pick
+	clang = clang-format
 	cloner = clone --recursive
 	dlc = diff --cached HEAD^
 	unstage = reset HEAD --
