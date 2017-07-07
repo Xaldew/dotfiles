@@ -598,8 +598,12 @@ fi
 # Set a number of common variables.
 
 ## Set XDG_CONFIG_HOME variable if not set.
-if [ -z "$XDG_CONFIG_HOME" -a -d "$HOME/.config" ]; then
+if [ -z "$XDG_CONFIG_HOME" ]; then
     export XDG_CONFIG_HOME=$HOME/.config
+fi
+
+if [ ! -d "$XDG_CONFIG_HOME" ]; then
+    mkdir --parents "$XDG_CONFIG_HOME"
 fi
 
 ## Setup Emacs as the default editor.
