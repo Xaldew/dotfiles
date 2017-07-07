@@ -542,6 +542,8 @@ if [ -x /usr/bin/dircolors ]; then
     alias egrep='egrep --color=auto --exclude-dir={\.svn,\.git,\.repo}'
 fi
 
+alias tmux="tmux -f $XDG_CONFIG_HOME/tmux/tmux.conf"
+
 alias sshpw="ssh -o PubKeyAuthentication=No"
 alias ssh-lth="ssh dt09gw1@login.student.lth.se"
 
