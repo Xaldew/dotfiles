@@ -1049,6 +1049,26 @@ When `ERC' exits the SSH process is killed from `erc-kill-server-hook'."
   :functions jenkins)
 
 
+(use-package lsp-mode
+  :ensure t
+  :defer t
+  :init
+  (add-hook 'rust-mode-hook   #'lsp-mode)
+  (add-hook 'java-mode-hook   #'lsp-mode)
+  (add-hook 'python-mode-hook #'lsp-mode))
+
+
+(use-package lsp-flycheck
+  :ensure lsp-mode
+  :after lsp-mode)
+
+
+(use-package lsp-rust
+  :ensure lsp-mode
+  :defer t
+  :after lsp-mode)
+
+
 (use-package ruby-mode
   :defer t
   :config
