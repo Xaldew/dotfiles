@@ -68,16 +68,6 @@ ln -fs $dotfiles_dir/configs/latexmkrc $HOME/.latexmkrc
 create_linkfarm $dotfiles_dir/configs/emacs.d $HOME/.emacs.d
 touch $HOME/.emacs.d/custom.el
 
-# Download the gitolite-conf-mode file.
-if [ ! -r "$HOME/.emacs.d/elisp/gl-conf-mode.el" ]; then
-    tmp=$(mktemp --directory)
-    url=git://github.com/llloret/gitolite-emacs.git
-    git clone --quiet $url $tmp/gitolite-emacs
-    cp --force $tmp/gitolite-emacs/gl-conf-mode.el $HOME/.emacs.d/elisp/
-    rm -rf $tmp
-fi
-
-
 # Create vim data and plugin directories.
 mkdir --parents $HOME/.vim/
 if [ ! -d "$HOME/.vim/autoload" ]; then
