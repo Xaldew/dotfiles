@@ -1144,6 +1144,7 @@ When `ERC' exits the SSH process is killed from `erc-kill-server-hook'."
 (use-package powershell        :ensure t :defer t)
 (use-package ahk-mode          :ensure t :defer t)
 (use-package cask-mode         :ensure t :defer t)
+(use-package gl-conf-mode      :ensure t :defer t)
 (use-package dts-mode          :ensure t :defer t :pin melpa)
 (use-package go-mode           :ensure t :defer t :pin melpa)
 (use-package yaml-mode         :ensure t :defer t :pin melpa)
