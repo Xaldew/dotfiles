@@ -645,6 +645,27 @@ _s_: Set scale  _o_: Restore original  _R_: Rotate free   _q_: Quit
   (define-key image-mode-map (kbd "?") #'imagemagick-hydra/body))
 
 
+(use-package paredit
+  :defer t
+  :config
+  (defhydra paredit-hydra (:color blue :columns 3 :idle 1.0)
+    "Paredit"
+    ("(" paredit-wrap-round "Wrap round")
+    ("[" paredit-wrap-square "Wrap square")
+    ("]" paredit-wrap-square "Wrap square")
+    ("{" paredit-wrap-curly "Wrap curly")
+    ("s" paredit-splice-sexp "Splice")
+    ("S" paredit-split-sexp "Split")
+    ("j" paredit-join-sexps "Join")
+    ("J" paredit-join-with-next-list "Join next list")
+    ("M-J" paredit-join-with-previous-list "Join prev list")
+    ("C" paredit-convolute-sexp "Convolute")
+    ("M-c" paredit-copy-as-kill "Copy as kill")
+    ("r" paredit-raise-sexp "Raise s-expression")
+    ("q" nil))
+  (define-key paredit-mode-map (kbd "C-c P") #'paredit-hydra/body))
+
+
 (use-package dumb-jump
   :ensure t
   :defer t
