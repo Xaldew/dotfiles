@@ -13,19 +13,21 @@ if command -v cargo; then
 fi
 
 
-# Use rustup to install setup Rust.
+# Use rustup to setup the Rust toolchain(s).
 if command -v rustup; then
 
     rustup install nightly
 
+    rustup component add rls --toolchain nightly
+    rustup component add rust-analysis --toolchain nightly
+    rustup component add rust-src --toolchain nightly
+
     # Install bash completion file.
-    tmp=$(mktemp)
-    rustup completions bash > $tmp
-    sudo mv $tmp /etc/bash_completion.d/rustup.bash-completion
+    rustup completions bash > $HOME/.bash_completion.d/rustup.bash-completion
 fi
 
 
-# Download the Rust source for code completion with Racer.
+# Download the Rust source for standard code completion with Racer.
 if [ ! -d $objects_dir/rust ]; then
     git clone https://github.com/rust-lang/rust.git $objects_dir/rust
 else
