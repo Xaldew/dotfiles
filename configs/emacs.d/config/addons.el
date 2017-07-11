@@ -1147,7 +1147,11 @@ When `ERC' exits the SSH process is killed from `erc-kill-server-hook'."
 (use-package gl-conf-mode      :ensure t :defer t)
 (use-package dts-mode          :ensure t :defer t :pin melpa)
 (use-package go-mode           :ensure t :defer t :pin melpa)
-(use-package yaml-mode         :ensure t :defer t :pin melpa)
+(use-package yaml-mode
+  :ensure t
+  :defer t
+  :pin melpa
+  :mode (("\\.clang-format\\'" . yaml-mode)))
 (use-package toml-mode
   :ensure t
   :defer t
