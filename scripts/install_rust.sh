@@ -24,8 +24,11 @@ if command -v rustup; then
 
     # Install bash completion file.
     rustup completions bash > $HOME/.bash_completion.d/rustup.bash-completion
-fi
 
+    # Install Cargo bash completion.
+    toolchain_dir=$(dirname $(dirname $(rustup which cargo)))
+    cp $toolchain_dir/etc/cargo.bashcomp.sh $HOME/.bash_completion.d/
+fi
 
 # Download the Rust source for standard code completion with Racer.
 if [ ! -d $objects_dir/rust ]; then
