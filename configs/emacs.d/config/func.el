@@ -234,18 +234,6 @@ The text is shown for DELAY seconds (default 2).  The old
         (replace-match (number-to-string (cl-incf cnt)))))))
 
 
-(defun unfill-paragraph (&optional region)
-  "Take a multi-line paragraph and turn it into a single line of text.
-
-REGION is passed on to `fill-paragraph' to unfill all paragraphs
-in the region."
-  (interactive (progn (barf-if-buffer-read-only) '(t)))
-  (let ((fill-column (point-max))
-        ;; This would override `fill-column' if it's an integer.
-        (emacs-lisp-docstring-fill-column t))
-    (fill-paragraph nil region)))
-
-
 ;; Add timestamps to *Messages*.
 (defun current-time-microseconds ()
   "Retrieve the current time in micro-seconds."

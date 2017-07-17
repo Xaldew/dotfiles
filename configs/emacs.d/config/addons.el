@@ -1091,6 +1091,11 @@ When `ERC' exits the SSH process is killed from `erc-kill-server-hook'."
   :after lsp-mode)
 
 
+(use-package unfill
+  :ensure t
+  :defer t)
+
+
 (use-package ruby-mode
   :defer t
   :config
