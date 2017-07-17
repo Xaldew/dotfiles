@@ -57,6 +57,7 @@ EOF
 
 defaults()
 {
+    XDG_CONFIG_HOME=${XDG_CONFIG_HOME="$HOME/.config"}
     objects_dir=${objects_dir-"$HOME/git/installs"}
     local_prefix_dir=${local_prefix_dir-"$HOME/.local"}
     env["dotfiles_dir"]="${dotfiles_dir}"
