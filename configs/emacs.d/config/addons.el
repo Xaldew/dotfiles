@@ -1052,6 +1052,7 @@ When `ERC' exits the SSH process is killed from `erc-kill-server-hook'."
 (use-package lsp-mode
   :ensure t
   :defer t
+  :disabled
   :init
   (add-hook 'rust-mode-hook   #'lsp-mode)
   (add-hook 'java-mode-hook   #'lsp-mode)
@@ -1064,7 +1065,7 @@ When `ERC' exits the SSH process is killed from `erc-kill-server-hook'."
 
 
 (use-package lsp-rust
-  :ensure lsp-mode
+  :ensure t
   :defer t
   :after lsp-mode)
 
