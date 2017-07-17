@@ -783,9 +783,14 @@ and style."
   (add-hook 'message-mode-hook #'orgstruct++-mode)
   (add-hook 'org-mode-hook #'my-org-hook)
   :config
+  (let ((ditaa    (executable-find "ditaa"))
+        (plantuml (executable-find "plantuml")))
+    (when ditaa
+      (setq org-ditaa-jar-path    ditaa))
+    (when plantuml
+      (setq org-plantuml-jar-path plantuml)))
   (setq org-confirm-babel-evaluate nil)
-  (setq org-ditaa-jar-path (executable-find "ditaa"))
-  (setq org-plantuml-jar-path (executable-find "plantuml"))
+
   (org-babel-do-load-languages
    'org-babel-load-languages
    '((emacs-lisp . t)
