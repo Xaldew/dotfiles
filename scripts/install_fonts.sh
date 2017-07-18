@@ -8,8 +8,8 @@ tmpdir=$(mktemp --directory)
 # Download and install Adobe Source Code Pro.
 url=https://github.com/adobe-fonts/source-code-pro/archive/2.030R-ro/1.050R-it.zip
 wget $url --output-document=$tmpdir/source_code_pro.zip --quiet
-unzip -q $tmpdir/source_code_pro -d $tmpdir
-mv $tmpdir/source-code-pro-2.030R-ro-1.050R-it.zip/OTF/*.otf $HOME/.fonts
+unzip -q $tmpdir/source_code_pro.zip -d $tmpdir
+find $tmpdir -name "*.otf" | xargs -I {} mv {} $HOME/.fonts
 
 # Download and install Fira Code.
 url=https://github.com/tonsky/FiraCode/releases/download/1.204/FiraCode_1.204.zip
@@ -18,7 +18,7 @@ unzip -q $tmpdir/fira_code.zip -d $tmpdir
 mv $tmpdir/ttf/*.ttf $HOME/.fonts
 
 # Download and install Monoid.
-url=https://raw.githubusercontent.com/larsenwork/monoid/2db2d289f4e61010dd3f44e09918d9bb32fb96fd/Monoid.zip
+url="https://raw.githubusercontent.com/larsenwork/monoid/2db2d289f4e61010dd3f44e09918d9bb32fb96fd/Monoid.zip"
 wget $url --output-document=$tmpdir/fira_code.zip --quiet
 unzip -q $tmpdir/fira_code.zip -d $tmpdir
 mv $tmpdir/*.ttf $HOME/.fonts
