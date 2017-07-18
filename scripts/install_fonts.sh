@@ -29,6 +29,12 @@ wget $url --output-document=$tmpdir/fira_code.zip --quiet
 unzip -q $tmpdir/fira_code.zip -d $tmpdir
 mv $tmpdir/*.ttc $HOME/.fonts
 
+# Download and install Font-awesome icons.
+url=http://fontawesome.io/assets/font-awesome-4.7.0.zip
+wget $url --output-document=$tmpdir/font-awesome-4.7.0.zip --quiet
+unzip -q $tmpdir/font-awesome-4.7.0.zip -d $tmpdir
+mv $tmpdir/font-awesome-4.7.0/fonts/*.woff $HOME/.fonts
+
 # Remove the temporary directory.
 rm -rf $tmpdir
 
