@@ -597,24 +597,14 @@ if ! command_exists tree ; then
 fi
 
 
-# Set a number of common variables.
-
-## Set XDG_CONFIG_HOME variable if not set.
-if [ -z "$XDG_CONFIG_HOME" ]; then
-    export XDG_CONFIG_HOME=$HOME/.config
-fi
-
+# Make sure the XDG directories exist.
 if [ ! -d "$XDG_CONFIG_HOME" ]; then
     mkdir --parents "$XDG_CONFIG_HOME"
 fi
+if [ ! -d "$XDG_DATA_HOME" ]; then
+    mkdir --parents "$XDG_DATA_HOME"
+fi
 
-## Setup Emacs as the default editor.
-if [ "${EDITOR#*emacs}" = "${EDITOR}" ]; then
-    export EDITOR=nx_emacs_client
-fi
-if [ "${VISUAL#*emacs}" = "${VISUAL}" ]; then
-    export VISUAL=graphical_emacs_client
-fi
 
 # Colors for less and man pages.
 export LESS="-r"
@@ -626,10 +616,6 @@ export LESS_TERMCAP_se=$'\E[0m'           # end standout-mode
 export LESS_TERMCAP_so=$'\E[38;5;246m'    # begin standout-mode - info box
 export LESS_TERMCAP_ue=$'\E[0m'           # end underline
 export LESS_TERMCAP_us=$'\E[04;38;5;146m' # begin underline
-
-# Add extra man-page directories.
-export MANPATH=$local_prefix_dir/share/man:$MANPATH
-export INFOPATH=$local_prefix_dir/share/info:$INFOPATH
 
 # Add GNU global tags configuration.
 if command_exists global; then

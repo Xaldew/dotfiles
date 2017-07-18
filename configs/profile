@@ -1,6 +1,10 @@
 # ~/.profile: executed by the command interpreter for login shells.
 # This file is also sourced by XFCE4 for graphical applications.
 
+# Set XDG directory variables.
+export XDG_CONFIG_HOME=${XDG_CONFIG_HOME-$HOME/.config}
+export XDG_DATA_HOME=${XDG_DATA_HOME-"${local_prefix_dir}/share"}
+
 # Source bashrc if we're running bash.
 if [ -n "$BASH_VERSION" ]; then
     # Include .bashrc if it exists.
@@ -48,3 +52,11 @@ if [ -d "$HOME/.cargo/bin" ]; then
     export RUST_SRC_PATH="$objects_dir/rust/src"
     PATH="$HOME/.cargo/bin":$PATH
 fi
+
+# Setup Emacs as the default editor.
+export EDITOR=nx_emacs_client
+export VISUAL=graphical_emacs_client
+
+# Add extra man-page directories.
+export MANPATH=${XDG_DATA_HOME}/man:$MANPATH
+export INFOPATH=${XDG_DATA_HOME}/info:$INFOPATH
