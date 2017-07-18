@@ -593,7 +593,7 @@ sort | uniq"
 
 # Create a simple tree implementation if not already available.
 if ! command_exists tree ; then
-    alias="find \"$@\" -print | sed -e 's;[^/]*/;|____;g;s;____|; |;g'"
+    alias tree="find \"$@\" -print | sed -e 's;[^/]*/;|____;g;s;____|; |;g'"
 fi
 
 
