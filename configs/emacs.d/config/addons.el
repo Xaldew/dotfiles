@@ -798,7 +798,7 @@ and style."
      (ditaa . t)
      (python . t)
      (gnuplot . t)
-     (sh . t)
+     (shell . t)
      (org . t)
      (plantuml . t)
      (latex . t)))
