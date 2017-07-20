@@ -4,7 +4,6 @@
 export GIT_PS1_SHOWDIRTYSTATE=true
 export GIT_PS1_SHOWSTASHSTATE=true
 export VIRTUAL_ENV_DISABLE_PROMPT=true
-. $dotfiles_dir/configs/common.sh
 source_if $local_prefix_dir/bin/git-prompt.sh
 source_if $dotfiles_dir/scripts/setup_terminal_colors.sh
 
