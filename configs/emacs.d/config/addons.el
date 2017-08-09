@@ -258,7 +258,7 @@ NAME can be used to set the name of the defined function."
   (defun my-flycheck-popup (errors)
     "Display the ERRORS in the old popup-el interface inside terminals."
     (let ((func #'flycheck-error-format-message-and-id))
-      (popup-tip (mapconcat func errors "\n\n"))))
+      (inline-docs (mapconcat func errors "\n\n"))))
   (setq flycheck-pos-tip-display-errors-tty-function 'my-flycheck-popup))
 
 (use-package flycheck-irony :ensure t :defer t :after flycheck)
@@ -1207,6 +1207,11 @@ When `ERC' exits the SSH process is killed from `erc-kill-server-hook'."
 (use-package dropdown-list :defer t :ensure t)
 (use-package popup :defer t :ensure t)
 
+(use-package inline-docs
+  :defer t
+  :ensure t
+  :init
+  (setq eldoc-message-function #'inline-docs))
 
 ;; Remove the lighter for a number of built in packages.
 (use-package flyspell :defer t :diminish flyspell-mode)
