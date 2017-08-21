@@ -10,6 +10,7 @@ fi
 if command -v cargo; then
     cargo install racer
     cargo install rustfmt
+    cargo install cargo-profiler
 fi
 
 
