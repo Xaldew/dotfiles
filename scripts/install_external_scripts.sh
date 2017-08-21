@@ -99,3 +99,9 @@ if ! command -v cask >/dev/null 2>&1 && command -v emacs >/dev/null 2>&1; then
     git clone --quiet https://github.com/cask/cask.git $objects_dir/cask
     $objects_dir/cask/bin/cask upgrade-cask
 fi
+
+# Install the Flamegraph scripts.
+if ! command -v flamegraph.pl; then
+    git clone https://github.com/brendangregg/FlameGraph $objects_dir/flamegraph
+    cp $objects_dir/flamegraph/*.{pl,awk} $local_prefix_dir/bin/
+fi
