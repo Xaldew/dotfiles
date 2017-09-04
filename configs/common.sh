@@ -48,6 +48,12 @@ my_shell()
     ps | grep `echo $$` | awk '{ print $4 }'
 }
 
+swap_files()
+{
+    # Swap the location of two files.
+    tmp=$(mktemp XXXXXXX)
+    mv "$1" $tmp && mv "$2" "$1" && mv $tmp $2
+}
 
 swap_caps()
 {
