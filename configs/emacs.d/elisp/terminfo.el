@@ -136,7 +136,6 @@
 
 (defun terminfo-smie-rules (kind token)
   "Perform indentation of KIND on TOKEN using the `smie' engine."
-  (print (format "%s" (cons kind token)))
   (pcase (cons kind token)
     (`(:elem . basic)  terminfo-indent-offset)
     (`(:elem . args)   0)
@@ -159,16 +158,6 @@
   "Syntax table rules for `terminfo-mode'.")
 
 
-(defun debug-lexer (fun)
-  "Debug the lexer FUN."
-  (lambda ()
-    (let ((tok (funcall fun))
-          (nam (symbol-name fun))
-          (pos (point)))
-      (princ (format "%s: %s at %d\n" nam tok pos))
-      tok)))
-
-
 (define-derived-mode terminfo-mode prog-mode "terminfo"
   "Major mode for `terminfo' source files."
   :group 'terminfo
@@ -178,8 +167,8 @@
   (setq-local syntax-propertize-function
               (syntax-propertize-rules ("[^# \t]+\\(#+\\)" (1 "_"))))
   (smie-setup terminfo-smie-grammar #'terminfo-smie-rules
-              :forward-token (debug-lexer #'terminfo-smie-forward)
-              :backward-token (debug-lexer #'terminfo-smie-backward))
+              :forward-token #'terminfo-smie-forward
+              :backward-token #'terminfo-smie-backward)
   (setq-local font-lock-defaults terminfo-font-lock-keywords)
   (font-lock-flush))
 
