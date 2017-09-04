@@ -138,14 +138,11 @@
   "Perform indentation of KIND on TOKEN using the `smie' engine."
   (print (format "%s" (cons kind token)))
   (pcase (cons kind token)
-    (`(:elem . basic)     terminfo-indent-offset)
-    (`(:elem . args)      0)
-    (`(:list-intro . ",") 0)
-    (`(:after . ",")      (smie-rule-separator kind))
-    (`(:before . ",")     (smie-rule-separator kind))
-    (`(:after . "TERMSEP") (smie-rule-separator kind))
-    (`(:before . "TERMSEP") (smie-rule-separator kind))))
-
+    (`(:elem . basic)  terminfo-indent-offset)
+    (`(:elem . args)   0)
+    (`(:after  . ",") (if (smie-rule-next-p "TERMSEP")
+                          (smie-rule-separator kind)
+                        terminfo-indent-offset))))
 
 
 (defconst terminfo-syntax-table
@@ -156,6 +153,8 @@
     (modify-syntax-entry ?\]  "w" table)
     (modify-syntax-entry ?=   "." table)
     (modify-syntax-entry ?\\  "w" table)
+    (modify-syntax-entry ?@   "_" table)
+    (modify-syntax-entry ?\;  "_" table)
     table)
   "Syntax table rules for `terminfo-mode'.")
 
@@ -177,7 +176,7 @@
   (setq-local comment-start "# ")
   (setq-local comment-start-skip "#+\\s-*")
   (setq-local syntax-propertize-function
-              (syntax-propertize-rules ("[^# \t]+\\(#+\\)" (1 "."))))
+              (syntax-propertize-rules ("[^# \t]+\\(#+\\)" (1 "_"))))
   (smie-setup terminfo-smie-grammar #'terminfo-smie-rules
               :forward-token (debug-lexer #'terminfo-smie-forward)
               :backward-token (debug-lexer #'terminfo-smie-backward))
