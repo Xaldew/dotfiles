@@ -38,6 +38,9 @@
 	hist = log --pretty=format:\"%h %ad  | %s%d [%an]\" --graph --date=short
 	lol = log --graph --decorate --pretty=oneline --abbrev-commit
 	lola = log --graph --decorate --pretty=oneline --abbrev-commit --all
+	about = "!f() { \
+	  git config branch.${1:-$(git symbolic-ref --short --quiet HEAD)}.description; \
+	}; f"
 	sub-pull = "!f() { \
 	  cd $1 && \
 	  git checkout master && \
