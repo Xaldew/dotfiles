@@ -10,6 +10,8 @@
 (require 'diminish)
 (require 'bind-key)
 
+(setq use-package-verbose t)
+(setq use-package-minimum-reported-time 0.01)
 
 ;; Define prefix commands for personal key binding groups.
 (defmacro my-define-group (prefix name &optional map)
