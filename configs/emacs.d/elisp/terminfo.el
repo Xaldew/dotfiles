@@ -23,8 +23,8 @@
 
 (defconst terminfo--terminal-rx-1
   (rx line-start
-      (group (+ (in alnum "-+")))
-      (+ ?| (group (+ (in alnum space "()-_"))))
+      (group (+ (in alnum "-+\\.")))
+      (+ ?| (group (+ (in alnum space "()-_&\\."))))
       ",")
   "Regular expression to capture a `terminfo' terminal definition header.")
 
@@ -146,7 +146,6 @@
 
 (defconst terminfo-syntax-table
   (let ((table (make-syntax-table)))
-    (modify-syntax-entry ?#   "<" table)
     (modify-syntax-entry ?\n  ">" table)
     (modify-syntax-entry ?\[  "w" table)
     (modify-syntax-entry ?\]  "w" table)
@@ -154,6 +153,9 @@
     (modify-syntax-entry ?\\  "w" table)
     (modify-syntax-entry ?@   "_" table)
     (modify-syntax-entry ?\;  "_" table)
+    (modify-syntax-entry ?\"  "w" table)
+    (modify-syntax-entry ?\(  "w" table)
+    (modify-syntax-entry ?\)  "w" table)
     table)
   "Syntax table rules for `terminfo-mode'.")
 
@@ -165,12 +167,11 @@
   (setq-local comment-start "# ")
   (setq-local comment-start-skip "#+\\s-*")
   (setq-local syntax-propertize-function
-              (syntax-propertize-rules ("[^# \t]+\\(#+\\)" (1 "_"))))
+              (syntax-propertize-rules ("^[ \t]*\\(#+\\)" (1 "<"))))
   (smie-setup terminfo-smie-grammar #'terminfo-smie-rules
               :forward-token #'terminfo-smie-forward
               :backward-token #'terminfo-smie-backward)
-  (setq-local font-lock-defaults terminfo-font-lock-keywords)
-  (font-lock-flush))
+  (setq-local font-lock-defaults terminfo-font-lock-keywords))
 
 
 ;;;###autoload
