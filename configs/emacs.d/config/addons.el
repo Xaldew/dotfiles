@@ -1116,6 +1116,12 @@ When `ERC' exits the SSH process is killed from `erc-kill-server-hook'."
   :defer t)
 
 
+(use-package nov
+  :ensure t
+  :defer t
+  :mode (("\\.epub\\'" . nov-mode)))
+
+
 (use-package ruby-mode
   :defer t
   :config
