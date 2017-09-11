@@ -38,6 +38,12 @@ wget $url --output-document=$tmp/iosevka.zip --quiet
 unzip -q $tmp/iosevka.zip -d $tmp
 mv $tmp/*.ttc $fonts
 
+# Download and install Hasklig font.
+url="https://github.com/i-tu/Hasklig/releases/download/1.1/Hasklig-1.1.zip"
+wget $url --output-document=$tmp/hasklig.zip --quiet
+unzip -q $tmp/hasklig.zip -d $tmp
+mv $tmp/*.otf $fonts
+
 # Download and install Font-awesome icons.
 url="http://fontawesome.io/assets/font-awesome-4.7.0.zip"
 wget $url --output-document=$tmp/font-awesome-4.7.0.zip --quiet
