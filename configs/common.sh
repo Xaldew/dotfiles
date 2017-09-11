@@ -526,6 +526,43 @@ alias ghexl="emacs_hexl_open graphical_emacs_client"
 alias nhexl="emacs_hexl_open 'emacs --no-window-system'"
 alias nghexl="emacs_hexl_open new_graphical_emacs"
 
+
+find_dominating()
+{
+    beg=${1:?"Missing start directory."}
+    query=${2:?"Missing test function."}
+    { test / == "$PWD" && cd ${beg} && return; } ||
+        { ${query} && cd ${beg} && return; } ||
+        { cd .. && find_dominating ${beg} ${query}; }
+}
+
+
+make_or_stop()
+{
+    # Try to build the system from the current directory but stop if the
+    # toplevel directory of a repository is encountered.
+    { test -f GNUmakefile -o -f makefile -o -f Makefile &&
+          { make || return 0; } ; } ||
+        { test -d .git -o -d .svn -o -d .hg && return 0 ; } || return 1
+}
+
+
+maker()
+{
+    # Search upwards and call the first valid Makefile.
+    find_dominating ${PWD} make_or_stop
+}
+
+
+alias maek=maker
+alias mkae=maker
+alias mkea=maker
+alias amke=maker
+alias akem=maker
+alias amek=maker
+alias meka=maker
+
+
 ## Miscellaneous aliases.
 
 # Enable color support of ls and also add handy aliases.
@@ -556,14 +593,6 @@ alias l="ls -CF"
 
 alias rs="rsync --recursive"
 alias rsp="rsync --progress --recursive"
-
-alias maek=make
-alias mkae=make
-alias mkea=make
-alias amke=make
-alias akem=make
-alias amek=make
-alias meka=make
 
 alias gcc-defines="gcc -dM -E - < /dev/null"
 alias g++-defines="g++ -dM -E - < /dev/null"
