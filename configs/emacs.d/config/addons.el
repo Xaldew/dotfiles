@@ -257,11 +257,15 @@ NAME can be used to set the name of the defined function."
     (defalias 'x-hide-tip 'ignore))
   (add-hook 'flycheck-mode-hook #'flycheck-pos-tip-mode)
   :config
-  (defun my-flycheck-popup (errors)
-    "Display the ERRORS in the old popup-el interface inside terminals."
-    (let ((func #'flycheck-error-format-message-and-id))
-      (inline-docs (mapconcat func errors "\n\n"))))
-  (setq flycheck-pos-tip-display-errors-tty-function 'my-flycheck-popup))
+  (setq flycheck-pos-tip-display-errors-tty-function
+        #'flycheck-popup-tip-show-popup))
+
+
+(use-package flycheck-popup-tip
+  :ensure t
+  :defer t
+  :after flycheck)
+
 
 (use-package flycheck-irony :ensure t :defer t :after flycheck)
 (use-package flycheck-package :ensure t :defer t :after package-lint)
@@ -1209,11 +1213,6 @@ When `ERC' exits the SSH process is killed from `erc-kill-server-hook'."
 (use-package dropdown-list :defer t :ensure t)
 (use-package popup :defer t :ensure t)
 
-(use-package inline-docs
-  :defer t
-  :ensure t
-  :init
-  (setq eldoc-message-function #'inline-docs))
 
 ;; Remove the lighter for a number of built in packages.
 (use-package flyspell :defer t :diminish flyspell-mode)
