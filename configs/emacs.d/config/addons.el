@@ -1189,7 +1189,7 @@ When `ERC' exits the SSH process is killed from `erc-kill-server-hook'."
 
 ;; Add various themes.
 (use-package zenburn-theme   :defer t :ensure t)
-(use-package niflheim-theme  :defer t :ensure t)
+(use-package zerodark-theme  :defer t :ensure t)
 (use-package sublime-themes  :defer t :ensure t)
 (use-package solarized-theme :defer t :ensure t)
 (use-package spacemacs-theme :defer t :ensure t)
