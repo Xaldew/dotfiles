@@ -51,19 +51,15 @@ NAME can be used to set the name of the defined function."
   :diminish (which-key-mode)
   :init (which-key-mode)
   :config
-  (setq which-key-idle-delay 0.8
-        which-key-key-replacement-alist
-        '(("<\\([[:alnum:]-]+\\)>" . "\\1")
-          ("up" . "↑")
-          ("right" . "→")
-          ("down" . "↓")
-          ("left" . "←")
-          ("DEL" . "⌫")
-          ("deletechar" . "⌦")
-          ("RET" . "⏎"))
-        which-key-description-replacement-alist
-        '(("Prefix Command" . "prefix")
-          ("\\`\\?\\?\\'" . "λ"))))
+  (unless which-key-dont-use-unicode
+    (setq which-key-replacement-alist
+          (append which-key-replacement-alist
+                  '((("up")         . ("↑"))
+                    (("down")       . ("↓"))
+                    (("DEL")        . ("⌫"))
+                    (("RET")        . ("⏎"))
+                    (("deletechar") . ("⌦"))))))
+  (setq which-key-idle-delay 0.8))
 
 
 (use-package yasnippet
