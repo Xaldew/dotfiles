@@ -1015,6 +1015,13 @@ When `ERC' exits the SSH process is killed from `erc-kill-server-hook'."
   (add-hook 'prog-mode-hook #'hes-mode))
 
 
+(use-package perspeen
+  :ensure t
+  :defer t
+  :init
+  (add-hook 'after-init-hook #'perspeen-mode))
+
+
 (use-package jira-markup-mode
   :ensure t
   :defer t
