@@ -850,6 +850,14 @@ and style."
 (use-package bbdb-vcard :defer t :ensure t)
 
 
+(use-package ebdb
+  :ensure t
+  :defer t
+  :init
+  (setq ebdb-sources `(,(locate-user-emacs-file "ebdb")
+                       ,(concat org-directory "ebdb"))))
+
+
 (use-package erc
   :defer t
   :init
