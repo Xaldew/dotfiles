@@ -481,8 +481,8 @@ NAME can be used to set the name of the defined function."
 (use-package ssh-config-mode
   :ensure t
   :defer t
-  :mode (("ssh_config\\'"      . ssh-config-mode)
-         ("\.*ssh\.*config\\'" . ssh-config-mode)))
+  :mode (("ssh_config\\'"     . ssh-config-mode)
+         ("\\.ssh.*config\\'" . ssh-config-mode)))
 
 
 (use-package clang-format
