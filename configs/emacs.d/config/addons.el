@@ -218,9 +218,10 @@ NAME can be used to set the name of the defined function."
   :bind ("C-c x h" . hide/show-comments-toggle))
 
 
-;; Change tab width for coffee-mode.
 (use-package coffee-mode
+  :defer t
   :ensure t
+  :mode (("\\.coffee\\'" . coffee-mode))
   :pin melpa
   :config (setq coffee-tab-width 4))
 
