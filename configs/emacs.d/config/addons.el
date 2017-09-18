@@ -810,6 +810,8 @@ and style."
    'org-src-lang-modes '("plantuml" . plantuml))
 
   (define-key org-mode-map (kbd "M-h") #'backward-kill-word)
+
+  (customize-set-variable 'org-highlight-latex-and-related '(latex))
   (customize-set-variable 'org-src-fontify-natively t)
   (customize-set-variable 'org-export-with-sub-superscript '{})
   (customize-set-variable 'org-use-sub-superscript '{})
