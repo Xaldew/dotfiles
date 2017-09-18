@@ -205,7 +205,7 @@ NAME can be used to set the name of the defined function."
   :defer t
   :mode "COMMIT_EDITMSG\\'"
   :config
-  (setq git-commit-fill-column 70)
+  (set-variable-in-hook git-commit-setup-hook fill-column 70)
   (setq git-commit-style-convention-checks
         '(non-empty-second-line overlong-summary-line)))
 
