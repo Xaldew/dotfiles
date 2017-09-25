@@ -95,7 +95,6 @@ ln -fs $dotfiles_dir/configs/gdbinit $HOME/.gdbinit
 
 # Install tmux configuration and tmux plugin manager.
 mkdir -p $XDG_CONFIG_HOME/tmux
-ln -fs $dotfiles_dir/configs/tmux.conf $HOME/.tmux.conf
 create_linkfarm $dotfiles_dir/configs/tmux $XDG_CONFIG_HOME/tmux
 if [ ! -d "$XDG_CONFIG_HOME/tmux/plugins/tpm" ]; then
     git clone https://github.com/tmux-plugins/tpm $XDG_CONFIG_HOME/tmux/plugins/tpm
