@@ -801,7 +801,7 @@ and style."
      (ditaa . t)
      (python . t)
      (gnuplot . t)
-     (shell . t)
+     (sh . t)
      (org . t)
      (plantuml . t)
      (latex . t)))
