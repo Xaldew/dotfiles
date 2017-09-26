@@ -187,7 +187,21 @@ _H_ + _L_     _s_: Ace Swap windows:       _U_: Winner redo
     ("rj" jump-to-register)
 
     ("q" nil))
-  (global-set-key (kbd "C-c w") #'hydra-windowing/body)
+  (global-set-key (kbd "C-c w") #'hydra-windowing/body))
+
+
+(use-package rect
+  :defer t
+  :config
+
+  (unless (fboundp #'rectangle-backward-char)
+    (defalias #'rectangle-backward-char #'backward-char))
+  (unless (fboundp #'rectangle-forward-char)
+    (defalias #'rectangle-forward-char #'forward-char))
+  (unless (fboundp #'rectangle-next-line)
+    (defalias #'rectangle-next-line #'next-line))
+  (unless (fboundp #'rectangle-previous-line)
+    (defalias #'rectangle-previous-line #'previous-line))
 
   (defhydra hydra-rectangle-mark (:body-pre (rectangle-mark-mode 1)
                                             :hint nil
