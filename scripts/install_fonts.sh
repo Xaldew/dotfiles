@@ -14,7 +14,9 @@ install_fonts()
     tmp=$(mktemp --directory)
     file=$(basename ${url})
     wget ${url} --output-document=${tmp}/${file} --quiet
-    unzip -q ${tmp}/${file} -d ${tmp}
+    case $file in
+        *.[Zz][Ii][Pp]) unzip -q ${tmp}/${file} -d ${tmp} ;;
+    esac
     find ${tmp} -name "${types}" | xargs -I {} mv {} ${dst}
     rm -rf ${tmp}
 }
@@ -56,12 +58,14 @@ install_fonts \
     "*.otf"
 
 # Download and install the Fixedsys Excelsior fonts.
-url="https://github.com/kika/fixedsys/releases/download/v3.02.8/FSEX302-alt.ttf"
-file=$(basename ${url})
-wget --output-document=${fonts}/${file} ${url} --quiet
-url="https://github.com/kika/fixedsys/releases/download/v3.02.8/FSEX302.ttf"
-file=$(basename ${url})
-wget --output-document=${fonts}/${file} ${url} --quiet
+install_fonts \
+    "https://github.com/kika/fixedsys/releases/download/v3.02.8/FSEX302-alt.ttf" \
+    ${fonts} \
+    "*.ttf"
+install_fonts \
+    "https://github.com/kika/fixedsys/releases/download/v3.02.8/FSEX302.ttf" \
+    ${fonts} \
+    "*.ttf"
 
 # Install the DejaVu Sans Code font(s).
 install_fonts \
