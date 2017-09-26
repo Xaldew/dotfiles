@@ -250,8 +250,8 @@ NAME can be used to set the name of the defined function."
   :defer t
   :after flycheck
   :init
-  (unless (fboundp 'x-hide-tip)
-    (defalias 'x-hide-tip 'ignore))
+  (unless (fboundp #'x-hide-tip)
+    (defalias #'x-hide-tip #'ignore))
   (add-hook 'flycheck-mode-hook #'flycheck-pos-tip-mode)
   :config
   (setq flycheck-pos-tip-display-errors-tty-function
