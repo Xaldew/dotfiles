@@ -414,11 +414,14 @@ NAME can be used to set the name of the defined function."
   :bind ("C-c m" . emms-smart-browse)
   :init
   (setq emms-source-file-default-directory
-        (cond
-         ((file-exists-p "~/Music")
-          "~/Music")
-         ((file-exists-p "~/Musik")
-          "~/Musik")))
+        (let ((xdg (getenv "XDG_MUSIC_DIR")))
+          (cond
+           ((and xdg (file-exists-p xdg))
+            xdg)
+           ((file-exists-p "~/Music")
+            "~/Music")
+           ((file-exists-p "~/Musik")
+            "~/Musik"))))
   :config
   (emms-all)
   (emms-default-players)
