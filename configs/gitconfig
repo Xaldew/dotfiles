@@ -21,6 +21,7 @@
 	statue = auto
 	diff   = auto
 [alias]
+	git = !exec git
 	ap = annex proxy -- git
 	ad = add
 	co = checkout
