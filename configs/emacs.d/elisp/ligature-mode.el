@@ -5,6 +5,8 @@
 ;;; Code:
 
 (require 'prog-mode)
+(require 'hasklig-ligatures)
+(require 'fira-code-ligatures)
 
 
 (defgroup ligatures nil
@@ -13,142 +15,106 @@
   :version "25.1")
 
 
-(defcustom ligature-mode-alist
-  '(("www"             #Xe100)
-    ("**"              #Xe101)
-    ("***"             #Xe102)
-    ("**/"             #Xe103)
-    ("*>"              #Xe104)
-    ("*/"              #Xe105)
-    ("\\\\\\\\"        #Xe106)
-    ("\\\\\\\\\\\\"    #Xe107)
-    ("{-"              #Xe108)
-    ("\\[\\]"          #Xe109)
-    ("::"              #Xe10a)
-    (":::"             #Xe10b)
-    ("[^=]:="          #Xe10c)
-    ("!!"              #Xe10d)
-    ("!="              #Xe10e)
-    ("!=="             #Xe10f)
-    ("-}"              #Xe110)
-    ("--"              #Xe111)
-    ("---"             #Xe112)
-    ("-->"             #Xe113)
-    ("->"              #Xe114)
-    ("->>"             #Xe115)
-    ("-<"              #Xe116)
-    ("-<<"             #Xe117)
-    ("-~"              #Xe118)
-    ("#{"              #Xe119)
-    ("#["              #Xe11a)
-    ("##"              #Xe11b)
-    ("###"             #Xe11c)
-    ("####"            #Xe11d)
-    ("#("              #Xe11e)
-    ("#?"              #Xe11f)
-    ("#_"              #Xe120)
-    ("#_("             #Xe121)
-    (".-"              #Xe122)
-    (".="              #Xe123)
-    (".."              #Xe124)
-    ("..<"             #Xe125)
-    ("..."             #Xe126)
-    ("?="              #Xe127)
-    ("??"              #Xe128)
-    (";;"              #Xe129)
-    ("/*"              #Xe12a)
-    ("/**"             #Xe12b)
-    ("/="              #Xe12c)
-    ("/=="             #Xe12d)
-    ("/>"              #Xe12e)
-    ("//"              #Xe12f)
-    ("///"             #Xe130)
-    ("&&"              #Xe131)
-    ("||"              #Xe132)
-    ("||="             #Xe133)
-    ("|="              #Xe134)
-    ("|>"              #Xe135)
-    ("^="              #Xe136)
-    ("$>"              #Xe137)
-    ("++"              #Xe138)
-    ("+++"             #Xe139)
-    ("+>"              #Xe13a)
-    ("=:="             #Xe13b)
-    ("=="              #Xe13c)
-    ("==="             #Xe13d)
-    ("==>"             #Xe13e)
-    ("=>"              #Xe13f)
-    ("=>>"             #Xe140)
-    ("<="              #Xe141)
-    ("=<<"             #Xe142)
-    ("=/="             #Xe143)
-    (">-"              #Xe144)
-    (">="              #Xe145)
-    (">=>"             #Xe146)
-    (">>"              #Xe147)
-    (">>-"             #Xe148)
-    (">>="             #Xe149)
-    (">>>"             #Xe14a)
-    ("<*"              #Xe14b)
-    ("<*>"             #Xe14c)
-    ("<|"              #Xe14d)
-    ("<|>"             #Xe14e)
-    ("<$"              #Xe14f)
-    ("<$>"             #Xe150)
-    ("<!--"            #Xe151)
-    ("<-"              #Xe152)
-    ("<--"             #Xe153)
-    ("<->"             #Xe154)
-    ("<+"              #Xe155)
-    ("<+>"             #Xe156)
-    ("<="              #Xe157)
-    ("<=="             #Xe158)
-    ("<=>"             #Xe159)
-    ("<=<"             #Xe15a)
-    ("<>"              #Xe15b)
-    ("<<"              #Xe15c)
-    ("<<-"             #Xe15d)
-    ("<<="             #Xe15e)
-    ("<<<"             #Xe15f)
-    ("<~"              #Xe160)
-    ("<~~"             #Xe161)
-    ("</"              #Xe162)
-    ("</>"             #Xe163)
-    ("~@"              #Xe164)
-    ("~-"              #Xe165)
-    ("~="              #Xe166)
-    ("~>"              #Xe167)
-    ("~~"              #Xe168)
-    ("~~>"             #Xe169)
-    ("%%"              #Xe16a)
-    ;; This ended up being hard to do properly so I'm leaving it out.
-    ;; "x"             #Xe16b)
-    (":"               #Xe16c)
-    ("+"               #Xe16d)
-    ("*"               #Xe16f))
-  "Strings to format as ligatures."
+(defcustom ligature-style
+  'fira-code
+  "Desired ligature style."
   :group 'ligatures
-  :type 'list)
+  :options '(hasklig fira-code)
+  :type 'choice)
+
+
+(defvar ligature-font-name
+  (eval (intern-soft (concat (symbol-name ligature-style) "-font-name"))))
+
+(defvar ligature-font-symbols-name
+  (eval (intern-soft (concat (symbol-name ligature-style) "-font-symbols-name"))))
+
+(defvar ligature-font-ligatures
+  (eval (intern-soft (concat (symbol-name ligature-style) "-font-ligatures"))))
+
+(defvar ligature-font-lock-keywords
+  (eval (intern-soft (concat (symbol-name ligature-style) "-font-lock-keywords"))))
+
+
+(defun ligature-replacements (ligatures)
+  "Create a list of replacement strings from LIGATURES."
+  (cl-loop for (str . cp) in ligatures
+           collect (cons str (string ?\t cp))))
+
+
+(defun ligature-variable-setup ()
+  "Setup ligature font variables."
+  (setq ligature-font-lock-keywords
+        (eval (intern-soft (concat (symbol-name ligature-style) "-font-lock-keywords")))
+        ligature-font-ligatures
+        (eval (intern-soft (concat (symbol-name ligature-style) "-font-ligatures")))
+        ligature-font-symbols-name
+        (eval (intern-soft (concat (symbol-name ligature-style) "-font-symbols-name")))
+        ligature-font-name
+        (eval (intern-soft (concat (symbol-name ligature-style) "-font-name")))))
+
+
+(defun ligature-prettify-symbols-setup ()
+  "Add font ligatures for use with `mode/prettify-symbols-mode'."
+  (let ((replace (ligature-replacements ligature-font-ligatures)))
+    (setq prettify-symbols-alist (append replace prettify-symbols-alist))))
+
+
+(defun ligature-prettify-symbols-teardown ()
+  "Remove font ligatures from `mode/prettify-symbols-mode'."
+  (let ((replace (ligature-replacements ligature-font-ligatures)))
+    (cl-loop for (str . cp) in replace do
+             (setq prettify-symbols-alist
+                   (remove (cons str (string ?\t cp)) prettify-symbols-alist)))))
+
+
+(defun ligature-font-lock-setup ()
+  "Add font ligatures for use with `mode/font-lock-mode'."
+  (font-lock-add-keywords
+   nil
+   (cl-loop for (rgx . cp) in ligature-font-lock-keywords
+            collect `(,rgx (0 (progn (compose-region
+                                      (match-beginning 1)
+                                      (match-end 1)
+                                      ,(string ?\t cp))))))))
+
+
+(defun ligature-font-lock-teardown ()
+  "Remove font ligatures from `mode/font-lock-mode'."
+  (font-lock-remove-keywords
+   nil
+   (cl-loop for (rgx . cp) in ligature-font-lock-keywords
+            collect `(,rgx (0 (progn (compose-region
+                                      (match-beginning 1)
+                                      (match-end 1)
+                                      ,(string ?\t cp))))))))
 
 
 (defun ligature-mode--frame-hook ()
   "Ensure that new frames receive the font settings."
-  (set-fontset-font t '(#Xe100 . #Xe16f) "Fira Code Symbol"))
+  (set-frame-font ligature-font-name)
+  (ligature-font-lock-setup)
+  (ligature-prettify-symbols-setup)
+  (cl-loop for (_ . cp) in ligature-font-ligatures do
+           (set-fontset-font t cp ligature-font-symbols-name))
+  (cl-loop for (_ . cp) in ligature-font-lock-keywords do
+           (set-fontset-font t cp ligature-font-symbols-name)))
 
 
 (defun ligature-mode--enable ()
   "Function called when enabling `ligature-mode'."
-  (set-fontset-font t '(#Xe100 . #Xe16f) "Fira Code Symbol")
-  (cl-loop for (str cp) in ligature-mode-alist do
-           (push (cons str (string ?\t cp)) prettify-symbols-alist))
+  (ligature-variable-setup)
+  (set-frame-font ligature-font-name)
+  (ligature-mode--frame-hook)
+  (when prettify-symbols-mode
+    (prettify-symbols-mode))
   (add-hook 'after-make-frame-functions #'ligature-mode--frame-hook))
 
 
 (defun ligature-mode--disable ()
   "Function called when disabling `ligature-mode'."
-  (cl-loop for (str cp) in ligature-mode-alist do
-           (setq prettify-symbols-alist
-                 (remove (cons str (string ?\t cp)) prettify-symbols-alist)))
+  (ligature-prettify-symbols-teardown)
+  (ligature-font-lock-teardown)
   (remove-hook 'after-make-frame-functions #'ligature-mode--frame-hook))
 
 

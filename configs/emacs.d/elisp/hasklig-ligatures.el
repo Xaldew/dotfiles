@@ -12,7 +12,17 @@
 ;;; Code:
 
 
-(defconst hasklig-ligatures
+(defconst hasklig-font-name
+  "hasklig"
+  "The human readable name of the Hasklig font.")
+
+
+(defconst hasklig-font-symbols-name
+  "hasklig"
+  "The human readable name of the Hasklig font.")
+
+
+(defconst hasklig-font-ligatures
   '(("&&"   . #xe100)
     ("***"  . #xe101)
     ("*>"   . #xe102)
@@ -55,19 +65,7 @@
     ("<=>"  . #xe127)
     ("<=<"  . #xe128)
     ("<->"  . #xe129))
-  "Mapping of regular expressions to a Unicode point in the Hasklig font.")
-
-
-(defun hasklig-replacements (ligatures)
-  "Create a list of replacement strings from LIGATURES."
-  (cl-loop for (str . cp) in ligatures
-           collect (cons str (string ?\t cp))))
-
-
-(defun hasklig-setup-prettify-symbol ()
-  "Add Hasklig ligatures for use with `mode/prettify-symbols-mode'."
-  (let ((replacements (hasklig-replacements hasklig-ligatures)))
-    (setq prettify-symbols-alist (append replacements prettify-symbols-alist))))
+  "Mapping of strings to a Unicode point in the Hasklig font.")
 
 
 (provide 'hasklig-ligatures)
