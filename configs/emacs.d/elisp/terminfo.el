@@ -160,6 +160,7 @@
   "Syntax table rules for `terminfo-mode'.")
 
 
+;;;###autoload
 (define-derived-mode terminfo-mode prog-mode "terminfo"
   "Major mode for `terminfo' source files."
   :group 'terminfo
