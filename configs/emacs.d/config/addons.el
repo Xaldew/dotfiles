@@ -799,12 +799,13 @@ and style."
 
   (org-babel-do-load-languages
    'org-babel-load-languages
-   '((emacs-lisp . t)
+   `((emacs-lisp . t)
      (dot . t)
      (ditaa . t)
      (python . t)
      (gnuplot . t)
-     (sh . t)
+     ,(when (<= emacs-major-version 26)
+        '(shell . t))
      (org . t)
      (plantuml . t)
      (latex . t)))
