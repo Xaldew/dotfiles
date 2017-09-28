@@ -357,12 +357,12 @@
     (`(,_)        (ebnf-iso-ebnf-setup))))
 
 
+;;;###autoload
 (define-derived-mode ebnf-mode prog-mode "EBNF"
   "Major mode for various EBNF formats."
   :group 'ebnf-mode
   (setq-local indent-tabs-mode nil)
   (setq-local font-lock-defaults ebnf-mode-font-lock-keywords)
-  (font-lock-flush)
   (add-hook 'hack-local-variables-hook
             #'ebnf-mode-after-hack-local-variables nil t))
 
