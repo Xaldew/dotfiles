@@ -777,6 +777,7 @@ and style."
 
 (use-package org
   :defer t
+  :diminish (orgstruct-mode   . "Org")
   :init
   (setq org-directory (file-name-as-directory
                        (concat user-emacs-directory "org")))
@@ -785,9 +786,9 @@ and style."
   (defun my-org-hook ()
     "Personal hook for `org-mode'."
     (linum-mode -1))
-  (add-hook 'message-mode-hook #'orgtbl-mode)
-  (add-hook 'message-mode-hook #'orgstruct++-mode)
   (add-hook 'org-mode-hook #'my-org-hook)
+  (add-hook 'text-mode-hook #'orgstruct-mode)
+  (add-hook 'latex-mode-hook #'orgstruct-mode)
   :config
   (let ((ditaa    (executable-find "ditaa"))
         (plantuml (executable-find "plantuml")))
@@ -820,6 +821,15 @@ and style."
   (customize-set-variable 'org-export-with-sub-superscript '{})
   (customize-set-variable 'org-use-sub-superscript '{})
   (customize-set-variable 'org-log-into-drawer t))
+
+
+(use-package org-table
+  :defer t
+  :commands (orgtbl-mode)
+  :diminish (orgtbl-mode)
+  :init
+  (add-hook 'text-mode-hook #'orgtbl-mode)
+  (add-hook 'latex-mode-hook #'orgtbl-mode))
 
 
 (use-package htmlize
