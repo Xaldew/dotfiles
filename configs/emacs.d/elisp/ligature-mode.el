@@ -119,6 +119,7 @@
   (remove-hook 'after-make-frame-functions #'ligature-mode--frame-hook))
 
 
+;;;###autoload
 (define-minor-mode ligature-mode
   "Minor mode to enable font ligatures in GUI Emacs."
   :group 'ligatures
