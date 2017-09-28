@@ -763,6 +763,7 @@ and style."
   :ensure t
   :pin melpa
   :defer t
+  :diminish (beacon-mode)
   :init
   (add-hook 'emacs-startup-hook #'beacon-mode))
 
