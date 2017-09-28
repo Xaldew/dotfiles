@@ -237,4 +237,12 @@ Non-stop mode only stops the current thread."
 (setq shr-color-visible-luminance-min 70)
 
 
+(defun terminal-transparency ()
+  "Set background transparency for terminal frames."
+  (unless (display-graphic-p (selected-frame))
+    (set-face-background 'default "unspecified-bg" (selected-frame))))
+
+(add-hook 'window-setup-hook #'terminal-transparency)
+
+
 ;;; settings.el ends here
