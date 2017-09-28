@@ -62,32 +62,32 @@
 
 (defun ligature-prettify-symbols-teardown ()
   "Remove font ligatures from `mode/prettify-symbols-mode'."
-  (let ((replace (ligature-replacements ligature-font-ligatures)))
-    (cl-loop for (str . cp) in replace do
-             (setq prettify-symbols-alist
-                   (remove (cons str (string ?\t cp)) prettify-symbols-alist)))))
+  (cl-loop for (str . cp) in ligature-font-ligatures do
+           (setq prettify-symbols-alist
+                 (remove (cons str (string ?\t cp))
+                         prettify-symbols-alist))))
 
 
 (defun ligature-font-lock-setup ()
   "Add font ligatures for use with `mode/font-lock-mode'."
   (font-lock-add-keywords
    nil
-   (cl-loop for (rgx . cp) in ligature-font-lock-keywords
-            collect `(,rgx (0 (progn (compose-region
-                                      (match-beginning 1)
-                                      (match-end 1)
-                                      ,(string ?\t cp))))))))
+   (cl-loop for (rgx . cp) in ligature-font-lock-keywords collect
+            `(,rgx (0 (progn (compose-region
+                              (match-beginning 1)
+                              (match-end 1)
+                              ,(string ?\t cp))))))))
 
 
 (defun ligature-font-lock-teardown ()
   "Remove font ligatures from `mode/font-lock-mode'."
   (font-lock-remove-keywords
    nil
-   (cl-loop for (rgx . cp) in ligature-font-lock-keywords
-            collect `(,rgx (0 (progn (compose-region
-                                      (match-beginning 1)
-                                      (match-end 1)
-                                      ,(string ?\t cp))))))))
+   (cl-loop for (rgx . cp) in ligature-font-lock-keywords collect
+            `(,rgx (0 (progn (compose-region
+                              (match-beginning 1)
+                              (match-end 1)
+                              ,(string ?\t cp))))))))
 
 
 (defun ligature-mode--frame-hook ()
@@ -106,8 +106,9 @@
   (ligature-variable-setup)
   (set-frame-font ligature-font-name)
   (ligature-mode--frame-hook)
-  (when prettify-symbols-mode
-    (prettify-symbols-mode))
+  (if prettify-symbols-mode
+      (prettify-symbols-mode)
+    (message "Turn on `prettify-symbols-mode' to enable the ligatures."))
   (add-hook 'after-make-frame-functions #'ligature-mode--frame-hook))
 
 
