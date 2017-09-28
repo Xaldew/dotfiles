@@ -239,8 +239,7 @@
               (point))))))
 
 
-;;;; Major mode definition.
-
+;;;###autoload
 (define-derived-mode kll-mode prog-mode "KLL"
   :group 'kll-mode
   :syntax-table kll-mode-syntax-table
@@ -250,8 +249,7 @@
   (smie-setup kll-mode-smie-grammar #'kll-mode-smie-rules
               :backward-token #'kll-smie-backward-token
               :forward-token #'kll-smie-forward-token)
-  (setq-local font-lock-defaults kll-mode-font-lock-keywords)
-  (font-lock-flush))
+  (setq-local font-lock-defaults kll-mode-font-lock-keywords))
 
 
 ;;;###autoload
