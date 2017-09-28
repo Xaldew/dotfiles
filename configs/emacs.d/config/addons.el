@@ -806,7 +806,7 @@ and style."
      (ditaa . t)
      (python . t)
      (gnuplot . t)
-     ,(when (<= emacs-major-version 26)
+     ,(when (>= emacs-major-version 26)
         '(shell . t))
      (org . t)
      (plantuml . t)
@@ -1044,6 +1044,7 @@ When `ERC' exits the SSH process is killed from `erc-kill-server-hook'."
 (use-package perspeen
   :ensure t
   :defer t
+  :if (>= emacs-major-version 25)
   :init
   (add-hook 'after-init-hook #'perspeen-mode))
 
