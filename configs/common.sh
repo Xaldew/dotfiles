@@ -257,6 +257,26 @@ rand_uint()
 }
 
 
+randomize_files()
+{
+    in_dir=${1:?"No input directory specified."}
+    out_dir=${2:?"No output directory specified."}
+    mkdir -p "${out_dir}"
+    find ${in_dir} -path "${out_dir}" -prune -o -type f |
+        shuf |      # shuffle the input lines, i.e. apply a random permutation
+        nl -n rz |  # add line numbers 000001, …
+        while read -r number name; do
+            ext=${name##*/}  # try to retain the file name extension
+            case $ext in
+                *.*) ext=.${ext##*.};;
+                *) ext=;;
+            esac
+            mkdir -p $(dirname ${out_dir}/${name})
+            ln -f "${name}" "${out_dir}/${name%/*}/${number}${ext}"
+        done
+}
+
+
 find_dropbox()
 {
     # Function to find the dropbox folder.
