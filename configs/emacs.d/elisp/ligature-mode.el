@@ -36,6 +36,11 @@
   (eval (intern-soft (concat (symbol-name ligature-style) "-font-lock-keywords"))))
 
 
+(defun ligature-font-available-p (font-name)
+  "Check if FONT-NAME is available."
+  (cl-member font-name (font-family-list) :test #'cl-search))
+
+
 (defun ligature-replacements (ligatures)
   "Create a list of replacement strings from LIGATURES."
   (cl-loop for (str . cp) in ligatures
@@ -92,6 +97,10 @@
 
 (defun ligature-mode--frame-hook ()
   "Ensure that new frames receive the font settings."
+  (unless (ligature-font-available-p ligature-font-name)
+    (error "The '%s' font is not available!" ligature-font-name))
+  (unless (ligature-font-available-p ligature-font-symbols-name)
+    (error "The '%s' font is not available!" ligature-font-symbols-name))
   (set-frame-font ligature-font-name)
   (ligature-font-lock-setup)
   (ligature-prettify-symbols-setup)
