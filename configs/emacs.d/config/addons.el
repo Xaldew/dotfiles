@@ -798,6 +798,7 @@ and style."
   :defer t
   :diminish (orgstruct-mode   . "Org")
   :init
+  (setq org-export-backends '(ascii html latex odt))
   (setq org-directory (file-name-as-directory
                        (concat user-emacs-directory "org")))
   (unless (file-directory-p org-directory)
