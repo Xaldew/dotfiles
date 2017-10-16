@@ -26,7 +26,7 @@ export STYX3_AVESW_PATH="/work/mve/linux"
 export ARGUS_IPADDR=10.44.10.244
 
 #### Exports
-export ARM_PROJECT_NR=PJ01921
+export ARM_PROJECT_NR=PJ02470
 export SCRATCH="/arm/scratch/\$USER"
 export HW_UTILS_DIR="\$WORK/asic_util"
 export WORKSPACE_DIR="\$WORK/mve6"
