@@ -6,7 +6,8 @@
 cat >> ~/.bashrc <<EOF
 
 # Source common utilities.
-source \$dotfiles_dir/scripts/get_distribution.sh
+. \$dotfiles_dir/scripts/get_distribution.sh
+. \$dotfiles_dir/configs/common.sh
 
 # Initialize tool to load modules.
 source /arm/tools/setup/init/bash
