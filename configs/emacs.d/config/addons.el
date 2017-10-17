@@ -886,12 +886,13 @@ and style."
 (use-package bbdb-vcard :defer t :ensure t)
 
 
-(use-package ebdb
-  :ensure t
-  :defer t
-  :init
-  (setq ebdb-sources `(,(locate-user-emacs-file "ebdb")
-                       ,(concat org-directory "ebdb"))))
+(when (>= emacs-major-version 25)
+  (use-package ebdb
+    :ensure t
+    :defer t
+    :init
+    (setq ebdb-sources `(,(locate-user-emacs-file "ebdb")
+                         ,(concat org-directory "ebdb")))))
 
 
 (use-package erc
@@ -1060,12 +1061,12 @@ When `ERC' exits the SSH process is killed from `erc-kill-server-hook'."
   (add-hook 'prog-mode-hook #'hes-mode))
 
 
-(use-package perspeen
-  :ensure t
-  :defer t
-  :if (>= emacs-major-version 25)
-  :init
-  (add-hook 'after-init-hook #'perspeen-mode))
+(when (>= emacs-major-version 25)
+  (use-package perspeen
+    :ensure t
+    :defer t
+    :init
+    (add-hook 'after-init-hook #'perspeen-mode)))
 
 
 (use-package jira-markup-mode
