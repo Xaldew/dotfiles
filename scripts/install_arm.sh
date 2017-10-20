@@ -23,8 +23,6 @@ export MODELSIM=\$WORKSPACE_DIR/modelsim.ini
 export WORK=/work
 export DESIGNKIT=/projects/mpd/designkit/
 export LM_LICENSE_FILE=\$LM_LICENSE_FILE:7010@cam-lic3.cambridge.arm.com ;
-export STYX3_AVESW_PATH="/work/mve/linux"
-export ARGUS_IPADDR=10.44.10.244
 
 #### Exports
 export ARM_PROJECT_NR=PJ02470
@@ -33,11 +31,6 @@ export HW_UTILS_DIR="\$WORK/asic_util"
 export WORKSPACE_DIR="\$WORK/mve6"
 export MVE_MODEL_DIR="\$SCRATCH/git-mve6/model"
 export GIT_HOME_DIR="\$HOME/git"
-
-#### Axi-tester
-export BUILDMAKEFLAGS="--silent -r"
-export PLATFORM=i686-linux
-export SVNROOT=http://lun-svn1.lund.arm.com/svn/mpd/video
 
 #### Put some utils in PATH:
 export PATH=\$HW_UTILS_DIR/thirdparty/jm/jm14.0/bin:\$PATH
