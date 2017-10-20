@@ -68,6 +68,13 @@ else
    # Running CentOS. Load CentOS specific packages.
    module load vim/vim/7.3
    module load git/git/v2.0.0
+
+   # Load tmux on the EUHPC cluster.
+   if [[ `hostname --fqdn` =~ .*euhpc.* ]]; then
+       module load gnu/tmux/2.3
+       module load llvm/clang/5.0.0
+       module load gnu/gcc/5.3.0
+   fi
 fi
 
 # bjobs/bwhat to monitor queue
