@@ -37,7 +37,7 @@ open()
 {
     # Open each of the given files with the prefered application.
     for f in "$@"; do
-	xdg-open $f
+	xdg-open "$f"
     done
 }
 
