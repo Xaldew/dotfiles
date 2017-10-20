@@ -24,6 +24,7 @@
 
 ;; Add makefile modes.
 (add-to-list 'auto-mode-alist '("\\.mak\\'"   . makefile-gmake-mode))
+(add-to-list 'auto-mode-alist '("\\.defs\\'"  . makefile-gmake-mode))
 (add-to-list 'auto-mode-alist '("\\.build\\'" . makefile-gmake-mode))
 
 ;; Set Scons files to python mode.
