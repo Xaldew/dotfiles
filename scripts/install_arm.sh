@@ -167,4 +167,12 @@ export LANGUAGE=en_US.utf8
 # Undo GNU global tags configuration - requires pygments.
 unset GTAGSCONF
 unset GTAGSLABEL
+
+# (t)csh setenv compatibility.
+setenv()
+{
+    export "$1"="$@"
+}
+
+EOF
 EOF
