@@ -20,7 +20,7 @@ if command -v rustup; then
 
     rustup install nightly
 
-    rustup component add rls --toolchain nightly
+    rustup component add rls-preview --toolchain nightly
     rustup component add rust-analysis --toolchain nightly
     rustup component add rust-src --toolchain nightly
 
