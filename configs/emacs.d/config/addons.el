@@ -211,6 +211,7 @@ NAME can be used to set the name of the defined function."
 
 (use-package magit-gerrit :ensure t :defer t)
 (use-package magit-annex  :ensure t :defer t)
+(use-package magit-svn    :ensure t :defer t)
 
 
 (use-package hide-comnt
