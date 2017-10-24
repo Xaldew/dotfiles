@@ -13,15 +13,6 @@
 (add-to-list 'auto-mode-alist '("gitconfig.*\\'" . gitconfig-mode))
 (add-to-list 'auto-mode-alist '("\\.rc\\'" . conf-mode))
 
-;; OpenCL Mode.
-(add-to-list 'auto-mode-alist '("\\.cl\\'" . c-mode))
-
-;; GLSL Mode
-(add-to-list 'auto-mode-alist '("\\.vert\\'" . glsl-mode))
-(add-to-list 'auto-mode-alist '("\\.frag\\'" . glsl-mode))
-(add-to-list 'auto-mode-alist '("\\.vs\\'"   . glsl-mode))
-(add-to-list 'auto-mode-alist '("\\.fs\\'"   . glsl-mode))
-
 ;; Add makefile modes.
 (add-to-list 'auto-mode-alist '("\\.mak\\'"   . makefile-gmake-mode))
 (add-to-list 'auto-mode-alist '("\\.defs\\'"  . makefile-gmake-mode))

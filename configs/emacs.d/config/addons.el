@@ -1217,10 +1217,23 @@ When `ERC' exits the SSH process is killed from `erc-kill-server-hook'."
     (add-to-list 'srecode-map-load-path tdir 'append)))
 
 
+(use-package glsl-mode
+  :ensure t
+  :defer t
+  :mode (("\\.vs\\'" . glsl-mode)
+         ("\\.fs\\'" . glsl-mode)))
+
+
+(use-package opencl-mode
+  :ensure t
+  :defer t
+  :mode (("\\.cl\\'" . opencl-mode)))
+
+
+
 ;; Install various major-mode packages and defer where it is possible.
 (use-package abc-mode          :ensure t :defer t)
 (use-package graphviz-dot-mode :ensure t :defer t)
-(use-package glsl-mode         :ensure t :defer t)
 (use-package cmake-mode        :ensure t :defer t)
 (use-package gitignore-mode    :ensure t :defer t)
 (use-package gitconfig-mode    :ensure t :defer t)
@@ -1228,7 +1241,6 @@ When `ERC' exits the SSH process is killed from `erc-kill-server-hook'."
 (use-package web-mode          :ensure t :defer t)
 (use-package cuda-mode         :ensure t :defer t)
 (use-package csv-mode          :ensure t :defer t)
-(use-package opencl-mode       :ensure t :defer t)
 (use-package rust-mode         :ensure t :defer t)
 (use-package flycheck-rust     :ensure t :defer t)
 (use-package powershell        :ensure t :defer t)
