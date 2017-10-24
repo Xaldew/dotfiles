@@ -12,6 +12,7 @@
 (add-to-list 'auto-mode-alist '("profile\\'" . shell-script-mode))
 (add-to-list 'auto-mode-alist '("gitconfig.*\\'" . gitconfig-mode))
 (add-to-list 'auto-mode-alist '("\\.rc\\'" . conf-mode))
+(add-to-list 'auto-mode-alist '("\\.m3i\\'" . conf-mode))
 
 ;; Add makefile modes.
 (add-to-list 'auto-mode-alist '("\\.mak\\'"   . makefile-gmake-mode))
