@@ -653,10 +653,10 @@ fi
 
 
 # Make sure the XDG directories exist.
-if [ ! -d "$XDG_CONFIG_HOME" ]; then
+if [ -n "$XDG_CONFIG_HOME" -a ! -d "$XDG_CONFIG_HOME" ]; then
     mkdir --parents "$XDG_CONFIG_HOME"
 fi
-if [ ! -d "$XDG_DATA_HOME" ]; then
+if [ -n "$XDG_CONFIG_HOME" -a ! -d "$XDG_DATA_HOME" ]; then
     mkdir --parents "$XDG_DATA_HOME"
 fi
 
