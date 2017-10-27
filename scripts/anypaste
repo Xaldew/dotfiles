@@ -13,7 +13,7 @@ while :; do
             printf "[-p|--platform]"
             printf "[-c|--clipboard]\n"
             printf "\nUtility to portably paste from the system clipboard(s).\n"
-            return 0
+            exit 0
             ;;
         -p|--platform)
             if [ -n "$2" ]; then
