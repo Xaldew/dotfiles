@@ -175,3 +175,9 @@ setenv()
 }
 
 EOF
+
+# Append the work (t)csh configuration to the cluster .cshrc file.
+cat >> ~/.cshrc <<EOF
+source /arm/tools/setup/init/tcsh
+module load arm/cluster
+EOF
