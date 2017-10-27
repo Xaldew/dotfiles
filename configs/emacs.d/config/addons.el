@@ -1259,6 +1259,10 @@ When `ERC' exits the SSH process is killed from `erc-kill-server-hook'."
   :ensure t
   :defer t
   :mode (("Cargo.lock\\'" . toml-mode)))
+(use-package json-mode
+  :ensure t
+  :defer t
+  :mode (("\\.repo\\'" . json-mode)))
 
 
 ;; Add various themes.
