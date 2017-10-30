@@ -20,6 +20,7 @@ desktop.ini	     # Windows desktop variables.
 # Ignore certain configuration files.
 .emacs.d/
 .dir-locals.el
+.dumbjump
 
 # Ignore C/C++ binaries.
 *.out
