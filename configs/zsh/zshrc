@@ -73,7 +73,6 @@ bindkey -M emacs '^[h' backward-kill-word
 
 # Enter accepts the menu entry and inserts the command.
 zmodload zsh/complist
-bindkey -M menuselect '^M' .accept-line
 
 # Remove zprezto rm alias.
 alias rm=rm
