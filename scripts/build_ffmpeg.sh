@@ -81,7 +81,7 @@ install_libass()
 
 install_libx264()
 {
-    # Compile and install libx264.
+    # Compile and install libx264 - modern versions require nasm-13 or newer.
     cd $objects_dir/ffmpeg
     if [ ! -d x264 ]; then
 	git clone git://git.videolan.org/x264.git
@@ -91,6 +91,8 @@ install_libx264()
     cd $objects_dir/ffmpeg/x264
     ./configure \
 	--prefix=$objects_dir/ffmpeg/ffmpeg_build \
+        --disable-cli \
+        --disable-asm \
 	--enable-static
     make
     make install
@@ -126,9 +128,6 @@ install_libvpx()
     cd libvpx
     ./configure \
 	--prefix=$objects_dir/ffmpeg/ffmpeg_build \
-        --enable-multi-res-encoding \
-        --enable-experimental \
-        --enable-spatial-svc \
         --enable-static
     make
     make install
@@ -186,6 +185,7 @@ install_libmp3_lame()
     ./configure \
 	--prefix=$objects_dir/ffmpeg/ffmpeg_build \
 	--enable-nasm \
+        --enable-static \
 	--disable-shared
     make
     make install
@@ -265,28 +265,29 @@ else
     git -C ffmpeg_sources pull
 fi
 cd $objects_dir/ffmpeg/ffmpeg_sources
-PKG_CONFIG_PATH=$objects_dir/ffmpeg/ffmpeg_build/lib/pkgconfig \
-	       ./configure \
-	       --prefix=$objects_dir/ffmpeg/ffmpeg_build \
-	       --bindir=$local_prefix_dir/bin \
-	       --mandir=$local_prefix_dir/share/man \
-	       --pkg-config-flags="--static" \
-	       --extra-cflags=-I$objects_dir/ffmpeg/ffmpeg_build/include \
-	       --extra-ldflags=-L$objects_dir/ffmpeg/ffmpeg_build/lib \
-	       --enable-static \
-               --enable-ffplay \
-	       --disable-shared \
-	       --enable-gpl \
-	       --enable-nonfree \
-	       --enable-libfdk-aac \
-	       --enable-libfreetype \
-	       --enable-libmp3lame \
-	       --enable-libopus \
-	       --enable-libtheora \
-	       --enable-libvorbis \
-	       --enable-libvpx \
-	       --enable-libx264 \
-	       --enable-libx265
+./configure \
+    --prefix=$objects_dir/ffmpeg/ffmpeg_build \
+    --bindir=$local_prefix_dir/bin \
+    --mandir=$local_prefix_dir/share/man \
+    --pkg-config-flags="--static" \
+    --extra-cflags=-I$objects_dir/ffmpeg/ffmpeg_build/include \
+    --extra-ldflags=-L$objects_dir/ffmpeg/ffmpeg_build/lib \
+    --extra-libs="-lpthread -lm" \
+    --enable-static \
+    --enable-ffplay \
+    --disable-shared \
+    --enable-gpl \
+    --enable-nonfree \
+    --enable-libfdk-aac \
+    --enable-libfreetype \
+    --enable-libfontconfig \
+    --enable-libmp3lame \
+    --enable-libopus \
+    --enable-libtheora \
+    --enable-libvorbis \
+    --enable-libvpx \
+    --enable-libx264 \
+    --enable-libx265
 make
 make install
 make distclean
