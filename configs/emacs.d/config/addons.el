@@ -1231,6 +1231,11 @@ When `ERC' exits the SSH process is killed from `erc-kill-server-hook'."
   :mode (("\\.cl\\'" . opencl-mode)))
 
 
+(use-package nxml-mode
+  :defer t
+  :config
+  (define-key nxml-mode-map (kbd "M-h") #'backward-kill-word))
+
 
 ;; Install various major-mode packages and defer where it is possible.
 (use-package abc-mode          :ensure t :defer t)
