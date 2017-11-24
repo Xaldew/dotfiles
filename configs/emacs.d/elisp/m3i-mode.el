@@ -51,10 +51,12 @@
   "Parse the m3i bin write.
 
 Note that this expects the match data to be properly set."
-  (let ((max (string-to-number (match-string 1)))
-        (min (string-to-number (match-string 2)))
-        (base (substring (match-string 3) 0 2))
-        (val  (match-string 3)))
+  (let* ((max (string-to-number (match-string 1)))
+         (min (string-to-number (match-string 2)))
+         (val  (match-string 3))
+         (base (if (>= (length val) 2)
+                   (substring val 0 2)
+                 "")))
     (list min max (cond
                    ((string= base "0b") (string-to-number (substring val 2)  2))
                    ((string= base "0x") (string-to-number (substring val 2) 16))
@@ -95,7 +97,6 @@ Note that this expects the match data to be properly set."
 
 (defconst m3i-mode-syntax-table
   (let ((table (make-syntax-table)))
-    (modify-syntax-entry ?_  "w" table)
     (modify-syntax-entry ?@  "w" table)
     (modify-syntax-entry ?#  "<" table)
     (modify-syntax-entry ?\n ">" table)
