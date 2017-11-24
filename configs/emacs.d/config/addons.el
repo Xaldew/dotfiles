@@ -1237,6 +1237,16 @@ When `ERC' exits the SSH process is killed from `erc-kill-server-hook'."
   (define-key nxml-mode-map (kbd "M-h") #'backward-kill-word))
 
 
+(use-package slime
+  :ensure t
+  :defer t
+  :after xdg
+  :commands (slime)
+  :config
+  (load (expand-file-name (concat (xdg-config-home) "/quicklisp/slime-helper.el")))
+  (setq inferior-lisp-program "sbcl"))
+
+
 ;; Install various major-mode packages and defer where it is possible.
 (use-package abc-mode          :ensure t :defer t)
 (use-package graphviz-dot-mode :ensure t :defer t)
