@@ -15,7 +15,9 @@
 
 (defconst fira-code-font-symbols-name
   "Fira Code Symbol"
-  "The human readable name of the Fira Code font.")
+  "The human readable name of the Fira Code Symbols font.
+
+I.e., the font that only contain the ligature symbols.")
 
 
 (defconst fira-code-font-ligatures

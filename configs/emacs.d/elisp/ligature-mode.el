@@ -7,6 +7,7 @@
 (require 'prog-mode)
 (require 'hasklig-ligatures)
 (require 'fira-code-ligatures)
+(require 'pragmatapro-ligatures)
 
 
 (defgroup ligatures nil
@@ -19,7 +20,7 @@
   'fira-code
   "Desired ligature style."
   :group 'ligatures
-  :options '(hasklig fira-code)
+  :options '(hasklig fira-code pragmatapro)
   :type 'choice)
 
 
