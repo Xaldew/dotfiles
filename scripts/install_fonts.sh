@@ -79,5 +79,23 @@ install_fonts \
     ${fonts} \
     "*.woff"
 
+
+# Download Nerd-Font patched fonts.
+install_fonts \
+    "https://github.com/ryanoasis/nerd-fonts/releases/download/v1.2.0/FiraCode.zip" \
+    ${fonts} \
+    "*.otf"
+
+install_fonts \
+    "https://github.com/ryanoasis/nerd-fonts/releases/download/v1.2.0/Hasklig.zip" \
+    ${fonts} \
+    "*.otf"
+
+install_fonts \
+    "https://github.com/ryanoasis/nerd-fonts/releases/download/v1.2.0/SourceCodePro.zip" \
+    ${fonts} \
+    "*.otf"
+
+
 # Update the font cache.
 fc-cache -f
