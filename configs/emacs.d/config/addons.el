@@ -1243,7 +1243,8 @@ When `ERC' exits the SSH process is killed from `erc-kill-server-hook'."
   :after xdg
   :commands (slime)
   :config
-  (load (expand-file-name (concat (xdg-config-home) "/quicklisp/slime-helper.el")))
+  (load (expand-file-name (concat (getenv "XDG_CONFIG_HOME")
+                                  "/quicklisp/slime-helper.el")))
   (setq inferior-lisp-program "sbcl"))
 
 
