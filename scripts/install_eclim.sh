@@ -14,3 +14,5 @@ java \
     -Declipse.home=${XDG_DATA_HOME}/eclipse \
     -jar ${objects_dir}/eclim_2.7.0.jar \
     install
+ln -s ${XDG_DATA_HOME}/eclipse/eclim  ${local_prefix_dir}/bin/eclim
+ln -s ${XDG_DATA_HOME}/eclipse/eclimd ${local_prefix_dir}/bin/eclimd
