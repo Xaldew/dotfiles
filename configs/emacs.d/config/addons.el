@@ -1174,6 +1174,22 @@ When `ERC' exits the SSH process is killed from `erc-kill-server-hook'."
   :after lsp-mode)
 
 
+(use-package atomic-chrome
+  :defer t
+  :ensure t
+  :init
+  (defun my-atomic-chrome-start ()
+    "Ignore errors when starting the server."
+    (condition-case nil
+        (atomic-chrome-start-server)
+      ((error nil))))
+  (add-hook 'after-init-hook #'my-atomic-chrome-start)
+  :config
+  (setq atomic-chrome-url-major-mode-alist '(("github\\.com" . gfm-mode)))
+  (setq atomic-chrome-buffer-open-style 'frame)
+  (setq atomic-chrome-default-major-mode 'markdown-mode))
+
+
 (use-package unfill
   :ensure t
   :defer t)
