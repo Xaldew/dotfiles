@@ -1289,6 +1289,19 @@ When `ERC' exits the SSH process is killed from `erc-kill-server-hook'."
   (setq inferior-lisp-program "sbcl"))
 
 
+(use-package guess-language
+  :ensure t
+  :defer t
+  :diminish guess-language-mode
+  :init
+  (add-hook 'text-mode-hook #'guess-language-mode)
+  :config
+  (setq guess-language-langcodes '((en . ("en_US"   "English"))
+                                   (sv . ("svenska" "Swedish"))))
+  (setq guess-language-languages '(en sv))
+  (setq guess-language-min-paragraph-length 60))
+
+
 ;; Install various major-mode packages and defer where it is possible.
 (use-package abc-mode          :ensure t :defer t)
 (use-package graphviz-dot-mode :ensure t :defer t)
