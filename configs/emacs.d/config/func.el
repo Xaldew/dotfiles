@@ -9,7 +9,7 @@
 (declare-function apply-on-rectangle "rect")
 
 
-(defalias 'save-as #'write-buffer)
+(defalias 'save-as #'write-file)
 
 
 (defun indent-defun ()
