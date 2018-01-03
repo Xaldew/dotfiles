@@ -1174,6 +1174,18 @@ When `ERC' exits the SSH process is killed from `erc-kill-server-hook'."
   :after lsp-mode)
 
 
+(use-package eclim
+  :defer t
+  :ensure t
+  :init
+  (add-hook 'java-mode-hook #'eclim-mode)
+  :config
+  (add-to-list 'eclim-eclipse-dirs
+               (concat (file-name-as-directory (getenv "XDG_DATA_HOME"))
+                       "eclipse"))
+  (setq eclim-executable (eclim-executable-find)))
+
+
 (use-package atomic-chrome
   :defer t
   :ensure t
