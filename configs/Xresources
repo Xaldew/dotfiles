@@ -35,3 +35,4 @@ XTerm*locale: true
 XTerm*metaSendsEscape: true
 XTerm*utf8: 1
 XTerm*selectToClipboard: true
+XTerm.vt100.faceName: Fura Code:size=11:antialias=true
