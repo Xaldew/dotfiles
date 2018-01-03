@@ -1302,6 +1302,71 @@ When `ERC' exits the SSH process is killed from `erc-kill-server-hook'."
   (setq guess-language-min-paragraph-length 60))
 
 
+(use-package eshell
+  :defer t
+  :config
+  (defun my-eshell-pyvenv ()
+    "Return the propertized python virtualenv prompt string."
+    (when (and (boundp 'pyvenv-virtual-env-name)
+               pyvenv-virtual-env-name)
+      (concat
+       (propertize " |" 'face nil)
+       (propertize " \ue73c " 'face '(:foreground "forest green"))
+       (propertize
+        pyvenv-virtual-env-name 'face nil))))
+
+  (defun my-eshell-git-branch ()
+    "Return the propertized git prompt string."
+    (when (and (fboundp #'magit-get-current-branch)
+               (magit-get-current-branch))
+      (concat
+       (propertize " |" 'face nil)
+       (propertize " \ue702 " 'face '(:foreground "#f03c2e"))
+       (propertize
+        (magit-get-current-branch) 'face '(:foreground "#8787af")))))
+
+  (defun my-eshell-user ()
+    "Return the propertized user prompt string."
+    (concat
+     (propertize " | " 'face nil)
+     (propertize (user-login-name) 'face '(:foreground "#8787af"))
+     (propertize (my-eshell-system-symbol) 'face nil)
+     (propertize (system-name) 'face '(:foreground "#8787af"))))
+
+  (defun my-eshell-system-symbol ()
+    "Return a propertized symbol that can represent the system."
+    (pcase system-type
+      (gnu/linux    (propertize " \ue712 " 'face nil))
+      (darwin       (propertize " \ue711 " 'face nil))
+      (gnu/kfreebsd (propertize " \uf30e " 'face nil))
+      (windows-nt   (propertize " \ue70f " 'face nil))
+      (cygwin       (propertize " \ue61e " 'face nil))
+      (_            (propertize " \ufffd " 'face nil))))
+
+  (defun my-eshell-prompt-function ()
+    "Function used to set the prompt in `eshell'."
+    (concat
+     (propertize "┌─" 'face nil)
+     (propertize " \uf07c " 'face '(:foreground "yellow"))
+     (propertize
+      (abbreviate-file-name (eshell/pwd)) 'face '(:foreground "#8787af"))
+     (my-eshell-user)
+     (my-eshell-git-branch)
+     (my-eshell-pyvenv)
+     (propertize "\n" 'face nil)
+     (propertize "└─" 'face nil)
+     (if (= (user-uid) 0)
+         (propertize "#" 'face '(:foreground "red"))
+       (concat
+        (propertize ">" 'face '(:foreground "#f75f5f"))
+        (propertize ">" 'face '(:foreground "#ffaf5f"))
+        (propertize ">" 'face '(:foreground "#87af5f"))))
+     (propertize " " 'face nil)))
+
+  (setq eshell-prompt-function #'my-eshell-prompt-function)
+  (setq eshell-prompt-regexp "└─\\(>>>\\|#\\) "))
+
+
 ;; Install various major-mode packages and defer where it is possible.
 (use-package abc-mode          :ensure t :defer t)
 (use-package graphviz-dot-mode :ensure t :defer t)
