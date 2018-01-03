@@ -2,6 +2,8 @@
 ;;
 ;;; Commentary:
 ;;
+;; Mode to enable font-ligatures in the graphical Emacs window.
+;;
 ;;; Code:
 
 (require 'prog-mode)
