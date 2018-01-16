@@ -550,8 +550,15 @@ and style."
   (add-hook 'LaTeX-mode-hook #'LaTeX-math-mode)
   (add-hook 'LaTeX-mode-hook #'prettify-symbols-mode)
 
-  (add-hook 'LaTeX-mode-hook #'turn-on-reftex)   ; with AUCTeX LaTeX mode
-  (add-hook 'latex-mode-hook #'turn-on-reftex))  ; with Emacs latex mode
+  (add-hook 'LaTeX-mode-hook #'turn-on-reftex)
+  (add-hook 'latex-mode-hook #'turn-on-reftex))
+
+(use-package cdlatex
+  :ensure auctex
+  :defer t
+  (add-hook 'LaTeX-mode-hook #'turn-on-cdlatex)
+  (add-hook 'latex-mode-hook #'turn-on-cdlatex)
+  (add-hook 'org-mode-hook #'turn-on-org-cdlatex))
 
 (use-package auctex-latexmk       :ensure auctex :defer t)
 (use-package auto-complete-auctex :ensure auctex :defer t)
