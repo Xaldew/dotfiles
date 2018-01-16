@@ -1352,11 +1352,11 @@ When `ERC' exits the SSH process is killed from `erc-kill-server-hook'."
   (defun my-eshell-system-symbol ()
     "Return a propertized symbol that can represent the system."
     (pcase system-type
-      (gnu/linux    (propertize " \ue712 " 'face nil))
-      (darwin       (propertize " \ue711 " 'face nil))
-      (gnu/kfreebsd (propertize " \uf30e " 'face nil))
-      (windows-nt   (propertize " \ue70f " 'face nil))
-      (cygwin       (propertize " \ue61e " 'face nil))
+      ('gnu/linux    (propertize " \ue712 " 'face nil))
+      ('darwin       (propertize " \ue711 " 'face nil))
+      ('gnu/kfreebsd (propertize " \uf30e " 'face nil))
+      ('windows-nt   (propertize " \ue70f " 'face nil))
+      ('cygwin       (propertize " \ue61e " 'face nil))
       (_            (propertize " \ufffd " 'face nil))))
 
   (defun my-eshell-prompt-function ()
