@@ -205,3 +205,12 @@ light_prompt()
     PS1+="]"
     PS1+="$(cmd_status ${last_status}) "
 }
+
+multiline_prompt()
+{
+    last_status=$?
+    PS1="┌─["
+    PS1="\n"
+    PS1="└─"
+    PS1=$(cmd_status ${last_status} ">>>")
+}
