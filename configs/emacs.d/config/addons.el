@@ -446,6 +446,16 @@ NAME can be used to set the name of the defined function."
   (add-hook 'after-init-hook #'global-anzu-mode))
 
 
+(use-package ein
+  :ensure t
+  :defer t)
+
+
+(use-package ob-ipython
+  :ensure t
+  :defer t)
+
+
 (use-package pyimport
   :ensure t
   :defer t
