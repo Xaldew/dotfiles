@@ -844,6 +844,10 @@ and style."
       (setq org-plantuml-jar-path plantuml)))
   (setq org-confirm-babel-evaluate nil)
 
+  (setq org-capture-templates
+        '(("j" "PhD logbook" entry (file+datetree "~/git/phd/logbook.org")
+           "* %<%R: >%? %^g\n%t")))
+
   (org-babel-do-load-languages
    'org-babel-load-languages
    `((emacs-lisp . t)
