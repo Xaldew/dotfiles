@@ -113,15 +113,21 @@ scm_light_status()
 }
 
 
-# Display the status of the last command.
-# A red sign means failed, blue means success.
+# Display the final symbol of the prompt.
 cmd_status()
 {
-    if [ $1 -eq 0 ]; then
-	printf "$(sh_fg_rgb 0 155 155)\$$(sh_color_off)"
-    else
-	printf "$(sh_fg_rgb 155 0 0)\$$(sh_color_off)"
-    fi
+    is_root=$(test $(id --user) -eq 0)
+    status=${1:?"No status value given."}
+    sym_succ=${2:-"$(sh_fg_rgb   0 155 155)\$$(sh_color_off)"}
+    sym_fail=${3:-"$(sh_fg_rgb 155   0   0)\$$(sh_color_off)"}
+    root_succ=${4-"$(sh_fg_rgb 155  35   0)#$(sh_color_off)"}
+    root_succ=${5-"$(sh_fg_rgb   0 155   0)#$(sh_color_off)"}
+    case ${is_root}${status} in
+        00) printf "${sym_succ}"; break;;
+        01) printf "${sym_fail}"; break;;
+        10) printf "${root_succ}"; break;;
+        11) printf "${root_fail}"; break;;
+    esac
 }
 
 # Count the number of running jobs and display them on the prompt.
