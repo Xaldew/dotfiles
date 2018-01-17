@@ -566,6 +566,7 @@ and style."
 (use-package cdlatex
   :ensure auctex
   :defer t
+  :init
   (add-hook 'LaTeX-mode-hook #'turn-on-cdlatex)
   (add-hook 'latex-mode-hook #'turn-on-cdlatex)
   (add-hook 'org-mode-hook #'turn-on-org-cdlatex))
