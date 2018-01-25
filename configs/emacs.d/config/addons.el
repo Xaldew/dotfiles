@@ -877,6 +877,7 @@ and style."
         '(shell . t))
      (org . t)
      (plantuml . t)
+     (ipython . t)
      (latex . t)))
 
   (add-to-list
