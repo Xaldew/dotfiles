@@ -863,7 +863,7 @@ and style."
   (setq org-confirm-babel-evaluate nil)
 
   (setq org-capture-templates
-        '(("j" "PhD logbook" entry (file+datetree "~/git/phd/logbook.org")
+        '(("j" "PhD logbook" entry (file+olp+datetree "~/git/phd/logbook.org")
            "* %<%R: >%? %^g\n%t")))
 
   (org-babel-do-load-languages
