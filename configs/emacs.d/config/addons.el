@@ -203,7 +203,7 @@ NAME can be used to set the name of the defined function."
 (use-package git-commit
   :ensure t
   :defer t
-  :mode "COMMIT_EDITMSG\\'"
+  :mode (("COMMIT_EDITMSG\\'" . global-git-commit-mode))
   :config
   (set-variable-in-hook git-commit-setup-hook fill-column 70)
   (setq git-commit-style-convention-checks
