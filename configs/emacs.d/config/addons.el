@@ -1241,6 +1241,14 @@ When `ERC' exits the SSH process is killed from `erc-kill-server-hook'."
   (customize-set-variable 'ruby-indent-level 4))
 
 
+(use-package octave
+  :defer t
+  :mode (("\\.m\\'" . octave-mode))
+  :config
+  (setq octave-block-offset 4)
+  (define-key octave-mode-map (kbd "C-h") #'backward-delete-char))
+
+
 (use-package csv-mode
   :defer t
   :init
