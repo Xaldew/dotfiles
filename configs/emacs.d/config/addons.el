@@ -115,6 +115,10 @@ NAME can be used to set the name of the defined function."
   ;; Change whitespace visualization in yasnippets mode.
   (add-hook 'snippet-mode-hook #'my/snippet-hook))
 
+(use-package yasnippet-snippets
+  :ensure t
+  :defer t)
+
 
 (use-package auto-complete
   :ensure t
