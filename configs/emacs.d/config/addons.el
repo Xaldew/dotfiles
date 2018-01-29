@@ -559,7 +559,7 @@ and style."
   (add-hook 'latex-mode-hook #'turn-on-reftex))
 
 (use-package cdlatex
-  :ensure auctex
+  :ensure t
   :defer t
   :init
   (add-hook 'LaTeX-mode-hook #'turn-on-cdlatex)
@@ -872,7 +872,8 @@ and style."
         '(shell . t))
      (org . t)
      (plantuml . t)
-     (ipython . t)
+     ,(when (executable-find "jupyter")
+        (ipython . t))
      (latex . t)))
 
   (add-to-list
