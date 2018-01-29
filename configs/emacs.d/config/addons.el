@@ -214,11 +214,6 @@ NAME can be used to set the name of the defined function."
 (use-package magit-svn    :ensure t :defer t)
 
 
-(use-package hide-comnt
-  :ensure t
-  :bind ("C-c x h" . hide/show-comments-toggle))
-
-
 (use-package coffee-mode
   :defer t
   :ensure t
@@ -1462,7 +1457,6 @@ When `ERC' exits the SSH process is killed from `erc-kill-server-hook'."
 (use-package irony :defer t :ensure t)
 (use-package irony-eldoc :defer t :ensure t)
 (use-package cider  :defer t :ensure t)
-(use-package dropdown-list :defer t :ensure t)
 (use-package popup :defer t :ensure t)
 
 
