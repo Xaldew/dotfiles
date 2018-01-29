@@ -1,11 +1,12 @@
-;;; packages.el --- Install `use-package' if not already installed.
+;;; packages.el --- Install `use-package'. -*- lexical-binding: t -*-
 ;;
 ;;; Commentary:
-;; This package is responsible for installing use-package if not already done.
+;;
+;; This package is responsible for bootstrapping `use-package'.
 ;;
 ;;; Code:
 
-(defvar my-package-list '(use-package)
+(defvar my-package-list '(use-package diminish delight bind-key)
   "List of packages to be installed upon initialization.")
 
 (package-refresh-contents)
