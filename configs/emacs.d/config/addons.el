@@ -261,7 +261,7 @@ NAME can be used to set the name of the defined function."
 (use-package flycheck-popup-tip
   :ensure t
   :defer t
-  :after flycheck)
+  :commands flycheck-popup-tip-show-popup)
 
 
 (use-package flycheck-irony :ensure t :defer t :after flycheck)
