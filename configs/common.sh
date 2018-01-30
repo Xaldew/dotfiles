@@ -605,6 +605,9 @@ if [ -x /usr/bin/dircolors ]; then
     alias egrep='egrep --color=auto --exclude-dir={\.svn,\.git,\.repo}'
 fi
 
+alias matlab="LD_PRELOAD=/usr/lib/x86_64-linux-gnu/libstdc++.so.6 /usr/local/MATLAB/R2017b/bin/matlab"
+
+
 alias tmux="tmux -f $XDG_CONFIG_HOME/tmux/tmux.conf"
 
 alias sshpw="ssh -o PubKeyAuthentication=No"
