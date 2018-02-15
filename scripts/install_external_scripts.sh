@@ -21,6 +21,17 @@ base_url=https://raw.githubusercontent.com/git/git/master/contrib/completion/
 	 --output-document=$local_prefix_dir/bin/git-completion.bash
 ) &
 
+
+# Install Prezto for zsh.
+(
+    if [ ! -d "$HOME/.zsh/.zprezto" ]; then
+        git clone --quiet --recursive \
+	    https://github.com/sorin-ionescu/prezto.git \
+	    $HOME/.zsh/.zprezto
+    fi
+) &
+
+
 # Install Bash-it.
 (
     url=https://github.com/Bash-it/bash-it.git

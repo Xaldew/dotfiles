@@ -148,6 +148,7 @@ echo ". \$dotfiles_dir/configs/profile" >> $HOME/.profile
 
 
 # Create a zshrc file with links to the script directories.
+mkdir --parents $HOME/.zsh
 echo "# Don't edit this file, rerun install.sh to update." > $HOME/.zshenv
 echo "ZDOTDIR=\$HOME/.zsh" >> $HOME/.zshenv
 for k in ${!env[@]}; do
@@ -155,14 +156,6 @@ for k in ${!env[@]}; do
     printf "export %s=%s\n" $k $e >> $HOME/.zshenv
 done
 echo "source \$dotfiles_dir/configs/zsh/zshenv" >> $HOME/.zshenv
-
-# Install Prezto.
-mkdir --parents $HOME/.zsh
-if [ ! -d "$HOME/.zsh/.zprezto" ]; then
-    git clone --quiet --recursive \
-	https://github.com/sorin-ionescu/prezto.git \
-	$HOME/.zsh/.zprezto
-fi
 
 # Create symlinks to configuration files.
 for rc in $dotfiles_dir/configs/zsh/*;
