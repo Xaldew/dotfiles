@@ -12,7 +12,7 @@ if [ "$OSTYPE" = "cygwin" ]; then
     if [ -z "$SSH_AUTH_SOCK" ]; then
         eval $(ssh-agent) > /dev/null
     fi
-else
+elif command -v gpg-connect-agent; then
     # Enable gpg-agent as an ssh-agent.
     GPG_TTY=$(tty)
     export GPG_TTY
