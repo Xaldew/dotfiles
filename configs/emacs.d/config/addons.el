@@ -667,31 +667,32 @@ and style."
   (setq dumb-jump-selector 'ivy))
 
 
-(use-package smart-jump
-  :ensure t
-  :defer t
-  :after dumb-jump
-  :init
-  (setq smart-jump-bind-keys t)
-  (defconst smart-jump-mode-map
-    (let ((map (make-sparse-keymap)))
-      (define-key map (kbd "M-.") #'smart-jump-go)
-      (define-key map (kbd "M-,") #'smart-jump-references)
-      (define-key map (kbd "M-*") #'smart-jump-back)
-      (define-key map (kbd "M-P") #'smart-jump-peek)
-      map)
-    "Keymap for the `smart-jump' minor mode.")
-  (define-minor-mode smart-jump-mode
-    "Minor mode for the `smart-jump' functions.
+(when (>= emacs-major-version 25)
+  (use-package smart-jump
+    :ensure t
+    :defer t
+    :after dumb-jump
+    :init
+    (setq smart-jump-bind-keys t)
+    (defconst smart-jump-mode-map
+      (let ((map (make-sparse-keymap)))
+        (define-key map (kbd "M-.") #'smart-jump-go)
+        (define-key map (kbd "M-,") #'smart-jump-references)
+        (define-key map (kbd "M-*") #'smart-jump-back)
+        (define-key map (kbd "M-P") #'smart-jump-peek)
+        map)
+      "Keymap for the `smart-jump' minor mode.")
+    (define-minor-mode smart-jump-mode
+      "Minor mode for the `smart-jump' functions.
 
 \\{smart-jump-mode-map}"
-    :group 'smart-jump
-    :lighter " sj"
-    :global t
-    :keymap smart-jump-mode-map)
-  (add-hook 'after-init-hook #'smart-jump-mode)
-  :config
-  (smart-jump-setup-default-registers))
+      :group 'smart-jump
+      :lighter " sj"
+      :global t
+      :keymap smart-jump-mode-map)
+    (add-hook 'after-init-hook #'smart-jump-mode)
+    :config
+    (smart-jump-setup-default-registers)))
 
 
 (use-package sx                         ; StackExchange client for Emacs
