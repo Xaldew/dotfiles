@@ -6,4 +6,4 @@ file=$(basename $url)
 wget --quiet $url --output-document=$tmp/$file
 gunzip -c $tmp/$file | tic -x -
 rm -rf $tmp
-tic -x $dotfiles_dir/config/terminfo.src
+tic -x $dotfiles_dir/configs/terminfo.src
