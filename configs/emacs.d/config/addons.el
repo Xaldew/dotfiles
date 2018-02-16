@@ -147,7 +147,6 @@ NAME can be used to set the name of the defined function."
   (add-hook 'auto-complete-mode-hook #'my/ac-setup-hook)
 
   (use-package ac-etags                :defer t :ensure t)
-  (use-package ac-anaconda             :defer t :ensure t)
   (use-package auto-complete-clang     :defer t :ensure t)
   (use-package auto-complete-c-headers :defer t :ensure t))
 
