@@ -132,8 +132,7 @@ nested vector of size WIDTH x HEIGHT.  Each starting point is
 iterated at most DEPTH times."
   (let ((img (new-image width height))
         (llx -2.0) (lly -1.5)
-        (urx  1.0) (ury  1.5)
-        (size (* width height)))
+        (urx  1.0) (ury  1.5))
     (cl-loop for i from 0 below iterations
              with sr = 0.0 and si = 0.0 and
              x = 0 and y = 0 and idx = 0 do
