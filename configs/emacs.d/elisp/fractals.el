@@ -6,6 +6,8 @@
 ;;
 ;;; Code:
 
+(require 'seq)
+
 
 (defun fractals-sierpinski-carpet (size)
   "Create an image of the Sierpinski carpet of SIZE pixels."
