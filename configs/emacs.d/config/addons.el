@@ -232,6 +232,15 @@ NAME can be used to set the name of the defined function."
   :init
   (add-hook 'prog-mode-hook #'flycheck-mode)
   :config
+  (defconst my-flycheck-include-paths
+    '("src/" "include/")
+    "Add these directories as include paths if they exist at the project root.")
+  (defun my-flycheck-add-includes ()
+    "Add personal project dependent paths to gcc/clang include paths."
+    (let* ((top (projectile-project-root))
+           (paths (mapcar (lambda (p) (concat top p)) my-flycheck-include-paths)))
+      (setq flycheck-gcc-include-path  (push top paths))
+      (setq flycheck-clang-include-path paths)))
   (defun my-flycheck-hook ()
     "Personal hook for per-buffer flycheck settings."
     (cond
@@ -240,8 +249,8 @@ NAME can be used to set the name of the defined function."
       (setq flycheck-clang-language-standard "c11"))
      ((eq major-mode 'c++-mode)
       (setq flycheck-gcc-language-standard   "c++11")
-      (setq flycheck-clang-language-standard "c++11"))))
-
+      (setq flycheck-clang-language-standard "c++11")))
+    (my-flycheck-add-includes))
   (add-hook 'flycheck-mode-hook #'my-flycheck-hook))
 
 (use-package flycheck-pos-tip
