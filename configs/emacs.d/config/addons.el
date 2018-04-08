@@ -1315,13 +1315,19 @@ When `ERC' exits the SSH process is killed from `erc-kill-server-hook'."
   :ensure t
   :defer t
   :mode (("\\.vs\\'" . glsl-mode)
-         ("\\.fs\\'" . glsl-mode)))
+         ("\\.fs\\'" . glsl-mode))
+  :init
+  (defun my-glsl-hook () "Personal GLSL hook." (c-set-style "misra"))
+  (add-hook 'glsl-mode-hook #'my-glsl-hook))
 
 
 (use-package opencl-mode
   :ensure t
   :defer t
-  :mode (("\\.cl\\'" . opencl-mode)))
+  :mode (("\\.cl\\'" . opencl-mode))
+  :init
+  (defun my-opencl-hook () "Personal OpenCL hook." (c-set-style "misra"))
+  (add-hook 'opencl-mode-hook #'my-opencl-hook))
 
 
 (use-package nxml-mode
