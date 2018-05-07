@@ -2,13 +2,6 @@
 # Install various external scripts from around the web.
 
 
-# Install cloc.pl
-url="http://sourceforge.net/projects/cloc/files/latest/download?source=files"
-(
-    wget --quiet $url --output-document=$local_prefix_dir/bin/cloc
-    chmod u+x $local_prefix_dir/bin/cloc
-) &
-
 # Install git-prompt.sh.
 base_url=https://raw.githubusercontent.com/git/git/master/contrib/completion/
 (
