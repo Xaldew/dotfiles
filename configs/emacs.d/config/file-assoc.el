@@ -26,4 +26,7 @@
 ;; Add auto-env `.env' files to `shell-script-mode'.
 (add-to-list 'auto-mode-alist '("\\(/\\|\\`\\)\\.env\\'" . shell-script-mode))
 
+;; PDDL files are some kind of lisp-mode.
+(add-to-list 'auto-mode-alist '("\\.pddl\\'" . lisp-mode))
+
 ;;; file-assoc.el ends here
