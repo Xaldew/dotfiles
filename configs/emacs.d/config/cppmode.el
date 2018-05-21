@@ -66,6 +66,7 @@
 			 (brace-list-open     . 0)
 			 (inextern-lang       . 0)
 			 (innamespace         . 0)
+                         (inlambda            . 0)
 			 (statement-case-open . +)))
     (c-hanging-braces-alist . ((brace-list-open)
 			       (brace-entry-open)
