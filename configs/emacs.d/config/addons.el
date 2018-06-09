@@ -294,16 +294,6 @@ NAME can be used to set the name of the defined function."
   (add-hook 'css-mode-hook #'rainbow-mode))
 
 
-(use-package c-eldoc
-  :ensure t
-  :commands c-turn-on-eldoc-mode
-  :init
-  ;; Enable C-eldoc for C/C++.
-  (add-hook 'c-mode-hook   #'c-turn-on-eldoc-mode)
-  (add-hook 'c++-mode-hook #'c-turn-on-eldoc-mode))
-
-
-;; Add rainbow-delimiter-mode to most programming modes.
 (use-package rainbow-delimiters
   :ensure t
   :commands rainbow-delimiters-mode
