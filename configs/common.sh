@@ -456,6 +456,7 @@ nx_emacs_client()
 }
 alias em="nx_emacs_client"
 alias ema="nx_emacs_client"
+alias ems="nx_emacs_client"
 alias emac="nx_emacs_client"
 alias emas="nx_emacs_client"
 alias emasc="nx_emacs_client"
