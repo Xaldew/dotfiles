@@ -1075,6 +1075,12 @@ When `ERC' exits the SSH process is killed from `erc-kill-server-hook'."
   :pin melpa
   :defines (helm-dash-docsets)
   :init
+  (defun my-helm-dash-install (prefix)
+    "Download a helm-dash docset asynchronously or synchronously."
+    (interactive "p")
+    (if prefix
+        (call-interactively #'helm-dash-install-docset)
+      (call-interactively #'helm-dash-async-install-docset)))
   (set-variable-in-hook python-mode-hook  helm-dash-docsets '("Python 3" "Matplotlib" "OpenCV_Python"))
   (set-variable-in-hook rust-mode-hook    helm-dash-docsets '("Rust"))
   (set-variable-in-hook shell-script-hook helm-dash-docsets '("Bash"))

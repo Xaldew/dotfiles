@@ -53,7 +53,7 @@
     ("n" woman nil)
     ("h" helm-dash-at-point nil)
     ("H" helm-dash nil)
-    ("D" helm-dash-async-install-docset nil)
+    ("D" my-helm-dash-install nil)
 
     ("e" view-echo-area-messages "messages")
     ("l" view-lossage "lossage")
