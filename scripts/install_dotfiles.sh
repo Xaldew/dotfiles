@@ -70,7 +70,12 @@ create_linkfarm()
 # Install common ssh configuration.
 mkdir --parents $HOME/.ssh
 add_supported_ssh_config
-
+if command -v xfconf-query 1> /dev/null 2> /dev/null ; then
+    # Disable default SSH agent.
+    xfconf-query -c xfce4-session -p /startup/ssh-agent/enabled -n -t bool -s false
+fi
+printf "use-standard-socket\n" >> ~/.gnupg/gpg-agent.conf
+printf "enable-ssh-support\n" >> ~/.gnupg/gpg-agent.conf
 
 # Install all configuration files and plugins.
 ln -fs $dotfiles_dir/configs/inputrc $HOME/.inputrc
