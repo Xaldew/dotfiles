@@ -56,6 +56,9 @@
              '("melpa" . "http://melpa.org/packages/"))
 (add-to-list 'package-archives
              '("org" . "http://orgmode.org/elpa/"))
+(add-to-list 'package-archives
+             '("xaldew" . "https://gustafwaldemarson.com/elpa/packages/"))
+(add-to-list 'package-unsigned-archives "xaldew")
 
 (unless (package-installed-p 'use-package)
   (load-user-file "packages"))
