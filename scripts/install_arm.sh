@@ -16,7 +16,7 @@ source /arm/tools/setup/init/bash
 shopt -s expand_aliases
 
 # Source common module load script, located in the project folder:
-source \$WORKSPACE_DIR/script/bash/module_load.sh 2> /dev/null
+#source \$WORKSPACE_DIR/script/bash/module_load.sh 2> /dev/null
 
 #### Setup some variables
 export MODELSIM=\$WORKSPACE_DIR/modelsim.ini
@@ -43,18 +43,14 @@ export PATH=\$HW_UTILS_DIR/i686-linux:\$PATH
 
 # Run 'module avail' for full list of available modules.
 # Run 'module list' to list currently loaded modules.
-module load eda
-module load swdev
-module load util
+module load eda swdev util
 module load arm/rascdevkit/1.1.4
 module load ccache/ccache/3.1.4
 module load gnu/gdb/7.7          # No python scripting support.
-module load gnu/valgrind/3.8.1
 module load gnu/cmake/3.5.2
 module load gnu/autoconf
 
 module load scons/scons/2.3.0
-module load swig/swig/2.0.0
 module load apache/subversion/1.7.3
 module load doxygen/doxygen/1.8.2
 module load codesourcery/linuxeabi/arm-2011q1
@@ -64,10 +60,25 @@ if [ "\`get_dist -i\`" = "ubuntu" ]; then
    # module load git/git/2.7.0  # No git-subtree.
    module unload python/python
    module unload imagemagick/imagemagick
+
+   module load arm/cluster
+   module load apache/subversion
+
+   # Needed by blueprint.
+   module load google/golang/1.8
+   module load python/ply_py2.7.8
+   module load ninja-build/ninja/1.8.2
+   module load gnu/gcc/4.9.3
+
+   module load sun/jdk/1.6.0_25
+   module load smartbear/codecollab/8.4.8403
+   module load arm/gcc_aarch64/4.9_2014.09
+
 else
    # Running CentOS. Load CentOS specific packages.
    module load vim/vim/7.3
    module load git/git/v2.0.0
+   module load gnu/valgrind/3.8.1
 
    # Load tmux on the EUHPC cluster.
    if [[ `hostname --fqdn` =~ .*euhpc.* ]]; then
