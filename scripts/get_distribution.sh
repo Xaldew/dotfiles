@@ -37,7 +37,8 @@ function get_distribution ()
 	release=$(echo "$content" | awk '{ print tolower($3) }')
 	code_name=$(echo "$content" | awk '{ print tolower($4) }')
 	# Remove parantheses.
-	code_name=${code_name:1:-1}
+        len=$((${#code_name} - 2))
+	code_name=${code_name:1:$len}
 
     elif [ -r /etc/os-release ]; then
 
@@ -46,7 +47,8 @@ function get_distribution ()
 	dist=$ID
 	release=$VERSION_ID
 	code_name=$(echo $PRETTY_NAME | awk '{ print tolower($3) }')
-	code_name=${code_name:1:-1}
+        len=$((${#code_name} - 2))
+	code_name=${code_name:1:$len}
 
     elif [ "$OSTYPE" = "cygwin" ]; then
 
