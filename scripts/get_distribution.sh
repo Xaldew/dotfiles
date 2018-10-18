@@ -5,6 +5,7 @@
 #    Fedora 20
 #    CentOS 6.6
 #    Cygwin
+#    Debian 9
 
 
 function get_distribution ()
@@ -46,9 +47,16 @@ function get_distribution ()
 	source /etc/os-release
 	dist=$ID
 	release=$VERSION_ID
-	code_name=$(echo $PRETTY_NAME | awk '{ print tolower($3) }')
-        len=$((${#code_name} - 2))
-	code_name=${code_name:1:$len}
+
+        if [ $ID = "debian" ]; then
+	    code_name=$(echo $VERSION | awk '{ print tolower($2) }')
+            len=$((${#code_name} - 2))
+	    code_name=${code_name:1:$len}
+        else
+	    code_name=$(echo $PRETTY_NAME | awk '{ print tolower($3) }')
+            len=$((${#code_name} - 2))
+	    code_name=${code_name:1:$len}
+        fi
 
     elif [ "$OSTYPE" = "cygwin" ]; then
 
