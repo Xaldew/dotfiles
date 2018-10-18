@@ -1358,6 +1358,12 @@ When `ERC' exits the SSH process is killed from `erc-kill-server-hook'."
   (setq guess-language-min-paragraph-length 60))
 
 
+(use-package rmsbolt
+  :ensure t
+  :defer t
+  :config)
+
+
 (use-package eshell
   :defer t
   :config
