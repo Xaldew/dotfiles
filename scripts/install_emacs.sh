@@ -29,7 +29,6 @@ cd $objects_dir/emacs
 make distclean
 git clean --force -x -d
 
-git checkout master
 sh autogen.sh
 ./configure \
     --prefix="$local_prefix_dir" \
