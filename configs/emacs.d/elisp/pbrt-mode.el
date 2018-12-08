@@ -2,8 +2,9 @@
 ;;
 ;;; Commentary:
 ;; Provide a major mode for manually editting .pbrt files that describe ray
-;; tracable scenes in the PBRT format. More information regarding this is
+;; tracable scenes in the PBRT format.  More information regarding this is
 ;; provided here:
+;;
 ;; http://www.pbrt.org/fileformat.html
 ;;
 ;;; Code:
@@ -27,7 +28,8 @@
   :group 'languages)
 
 (defcustom pbrt-indent 4 "PBRT-indentation width."
-  :group 'pbrt-mode)
+  :group 'pbrt-mode
+  :type 'integer)
 
 ;; Create lists keywords for highlighting.
 (defvar pbrt-keywords '("Include" "ActiveTransform" "ObjectInstance"))
@@ -45,6 +47,7 @@
 		      "TransformBegin" "TransformEnd"))
 
 (defvar pbrt-render-options '("Camera" "Sampler" "Film" "PixelFilter" "Renderer"
+                              "Integrator"
 			      "SurfaceIntegrator" "VolumeIntegrator"
 			      "Accelerator"))
 
