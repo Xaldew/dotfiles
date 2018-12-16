@@ -163,7 +163,7 @@ NAME can be used to set the name of the defined function."
   (setq company-tooltip-align-annotations t))
 
 (use-package company-template
-  :ensure company
+  :ensure t
   :after company
   :defer t
   :config
@@ -172,14 +172,15 @@ NAME can be used to set the name of the defined function."
     (define-key map [tab] nil)
     (define-key map (kbd "TAB") nil)))
 
-(use-package company-math      :defer t :ensure company)
-(use-package company-c-headers :defer t :ensure company)
-(use-package company-quickhelp :defer t :ensure company)
-(use-package company-irony     :defer t :ensure company)
+(use-package company-math      :defer t :ensure t :after company)
+(use-package company-c-headers :defer t :ensure t :after company)
+(use-package company-quickhelp :defer t :ensure t :after company)
+(use-package company-irony     :defer t :ensure t :after company)
 
 (use-package company-anaconda
   :defer t
-  :ensure company
+  :ensure t
+  :after company
   :config
   (add-to-list 'company-backends 'company-anaconda))
 
@@ -569,9 +570,9 @@ and style."
   (add-hook 'latex-mode-hook #'turn-on-cdlatex)
   (add-hook 'org-mode-hook #'turn-on-org-cdlatex))
 
-(use-package auctex-latexmk       :ensure auctex :defer t)
-(use-package auto-complete-auctex :ensure auctex :defer t)
-(use-package company-auctex       :ensure auctex :defer t)
+(use-package auctex-latexmk       :ensure t :defer t :after auctex)
+(use-package auto-complete-auctex :ensure t :defer t :after auctex)
+(use-package company-auctex       :ensure t :defer t :after auctex)
 
 
 ;; On Windows without Cygwin, use the ssh agency package for ssh-agents.
@@ -1094,8 +1095,9 @@ When `ERC' exits the SSH process is killed from `erc-kill-server-hook'."
 (use-package polymode :ensure t :defer t)
 
 (use-package poly-markdown
-  :ensure polymode
+  :ensure t
   :defer t
+  :after polymode
   :mode ("\\.md" . poly-markdown-mode))
 
 
@@ -1178,7 +1180,7 @@ When `ERC' exits the SSH process is killed from `erc-kill-server-hook'."
 
 (use-package lsp-flycheck
   :disabled
-  :ensure lsp-mode
+  :ensure t
   :after lsp-mode)
 
 
