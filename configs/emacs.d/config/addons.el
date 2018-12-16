@@ -239,7 +239,7 @@ NAME can be used to set the name of the defined function."
   (defun my-flycheck-add-includes ()
     "Add personal project dependent paths to gcc/clang include paths."
     (let* ((projectile-require-project-root nil)
-           (top   (projectile-project-root))
+           (top   (or (projectile-project-root) default-directory))
            (paths (mapcar (lambda (p) (concat top p)) my-flycheck-include-paths)))
       (setq flycheck-gcc-include-path  (push top paths))
       (setq flycheck-clang-include-path paths)))
