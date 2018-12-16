@@ -1215,6 +1215,17 @@ When `ERC' exits the SSH process is killed from `erc-kill-server-hook'."
   (setq eclim-executable (eclim-executable-find)))
 
 
+(use-package kotlin-mode
+  :defer t
+  :ensure t)
+
+(use-package flycheck-kotlin
+  :defer t
+  :ensure t
+  :init
+  (add-hook 'kotlin-mode-hook 'flycheck-mode))
+
+
 (use-package atomic-chrome
   :defer t
   :ensure t
