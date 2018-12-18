@@ -163,8 +163,7 @@ NAME can be used to set the name of the defined function."
   (setq company-tooltip-align-annotations t))
 
 (use-package company-template
-  :ensure t
-  :after company
+  :ensure company
   :defer t
   :config
   (let ((map company-template-nav-map))
@@ -241,8 +240,9 @@ NAME can be used to set the name of the defined function."
     (let* ((projectile-require-project-root nil)
            (top   (or (projectile-project-root) default-directory))
            (paths (mapcar (lambda (p) (concat top p)) my-flycheck-include-paths)))
-      (setq flycheck-gcc-include-path  (push top paths))
-      (setq flycheck-clang-include-path paths)))
+      (push top paths)
+      (setq flycheck-gcc-include-path   (append paths flycheck-gcc-include-path))
+      (setq flycheck-clang-include-path (append paths flycheck-clang-include-path))))
   (defun my-flycheck-hook ()
     "Personal hook for per-buffer flycheck settings."
     (cond
@@ -1219,7 +1219,9 @@ When `ERC' exits the SSH process is killed from `erc-kill-server-hook'."
 
 (use-package kotlin-mode
   :defer t
-  :ensure t)
+  :ensure t
+  :config
+  (setq kotlin-tab-width 4))
 
 (use-package flycheck-kotlin
   :defer t
