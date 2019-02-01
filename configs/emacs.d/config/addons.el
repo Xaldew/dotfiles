@@ -241,8 +241,9 @@ NAME can be used to set the name of the defined function."
            (top   (or (projectile-project-root) default-directory))
            (paths (mapcar (lambda (p) (concat top p)) my-flycheck-include-paths)))
       (push top paths)
-      (setq flycheck-gcc-include-path   (append paths flycheck-gcc-include-path))
-      (setq flycheck-clang-include-path (append paths flycheck-clang-include-path))))
+      (dolist (p paths)
+        (cl-pushnew p flycheck-gcc-include-path)
+        (cl-pushnew p flycheck-clang-include-path))))
   (defun my-flycheck-hook ()
     "Personal hook for per-buffer flycheck settings."
     (cond
