@@ -70,42 +70,8 @@ if command -v svn >/dev/null 2>&1 && [ ! -d $objects_dir/gdb_addons ]; then
     fi
 fi
 
-# Install Leiningen for Clojure development.
-if [ ! -x $local_prefix_dir/bin/lein ]; then
-    url="https://raw.githubusercontent.com/technomancy/"
-    url=$url"leiningen/stable/bin/lein"
-    wget --quiet $url --output-document=$local_prefix_dir/bin/lein
-    chmod u+x $local_prefix_dir/bin/lein
-fi
-
-# Install LanguageTool for spell- and grammarchecking.
-if command -v java >/dev/null 2>&1 && \
-       [ ! -d $local_prefix_dir/bin/languagetool ]; then
-    dest=$local_prefix_dir/bin/languagetool
-    mkdir --parents $dest
-    tmpdir=$(mktemp --directory)
-    url=https://languagetool.org/download/LanguageTool-stable.zip
-    wget --quiet $url --output-document=$tmpdir/languagetool.zip
-    zip=$tmpdir/languagetool.zip
-
-    # Extract zip and strip toplevel directories.
-    unzip -q -d "$dest" "$zip"
-    for f in "$dest"/*;
-    do
-        mv $f/* "$dest"
-        rmdir $f
-    done
-    rm -r $tmpdir
-fi
-
 # Install Emacs Cask.
 if ! command -v cask >/dev/null 2>&1 && command -v emacs >/dev/null 2>&1; then
     git clone --quiet https://github.com/cask/cask.git $objects_dir/cask
     $objects_dir/cask/bin/cask upgrade-cask
-fi
-
-# Install the Flamegraph scripts.
-if ! command -v flamegraph.pl; then
-    git clone https://github.com/brendangregg/FlameGraph $objects_dir/flamegraph
-    cp $objects_dir/flamegraph/*.{pl,awk} $local_prefix_dir/bin/
 fi
