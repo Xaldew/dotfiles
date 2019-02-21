@@ -188,20 +188,7 @@ NAME can be used to set the name of the defined function."
   :ensure t
   :defer t
   :mode ("gitignore\\'" . gitignore-mode)
-  :bind ("C-c g" . magit-status)
-  :functions (magit-stash-pop magit-define-popup-action)
-  :config
-  (defun magit-stash-and-pull ()
-    "Use `magit' to stash, pull, and pop the stash."
-    (interactive)
-    (magit-call-git "stash")
-    (magit-call-git "pull")
-    (magit-stash-pop "stash@{0}"))
-
-  (magit-define-popup-action 'magit-pull-popup
-    ?s
-    "Stash and pull"
-    #'magit-stash-and-pull))
+  :bind ("C-c g" . magit-status))
 
 (use-package git-commit
   :ensure t
