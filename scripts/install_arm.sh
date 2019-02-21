@@ -81,7 +81,7 @@ else
    module load gnu/valgrind/3.8.1
 
    # Load tmux on the EUHPC cluster.
-   if [[ `hostname --fqdn` =~ .*euhpc.* ]]; then
+   if [[ \$(hostname --fqdn) =~ .*euhpc.* ]]; then
        module load gnu/tmux/2.3
        module load llvm/clang/5.0.0
        module load gnu/gcc/5.3.0
