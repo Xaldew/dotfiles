@@ -75,9 +75,9 @@ install_fonts \
 
 # Download and install Font-awesome icons.
 install_fonts \
-    "http://fontawesome.io/assets/font-awesome-4.7.0.zip" \
+    "https://use.fontawesome.com/releases/v5.7.2/fontawesome-free-5.7.2-desktop.zip" \
     ${fonts} \
-    "*.woff"
+    "*.otf"
 
 
 # Download Nerd-Font patched fonts.
