@@ -1,10 +1,29 @@
+;;; cc-mode/.yas-setup.el --- yasnippet setup for cc-mode.
+;;
+;;; Commentary:
+;;
+;; Setup code for C/C++ based yasnippets.
+;;
+;;; Code:
+
+
 (defvar yas-start-point 0 "Point at the beginning of snippet expansion.")
 (add-hook 'yas-before-expand-snippet-hook
 	  (lambda () (setq-local yas-start-point (point))))
 
 
+(declare-function semantic-mode "semantic.el")
+(declare-function semantic-current-tag "semantic/find.el")
+(declare-function semantic-analyze-find-tag "semantic/analyze.el")
+(declare-function semantic-tag-name "semantic/tag.el")
+(declare-function semantic-tag-class "semantic/tag.el")
+(declare-function semantic-tag-attributes "semantic/tag.el")
+
 (defun c++-split-args (fn-name arg-string)
-  "Split a C++ argument string into a list of names."
+  "Split a C++ argument string into a list of names.
+
+FN-NAME is the name of the function.  ARG-STRING is the string
+containing the function arguments."
   (if (and fn-name (bound-and-true-p semantic-mode))
       (let* ((tag (or (semantic-current-tag)
 		      (semantic-analyze-find-tag fn-name 'function)))
@@ -25,7 +44,14 @@
 
 
 (defun c++-doxy-docstring (text fn-name return-value &optional make-fields)
-  "Return docstring format for the C++ arguments in `text'."
+  "Return docstring format for the C++ arguments in TEXT.
+
+FN-NAME is the name of the function.
+
+RETURN-VALUE is a string symbolizing the return value.
+
+If MAKE-FIELDS is non-nil to determine if we should create
+additional fields for `yasnippet'."
   (let* ((indent (concat "\n" (make-string (current-column) 32)))
          (args (c++-split-args fn-name text))
          (max-len (if args
@@ -37,7 +63,7 @@
 	   (lambda (x) (concat
 			"@param "
 			x (make-string (- max-len (length x)) ? )
-			(if make-fields (format " ${%d:arg%d}" (incf nr) nr))))
+			(if make-fields (format " ${%d:arg%d}" (cl-incf nr) nr))))
 	   args
 	   indent)))
     (concat
@@ -53,20 +79,23 @@
        (format "%s@return ${%d:Returns...}" indent (1+ nr))))))
 
 
+
+(declare-function c-brace-newlines "cc-cmds")
+
 (defun yas-cc-mode-brace (brace syntax)
-  "Determine the open brace and newline locations inside a snippet.
+  "Determine the open BRACE and newline locations inside a snippet.
 
-   `brace' is a string with the brace character(s) to insert.
+   BRACE is a string with the brace character(s) to insert.
 
-   `syntax' is the syntactic symbol of the brace location. Note that the
-    position is slightly unreliable since it is based on an non-expanded
-    snippet.
+   SYNTAX is the syntactic symbol of the brace location.  Note
+   that the position is slightly unreliable since it is based on
+   an non-expanded snippet.
 
-   This uses cc-mode commands to read from `c-hanging-braces-alist' to retrieve
-   a list with any combination of the symbols: `before' and `after'. These are
-   used to determine if a newline should be placed before and/or after
-   the opening brace(s).
-"
+   This uses cc-mode commands to read from
+   `c-hanging-braces-alist' to retrieve a list with any
+   combination of the symbols: `before' and `after'.  These are
+   used to determine if a newline should be placed before and/or
+   after the opening brace(s)."
   (let* ((indent (concat "\n" (make-string (current-column) 32)))
 	 (ctx `((,syntax ,yas-start-point)))
 	 (actions (c-brace-newlines ctx)))
@@ -77,3 +106,8 @@
      brace
      (if (memq 'after actions)
 	 indent))))
+
+
+(provide '.yas-setup.el)
+
+;;; .yas-setup.el ends here
