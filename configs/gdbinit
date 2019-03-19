@@ -55,6 +55,7 @@ set print vtbl on
 set print object on
 set print symbol on
 
+set max-completions 1000
 set demangle-style auto
 set complaints 0
 set language auto
