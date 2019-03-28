@@ -26,9 +26,11 @@
         (python-arg-types-to-reST-docstring string nil)
         (when (not (string= "" string))
           indent)
-        ":return"
+        ".. Returns:"
         indent
-        ":rtype"
+        ":return:"
+        indent
+        ":rtype:"
         indent
         indent
         (when (not in-docstring)
