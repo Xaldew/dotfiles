@@ -880,7 +880,6 @@ and style."
   (customize-set-variable 'org-use-sub-superscript '{})
   (customize-set-variable 'org-log-into-drawer t))
 
-
 (use-package org-table
   :defer t
   :commands (orgtbl-mode)
@@ -1478,6 +1477,8 @@ When `ERC' exits the SSH process is killed from `erc-kill-server-hook'."
   (add-hook 'after-init-hook #'color-theme-approximate-on))
 
 ;; Install miscellaneous packages.
+(use-package gnuplot :ensure t :defer t)
+(use-package gnuplot-mode :ensure t :defer t)
 (use-package evil :functions (evil-ace-jump-exit-recursive-edit) :defer t :ensure t)
 (use-package debbugs :ensure t :defer t)
 (use-package elpy  :defer t :ensure t)
