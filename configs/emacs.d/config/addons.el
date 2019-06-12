@@ -1157,39 +1157,31 @@ When `ERC' exits the SSH process is killed from `erc-kill-server-hook'."
 
 (use-package lsp-mode
   :ensure t
-  :defer t
-  :disabled
+  :commands lsp
   :init
-  (add-hook 'rust-mode-hook   #'lsp-mode)
-  (add-hook 'java-mode-hook   #'lsp-mode)
-  (add-hook 'python-mode-hook #'lsp-mode))
+  (add-hook 'c-mode-hook      #'lsp)
+  (add-hook 'c++-mode-hook    #'lsp)
+  ;; (add-hook 'rust-mode-hook   #'lsp)
+  ;; (add-hook 'python-mode-hook #'lsp)
+  )
 
 
-(use-package lsp-flycheck
-  :disabled
-  :ensure t
-  :after lsp-mode)
+(use-package lsp-ui       :ensure t :commands lsp-ui-mode)
+(use-package company-lsp  :ensure t :commands company-lsp)
+(use-package helm-lsp     :ensure t :commands helm-lsp-workspace-symbol)
+(use-package lsp-treemacs :ensure t :commands lsp-treemacs-errors-list)
+(use-package dap-mode     :ensure t)
+
+;; (use-package lsp-rust
+;;   :ensure t
+;;   :defer t
+;;   :after lsp-mode)
 
 
-(use-package lsp-rust
-  :disabled
-  :ensure t
-  :defer t
-  :after lsp-mode)
-
-
-(use-package lsp-python
-  :disabled
-  :ensure t
-  :defer t
-  :after lsp-mode)
-
-
-(use-package lsp-java
-  :disabled
-  :ensure t
-  :defer t
-  :after lsp-mode)
+;; (use-package lsp-python
+;;   :ensure t
+;;   :defer t
+;;   :after lsp-mode)
 
 
 (use-package eclim
