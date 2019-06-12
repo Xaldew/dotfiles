@@ -1474,26 +1474,6 @@ When `ERC' exits the SSH process is killed from `erc-kill-server-hook'."
 (use-package evil :functions (evil-ace-jump-exit-recursive-edit) :defer t :ensure t)
 (use-package debbugs :ensure t :defer t)
 (use-package elpy  :defer t :ensure t)
-(use-package irony
-  :defer t
-  :ensure t
-  :init
-  (defun my-irony-mode-fn ()
-    "Only enable `irony-mode' in non-derived `c-mode'."
-    (when (eq major-mode 'c-mode)
-      (irony-mode)))
-  (add-hook 'c++-mode-hook #'irony-mode)
-  (add-hook 'c-mode-hook #'my-irony-mode-fn)
-  (add-hook 'objc-mode-hook #'irony-mode)
-  (add-hook 'irony-mode-hook #'irony-cdb-autosetup-compile-options)
-  :config
-  ;; Windows performance tweaks
-  (when (boundp 'w32-pipe-read-delay)
-    (setq w32-pipe-read-delay 0))
-  (when (boundp 'w32-pipe-buffer-size)
-    (setq irony-server-w32-pipe-buffer-size (* 64 1024))))
-(use-package irony-eldoc :defer t :ensure t)
-
 (use-package cider  :defer t :ensure t)
 (use-package popup :defer t :ensure t)
 
