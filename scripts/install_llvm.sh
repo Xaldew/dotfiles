@@ -11,6 +11,7 @@ fi
 
 # Compile llvm.
 cd $objects_dir/llvm-project
+rm -r build
 mkdir -p build
 cd build
 cmake -G "Unix Makefiles" \
