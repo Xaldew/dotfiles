@@ -262,7 +262,6 @@ NAME can be used to set the name of the defined function."
   :commands flycheck-popup-tip-show-popup)
 
 
-(use-package flycheck-irony :ensure t :defer t :after flycheck)
 (use-package flycheck-package :ensure t :defer t :after package-lint)
 (use-package package-lint :ensure t :defer t)
 
