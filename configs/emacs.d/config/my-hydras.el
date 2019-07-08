@@ -693,7 +693,7 @@ _s_: Set scale  _o_: Restore original  _R_: Rotate free   _q_: Quit
     ("C" paredit-convolute-sexp "Convolute")
     ("M-c" paredit-copy-as-kill "Copy as kill")
     ("r" paredit-raise-sexp "Raise s-expression")
-    ("q" nil))
+    ("q" nil "Quit"))
   (define-key paredit-mode-map (kbd "C-c P") #'paredit-hydra/body))
 
 
