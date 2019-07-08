@@ -74,7 +74,7 @@
   (let ((clip-text
          (with-output-to-string
            (process-file anyclip-paste-program nil
-                         standard-output nil anyclip-clipboard))))
+                         '(t nil) nil anyclip-clipboard))))
     (setq clip-text
           (cond
            ;; Ignore invalid and empty strings.
