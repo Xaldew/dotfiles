@@ -697,4 +697,37 @@ _s_: Set scale  _o_: Restore original  _R_: Rotate free   _q_: Quit
   (define-key paredit-mode-map (kbd "C-c P") #'paredit-hydra/body))
 
 
+(use-package hydra
+  :defer t
+  :config
+  (defhydra lsp-mode-hydra (:exit t :hint nil)
+    "
+ Buffer^^       Symbol^^                                                      Server
+------------------------------------------------------------------------------------------------
+ [_f_] Format   [_d_] Declaration  [_i_] Impl  [_o_] Documentation     [_M-s_] Session
+ [_m_] Imenu    [_e_] Definition   [_t_] Type  [_O_] Organize Imports  [_M-r_] Restart
+ [_x_] Execute  [_r_] References   [_l_] Lens  [_R_] Rename            [_S_] Shutdown
+"
+    ("f" lsp-format-buffer)
+    ("m" lsp-ui-imenu)
+    ("x" lsp-execute-code-action)
+
+    ("d" lsp-find-declaration)
+    ("e" lsp-ui-peek-find-definitions)
+    ("r" lsp-ui-peek-find-references)
+
+    ("i" lsp-ui-peek-find-implementation)
+    ("t" lsp-find-type-definition)
+    ("l" lsp-lens-mode)
+
+    ("o" lsp-describe-thing-at-point)
+    ("O" lsp-organize-imports)
+    ("R" lsp-rename)
+
+    ("M-s" lsp-describe-session)
+    ("M-r" lsp-restart-workspace)
+    ("S" lsp-shutdown-workspace))
+  (define-key lsp-mode-map (kbd "C-c l") #'lsp-mode-hydra/body))
+
+
 ;;; my-hydras.el ends here
