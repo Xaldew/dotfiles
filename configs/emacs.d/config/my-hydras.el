@@ -194,6 +194,22 @@ _H_ + _L_     _s_: Ace Swap windows:       _U_: Winner redo
   :defer t
   :config
 
+  (defvar-local my-prev-rect nil "Previous rectangle mark.")
+
+  (defun my-prev-rect ()
+    "Restore the previously saved region, if applicable."
+    (interactive)
+    (push-mark my-prev-rect t t)
+    (rectangle-mark-mode 1))
+
+  (defun my-set-rect ()
+    "Restore a previous rectangle mark."
+    (interactive)
+    (if (region-active-p)
+        (deactivate-mark)
+      (setq-local my-prev-rect (copy-marker (point)))
+      (rectangle-mark-mode 1)))
+
   (unless (fboundp #'rectangle-backward-char)
     (defalias #'rectangle-backward-char #'backward-char))
   (unless (fboundp #'rectangle-forward-char)
@@ -203,15 +219,14 @@ _H_ + _L_     _s_: Ace Swap windows:       _U_: Winner redo
   (unless (fboundp #'rectangle-previous-line)
     (defalias #'rectangle-previous-line #'previous-line))
 
-  (defhydra hydra-rectangle-mark (:body-pre (rectangle-mark-mode 1)
-                                            :hint nil
-                                            :color pink
-                                            :post (deactivate-mark))
+  (defhydra hydra-rectangle-mark (:body-pre (my-set-rect)
+                                  :hint nil
+                                  :color pink)
     "
   ^_k_^    _e_: Exchange  _c_: Copy    _o_: Open        _si_: String Insert     _U_: Upcase
 _h_   _l_  _r_: Reset     _x_: Kill    _C_: Clear       _sr_: String Replace    _D_: Downcase
-  ^_j_^    _u_: Undo      _y_: Yank    _n_: Number      _RR_: Register Read
-^^^^       ^ ^            _d_: Delete  _w_: Whitespace  _RI_: Register Insert
+  ^_j_^    _p_: Previous  _y_: Yank    _n_: Number      _RR_: Register Read     _%_: Replace
+^^^^       _u_: Undo      _d_: Delete  _w_: Whitespace  _RI_: Register Insert
 "
     ("h" rectangle-backward-char)
     ("l" rectangle-forward-char)
@@ -219,8 +234,9 @@ _h_   _l_  _r_: Reset     _x_: Kill    _C_: Clear       _sr_: String Replace    
     ("j" rectangle-next-line)
 
     ("e" rectangle-exchange-point-and-mark)
-    ("r" (if (region-active-p) (deactivate-mark) (rectangle-mark-mode 1)))
-    ("C-x SPC" (if (region-active-p) (deactivate-mark) (rectangle-mark-mode 1)))
+    ("r" my-set-rect)
+    ("C-x SPC" my-set-rect)
+    ("p" my-prev-rect)
     ("u" undo)
 
     ("c" copy-rectangle-as-kill)
@@ -240,8 +256,9 @@ _h_   _l_  _r_: Reset     _x_: Kill    _C_: Clear       _sr_: String Replace    
 
     ("U" upcase-rectangle   :color blue)
     ("D" downcase-rectangle :color blue)
+    ("%" query-replace-regexp :color blue)
 
-    ("q" t "Quit" :exit t))
+    ("q" nil "Quit" :exit t))
   (global-set-key (kbd "C-x SPC") #'hydra-rectangle-mark/body))
 
 
