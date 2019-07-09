@@ -80,10 +80,10 @@ unix_paste()
 {
     clipboard=${1-clipboard}
 
-    if command -v xclip > /dev/null 2>&1; then
-        xclip -selection $clipboard -out
-    elif command -v xsel > /dev/null 2>&1; then
-        xsel --$clipboard --output
+    if command -v xclip > /dev/null 2>&1 && [ -n "${DISPLAY}" ]; then
+        xclip -selection $clipboard -out 2>/dev/null
+    elif command -v xsel > /dev/null 2>&1 && [ -n "${DISPLAY}" ]; then
+        xsel --$clipboard --output 2>/dev/null
     elif command -v tmux > /dev/null 2>&1 && [ -n "$TMUX" ]; then
         tmux show-buffer 2> /dev/null
         tmux delete-buffer 2> /dev/null

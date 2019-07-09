@@ -78,10 +78,10 @@ unix_clip()
 {
     clipboard=${1-clipboard}
 
-    if command -v xclip > /dev/null 2>&1; then
-        cat - | xclip -selection $clipboard -in
-    elif command -v xsel > /dev/null 2>&1; then
-        cat - | xsel --$clipboard --input
+    if command -v xclip > /dev/null 2>&1 && [ -n "${DISPLAY}" ]; then
+        cat - | xclip -selection $clipboard -in 2>/dev/null
+    elif command -v xsel > /dev/null 2>&1 && [ -n "${DISPLAY}" ]; then
+        cat - | xsel --$clipboard --input 2>/dev/null
     elif command -v tmux > /dev/null 2>&1 && [ -n "$TMUX" ]; then
         tmux set-buffer "`cat -`"
     else
