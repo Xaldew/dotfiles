@@ -81,6 +81,7 @@ export FIGNORE=$FIGNORE:svn:.o:.~:\#*\#:.pyc:.pyo
 HISTSIZE=10000
 HISTFILESIZE=20000
 
+shopt -s expand_aliases # Expand aliases.
 shopt -s histappend    # Append to the history file; don't overwrite it.
 shopt -s cmdhist       # Attempt to save multi-line commands as a single entry.
 shopt -s lithist       # Attempt to save multi-line commands to history file.
