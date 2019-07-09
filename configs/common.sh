@@ -414,8 +414,14 @@ ffprobe_count_subtitles()
 
 add_subtitles()
 {
-    vid=${1:?"No video clip set."}
-    sub=${2:?"No subtitle file set."}
+    read -r help_text << EOM
+add_subtitles VID SUB [ENC:-UTF-8] [LANG:-eng] [CODEC:-SRT]
+
+  - Add subtitles to a video file. Note that it erases the original file if
+    successful.
+EOM
+    vid=${1:?"${help_text}"}
+    sub=${2:?"${help_text}"}
     enc=${3:-UTF-8}
     lang=${4:-eng}
     scodec=${5:-srt}
