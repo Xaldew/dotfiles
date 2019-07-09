@@ -22,6 +22,7 @@
 	diff   = auto
 [alias]
 	git = !exec git
+	root = rev-parse --show-toplevel
 	ap = annex proxy -- git
 	ad = add
 	co = checkout
