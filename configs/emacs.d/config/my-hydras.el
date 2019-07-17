@@ -730,4 +730,78 @@ _s_: Set scale  _o_: Restore original  _R_: Rotate free   _q_: Quit
   (define-key lsp-mode-map (kbd "C-c l") #'lsp-mode-hydra/body))
 
 
+(use-package gud
+  :defer t
+  :config
+
+  (gud-def gud-record "record" nil "Enable recording.")
+  (gud-def gud-record-stop "record stop" nil "Disable recording")
+  (gud-def gud-exec-fwd "set exec-direction forward" nil "Forward Debugging")
+  (gud-def gud-exec-rev "set exec-direction reverse" nil "Reverse Debugging")
+
+  (defmacro defun-toggle (name &optional docstring decl &rest args)
+    "Create a toggle function with NAME."
+    (declare (indent 1))
+    `(defun ,name ()
+       ,docstring
+       ,decl
+       (if (get (function ,name) 'state)
+           (progn
+             (put (function ,name) 'state nil)
+             ,(plist-get args :post))
+         (put (function ,name) 'state t)
+         ,(plist-get args :pre))))
+
+  (defun-toggle gud-record-toggle
+    "Toggle switch for the GUD (GDB) record command."
+    (interactive)
+    :pre (call-interactively #'gud-record)
+    :post (call-interactively #'gud-record-stop))
+
+  (defun-toggle gud-exec-dir-toggle
+    "Toggle switch for the execution direction for the GUD (GDB) debugger."
+    (interactive)
+    :pre (call-interactively #'gud-exec-rev)
+    :post (call-interactively #'gud-exec-fwd))
+
+  (defhydra gud-hydra (:color pink :hint nil)
+    "
+ Source^^      Assembly^^      Breakpoints^^     Navigate^^    Reverse^^        Server^^
+------------------------------------------------------------------------------------------------
+ [_n_] Next    [_j_] Jump      [_b_] Breakpoint  [_M-p_] Up    [_r_] Record     [_M-r_] Run
+ [_s_] Step    [_c_] Continue  [_t_] Tmp Break   [_M-n_] Down  [_D_] Direction  [_M-s_] Stop
+ [_u_] Until   [_N_] Next      [_w_] Watch       [_p_] Print   ^   ^            [_C-c_] Interrupt
+ [_f_] Finish  [_S_] Step      [_d_] Delete      [_l_] Refresh ^   ^            [_q_] Quit
+"
+    ("s" gud-step)
+    ("n" gud-next)
+    ("c" gud-cont)
+    ("u" gud-until)
+    ("f" gud-finish)
+    ("j" gud-jump)
+
+    ("S" gud-stepi)
+    ("N" gud-nexti)
+
+    ("b" gud-break)
+    ("t" gud-tbreak)
+    ("d" gud-remove)
+    ("w" gud-watch)
+
+    ("M-p" gud-up)
+    ("M-n" gud-down)
+
+    ("r" gud-record-toggle)
+    ("D" gud-exec-dir-toggle)
+
+    ("p" gud-print)
+    ("l" gud-refresh)
+    ("M-r" gud-run)
+    ("M-s" gud-stop-subjob)
+    ("C-c" gud-stop-subjob)
+    ("q" nil)
+    ("M-x" nil))
+  (define-key gud-mode-map (kbd "C-c d") #'gud-hydra/body)
+  (define-key gud-minor-mode-map (kbd "C-c d") #'gud-hydra/body))
+
 ;;; my-hydras.el ends here
