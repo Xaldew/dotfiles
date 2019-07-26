@@ -9,16 +9,16 @@
 ;;
 ;;; Code:
 
-(eval-when-compile
-  (require 'newcomment))
+(require 'smie)
+
 
 ;; Allow users to run their own hooks.
-(defvar pbrt-mode-hook nil "User hooks for PBRT mode.")
+(defvar pbrt-mode-hook nil
+  "User hooks for PBRT mode.")
 
 (defvar pbrt-mode-map
   (let ((map (make-sparse-keymap)))
     (define-key map (kbd "C-j") 'newline-and-indent)
-    (define-key map [remap comment-dwim] 'pbrt-comment-dwim)
     map)
   "Keymap for PBRT major mode.")
 
@@ -27,34 +27,52 @@
   "Major mode for editing"
   :group 'languages)
 
-(defcustom pbrt-indent 4 "PBRT-indentation width."
+(defcustom pbrt-indent 4
+  "PBRT-indentation width."
   :group 'pbrt-mode
   :type 'integer)
 
+(defcustom pbrt-use-smie nil
+  "Use SMIE for indentation/navigation."
+  :group 'pbrt-mode
+  :type 'boolean)
+
 ;; Create lists keywords for highlighting.
-(defvar pbrt-keywords '("Include" "ActiveTransform" "ObjectInstance"))
+(defconst pbrt-keywords
+  '("Include" "ActiveTransform" "ObjectInstance"
+    "NamedMaterial" "MakeNamedMaterial"))
 
-(defvar pbrt-types '("bool" "integer" "float" "string" "point" "vector" "normal"
-		     "xyz" "color" "rgb" "texture" "spectrum" "blackbody"))
+(defconst pbrt-types
+  '("bool" "integer" "float" "string" "point" "vector" "normal"
+    "xyz" "color" "rgb" "texture" "spectrum" "blackbody"))
 
-(defvar pbrt-transforms '("Identity" "Translate" "Scale" "Rotate" "LookAt"
-			  "Transform" "ConcatTransform" "CoordinateSystem"
-			  "CoordSysTransform" "ReverseOrientation"))
+(defconst pbrt-transforms
+  '("Identity" "Translate" "Scale" "Rotate" "LookAt"
+    "Transform" "ConcatTransform" "CoordinateSystem"
+    "CoordSysTransform" "ReverseOrientation"))
 
-(defvar pbrt-states '("WorldBegin" "WorldEnd"
-		      "ObjectBegin" "ObjectEnd"
-		      "AttributeBegin" "AttributeEnd"
-		      "TransformBegin" "TransformEnd"))
+(defconst pbrt-states
+  '("WorldBegin" "WorldEnd"
+    "ObjectBegin" "ObjectEnd"
+    "AttributeBegin" "AttributeEnd"
+    "TransformBegin" "TransformEnd"))
 
-(defvar pbrt-render-options '("Camera" "Sampler" "Film" "PixelFilter" "Renderer"
-                              "Integrator"
-			      "SurfaceIntegrator" "VolumeIntegrator"
-			      "Accelerator"))
+(defconst pbrt-render-options
+  '("Camera" "Sampler" "Film" "PixelFilter" "Renderer"
+    "Integrator"
+    "SurfaceIntegrator" "VolumeIntegrator"
+    "Accelerator"))
 
-(defvar pbrt-scene-options '("Shape" "LightSource" "AreaLightSource" "Material"
-			     "Texture" "Volume"))
-(defvar pbrt-statements
-  (append pbrt-transforms pbrt-render-options pbrt-scene-options))
+(defconst pbrt-scene-options
+  '("Shape" "LightSource" "AreaLightSource" "Material"
+    "Texture" "Volume"))
+
+(defconst pbrt-statements
+  (append pbrt-keywords
+          pbrt-transforms
+          pbrt-states
+          pbrt-render-options
+          pbrt-scene-options))
 
 
 ;; Create regular expressions for font-locking.
@@ -64,27 +82,38 @@
 (defvar pbrt-states-regexp          (regexp-opt pbrt-states          'words))
 (defvar pbrt-render-options-regexp  (regexp-opt pbrt-render-options  'words))
 (defvar pbrt-scene-options-regexp   (regexp-opt pbrt-scene-options   'words))
+(defconst pbrt-statements-rx        (regexp-opt pbrt-statements      'words))
 (defvar pbrt-identifier-regexp
   (format "\\(%s\\)[[:space:]]+\\([a-zA-Z0-9_]+\\)"
 	  (mapconcat 'identity pbrt-types "\\|"))
   "A regular expression that can match all PBRT identifiers.")
 
 
+(defmacro pbrt--create-matcher (fname regexp)
+  "Create a inside-string font-lock matcher with FNAME for REGEXP."
+  `(defun ,fname (end)
+     "Search for format specifiers within strings up to END."
+     (let ((pos)
+           (case-fold-search nil))
+       (while (and (setq pos (re-search-forward ,regexp end t))
+                   (null (nth 3 (syntax-ppss pos)))))
+       pos)))
+
+
+(pbrt--create-matcher pbrt--types-matcher pbrt-types-regexp)
+(pbrt--create-matcher pbrt--identifier-matcher pbrt-identifier-regexp)
+
+
 ;; Create the list for font-lock.
 ;; Each class of keyword is given a particular face.
-;; Note that sexps with 4 values use the matchgroup in the second value
-;; and overrides previously defined font-locks if the fourth is non-nil.
 (defvar pbrt-font-lock-keywords
-  `((,"#.*"                       . font-lock-comment-face)
-    (,pbrt-keywords-regexp        . font-lock-keyword-face)
-    (,pbrt-types-regexp           0 font-lock-type-face           nil)
-    (,pbrt-identifier-regexp      2 font-lock-variable-name-face  nil)
+  `((,pbrt-keywords-regexp        . font-lock-keyword-face)
+    (pbrt--types-matcher      (0 'font-lock-type-face prepend))
+    (pbrt--identifier-matcher (2 'font-lock-variable-name-face prepend))
     (,pbrt-transforms-regexp      . font-lock-constant-face)
     (,pbrt-states-regexp          . font-lock-builtin-face)
     (,pbrt-render-options-regexp  . font-lock-function-name-face)
-    (,pbrt-scene-options-regexp   . font-lock-keyword-face)
-    (,"\"[^\"]*\""                . font-lock-string-face)
-    (,"\""                        . font-lock-string-face) ))
+    (,pbrt-scene-options-regexp   . font-lock-keyword-face)))
 
 
 ;; Regex variables for indentation.
@@ -186,18 +215,100 @@ WorldEnd"
     (move-to-column (current-indentation)) ))
 
 
-(defun pbrt-comment-dwim (arg)
-  "Comment or uncomment current line or region in a smart way.
+(defvar pbrt-smie-grammar
+  (smie-prec2->grammar
+   (smie-bnf->prec2
+    `((insts (inst) (insts ";" insts))
+      (inst ("WorldBegin" insts "WorldEnd")
+            ("AttributeBegin" insts "AttributeEnd")
+            ("TransformBegin" insts "TransformEnd")
+            ("ObjectBegin" inst "ObjectEnd")))
+    '((assoc ";"))))
+  "BNF grammar describing the PBRT languge for `smie'.")
 
-ARG is passed down to `comment-dwim'."
-  (interactive "*P")
-  (let ((comment-start "#") (comment-end ""))
-    (comment-dwim arg)))
+
+(defun pbrt-smie-rules (kind token)
+  "Perform indentation of KIND on TOKEN using the `smie' engine."
+  (princ (list kind token))
+  (pcase (list kind token)
+    (`(:elem basic) pbrt-indent)
+    (`(:elem arg) 0)
+    ;; (`(:before ";") (smie-rule-separator kind))
+    ;; (`(,_ "WorldBegin") 0)
+    ))
+
+
+(defun pbrt-in-statement-p ()
+  "Check if we are currently inside or at the end of a PBRT statement."
+  (save-excursion
+    (re-search-backward pbrt-statements-rx)
+    (not (looking-at-p pbrt-states-regexp))))
+
+(defun pbrt-new-statement-p ()
+  "Check if there is a new PBRT statement to be found by looking forward."
+  (and
+   (save-excursion
+     (forward-comment (point-max))
+     (looking-at-p pbrt-statements-rx)))
+  (pbrt-in-statement-p))
+
+
+(defun pbrt-smie-forward-token ()
+  "Go forwards to the next SMIE token."
+  (let ((pos (point)))
+    (forward-comment (point-max))
+    (cond
+     ;; TODO: Fix.
+     ;; ((and (< pos (point))              ; Emit virtual statement separator.
+     ;;       (or (pbrt-new-statement-p)
+     ;;           (eobp)))
+     ;;  (forward-comment (- (point)))
+     ;;  ";")
+     (t
+      (buffer-substring-no-properties
+       (point)
+       (progn (if (zerop
+                   (skip-syntax-forward "."))
+                  (skip-syntax-forward "w_'"))
+              (point)))))))
+
+(defun pbrt-smie-backward-token ()
+  "Go backwards to the previous SMIE token."
+  (let ((pos (point)))
+    (forward-comment (- (point)))
+    (cond
+     ;; TODO: Fix.
+     ;; ((and (> pos (point))
+     ;;       (pbrt-new-statement-p))
+     ;;  (forward-comment (- (point)))
+     ;;  ";")
+     (t
+      (buffer-substring-no-properties
+       (point)
+       (progn (if (zerop
+                   (skip-syntax-backward "."))
+                  (skip-syntax-backward "w_'"))
+              (point)))))))
+
+
+(defun pbrt-debug-lexer (fun)
+  "Debug the lexer FUN."
+  (lambda ()
+    (let ((tok (funcall fun))
+          (nam (symbol-name fun))
+          (line (line-number-at-pos))
+          (col (current-column))
+          (pos (point)))
+      (princ (format "%s: '%s' at %d:%d (%d).\n" nam tok line col pos))
+      tok)))
 
 
 ;; Syntax table.
-(defvar pbrt-mode-syntax-table
+(defvar pbrt-syntax-table
   (let ((table (make-syntax-table)))
+    ;; Double quotes used for comments.
+    (modify-syntax-entry ?' "\"" table)
+    (modify-syntax-entry ?\" "\"" table)
     ;; Shell style comment: “# ...”
     (modify-syntax-entry ?#  "<" table)
     (modify-syntax-entry ?\n ">" table)
@@ -222,14 +333,22 @@ ARG is passed down to `comment-dwim'."
   "Major mode for editing PBRT scene files.
 
 \\{pbrt-mode-map}"
-  :syntax-table pbrt-mode-syntax-table
+  :syntax-table pbrt-syntax-table
 
   ;; Code for syntax highlighting.
-  (setq-local font-lock-defaults '(pbrt-font-lock-keywords t))
+  (setq-local font-lock-defaults '(pbrt-font-lock-keywords))
 
-  ;; Code for pbrt indentation.
-  (setq-local indent-line-function 'pbrt-indent-line)
-  (setq-local indent-tabs-mode nil))
+  ;; Code for managing comments.
+  (setq-local comment-start "# ")
+  (setq-local comment-start-skip "#+\\s-*")
+
+  ;; Code for indentation.
+  (setq-local indent-tabs-mode nil)
+  (if pbrt-use-smie
+      (smie-setup pbrt-smie-grammar #'pbrt-smie-rules
+                  :forward-token (pbrt-debug-lexer #'pbrt-smie-forward-token)
+                  :backward-token (pbrt-debug-lexer #'pbrt-smie-backward-token))
+    (setq-local indent-line-function #'pbrt-indent-line)))
 
 
 (provide 'pbrt-mode)
