@@ -51,11 +51,13 @@
     "Transform" "ConcatTransform" "CoordinateSystem"
     "CoordSysTransform" "ReverseOrientation"))
 
-(defconst pbrt-states
-  '("WorldBegin" "WorldEnd"
-    "ObjectBegin" "ObjectEnd"
-    "AttributeBegin" "AttributeEnd"
-    "TransformBegin" "TransformEnd"))
+(defconst pbrt-openers
+  '("WorldBegin" "ObjectBegin" "TransformBegin" "AttributeBegin"))
+
+(defconst pbrt-closers
+  '("WorldEnd" "ObjectEnd" "AttributeEnd" "TransformEnd"))
+
+(defconst pbrt-states (append pbrt-openers pbrt-closers))
 
 (defconst pbrt-render-options
   '("Camera" "Sampler" "Film" "PixelFilter" "Renderer"
@@ -69,21 +71,22 @@
 
 (defconst pbrt-statements
   (append pbrt-keywords
+          pbrt-openers
           pbrt-transforms
-          pbrt-states
           pbrt-render-options
           pbrt-scene-options))
 
 
 ;; Create regular expressions for font-locking.
-(defvar pbrt-keywords-regexp        (regexp-opt pbrt-keywords        'words))
-(defvar pbrt-types-regexp           (regexp-opt pbrt-types           'words))
-(defvar pbrt-transforms-regexp      (regexp-opt pbrt-transforms      'words))
-(defvar pbrt-states-regexp          (regexp-opt pbrt-states          'words))
-(defvar pbrt-render-options-regexp  (regexp-opt pbrt-render-options  'words))
-(defvar pbrt-scene-options-regexp   (regexp-opt pbrt-scene-options   'words))
-(defconst pbrt-statements-rx        (regexp-opt pbrt-statements      'words))
-(defvar pbrt-identifier-regexp
+(defconst pbrt-keywords-regexp       (regexp-opt pbrt-keywords        'words))
+(defconst pbrt-types-regexp          (regexp-opt pbrt-types           'words))
+(defconst pbrt-transforms-regexp     (regexp-opt pbrt-transforms      'words))
+(defconst pbrt-states-regexp         (regexp-opt pbrt-states          'words))
+(defconst pbrt-render-options-regexp (regexp-opt pbrt-render-options  'words))
+(defconst pbrt-scene-options-regexp  (regexp-opt pbrt-scene-options   'words))
+(defconst pbrt-statements-rx         (regexp-opt pbrt-statements      'words))
+(defconst pbrt-closers-rx            (regexp-opt pbrt-closers         'word))
+(defconst pbrt-identifier-regexp
   (format "\\(%s\\)[[:space:]]+\\([a-zA-Z0-9_]+\\)"
 	  (mapconcat 'identity pbrt-types "\\|"))
   "A regular expression that can match all PBRT identifiers.")
