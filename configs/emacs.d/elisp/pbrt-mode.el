@@ -235,63 +235,43 @@ WorldEnd"
   (princ (list kind token))
   (pcase (list kind token)
     (`(:elem basic) pbrt-indent)
-    (`(:elem arg) 0)
-    ;; (`(:before ";") (smie-rule-separator kind))
-    ;; (`(,_ "WorldBegin") 0)
-    ))
+    (`(:elem args) 0)
+    (`(:after ,(or "WorldEnd" "AttributeEnd" "TransformEnd" "ObjectEnd"))
+     (smie-rule-parent))))
 
 
-(defun pbrt-in-statement-p ()
-  "Check if we are currently inside or at the end of a PBRT statement."
-  (save-excursion
-    (re-search-backward pbrt-statements-rx)
-    (not (looking-at-p pbrt-states-regexp))))
-
-(defun pbrt-new-statement-p ()
-  "Check if there is a new PBRT statement to be found by looking forward."
-  (and
+(defun pbrt-looking-back-at-closer-p (&optional move)
+  "Is there a closing statement behind us after the optional MOVE?"
+  (or
    (save-excursion
-     (forward-comment (point-max))
-     (looking-at-p pbrt-statements-rx)))
-  (pbrt-in-statement-p))
+     (when move
+       (forward-comment (- (point)))
+       (skip-syntax-backward "w"))
+     (looking-at-p pbrt-closers-rx))))
 
 
 (defun pbrt-smie-forward-token ()
   "Go forwards to the next SMIE token."
-  (let ((pos (point)))
+  (let ((start-pos (point)))
     (forward-comment (point-max))
     (cond
-     ;; TODO: Fix.
-     ;; ((and (< pos (point))              ; Emit virtual statement separator.
-     ;;       (or (pbrt-new-statement-p)
-     ;;           (eobp)))
-     ;;  (forward-comment (- (point)))
-     ;;  ";")
+     ((and (> (point) start-pos)      ; Emit virtual statement separator.
+           (pbrt-looking-back-at-closer-p :move))
+      ";")
      (t
-      (buffer-substring-no-properties
-       (point)
-       (progn (if (zerop
-                   (skip-syntax-forward "."))
-                  (skip-syntax-forward "w_'"))
-              (point)))))))
+      (smie-default-forward-token)))))
 
 (defun pbrt-smie-backward-token ()
   "Go backwards to the previous SMIE token."
-  (let ((pos (point)))
+  (let ((start-pos (point)))
     (forward-comment (- (point)))
     (cond
-     ;; TODO: Fix.
-     ;; ((and (> pos (point))
-     ;;       (pbrt-new-statement-p))
-     ;;  (forward-comment (- (point)))
-     ;;  ";")
+     ((and (< (point) start-pos)        ; Emit virtual statement separator.
+           (or
+            (pbrt-looking-back-at-closer-p :move)))
+      ";")
      (t
-      (buffer-substring-no-properties
-       (point)
-       (progn (if (zerop
-                   (skip-syntax-backward "."))
-                  (skip-syntax-backward "w_'"))
-              (point)))))))
+      (smie-default-backward-token)))))
 
 
 (defun pbrt-debug-lexer (fun)
