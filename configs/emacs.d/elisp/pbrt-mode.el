@@ -236,6 +236,7 @@ WorldEnd"
   (princ (list kind token))
   (pcase (list kind token)
     (`(:elem basic) pbrt-indent)
+    (`(:list-intro "") 0)
     (`(:elem args) 0)
     (`(:after ,(or "WorldEnd" "AttributeEnd" "TransformEnd" "ObjectEnd"))
      (smie-rule-parent))))
