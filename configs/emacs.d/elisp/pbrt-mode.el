@@ -85,6 +85,7 @@
 (defconst pbrt-render-options-regexp (regexp-opt pbrt-render-options  'words))
 (defconst pbrt-scene-options-regexp  (regexp-opt pbrt-scene-options   'words))
 (defconst pbrt-statements-rx         (regexp-opt pbrt-statements      'words))
+(defconst pbrt-openers-rx            (regexp-opt pbrt-openers         'word))
 (defconst pbrt-closers-rx            (regexp-opt pbrt-closers         'word))
 (defconst pbrt-identifier-regexp
   (format "\\(%s\\)[[:space:]]+\\([a-zA-Z0-9_]+\\)"
@@ -239,24 +240,52 @@ WorldEnd"
     (`(:after ,(or "WorldEnd" "AttributeEnd" "TransformEnd" "ObjectEnd"))
      (smie-rule-parent))))
 
+(defun pbrt-looking-back-at-opener-p (&optional move)
+  "Is there an opening statement behind us after the optional MOVE?"
+  (save-excursion
+    (when move
+      (forward-comment (- (point)))
+      (skip-syntax-backward "w"))
+    (looking-at-p pbrt-openers-rx)))
 
 (defun pbrt-looking-back-at-closer-p (&optional move)
   "Is there a closing statement behind us after the optional MOVE?"
-  (or
-   (save-excursion
-     (when move
-       (forward-comment (- (point)))
-       (skip-syntax-backward "w"))
-     (looking-at-p pbrt-closers-rx))))
+  (save-excursion
+    (when move
+      (forward-comment (- (point)))
+      (skip-syntax-backward "w"))
+    (looking-at-p pbrt-closers-rx)))
+
+(defun pbrt-space-behind-p ()
+  "Is there whitespace or comments behind us?"
+  (let ((pos (point)))
+    (save-excursion
+      (forward-comment (- (point)))
+      (< (point) pos))))
+
+
+(defun pbrt-looking-at-new-statement-p (&optional move)
+  "Is there a new PBRT statement in front of after the optional MOVE?"
+  (save-excursion
+    (when move
+      (forward-comment (point-max)))
+    (looking-at-p pbrt-statements-rx)))
 
 
 (defun pbrt-smie-forward-token ()
   "Go forwards to the next SMIE token."
-  (let ((start-pos (point)))
+  (let ((start-pos (point))
+        (space-behind (pbrt-space-behind-p)))
     (forward-comment (point-max))
     (cond
-     ((and (> (point) start-pos)      ; Emit virtual statement separator.
-           (pbrt-looking-back-at-closer-p :move))
+
+     ((and (> (point) start-pos)       ; Emit virtual statement separator.
+           ;; Don't insert another virtual separator if between statements.
+           (not space-behind)
+           (not (pbrt-looking-back-at-opener-p :move))
+           (or
+            (pbrt-looking-back-at-closer-p :move)
+            (pbrt-looking-at-new-statement-p :move)))
       ";")
      (t
       (smie-default-forward-token)))))
@@ -267,8 +296,10 @@ WorldEnd"
     (forward-comment (- (point)))
     (cond
      ((and (< (point) start-pos)        ; Emit virtual statement separator.
+           (not (pbrt-looking-back-at-opener-p :move))
            (or
-            (pbrt-looking-back-at-closer-p :move)))
+            (pbrt-looking-back-at-closer-p :move)
+            (pbrt-looking-at-new-statement-p :move)))
       ";")
      (t
       (smie-default-backward-token)))))
