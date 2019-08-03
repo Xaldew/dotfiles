@@ -32,7 +32,7 @@
   :group 'pbrt-mode
   :type 'integer)
 
-(defcustom pbrt-use-smie nil
+(defcustom pbrt-use-smie t
   "Use SMIE for indentation/navigation."
   :group 'pbrt-mode
   :type 'boolean)
@@ -233,7 +233,6 @@ WorldEnd"
 
 (defun pbrt-smie-rules (kind token)
   "Perform indentation of KIND on TOKEN using the `smie' engine."
-  (princ (list kind token))
   (pcase (list kind token)
     (`(:elem basic) pbrt-indent)
     (`(:list-intro "") 0)
@@ -361,8 +360,8 @@ WorldEnd"
   (setq-local indent-tabs-mode nil)
   (if pbrt-use-smie
       (smie-setup pbrt-smie-grammar #'pbrt-smie-rules
-                  :forward-token (pbrt-debug-lexer #'pbrt-smie-forward-token)
-                  :backward-token (pbrt-debug-lexer #'pbrt-smie-backward-token))
+                  :forward-token #'pbrt-smie-forward-token
+                  :backward-token #'pbrt-smie-backward-token)
     (setq-local indent-line-function #'pbrt-indent-line)))
 
 
