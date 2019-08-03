@@ -35,6 +35,9 @@ base_url=https://raw.githubusercontent.com/git/git/master/contrib/completion/
         . ${XDG_CONFIG_HOME}/bash_it/bash_it.sh
         bash-it enable completion svn tmux makefile
         bash-it enable plugin dirs
+    else
+        cd ${XDG_CONFIG_HOME}/bash_it
+        git pull
     fi
 ) &
 
