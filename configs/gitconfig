@@ -54,7 +54,9 @@
 	dif = diff --word-diff
 	wdiff = diff --word-diff
 	wdif = diff --word-diff
-	la = "!git config -l | grep alias | cut -c 7-"
+	list-alias = "!git config -l | grep alias | cut -c 7-"
+	la = !git list-alias
+	help = !git list-alias
 	stap = "!git stash && git pull && git stash pop"
 	sl = stash list
 	sa = stash apply
