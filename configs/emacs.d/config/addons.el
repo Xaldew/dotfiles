@@ -304,9 +304,12 @@ NAME can be used to set the name of the defined function."
 ;; Use undo-tree instead of the regular undo-chain.
 (use-package undo-tree
   :ensure t
+  :defer t
   :diminish undo-tree-mode
+  :init
+  (add-hook 'after-init-hook #'global-undo-tree-mode)
   :config
-  (global-undo-tree-mode))
+  (setq undo-tree-enable-undo-in-region nil))
 
 
 (use-package projectile
