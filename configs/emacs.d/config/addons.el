@@ -233,14 +233,15 @@ NAME can be used to set the name of the defined function."
         (cl-pushnew p flycheck-clang-include-path))))
   (defun my-flycheck-hook ()
     "Personal hook for per-buffer flycheck settings."
-    (cond
-     ((eq major-mode 'c-mode)
-      (setq flycheck-gcc-language-standard   "c11")
-      (setq flycheck-clang-language-standard "c11"))
-     ((eq major-mode 'c++-mode)
-      (setq flycheck-gcc-language-standard   "c++11")
-      (setq flycheck-clang-language-standard "c++11")))
-    (my-flycheck-add-includes))
+    (unless (bound-and-true-p lsp-mode)
+      (cond
+       ((eq major-mode 'c-mode)
+        (setq flycheck-gcc-language-standard   "c11")
+        (setq flycheck-clang-language-standard "c11"))
+       ((eq major-mode 'c++-mode)
+        (setq flycheck-gcc-language-standard   "c++11")
+        (setq flycheck-clang-language-standard "c++11")))
+      (my-flycheck-add-includes)))
   (add-hook 'flycheck-mode-hook #'my-flycheck-hook))
 
 (use-package flycheck-pos-tip
