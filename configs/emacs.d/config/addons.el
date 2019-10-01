@@ -64,6 +64,14 @@ NAME can be used to set the name of the defined function."
 
 (when (version<= "24" emacs-version)
 
+  (use-package x86-lookup
+    :ensure t
+    :defer t
+    :config
+    (setq x86-lookup-pdf
+          (locate-user-emacs-file
+           (concat user-emacs-directory "docs/" "x86-lookup.pdf"))))
+
   (use-package yasnippet
     :ensure t
     :diminish yas-minor-mode
