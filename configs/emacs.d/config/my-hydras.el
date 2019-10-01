@@ -699,6 +699,7 @@ _s_: Set scale  _o_: Restore original  _R_: Rotate free   _q_: Quit
 
 (use-package hydra
   :defer t
+  :if (fboundp #'lsp)
   :config
   (defhydra lsp-mode-hydra (:exit t :hint nil)
     "
