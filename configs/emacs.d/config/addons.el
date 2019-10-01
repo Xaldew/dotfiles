@@ -946,6 +946,7 @@ When `ERC' exits the SSH process is killed from `erc-kill-server-hook'."
     :ensure t
     :defer t
     :pin melpa
+    :commands (helm-dash-install-docset helm-dash-async-install-docset)
     :defines (helm-dash-docsets)
     :init
     (defun my-helm-dash-install (prefix)
