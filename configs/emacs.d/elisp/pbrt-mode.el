@@ -301,6 +301,8 @@ WorldEnd"
             (pbrt-looking-back-at-closer-p :move)
             (pbrt-looking-at-new-statement-p :move)))
       ";")
+     ((bobp)
+      ";")
      (t
       (smie-default-backward-token)))))
 
