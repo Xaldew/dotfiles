@@ -29,6 +29,7 @@ set_arm_gitconfig()
     for arg in "$@";
     do
 	(cd $arg && git config user.email "gustaf.waldemarson@arm.com")
+        (cd $arg && git submodule foreach --recursive git config user.email "gustaf.waldemarson@arm.com")
     done
 }
 
