@@ -115,7 +115,9 @@ LANGELEM is the element currently being inspected."
   (c-set-style "my-c++-style")
   (auto-fill-mode)
   (add-to-list 'cwarn-configuration '(c++-mode (not reference)))
-  (cwarn-mode))
+  (cwarn-mode)
+  (if (string-match "llvm" buffer-file-name)
+      (c-set-style "llvm.org")))
 (add-hook 'c++-mode-hook 'my-c++-mode-hook)
 
 ;;; cppmode.el ends here
