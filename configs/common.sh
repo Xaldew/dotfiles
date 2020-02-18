@@ -426,7 +426,15 @@ EOM
     lang=${4:-eng}
     scodec=${5:-srt}
     sidx=$(ffprobe_count_subtitles ${vid})
-    tmp=$(mktemp XXXXXXXX.mkv)
+
+    # Copy input video extension.
+    bvid=$(basename vid)
+    ext=${bvid#*.}
+    if [ -z "$ext" ]; then
+        ext=mkv
+    fi
+
+    tmp=$(mktemp XXXXXXXX.$ext)
     ffmpeg \
         -y \
         -i ${vid} \
