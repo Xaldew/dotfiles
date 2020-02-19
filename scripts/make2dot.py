@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # Take a makefile and use Make and post-processing to convert it to a dot-file.
 
 import re
@@ -51,7 +51,7 @@ def read_makefile(makefile):
         cmd.extend(["--file", makefile])
     process = sp.Popen(cmd, env=env, stdout=sp.PIPE)
     output,_ = process.communicate()
-    return output.split("\n");
+    return str(output, "utf-8").split("\n");
 
 
 def parse_make_database(make_lines, source_dir):
@@ -154,23 +154,23 @@ def filter_graph(graph,
     :type: delete_unnecessary: Boolean.
     :type: ignore: List.
 
+    .. Returns:
+    :returns: A new graph filtered after the specification.
+    :rtype: A dictionary mapping strings to sets of strings.
+
     """
-    cond = lambda k: (not keep_special_rules and k in kspecial_targets or
-                      not keep_suffix_rules and k.startswith(".") or
-                      ignore and k in ignore or k == "")
+    cond = lambda k: ((not keep_special_rules and k in kspecial_targets) or
+                      (not keep_suffix_rules and k.startswith(".")) or
+                      (ignore and k in ignore) or k == "")
+    ngraph = dict()
     for k, v in graph.items():
-        if cond(k):
-            del graph[k]
-        else:
-            graph[k] = set(itertools.ifilterfalse(cond, graph[k]))
+        if not cond(k):
+            ngraph[k] = {e for e in v if not cond(e) }
 
-    if not delete_unnecessary:
-        return
+    if delete_unnecessary:
+        ngraph = {k: v for k, v in ngraph.items() if v}
 
-    for k, v0 in graph.items():
-        if not v0 and all(k not in s for s in graph.values()):
-            del graph[k]
-    return
+    return ngraph
 
 
 def generate_graph(dotfile, dags, merge_edges=False, ratio=0.75):
@@ -272,13 +272,14 @@ def main(makefile,
     """
     make_lines = read_makefile(makefile)
     dags = parse_make_database(make_lines, source_dir)
+    ndags = list()
     for d in dags:
-        filter_graph(d,
-                     keep_suffix_rules,
-                     keep_special_rules,
-                     delete_unnecessary,
-                     ignore)
-    generate_graph(dotfile, dags, merge_edges, ratio)
+        ndags.append(filter_graph(d,
+                                  keep_suffix_rules,
+                                  keep_special_rules,
+                                  delete_unnecessary,
+                                  ignore))
+    generate_graph(dotfile, ndags, merge_edges, ratio)
 
 
 def parse_args():
