@@ -461,7 +461,7 @@ add_all_subtitles()
     do
         lang=$(basename $sub .srt)
         echo "Adding ${sub} with language ${lang} to movie..."
-        add_subtitles ${vid} ${sub} UTF-8 ${lang}
+        add_subtitles "${vid}" "${sub}" UTF-8 "${lang}"
     done
 }
 
