@@ -737,12 +737,10 @@ and style."
     :init
     (add-to-list 'c++-mode-hook #'modern-c++-font-lock-mode))
 
-
   (use-package org
     :defer t
-    :diminish (orgstruct-mode   . "Org")
     :init
-    (setq org-export-backends '(ascii html latex odt md))
+    (setq org-export-backends '(ascii html latex odt))
     (setq org-directory (file-name-as-directory
                          (concat user-emacs-directory "org")))
     (unless (file-directory-p org-directory)
@@ -751,8 +749,6 @@ and style."
       "Personal hook for `org-mode'."
       (linum-mode -1))
     (add-hook 'org-mode-hook #'my-org-hook)
-    (add-hook 'text-mode-hook #'orgstruct-mode)
-    (add-hook 'latex-mode-hook #'orgstruct-mode)
     :config
     (let ((ditaa    (executable-find "ditaa"))
           (plantuml (executable-find "plantuml")))
@@ -796,6 +792,15 @@ and style."
     :defer t
     :commands (orgtbl-mode)
     :diminish (orgtbl-mode)
+    :init
+    (add-hook 'text-mode-hook #'orgtbl-mode)
+    (add-hook 'latex-mode-hook #'orgtbl-mode))
+
+  (use-package org-table
+    :defer t
+    :commands (orgtbl-mode)
+    :diminish (orgtbl-mode)
+    :after (org)
     :init
     (add-hook 'text-mode-hook #'orgtbl-mode)
     (add-hook 'latex-mode-hook #'orgtbl-mode))
