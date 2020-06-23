@@ -57,7 +57,7 @@
 (add-to-list 'package-archives
              '("org" . "http://orgmode.org/elpa/"))
 (add-to-list 'package-archives
-             '("xaldew" . "https://gustafwaldemarson.com/elpa/packages/"))
+             '("xaldew" . "https://gustafwaldemarson.com/elpa/"))
 (add-to-list 'package-unsigned-archives "xaldew")
 
 (unless (package-installed-p 'use-package)
