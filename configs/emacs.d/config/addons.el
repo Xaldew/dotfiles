@@ -792,14 +792,6 @@ and style."
     :defer t
     :commands (orgtbl-mode)
     :diminish (orgtbl-mode)
-    :init
-    (add-hook 'text-mode-hook #'orgtbl-mode)
-    (add-hook 'latex-mode-hook #'orgtbl-mode))
-
-  (use-package org-table
-    :defer t
-    :commands (orgtbl-mode)
-    :diminish (orgtbl-mode)
     :after (org)
     :init
     (add-hook 'text-mode-hook #'orgtbl-mode)
