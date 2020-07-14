@@ -2,7 +2,7 @@
 
 # Install Rust compiler, runtime and packaging tools.
 if ! command -v rustc >/dev/null 2>&1; then
-    curl -sSf https://sh.rustup.rs | sh
+    curl --proto '=https' --tlsv1.2 https://sh.rustup.rs -sSf | sh
 fi
 
 
@@ -18,9 +18,11 @@ fi
 # Use rustup to setup the Rust toolchain(s).
 if command -v rustup; then
 
+    rustup update
     rustup install nightly
 
-    rustup component add rls-preview --toolchain nightly
+    rustup component add rls --toolchain nightly
+    rustup component add clippy --toolchain nightly
     rustup component add rust-analysis --toolchain nightly
     rustup component add rust-src --toolchain nightly
 
@@ -29,12 +31,5 @@ if command -v rustup; then
 
     # Install Cargo bash completion.
     toolchain_dir=$(dirname $(dirname $(rustup which cargo)))
-    cp $toolchain_dir/etc/cargo.bashcomp.sh $HOME/.bash_completion.d/
-fi
-
-# Download the Rust source for standard code completion with Racer.
-if [ ! -d $objects_dir/rust ]; then
-    git clone https://github.com/rust-lang/rust.git $objects_dir/rust
-else
-    git -C $objects_dir/rust pull
+    cp $toolchain_dir/etc/bash_completion.d/cargo $HOME/.bash_completion.d/
 fi
