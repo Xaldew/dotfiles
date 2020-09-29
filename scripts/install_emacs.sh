@@ -20,7 +20,7 @@ if [ "$OSTYPE" = "cygwin" ]; then
 elif [ -n "$simple_conf" ]; then
     conf=" --without-all "
 else
-    conf=""
+    conf="--without-makeinfo --with-xpm=ifavailable --with-jpeg=ifavailable --with-gif=ifavailable --with-tiff=ifavailable"
 fi
 
 
@@ -29,10 +29,10 @@ cd $objects_dir/emacs
 make distclean
 git clean --force -x -d
 
-sh autogen.sh
+sh autogen.sh &&
 ./configure \
     --prefix="$local_prefix_dir" \
     --program-transform-name='s/^ctags$/ctags.emacs/' \
-    $conf
-make -j4
+    $conf &&
+make -j4 &&
 make install
