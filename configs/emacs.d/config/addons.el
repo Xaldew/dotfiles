@@ -1462,7 +1462,8 @@ When `ERC' exits the SSH process is killed from `erc-kill-server-hook'."
     ;; (add-hook 'rust-mode-hook   #'lsp)
     ;; (add-hook 'python-mode-hook #'lsp)
     :config
-    (setq lsp-clients-clangd-args '("-background-index")))
+    ;; (setq lsp-clients-clangd-args '("-background-index"))
+    )
 
 
   (use-package lsp-ui       :ensure t :commands lsp-ui-mode)
