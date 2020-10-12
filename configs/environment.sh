@@ -53,3 +53,9 @@ if [ -d "$HOME/.cargo/bin" ]; then
     PATH="$HOME/.cargo/bin":$PATH
     export RUST_SRC_PATH="$(rustc --print sysroot)/lib/rustlib/src/rust/src"
 fi
+
+## Add Default Cuda environment paths.
+if [ -d "/usr/local/cuda" ]; then
+    PATH="/usr/local/cuda/bin":${PATH}
+    PATH="/opt/nvidia/nsight-compute":${PATH}
+fi
