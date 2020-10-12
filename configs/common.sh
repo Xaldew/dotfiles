@@ -304,6 +304,19 @@ find_dropbox()
 }
 
 
+dirchecksum()
+{
+    # Compute a checksum for a directory.
+    dir=${1:?"No directory given."}
+    pushd ${dir} 1> /dev/null && {
+        export LC_ALL=C;
+        find -type f -exec wc -c {} \; | sort; echo;
+        find -type f -exec md5sum {} + | sort; echo;
+        find . -type d | sort; find . -type d | sort | md5sum;
+    } | md5sum && popd 1> /dev/null
+}
+
+
 terminfo()
 {
     # See which installed terminals supports the given `terminfo` feature.
