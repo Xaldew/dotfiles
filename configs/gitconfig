@@ -49,6 +49,7 @@
 	  git pull && \
 	  git submodule update --init --recursive ; \
 	}; f"
+	pullall = "!f(){ git pull \"$@\" && git submodule update --init --recursive; }; f"
 	pull-all = pull --recurse-submodules
 	pulla = pull --recurse-submodules
 	dif = diff --word-diff
