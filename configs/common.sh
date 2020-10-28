@@ -441,7 +441,7 @@ EOM
     sidx=$(ffprobe_count_subtitles ${vid})
 
     # Copy input video extension.
-    bvid=$(basename vid)
+    bvid=$(basename ${vid})
     ext=${bvid#*.}
     if [ -z "$ext" ]; then
         ext=mkv
