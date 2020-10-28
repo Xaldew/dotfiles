@@ -740,6 +740,7 @@ and style."
   (use-package org
     :defer t
     :init
+    (setq org-modules '(org-tempo ol-w3m ol-bbdb ol-bibtex ol-docview ol-gnus ol-info ol-irc ol-mhe ol-rmail ol-eww))
     (setq org-export-backends '(ascii html latex odt))
     (setq org-directory (file-name-as-directory
                          (concat user-emacs-directory "org")))
