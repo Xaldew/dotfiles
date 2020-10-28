@@ -40,7 +40,8 @@
 ;; Create lists keywords for highlighting.
 (defconst pbrt-keywords
   '("Include" "ActiveTransform" "ObjectInstance"
-    "NamedMaterial" "MakeNamedMaterial"))
+    "NamedMaterial" "MakeNamedMaterial"
+    "MediumInterface" "MakeNamedMedium"))
 
 (defconst pbrt-types
   '("bool" "integer" "float" "string" "point" "vector" "normal"
