@@ -638,6 +638,8 @@ if [ -x /usr/bin/dircolors ]; then
     alias grep='grep --color=auto --exclude-dir={\.svn,\.git,\.repo}'
     alias fgrep='fgrep --color=auto --exclude-dir={\.svn,\.git,\.repo}'
     alias egrep='egrep --color=auto --exclude-dir={\.svn,\.git,\.repo}'
+    # Add default diff options
+    alias diff='diff --color=auto'
 fi
 
 alias matlab="LD_PRELOAD=/usr/lib/x86_64-linux-gnu/libstdc++.so.6 /usr/local/MATLAB/R2017b/bin/matlab"
