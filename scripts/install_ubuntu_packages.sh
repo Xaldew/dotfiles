@@ -45,8 +45,7 @@ sudo apt-get --quiet=2 install \
      libtool-bin \
      cmake \
      doxygen \
-     ccache \
-     silversearcher-ag
+     ccache
 
 # Install Python and utilities.
 sudo apt-get --quiet=2 install \
