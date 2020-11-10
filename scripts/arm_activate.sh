@@ -22,7 +22,7 @@ alias bissh="ssh lun-login2.lund.arm.com"
 
 # Various utility functions.
 
-set_arm_gitconfig()
+arm_gitconfig()
 {
     # Set the ARM gitconfig for gerrit repos. Otherwise, commits cannot be
     # pushed.
