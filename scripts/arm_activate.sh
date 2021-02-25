@@ -69,10 +69,10 @@ if [ "`get_dist -i`" = "ubuntu" ]; then
     # This environment variable unfortunately doesn't work, since IT haven't
     # added support for Ubuntu to the emulated platforms.
     #export DEPOT_EMULATED_PLATFORM=ubu-16.04
-    my_module load swdev arm/cluster
+    my_module load swdev eda arm/cluster
 
     # Needed by blueprint.
-    my_module load google/golang ninja-build/ninja gnu/gcc/4.9.1_lto gnu/cmake/3.17.0 python/ply_py2.7.8 arm/gcc_aarch64/4.9_2016.02
+    my_module load google/golang ninja-build/ninja arm/rvct/6.10.29 gnu/gcc/4.9.1_lto gnu/cmake/3.17.0 python/ply_py2.7.8 arm/gcc_aarch64/4.9_2016.02
 else
     # Running CentOS. Load CentOS specific packages.
 
