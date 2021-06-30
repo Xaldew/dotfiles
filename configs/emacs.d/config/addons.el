@@ -667,15 +667,6 @@ and style."
     (mmm-add-mode-ext-class 'python-mode nil 'rst-python-docstrings))
 
 
-  (use-package smart-mode-line
-    :ensure t
-    :defer t
-    :init
-    (setq sml/theme 'dark)
-    ;; `sml/setup' must be called manually the first time for the Emacs server.
-    (add-hook 'emacs-startup-hook #'sml/setup))
-
-
   (use-package gnus-desktop-notify
     :ensure t
     :defer t
