@@ -16,4 +16,6 @@ if command -v java >/dev/null 2>&1 && \
         rmdir $f
     done
     rm -r $tmpdir
+else
+    echo "No Java, can't install LanguageTool."
 fi
