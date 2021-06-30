@@ -1395,8 +1395,10 @@ When `ERC' exits the SSH process is killed from `erc-kill-server-hook'."
     :pin melpa
     :mode ("\\.plantuml\\'" . plantuml-mode)
     :defer t
+    :init
+    (setq plantuml-default-exec-mode 'jar)
     :config
-    (setq plantuml-jar-path (executable-find "plantuml")))
+    (setq plantuml-jar-path (executable-find "plantuml.jar")))
 
   (use-package polymode :ensure t :defer t)
 
