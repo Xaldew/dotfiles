@@ -14,7 +14,7 @@ set blink-matching-paren on
 # Enable color display for completions and mark symlinked directories.
 set colored-stats on
 set mark-symlinked-directories on
-set show-all-if-ambiguous on
+#set show-all-if-ambiguous on
 
 
 # Be 8 bit clean.
