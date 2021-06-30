@@ -88,7 +88,7 @@ mkdir -p $HOME/.bash_completion.d
 # Install git and setup user gitconfig and gitignore.
 ln -fs $dotfiles_dir/configs/gitconfig $HOME/.gitconfig
 ln -fs $dotfiles_dir/configs/gitignore $HOME/.gitignore
-
+ln -fs $dotfiles_dir/configs/gitattributes $HOME/.gitattributes
 
 # Install Mercurial configurations.
 ln -fs $dotfiles_dir/configs/hgrc $HOME/.hgrc
