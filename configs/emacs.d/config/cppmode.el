@@ -52,8 +52,9 @@
 		   ".+\.\\(c\\|C\\|cc\\|cxx\\|cpp\\|c\+\+\\)\\'"))
 
 
-(add-to-list 'magic-mode-alist '(c-header-test-p   . c-mode))
-(add-to-list 'magic-mode-alist '(c++-header-test-p . c++-mode))
+(when (version<= emacs-version "26")
+  (add-to-list 'magic-mode-alist '(c-header-test-p   . c-mode))
+  (add-to-list 'magic-mode-alist '(c++-header-test-p . c++-mode)))
 
 
 ;;;; C++ coding style configuration.
