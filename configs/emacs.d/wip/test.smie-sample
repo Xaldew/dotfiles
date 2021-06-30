@@ -1,0 +1,21 @@
+test a
+     b
+     c;
+test a;
+test a
+     b;
+AttributeBegin
+    test c
+         d;
+    AttributeBegin
+        test c
+             d;
+    AttributeEnd
+    # <- Add semi-colon here...
+    test c
+         d;
+    test c
+         d;
+AttributeEnd
+test c
+     d;
