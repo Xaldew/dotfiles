@@ -117,5 +117,5 @@ source_if $objects_dir/autoenv/activate.sh
 export BASH_IT=${XDG_CONFIG_HOME}/bash_it
 export IRC_CLIENT='irssi'
 export SCM_CHECK=true
-export BASH_IT_THEME="${dotfiles_dir}/configs/bash_it/xaldew.powerline.theme.bash"
+export BASH_IT_THEME="${dotfiles_dir}/configs/bash_it/xaldew.powerline-naked.theme.bash"
 source_if ${BASH_IT}/bash_it.sh
