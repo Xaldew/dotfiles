@@ -51,7 +51,7 @@ fi
 ## Add Rust binaries installed by Cargo.
 if [ -d "$HOME/.cargo/bin" ]; then
     PATH="$HOME/.cargo/bin":$PATH
-    export RUST_SRC_PATH="$(rustc --print sysroot)/lib/rustlib/src/rust/src"
+    export RUST_SRC_PATH="$(rustc --print sysroot)/lib/rustlib/src/rust/library"
 fi
 
 ## Add Default Cuda environment paths.
