@@ -413,6 +413,10 @@ EOF
     rm $tmp
 }
 
+obs_virtual_cam()
+{
+    sudo modprobe v4l2loopback devices=1 video_nr=10 card_label="OBS Cam" exclusive_caps=1
+}
 
 ffprobe_count_subtitles()
 {
