@@ -733,6 +733,8 @@ and style."
     :init
     (setq org-modules '(org-tempo ol-w3m ol-bbdb ol-bibtex ol-docview ol-gnus ol-info ol-irc ol-mhe ol-rmail ol-eww))
     (setq org-export-backends '(ascii html latex odt))
+    (when (executable-find "latexmk")
+      (setq org-latex-pdf-process (list "latexmk -shell-escape -bibtex -f -pdf %f")))
     (setq org-directory (file-name-as-directory
                          (concat user-emacs-directory "org")))
     (unless (file-directory-p org-directory)
@@ -765,8 +767,8 @@ and style."
           '(shell . t))
        (org . t)
        (plantuml . t)
-       ,(when (executable-find "jupyter")
-          (ipython . t))
+       ;; ,(when (executable-find "jupyter")
+       ;;    '(ipython . t))
        (latex . t)))
 
     (add-to-list
