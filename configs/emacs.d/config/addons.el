@@ -1459,11 +1459,10 @@ When `ERC' exits the SSH process is killed from `erc-kill-server-hook'."
     ;; (add-hook 'python-mode-hook #'lsp)
     :config
     ;; (setq lsp-clients-clangd-args '("-background-index"))
-    )
+    (setq lsp-enable-on-type-formatting nil))
 
 
   (use-package lsp-ui       :ensure t :commands lsp-ui-mode)
-  (use-package company-lsp  :ensure t :commands company-lsp)
   (use-package helm-lsp     :ensure t :commands helm-lsp-workspace-symbol)
   (use-package lsp-treemacs :ensure t :commands lsp-treemacs-errors-list)
   (use-package dap-mode     :ensure t)
