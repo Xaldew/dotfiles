@@ -490,6 +490,12 @@ add_all_subtitles()
 
 ## Emacs and emacsclient aliases and utility functions.
 
+# Find the Emacs server socket file.
+emacs_socket()
+{
+    lsof -c Emacs | grep server | tr -s " " | cut -d' ' -f8
+}
+
 # Terminal Emacsclient.
 nx_emacs_client()
 {
