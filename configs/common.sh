@@ -33,14 +33,19 @@ command_exists()
 }
 
 
-open()
-{
-    # Open each of the given files with the prefered application.
-    for f in "$@"; do
-	xdg-open "$f"
-    done
-}
-
+case "$OSTYPE" in
+    darwin*)
+        ;;
+    *)
+        open()
+        {
+            # Open each of the given files with the prefered application.
+            for f in "$@"; do
+	        xdg-open "$f"
+            done
+        }
+        ;;
+esac
 
 my_shell()
 {
