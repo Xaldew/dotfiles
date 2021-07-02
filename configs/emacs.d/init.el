@@ -9,15 +9,19 @@
 ;; Define the location of user configuration.
 (defvar user-emacs-config (concat user-emacs-directory "config/")
   "The directory containing user-specific configuration.")
+(defvar my-elisp-path (expand-file-name "elisp" user-emacs-directory)
+  "The directory containing personal elisp programs.")
+(defvar my-autoloads (expand-file-name "local-autoloads.el" my-elisp-path)
+  "File containing local autoload declarations.")
 
 ;; Prefer the newer files when loading.
 (setq load-prefer-newer t)
 
 ;; Set path for Custom variables.
-(setq custom-file "~/.emacs.d/custom.el")
+(setq custom-file (expand-file-name "custom.el" user-emacs-directory))
 
-;; Add `~/.emacs.d/elisp' to the initial load path.
-(add-to-list 'load-path (expand-file-name "~/.emacs.d/elisp"))
+;; Add `~/..config/emacs/elisp' to the initial load path.
+(add-to-list 'load-path my-elisp-path)
 
 
 (defun load-user-file (file)
@@ -40,10 +44,9 @@
 
 
 ;; Update and load autoload cookies for the local files.
-(let ((generated-autoload-file (expand-file-name
-				"~/.emacs.d/elisp/local-autoloads.el")))
+(let ((generated-autoload-file my-autoloads))
   (unless (file-readable-p generated-autoload-file)
-    (update-directory-autoloads (expand-file-name "~/.emacs.d/elisp"))
+    (update-directory-autoloads my-elisp-path)
     (kill-buffer (file-name-nondirectory generated-autoload-file)))
   (load generated-autoload-file 'no-errors 'no-messages))
 
