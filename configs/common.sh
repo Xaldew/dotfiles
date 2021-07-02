@@ -497,12 +497,28 @@ emacs_socket()
 }
 
 # Terminal Emacsclient.
-nx_emacs_client()
-{
-    # Start the Emacs client toward the default Emacs daemon socket.
-    # Append a new socket name to the arguments to use a different one.
-    emacsclient --tty --socket-name=default --alternate-editor="" "$@"
-}
+case "$OSTYPE" in
+    darwin*)
+        nx_emacs_client()
+        {
+            # Start the Emacs client toward the default Emacs daemon socket.
+            # Note: No extra socket support on MacOS yet.
+            if [ -z "$(emacs_socket)" ]; then
+                emacs --daemon
+            fi
+            emacsclient --tty --alternate-editor="" "$@"
+        }
+        ;;
+    *)
+        nx_emacs_client()
+        {
+            # Start the Emacs client toward the default Emacs daemon socket.
+            # Append a new socket name to the arguments to use a different one.
+            emacsclient --tty --socket-name=default --alternate-editor="" "$@"
+        }
+        ;;
+esac
+
 alias em="nx_emacs_client"
 alias ema="nx_emacs_client"
 alias ems="nx_emacs_client"
@@ -523,12 +539,28 @@ alias nemasc="emacs --no-window-system"
 
 
 # Graphical Emacsclient.
-graphical_emacs_client()
-{
-    # Start the Emacs client toward the default Emacs daemon socket.
-    # Append a new socket name to the arguments to use a different one.
-    emacsclient --create-frame --socket-name=default --alternate-editor="" "$@" &
-}
+case "$OSTYPE" in
+    darwin*)
+        graphical_emacs_client()
+        {
+            # Start the Emacs client toward the default Emacs daemon socket.
+            # Note: No extra socket support on MacOS yet.
+            if [ -z "$(emacs_socket)" ]; then
+                emacs --daemon
+            fi
+            emacsclient --create-frame --alternate-editor="" "$@" &
+        }
+        ;;
+    *)
+        graphical_emacs_client()
+        {
+            # Start the Emacs client toward the default Emacs daemon socket.
+            # Append a new socket name to the arguments to use a different one.
+            emacsclient --create-frame --socket-name=default --alternate-editor="" "$@" &
+        }
+        ;;
+esac
+
 alias ge="graphical_emacs_client"
 alias gem="graphical_emacs_client"
 alias gema="graphical_emacs_client"
