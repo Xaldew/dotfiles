@@ -233,6 +233,10 @@ Non-stop mode only stops the current thread."
 (setq ediff-window-setup-function #'ediff-setup-windows-plain)
 
 
+;; MacOS (graphical) modifier fixes.
+(setq ns-alternate-modifier 'meta)
+(setq ns-right-alternate-modifier 'none)
+
 ;; Simple HTML Renderer - Fix bright backgrounds.
 (setq shr-color-visible-luminance-min 70)
 
