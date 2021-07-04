@@ -8,10 +8,14 @@
 .\#*
 
 # Ignore OS-specific files
-.DS_Store	     # Mac Desktop Service metadata.
-.thumbs.db	     # Windows image thumbnails.
-desktop.ini	     # Windows desktop variables.
-*.nfs*               # NFS metadata files.
+## Mac Desktop Service metadata.
+.DS_Store
+## Windows image thumbnails.
+.thumbs.db
+## Windows desktop variables.
+desktop.ini
+## NFS metadata files.
+*.nfs*
 
 # Ignore version management metadata folders.
 .svn

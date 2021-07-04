@@ -6,8 +6,6 @@
 	insteadof = lp:
 [url "git+ssh://xaldew@git.launchpad.net/~xaldew/+git/"]
 	insteadof = lpme:
-[core]
-	excludesfile = ~/.gitignore
 [branch]
 	autosetuprebase = always
 [svn]
