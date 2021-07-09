@@ -237,6 +237,12 @@ Non-stop mode only stops the current thread."
 (setq ns-alternate-modifier 'meta)
 (setq ns-right-alternate-modifier 'none)
 
+;; In MacOS (terminal) bind mouse 4 and 5 for scrolling.
+(when (eq system-type 'darwin)
+  (unless window-system
+    (global-set-key (kbd "<mouse-4>") 'scroll-down-line)
+    (global-set-key (kbd "<mouse-5>") 'scroll-up-line)))
+
 ;; Simple HTML Renderer - Fix bright backgrounds.
 (setq shr-color-visible-luminance-min 70)
 
