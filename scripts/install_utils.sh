@@ -52,10 +52,10 @@ create_linkfarm()
     local src=${1:?"Missing source directory."}
     local dst=${2:?"Missing destination directory."}
     local f=""
-    mkdir --parents ${dst}
+    mkdir -p ${dst}
     for f in ${src}/* ${src}/.[!.]* ${src}/..?*;
     do
         if [ -d $f ]; then create_linkfarm $f $dst/$(basename $f) ; fi
-        if [ -f $f ]; then ln -fs -T $f $dst/$(basename $f)       ; fi
+        if [ -f $f ]; then ln -fs $f $dst/$(basename $f)          ; fi
     done
 }

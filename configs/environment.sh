@@ -1,7 +1,7 @@
 # Environment settings common to all Posix shells.
 
 # Set XDG directory variables.
-export XDG_CONFIG_HOME=${XDG_CONFIG_HOME-$HOME/.config}
+export XDG_CONFIG_HOME="${XDG_CONFIG_HOME-$HOME/.config}"
 export XDG_DATA_HOME=${XDG_DATA_HOME-"${local_prefix_dir}/share"}
 
 # Setup Emacs as the default editor.
@@ -12,9 +12,15 @@ export VISUAL=graphical_emacs_client
 export MANPATH=${XDG_DATA_HOME}/man:$MANPATH
 export INFOPATH=${XDG_DATA_HOME}/info:$INFOPATH
 
+# Additional configuration paths for various applications.
+export GDBHISTFILE="${XDG_CONFIG_HOME}"/gdb/history
+#export GNUPGHOME="${XDG_CONFIG_HOME}"/gnupg
+export SCREENRC="$XDG_CONFIG_HOME"/screen/screenrc
+export VIMINIT="set nocp | source ${XDG_CONFIG_HOME:-$HOME/.config}/vim/vimrc"
+export ASPELL_CONF="per-conf $XDG_CONFIG_HOME/aspell/aspell.conf; personal $XDG_CONFIG_HOME/aspell/en.pws; repl $XDG_CONFIG_HOME/aspell/en.prepl"
+export INPUTRC="$XDG_CONFIG_HOME"/readline/inputrc
 
 # Add user paths to PATH so it includes private binaries.
-
 ## Add Android SDK/NDK paths.
 if [ -d "$objects_dir/android_sdk/tools" ]; then
     PATH="$objects_dir/android_sdk/tools":$PATH
