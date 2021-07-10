@@ -715,6 +715,7 @@ alias latexmk="latexmk -pdf"
 alias valgrind="valgrind --track-origins=yes --leak-check=full --show-reachable=yes"
 alias helgrind="\valgrind --tool=helgrind"
 alias vgdb="valgrind --vgdb=yes --vgdb-error=0"
+alias gdb="gdb -nh -x "$XDG_CONFIG_HOME"/gdb/init"
 alias qemu-arm="qemu-arm -L /usr/arm-linux-gnueabihf"
 
 alias cdgr="git_root_directory"
