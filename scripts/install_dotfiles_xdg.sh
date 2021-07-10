@@ -2,7 +2,7 @@
 # Install links and files for configuring my XDG configuration.
 
 dir=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd -P)
-. ${dir}/install_utils.sh
+. ${dir}/scripts/install_utils.sh
 
 # Create directories for local utilities.
 mkdir -p \
@@ -36,10 +36,7 @@ ln -fs $dotfiles_dir/configs/gitignore "$XDG_CONFIG_HOME"/git/attributes
 ln -fs $dotfiles_dir/configs/hgrc "$XDG_CONFIG_HOME"/hg/hgrc
 
 # Install GDB configurations.
-if command -v gdb; then
-    gdb -nh -x "$XDG_CONFIG_HOME"/gdb/init
-    ln -fs $dotfiles_dir/configs/gdbinit "$XDG_CONFIG_HOME"/gdb/init
-fi
+ln -fs $dotfiles_dir/configs/gdbinit "$XDG_CONFIG_HOME"/gdb/init
 
 # Install tmux configuration and tmux plugin manager.
 create_linkfarm $dotfiles_dir/configs/tmux "$XDG_CONFIG_HOME"/tmux
@@ -91,8 +88,11 @@ echo ". \$dotfiles_dir/configs/profile" >> $HOME/.profile
 # Create a zshrc file with links to the script directories.
 mkdir -p "$XDG_CONFIG_HOME"/zsh
 echo "# Don't edit this file, rerun install.sh to update." > $HOME/.zshenv
-echo "ZDOTDIR=\$HOME/.zsh" >> $HOME/.zshenv
+echo "ZDOTDIR=\$XDG_CONFIG_HOME/zsh" >> $HOME/.zshenv
 for k in ${!env[@]}; do
+    if [ "$k" = "PROMPT_COMMAND" ]; then
+        continue
+    fi
     e=${env[$k]}
     printf "export %s=%s\n" $k $e >> $HOME/.zshenv
 done

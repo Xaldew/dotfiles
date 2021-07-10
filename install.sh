@@ -64,7 +64,9 @@ defaults()
     env["dotfiles_dir"]="${dotfiles_dir}"
     env["objects_dir"]="${objects_dir}"
     env["local_prefix_dir"]="${local_prefix_dir}"
-    env["PROMPT_COMMAND"]="${PROMPT_COMMAND}"
+    # Note: Bash-it is very fragile to this as the prompt command can embed
+    # newlines into the variable, so just keep the first line.
+    env["PROMPT_COMMAND"]="${PROMPT_COMMAND%%[ $'\n']*}"
 }
 
 install-packages()
@@ -87,7 +89,7 @@ install-external-programs()
 dotfiles()
 {
     echo "Installing dotfiles."
-    . $dotfiles_dir/scripts/install_dotfiles.sh
+    . $dotfiles_dir/scripts/install_dotfiles_xdg.sh
     return 0
 }
 

@@ -2,7 +2,7 @@
 # Install links and files for configuring my configuration.
 
 dir=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd -P)
-. ${dir}/install_utils.sh
+. ${dir}/scripts/install_utils.sh
 
 # Create directories for local utilities.
 mkdir -p \
