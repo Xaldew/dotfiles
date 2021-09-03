@@ -19,6 +19,9 @@ export SCREENRC="$XDG_CONFIG_HOME"/screen/screenrc
 export VIMINIT="set nocp | source ${XDG_CONFIG_HOME:-$HOME/.config}/vim/vimrc"
 export ASPELL_CONF="per-conf $XDG_CONFIG_HOME/aspell/aspell.conf; personal $XDG_CONFIG_HOME/aspell/en.pws; repl $XDG_CONFIG_HOME/aspell/en.prepl"
 export INPUTRC="$XDG_CONFIG_HOME"/readline/inputrc
+export TEXMFHOME="${XDG_DATA_HOME}"/texmf
+export TEXMFVAR="${XDG_CACHE_HOME}"/texlive/texmf-var
+export TEXMFCONFIG="${XDG_CONFIG_HOME}"/texlive/texmf-config
 
 # Add user paths to PATH so it includes private binaries.
 ## Add Android SDK/NDK paths.
