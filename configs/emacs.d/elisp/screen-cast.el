@@ -24,6 +24,11 @@
   :group 'screen-cast
   :type 'boolean)
 
+(defcustom screen-cast-font-color "black"
+  "Color to use for the screen cast key/command text."
+  :group 'screen-cast
+  :type 'string)
+
 (defvar screen-cast--tmp-dir nil
   "Temporary directory were the current screen cast data is saved.")
 
@@ -142,10 +147,10 @@ CMD: TODO."
     (ffmpeg-clip-time output output 0.0 (- clip-time 0.1))
     (when screen-cast-debug
       (copy-file output "screen-cast1.avi" t))
-    (ffmpeg-drawtext cmd-list output output 16 "white" 0.7 'bottom)
+    (ffmpeg-drawtext cmd-list output output 16 screen-cast-font-color 0.7 'bottom)
     (when screen-cast-debug
       (copy-file output "screen-cast2.avi" t))
-    (ffmpeg-drawtext key-list output output 18 "white" 0.7 'top-right)
+    (ffmpeg-drawtext key-list output output 18 screen-cast-font-color 0.7 'top-right)
     (when screen-cast-debug
       (copy-file output "screen-cast3.avi" t))
     (ffmpeg-extend-frame output output 1.0)

@@ -9,7 +9,7 @@
   "Select a region of the screen and return the coordinates and region size."
   (interactive)
   (with-temp-buffer
-    (call-process "xrectsel" nil t nil "%x %y %w %h")
+    (call-process "xcb_rectsel" nil t nil "%x %y %w %h")
     (mapcar 'string-to-number
             (split-string (buffer-string)))))
 
