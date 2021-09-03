@@ -13,7 +13,6 @@
 (global-set-key [f9]  'toggle-truncate-lines)
 (global-set-key (kbd "C-h")   #'delete-backward-char)
 (global-set-key (kbd "M-h")   #'backward-kill-word)
-(global-set-key (kbd "C-c t") #'toggle-truncate-lines)
 (global-set-key (kbd "C-c b") #'browse-url-at-point)
 
 ;; Flip the `isearch' and `isearch-regexp' bindings.

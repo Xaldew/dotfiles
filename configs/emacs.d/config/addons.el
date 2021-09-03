@@ -1201,6 +1201,12 @@ When `ERC' exits the SSH process is killed from `erc-kill-server-hook'."
     (setq guess-language-min-paragraph-length 60))
 
 
+  (use-package powerthesaurus
+    :ensure t
+    :defer t
+    :bind ("C-c t" . powerthesaurus-lookup-word-dwim))
+
+
   (use-package eshell
     :defer t
     :config
