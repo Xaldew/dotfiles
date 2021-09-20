@@ -68,3 +68,11 @@ if [ -d "/usr/local/cuda" ]; then
     PATH="/usr/local/cuda/bin":${PATH}
     PATH="/opt/nvidia/nsight-compute":${PATH}
 fi
+
+case "$OSTYPE" in
+    darwin*)
+        eval "$(/opt/homebrew/bin/brew shellenv)"
+        ;;
+    *)
+        ;;
+esac

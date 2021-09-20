@@ -70,6 +70,9 @@ mkdir -p $HOME/.bash_completion.d
 # Create a bashrc file with links to the script directories.
 echo "# Don't edit this file, rerun install.sh to update." > $HOME/.bashrc
 for k in ${!env[@]}; do
+    if [ "$k" = "PROMPT_COMMAND" ]; then
+        continue
+    fi
     e=${env[$k]}
     printf "export %s=%s\n" $k $e >> $HOME/.bashrc
 done
@@ -79,6 +82,9 @@ echo "source \$dotfiles_dir/configs/bashrc" >> $HOME/.bashrc
 # Create a profile file with links to the dotfile version.
 echo "# Don't edit this file, rerun install.sh to update." > $HOME/.profile
 for k in ${!env[@]}; do
+    if [ "$k" = "PROMPT_COMMAND" ]; then
+        continue
+    fi
     e=${env[$k]}
     printf "export %s=%s\n" $k $e >> $HOME/.profile
 done
@@ -88,7 +94,7 @@ echo ". \$dotfiles_dir/configs/profile" >> $HOME/.profile
 # Create a zshrc file with links to the script directories.
 mkdir -p "$XDG_CONFIG_HOME"/zsh
 echo "# Don't edit this file, rerun install.sh to update." > $HOME/.zshenv
-echo "ZDOTDIR=\$XDG_CONFIG_HOME/zsh" >> $HOME/.zshenv
+echo "ZDOTDIR=$XDG_CONFIG_HOME/zsh" >> $HOME/.zshenv
 for k in ${!env[@]}; do
     if [ "$k" = "PROMPT_COMMAND" ]; then
         continue

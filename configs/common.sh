@@ -105,7 +105,7 @@ mktmpfs()
             sudo mount --types tmpfs --options size=$size,mode=777 $path
         fi
     else
-        mkdir --parents $path
+        mkdir -p $path
         sudo mount --types tmpfs --options size=$size,mode=777 $path
     fi
 }
@@ -743,10 +743,10 @@ fi
 
 # Make sure the XDG directories exist.
 if [ -n "$XDG_CONFIG_HOME" -a ! -d "$XDG_CONFIG_HOME" ]; then
-    mkdir --parents "$XDG_CONFIG_HOME"
+    mkdir -p "$XDG_CONFIG_HOME"
 fi
 if [ -n "$XDG_CONFIG_HOME" -a ! -d "$XDG_DATA_HOME" ]; then
-    mkdir --parents "$XDG_DATA_HOME"
+    mkdir -p "$XDG_DATA_HOME"
 fi
 
 
