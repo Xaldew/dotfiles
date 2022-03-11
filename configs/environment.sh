@@ -22,6 +22,7 @@ export INPUTRC="$XDG_CONFIG_HOME"/readline/inputrc
 export TEXMFHOME="${XDG_DATA_HOME}"/texmf
 export TEXMFVAR="${XDG_CACHE_HOME}"/texlive/texmf-var
 export TEXMFCONFIG="${XDG_CONFIG_HOME}"/texlive/texmf-config
+export PKG_CONFIG_PATH="${local_prefix_dir}/lib/pkgconfig:${local_prefix_dir}/share/pkgconfig:${PKG_CONFIG_PATH}"
 
 # Add user paths to PATH so it includes private binaries.
 ## Add Android SDK/NDK paths.
