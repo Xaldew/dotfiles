@@ -67,6 +67,9 @@ ln -fs $dotfiles_dir/configs/bash_profile $HOME/.bash_profile
 ln -fs $dotfiles_dir/configs/bash_completion $HOME/.bash_completion
 mkdir -p $HOME/.bash_completion.d
 
+# Install X application configurations - this is hard to make XDG compliant.
+ln -s $dotfiles_dir/configs/xsession $HOME/.xsession
+
 # Create a bashrc file with links to the script directories.
 echo "# Don't edit this file, rerun install.sh to update." > $HOME/.bashrc
 for k in ${!env[@]}; do

@@ -1,0 +1,4 @@
+# Additional environment variables for X applications.
+
+# Add extra man-page directories.
+export PATH=${HOME}/.local/bin:$PATH

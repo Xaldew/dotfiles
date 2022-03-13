@@ -27,6 +27,8 @@ ln -fs $dotfiles_dir/configs/bash_profile $HOME/.bash_profile
 ln -fs $dotfiles_dir/configs/bash_completion $HOME/.bash_completion
 mkdir -p $HOME/.bash_completion.d
 
+# Install X application configurations.
+ln -s $dotfiles_dir/configs/xsession $HOME/.xsession
 
 # Install git and setup user gitconfig and gitignore.
 ln -fs $dotfiles_dir/configs/gitconfig $HOME/.gitconfig
