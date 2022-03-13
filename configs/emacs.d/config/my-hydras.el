@@ -697,9 +697,8 @@ _s_: Set scale  _o_: Restore original  _R_: Rotate free   _q_: Quit
   (define-key paredit-mode-map (kbd "C-c P") #'paredit-hydra/body))
 
 
-(use-package hydra
+(use-package lsp-mode
   :defer t
-  :if (fboundp #'lsp)
   :config
   (defhydra lsp-mode-hydra (:exit t :hint nil)
     "

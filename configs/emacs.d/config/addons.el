@@ -1471,7 +1471,7 @@ When `ERC' exits the SSH process is killed from `erc-kill-server-hook'."
     (add-hook 'c-mode-hook      #'lsp)
     (add-hook 'c++-mode-hook    #'lsp)
     ;; (add-hook 'rust-mode-hook   #'lsp)
-    ;; (add-hook 'python-mode-hook #'lsp)
+    (add-hook 'python-mode-hook #'lsp)
     :config
     ;; (setq lsp-clients-clangd-args '("-background-index"))
     (setq lsp-enable-on-type-formatting nil))
@@ -1480,7 +1480,24 @@ When `ERC' exits the SSH process is killed from `erc-kill-server-hook'."
   (use-package lsp-ui       :ensure t :commands lsp-ui-mode)
   (use-package helm-lsp     :ensure t :commands helm-lsp-workspace-symbol)
   (use-package lsp-treemacs :ensure t :commands lsp-treemacs-errors-list)
-  (use-package dap-mode     :ensure t)
+  (use-package dap-mode
+    :ensure t
+    :bind ("C-c d" . dap-hydra)
+    :config
+    (defun my-dap-python-hook ()
+      (require 'dap-python)
+      (setq dap-python-executable "python3"))
+    (defun my-dap-terminal-hook ()
+      (unless (display-graphic-p)
+        (set-face-attribute 'dap-ui-pending-breakpoint-face nil
+                            :slant 'italic
+                            :background "#ffe4e1")
+        (set-face-attribute 'dap-ui-verified-breakpoint-face nil
+                            :weight 'bold
+                            :slant 'italic
+                            :background "#ffebcd")))
+    :hook ((python-mode . my-dap-python-hook)
+           (dap-ui-mode . my-dap-terminal-hook)))
 
   ;; (use-package lsp-rust
   ;;   :ensure t
