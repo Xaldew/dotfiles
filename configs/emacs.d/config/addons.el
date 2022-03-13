@@ -64,6 +64,13 @@ NAME can be used to set the name of the defined function."
 
 (when (version<= "24" emacs-version)
 
+  (use-package ansi-color
+    :config
+    (defun my-colorize-compilation-buffer ()
+      (when (eq major-mode 'compilation-mode)
+        (ansi-color-apply-on-region compilation-filter-start (point-max))))
+    :hook (compilation-filter . my-colorize-compilation-buffer))
+
   (use-package x86-lookup
     :ensure t
     :defer t
