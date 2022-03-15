@@ -1483,6 +1483,8 @@ When `ERC' exits the SSH process is killed from `erc-kill-server-hook'."
     :ensure t
     :bind ("C-c d" . dap-hydra)
     :config
+    (defun my-dap-c/c++/rust-hook ()
+      (require 'dap-gdb-lldb))
     (defun my-dap-python-hook ()
       (require 'dap-python)
       (setq dap-python-executable "python3"))
@@ -1495,7 +1497,10 @@ When `ERC' exits the SSH process is killed from `erc-kill-server-hook'."
                             :weight 'bold
                             :slant 'italic
                             :background "#ffebcd")))
-    :hook ((python-mode . my-dap-python-hook)
+    :hook ((c-mode      . my-dap-c/c++/rust-hook)
+           (c++-mode    . my-dap-c/c++/rust-hook)
+           (rust-mode   . my-dap-c/c++/rust-hook)
+           (python-mode . my-dap-python-hook)
            (dap-ui-mode . my-dap-terminal-hook)))
 
   ;; (use-package lsp-rust
