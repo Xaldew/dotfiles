@@ -234,25 +234,6 @@ NAME can be used to set the name of the defined function."
         (my-flycheck-add-includes)))
     (add-hook 'flycheck-mode-hook #'my-flycheck-hook))
 
-  (use-package flycheck-pos-tip
-    :ensure t
-    :defer t
-    :after flycheck
-    :init
-    (unless (fboundp #'x-hide-tip)
-      (defalias #'x-hide-tip #'ignore))
-    (add-hook 'flycheck-mode-hook #'flycheck-pos-tip-mode)
-    :config
-    (setq flycheck-pos-tip-display-errors-tty-function
-          #'flycheck-popup-tip-show-popup))
-
-
-  (use-package flycheck-popup-tip
-    :ensure t
-    :defer t
-    :commands flycheck-popup-tip-show-popup)
-
-
   (use-package flycheck-package :ensure t :defer t :after package-lint)
   (use-package package-lint :ensure t :defer t)
 
@@ -1475,8 +1456,11 @@ When `ERC' exits the SSH process is killed from `erc-kill-server-hook'."
     ;; (setq lsp-clients-clangd-args '("-background-index"))
     (setq lsp-enable-on-type-formatting nil))
 
+  (use-package lsp-ui
+    :ensure t
+    :commands lsp-ui-mode
+    :hook (prog-mode . lsp-ui-mode))
 
-  (use-package lsp-ui       :ensure t :commands lsp-ui-mode)
   (use-package helm-lsp     :ensure t :commands helm-lsp-workspace-symbol)
   (use-package lsp-treemacs :ensure t :commands lsp-treemacs-errors-list)
   (use-package dap-mode
