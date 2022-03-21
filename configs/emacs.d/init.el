@@ -20,7 +20,7 @@
 ;; Set path for Custom variables.
 (setq custom-file (expand-file-name "custom.el" user-emacs-directory))
 
-;; Add `~/..config/emacs/elisp' to the initial load path.
+;; Add `~/.config/emacs/elisp' to the initial load path.
 (add-to-list 'load-path my-elisp-path)
 
 
