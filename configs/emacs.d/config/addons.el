@@ -280,6 +280,7 @@ NAME can be used to set the name of the defined function."
     :init
     (add-hook 'after-init-hook #'global-undo-tree-mode)
     :config
+    (setq undo-tree-history-directory-alist `(("." . ,temporary-file-directory)))
     (setq undo-tree-enable-undo-in-region nil))
 
 
