@@ -16,7 +16,6 @@ typeset -gU cdpath fpath mailpath path
 cdpath=(
     .
     $cdpath
-    $HOME
 )
 
 # Set the list of directories that Zsh searches for programs.
