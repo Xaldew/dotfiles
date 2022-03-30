@@ -152,6 +152,10 @@ NAME can be used to set the name of the defined function."
     :init
     (add-hook 'after-init-hook #'global-company-mode)
     :config
+    ; Re-enable company-mode next/prev without warnings.
+    (define-key company-active-map (kbd "M-n") #'company-select-next)
+    (define-key company-active-map (kbd "M-p") #'company-select-previous)
+    (setq company-dabbrev-downcase nil)
     (setq company-idle-delay .1)
     (setq company-tooltip-align-annotations t))
 
