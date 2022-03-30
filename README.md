@@ -16,7 +16,7 @@ options are available to move install locations and setting various options.
 
 ### Flags
 
-Currently, the following flags exists:
+Currently, the following flags exist:
 
     -h         --help                Display this help text.
 
@@ -84,7 +84,7 @@ This is the most basic installation and downloading script. It is simply called
 `install_portable.ps1` since it is technically the most portable script. This
 script was written mostly as a practice in writing PowerShell code. It simply
 lists URLs for the packages, downloads and installs them. You still have to
-click through all the installers however.
+click through all the installers, however.
 
 
 ### Chocolatey Installation
