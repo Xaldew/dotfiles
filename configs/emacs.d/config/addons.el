@@ -1147,7 +1147,9 @@ When `ERC' exits the SSH process is killed from `erc-kill-server-hook'."
            ("\\.mesh\\'" . glsl-mode)
            ("\\.task\\'" . glsl-mode)
            ("\\.comp\\'" . glsl-mode)
-           ("\\.glsl\\'" . glsl-mode))
+           ("\\.rgen\\'" . glsl-mode)
+           ("\\.rchit\\'" . glsl-mode)
+           ("\\.rmiss\\'" . glsl-mode))
     :init
     (defun my-glsl-hook () "Personal GLSL hook." (c-set-style "misra"))
     (add-hook 'glsl-mode-hook #'my-glsl-hook))
