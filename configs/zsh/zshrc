@@ -41,7 +41,7 @@ compinit
 HISTFILE=~/.histfile
 HISTSIZE=10000
 SAVEHIST=10000
-setopt appendhistory autocd extendedglob nomatch notify
+setopt appendhistory autocd extendedglob nomatch notify histignorealldups
 setopt nocdablevars
 unsetopt beep
 # End of lines configured by zsh-newuser-install
