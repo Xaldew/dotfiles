@@ -188,6 +188,8 @@ NAME can be used to set the name of the defined function."
     :init
     (add-hook 'prog-mode-hook #'flycheck-mode)
     :config
+    (setq flycheck-indication-mode 'left-margin)
+
     (defconst my-flycheck-include-paths
       '("src/" "include/")
       "Add these directories as include paths if they exist at the project root.")
