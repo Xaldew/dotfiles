@@ -137,35 +137,11 @@ NAME can be used to set the name of the defined function."
     :defer t)
 
 
-  (use-package auto-complete
+  (use-package yasnippet-radical-snippets
     :ensure t
-    :commands (auto-complete-mode global-auto-complete-mode)
-    :init
-    (add-hook 'emacs-lisp-mode-hook #'auto-complete-mode)
+    :after yasnippet
     :config
-    (defun my/ac-setup-hook ()
-      "A hook for my global Autocomplete setup."
-      (setq ac-auto-show-menu 0.1)
-      (setq ac-delay 0.1)
-      (define-key ac-menu-map (kbd "M-n") 'ac-next)
-      (define-key ac-menu-map (kbd "M-p") 'ac-previous)
-      (add-to-list 'ac-sources 'ac-source-yasnippet))
-
-    (defun my/disable-company-hook ()
-      "Enable autocomplete for Emacs lisp and disable company mode."
-      (when (fboundp 'company-mode)
-        (company-mode -1)))
-
-    ;; Enable Auto-complete but don't activate the mode.
-    (ac-config-default)
-    (global-auto-complete-mode -1)
-
-    (add-hook 'auto-complete-mode-hook #'my/disable-company-hook)
-    (add-hook 'auto-complete-mode-hook #'my/ac-setup-hook)
-
-    (use-package ac-etags                :defer t :ensure t)
-    (use-package auto-complete-clang     :defer t :ensure t)
-    (use-package auto-complete-c-headers :defer t :ensure t))
+    (yasnippet-radical-snippets-initialize))
 
 
   ;; Activate company-mode for all buffers but Emacs lisp ones.
