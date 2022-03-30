@@ -1447,6 +1447,14 @@ When `ERC' exits the SSH process is killed from `erc-kill-server-hook'."
     :commands lsp-ui-mode
     :hook (prog-mode . lsp-ui-mode))
 
+  (use-package lsp-ltex
+    :ensure t
+    :init
+    (defun my-lsp-ltex-hook ()
+      (require 'lsp-ltex)
+      (lsp))
+    :hook (text-mode . my-lsp-ltex-hook))
+
   (use-package helm-lsp     :ensure t :commands helm-lsp-workspace-symbol)
   (use-package lsp-treemacs :ensure t :commands lsp-treemacs-errors-list)
   (use-package dap-mode
