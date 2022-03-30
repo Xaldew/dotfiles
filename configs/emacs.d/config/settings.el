@@ -246,4 +246,7 @@ Non-stop mode only stops the current thread."
 ;; Simple HTML Renderer - Fix bright backgrounds.
 (setq shr-color-visible-luminance-min 70)
 
+;; BibTeX fixes.
+(setq bibtex-align-at-equal-sign t)
+
 ;;; settings.el ends here
