@@ -704,6 +704,9 @@ and style."
     :init
     (setq org-modules '(org-tempo ol-w3m ol-bbdb ol-bibtex ol-docview ol-gnus ol-info ol-irc ol-mhe ol-rmail ol-eww))
     (setq org-export-backends '(ascii html latex odt))
+    (setq org-latex-prefer-user-labels t)
+    (setq org-adapt-indentation 'headline-data)
+
     (when (executable-find "latexmk")
       (setq org-latex-pdf-process (list "latexmk -shell-escape -bibtex -f -pdf %f")))
     (setq org-directory (file-name-as-directory
@@ -712,7 +715,8 @@ and style."
       (message "Warning: `%s' directory doesn't exist." org-directory))
     (defun my-org-hook ()
       "Personal hook for `org-mode'."
-      (linum-mode -1))
+      (linum-mode -1)
+      (yas-activate-extra-mode 'latex-mode))
     (add-hook 'org-mode-hook #'my-org-hook)
     :config
     (let ((ditaa    (executable-find "ditaa"))
@@ -1453,6 +1457,9 @@ When `ERC' exits the SSH process is killed from `erc-kill-server-hook'."
     (defun my-lsp-ltex-hook ()
       (require 'lsp-ltex)
       (lsp))
+    :config
+    (make-directory (locate-user-emacs-file "ltex-ls") t)
+    (setq lsp-ltex-dictionary (locate-user-emacs-file "ltex-ls/dict.txt"))
     :hook (text-mode . my-lsp-ltex-hook))
 
   (use-package helm-lsp     :ensure t :commands helm-lsp-workspace-symbol)
