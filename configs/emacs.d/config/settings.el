@@ -249,4 +249,9 @@ Non-stop mode only stops the current thread."
 ;; BibTeX fixes.
 (setq bibtex-align-at-equal-sign t)
 
+;; ;; Use gpg pinentry-loopback to allow Emacs to properly handle pinentry.
+;; (setq epa-pinentry-mode 'loopback)
+
+
+
 ;;; settings.el ends here

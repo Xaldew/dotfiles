@@ -24,8 +24,13 @@ mkdir -p \
       "$XDG_CONFIG_HOME"/vim
 
 # Install common ssh configuration.
-printf "use-standard-socket\n" >> "$XDG_CONFIG_HOME"/gnupg/gpg-agent.conf
-printf "enable-ssh-support\n"  >> "$XDG_CONFIG_HOME"/gnupg/gpg-agent.conf
+msg="use-standard-socket"
+file="${XDG_CONFIG_HOME}"/gnupg/gpg-agent.conf
+grep -qxF "${msg}" ${file} || printf "${msg}\n" >> ${file}
+msg="enable-ssh-support"
+grep -qxF "${msg}" ${file} || printf "${msg}\n" >> ${file}
+msg="allow-loopback-entry"
+grep -qxF "${msg}" ${file} || printf "${msg}\n" >> ${file}
 
 # Install git and setup user gitconfig and gitignore.
 ln -fs $dotfiles_dir/configs/gitconfig "$XDG_CONFIG_HOME"/git/config
