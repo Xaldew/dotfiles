@@ -1488,16 +1488,6 @@ When `ERC' exits the SSH process is killed from `erc-kill-server-hook'."
            (python-mode . my-dap-python-hook)
            (dap-ui-mode . my-dap-terminal-hook)))
 
-  ;; (use-package lsp-rust
-  ;;   :ensure t
-  ;;   :defer t
-  ;;   :after lsp-mode)
-
-  ;; (use-package lsp-python
-  ;;   :ensure t
-  ;;   :defer t
-  ;;   :after lsp-mode)
-
 
   ;; Configure Clojure-mode with some additional font-locking.
   (use-package clojure-mode
