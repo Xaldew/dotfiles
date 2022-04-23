@@ -29,6 +29,8 @@ file="${XDG_CONFIG_HOME}"/gnupg/gpg-agent.conf
 grep -qxF "${msg}" ${file} || printf "${msg}\n" >> ${file}
 msg="enable-ssh-support"
 grep -qxF "${msg}" ${file} || printf "${msg}\n" >> ${file}
+# msg="allow-emacs-entry"
+# grep -qxF "${msg}" ${file} || printf "${msg}\n" >> ${file}
 # msg="allow-loopback-entry"
 # grep -qxF "${msg}" ${file} || printf "${msg}\n" >> ${file}
 cp -f ${file} ${HOME}/.gnupg/gpg-agent.conf
