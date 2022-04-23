@@ -1401,6 +1401,13 @@ When `ERC' exits the SSH process is killed from `erc-kill-server-hook'."
 
 
 (when (version< "25.1" emacs-version)
+
+  (use-package pinentry
+    :ensure t
+    :defer 5
+    :config
+    (pinentry-start))
+
   (use-package magit
     :ensure t
     :defer t
