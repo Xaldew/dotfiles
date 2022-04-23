@@ -1453,6 +1453,7 @@ When `ERC' exits the SSH process is killed from `erc-kill-server-hook'."
 
   (use-package lsp-ltex
     :ensure t
+    :if (executable-find "java")
     :init
     (defun my-lsp-ltex-hook ()
       (require 'lsp-ltex)
