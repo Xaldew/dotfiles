@@ -929,12 +929,12 @@ When `ERC' exits the SSH process is killed from `erc-kill-server-hook'."
       (if prefix
           (call-interactively #'helm-dash-install-docset)
         (call-interactively #'helm-dash-async-install-docset)))
-    (set-variable-in-hook python-mode-hook  helm-dash-docsets '("Python 3" "Matplotlib" "OpenCV Python"))
-    (set-variable-in-hook rust-mode-hook    helm-dash-docsets '("Rust"))
-    (set-variable-in-hook shell-script-hook helm-dash-docsets '("Bash"))
-    (set-variable-in-hook c-mode-hook       helm-dash-docsets '("C" "OpenCL"))
-    (set-variable-in-hook c++-mode-hook     helm-dash-docsets '("C" "C++" "OpenCL" "OpenGL4"))
-    (set-variable-in-hook cmake-mode-hook   helm-dash-docsets '("CMake"))
+    (set-variable-in-hook python-mode-hook  dash-docs-docsets '("Python 3" "Matplotlib" "OpenCV Python"))
+    (set-variable-in-hook rust-mode-hook    dash-docs-docsets '("Rust"))
+    (set-variable-in-hook shell-script-hook dash-docs-docsets '("Bash"))
+    (set-variable-in-hook c-mode-hook       dash-docs-docsets '("C" "OpenCL"))
+    (set-variable-in-hook c++-mode-hook     dash-docs-docsets '("C" "C++" "OpenCL" "OpenGL4" "Vulkan"))
+    (set-variable-in-hook cmake-mode-hook   dash-docs-docsets '("CMake"))
     :config
     (define-key helm-map (kbd "C-h") #'backward-delete-char))
 
