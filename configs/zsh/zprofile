@@ -1,6 +1,8 @@
 #!/usr/bin/env zsh
 # Executes commands at login pre-zshrc.
 
+alias ls="ls --color=auto"
+
 export VISUAL='emacs'
 export PAGER='less'
 
