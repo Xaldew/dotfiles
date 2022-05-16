@@ -935,6 +935,7 @@ When `ERC' exits the SSH process is killed from `erc-kill-server-hook'."
     (set-variable-in-hook c-mode-hook       dash-docs-docsets '("C" "OpenCL"))
     (set-variable-in-hook c++-mode-hook     dash-docs-docsets '("C" "C++" "OpenCL" "OpenGL4" "Vulkan"))
     (set-variable-in-hook cmake-mode-hook   dash-docs-docsets '("CMake"))
+    (set-variable-in-hook glsl-mode-hook    dash-docs-docsets '("OpenGL_GLSL"))
     :config
     (define-key helm-map (kbd "C-h") #'backward-delete-char))
 
