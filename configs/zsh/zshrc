@@ -48,6 +48,9 @@ unsetopt beep
 
 autoload -U colors && colors
 
+autoload -U select-word-style
+select-word-style bash
+
 # make less more friendly for non-text input files, see lesspipe(1)
 [ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
 
