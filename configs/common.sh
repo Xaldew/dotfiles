@@ -738,6 +738,9 @@ sort | uniq"
 # Create a simple tree implementation if not already available.
 if ! command_exists tree ; then
     alias tree="find \"$@\" -print | sed -e 's;[^/]*/;|____;g;s;____|; |;g'"
+else
+    alias tree-sl="$(command -v tree)"
+    alias tree="tree -C | sed 's/->.*//'"
 fi
 
 
