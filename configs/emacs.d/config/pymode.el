@@ -15,6 +15,7 @@
      python-shell-prompt-output-regexp "Out\\[[0-9]+\\]: "
      python-shell-setup-codes '())) ; TODO: Add autoload setup code.
 
+  (setq-local fill-column 79)
   (define-key python-mode-map [f5] 'python-check)
   (define-key python-mode-map [f7] 'pdb)
   (define-key python-mode-map [f8] 'run-python)
