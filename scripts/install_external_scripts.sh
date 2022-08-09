@@ -43,7 +43,7 @@ base_url=https://raw.githubusercontent.com/git/git/master/contrib/completion/
 
 # Install autoenv.
 (
-    url=git://github.com/kennethreitz/autoenv.git
+    url=https://github.com/hyperupcall/autoenv.git
     if [ ! -d $objects_dir/autoenv ]; then
         git clone --quiet $url $objects_dir/autoenv
     else
