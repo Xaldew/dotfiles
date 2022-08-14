@@ -730,6 +730,7 @@ alias gt=git
 
 alias svnst="svn st"
 alias snv=svn
+alias cvlc='cvlc --play-and-exit'
 
 alias xfce-shortcuts="xfconf-query -c xfce4-keyboard-shortcuts -l -v | \
 cut -d'/' -f4 | awk '{printf \"%-30s\", \$2 ; print \"\\t\" \$1 }' | \
