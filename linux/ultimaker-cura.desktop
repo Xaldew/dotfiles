@@ -1,0 +1,9 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=Ultimaker Cura Slicer
+Comment=3D printing slicing software
+Exec=${bindir}/ultimaker-cura
+#Icon=${icondir}/ultimaker-cura
+Terminal=false
+Categories=Graphics;3DGraphics;Engineering
