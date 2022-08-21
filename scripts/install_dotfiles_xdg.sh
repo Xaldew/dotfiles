@@ -38,7 +38,7 @@ cp -f ${file} ${HOME}/.gnupg/gpg-agent.conf
 # Install git and setup user gitconfig and gitignore.
 ln -fs $dotfiles_dir/configs/gitconfig "$XDG_CONFIG_HOME"/git/config
 ln -fs $dotfiles_dir/configs/gitignore "$XDG_CONFIG_HOME"/git/ignore
-ln -fs $dotfiles_dir/configs/gitignore "$XDG_CONFIG_HOME"/git/attributes
+ln -fs $dotfiles_dir/configs/gitattributes "$XDG_CONFIG_HOME"/git/attributes
 
 # Install Mercurial configurations.
 ln -fs $dotfiles_dir/configs/hgrc "$XDG_CONFIG_HOME"/hg/hgrc
