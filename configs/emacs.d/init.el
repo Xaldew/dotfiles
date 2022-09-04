@@ -44,11 +44,9 @@
 
 
 ;; Update and load autoload cookies for the local files.
-(let ((generated-autoload-file my-autoloads))
-  (unless (file-readable-p generated-autoload-file)
-    (update-directory-autoloads my-elisp-path)
-    (kill-buffer (file-name-nondirectory generated-autoload-file)))
-  (load generated-autoload-file 'no-errors 'no-messages))
+(unless (file-readable-p my-autoloads)
+  (loaddefs-generate my-elisp-path my-autoloads))
+(load my-autoloads 'no-errors 'no-messages)
 
 
 ;; Activate 'package and install packages from these repositories.

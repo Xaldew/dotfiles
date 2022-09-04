@@ -42,7 +42,7 @@ NAME can be used to set the name of the defined function."
 (use-package anyclip-mode
   :if (and (not (display-graphic-p))
            (executable-find "anyclip"))
-  :init
+  :config
   (anyclip-mode t))
 
 
