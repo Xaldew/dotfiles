@@ -1445,6 +1445,29 @@ When `ERC' exits the SSH process is killed from `erc-kill-server-hook'."
     :ensure t
     :commands lsp
     :init
+    (defun my-c++-ostream-generator (token)
+      "Function to generate an output stream operator for the given token."
+      (interactive "MSymbol: ")
+      ; This is quite ugly: Insert the token into the buffer, find the
+      ; declaration then remove it.
+      (let* ((beg (point))
+             (end (or (insert token) (point)))
+             (loc (lsp-request "textDocument/declaration"
+                               (append (lsp--text-document-position-params))))
+             (sym (lsp-request "workspace/symbol" (list :query token)))
+             (loc (pop loc))
+             (res (delete-region beg end)))
+        (print sym)
+        (when loc
+          (let ((uri  (gethash "uri" loc))
+                (bcol (gethash "character" (gethash "start" (gethash "range" loc))))
+                (blin (gethash "line"      (gethash "start" (gethash "range" loc))))
+                (ecol (gethash "character" (gethash "end" (gethash "range" loc))))
+                (elin (gethash "line"      (gethash "end" (gethash "range" loc)))))
+            (print token)
+            (print uri)
+            (call-process "genostream.py" nil t t token uri)
+            (clang-format-region beg (point))))))
     (add-hook 'c-mode-hook      #'lsp)
     (add-hook 'c++-mode-hook    #'lsp)
     ;; (add-hook 'rust-mode-hook   #'lsp)
