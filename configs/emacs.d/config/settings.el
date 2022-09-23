@@ -149,9 +149,13 @@
 ;; Note that to disable whitespace mode while in a terminal, you must evalute
 ;; M-x global-whatespace-mode _AND_ M-x revert-buffer. A wrapper function in
 ;; `func.el' does this automatically.
+(defun my-whitespace-mode-hook ()
+  "Enable `whitespace-mode' with my settings."
+  (setq whitespace-style '(face empty lines-tail trailing))
+  (setq whitespace-line-column fill-column)
+  (whitespace-mode))
 (add-hook 'before-save-hook #'delete-trailing-whitespace nil :local)
-(setq whitespace-style '(face empty lines-tail trailing))
-(add-hook 'prog-mode-hook #'whitespace-mode)
+(add-hook 'prog-mode-hook #'my-whitespace-mode-hook)
 
 
 ;; Do not indent with tabs by default anywhere but in Makefiles.
