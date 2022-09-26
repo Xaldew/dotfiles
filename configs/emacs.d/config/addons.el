@@ -1060,6 +1060,11 @@ When `ERC' exits the SSH process is killed from `erc-kill-server-hook'."
     (customize-set-variable 'ruby-indent-level 4))
 
 
+  (use-package lua-mode
+    :ensure t
+    :defer t)
+
+
   (use-package octave
     :defer t
     :mode (("\\.m\\'" . octave-mode))
