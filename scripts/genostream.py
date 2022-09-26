@@ -13,6 +13,63 @@ import clang
 import clang.cindex
 
 
+def is_bitflag_enum(n):
+    """Check if a node is a bitflag enumeration type.
+
+    .. Keyword Arguments:
+    :param n: The enum node to check
+
+    .. Types:
+    :type n: A libclang cursor type.
+
+    """
+    def is_pow2(v):
+        """Check if the number is a power of two.
+
+        Note that 0 is considered a power of two in this case.
+
+        """
+        return v & (v - 1) == 0
+    for ch in n.get_children():
+        if ch.kind == clang.cindex.CursorKind.ENUM_CONSTANT_DECL:
+            if not is_pow2(ch.enum_value):
+                return False
+    return True
+
+
+def gen_bitflag_enum(n):
+    """Generate a print operator for a bitflag enumeration type.
+
+    .. Keyword Arguments:
+    :param n: The enum node to generate an output operator for.
+
+    .. Types:
+    :type n: A libclang cursor type.
+
+    """
+    return """
+std::ostream& operator<<(std::ostream &os, {type} bf)
+{{
+    bool is_first = true;
+    std::stringstream ss;
+    using UnderlyingT = typename std::make_unsigned_t<typename std::underlying_type_t<{type}>>;
+    UnderlyingT t = static_cast<{type}>(i);
+    for (size_t i = 0; i < std::numeric_limits<UnderlyingT>::digits; i++)
+    {{
+        bool is_set = t & (static_cast<UnderlyingT>(1) << i);
+        if (is_set && !is_first)
+            ss << " | ";
+        if (is_set)
+        {{
+            is_first = false;
+            ss << t;
+        }}
+    }}
+    return os << ss.str();
+}}
+    """.format(type=n.spelling)
+
+
 def gen_scoped_enum(n):
     """Generate a print operator for a scoped enumeration node type.
 
@@ -33,7 +90,7 @@ def gen_scoped_enum(n):
         out.append('{i}case {type}::{value}: os << "{value}"; break;'
                    ''.format(i=i, type=n.type.spelling, value=ch.spelling))
     out.append(i + "}")
-    out.append("return os;")
+    out.append(i + "return os;")
     out.append("}")
     return "\n".join(out)
 
@@ -58,7 +115,7 @@ def gen_enum(n):
         out.append('{i}case {value}: os << "{value}"; break;'
                    ''.format(i=i, value=ch.spelling))
     out.append(i + "}")
-    out.append("return os;")
+    out.append(i + "return os;")
     out.append("}")
     return "\n".join(out)
 
@@ -113,27 +170,31 @@ def main(args):
     """
     fname = removeprefix(args.file, "file://")
     cdb_dir = args.compilation_database
-    cdb = clang.cindex.CompilationDatabase.fromDirectory(cdb_dir)
-    cmds = cdb.getCompileCommands(fname)
     cmd = ""
     wd = ""
     path = ""
-    for c in cmds:
-        if fname in c.filename:
-            cmd = [str(a) for a in c.arguments]
-            wd = c.directory
-            path = c.filename
-
-    if not cmd or not wd or not path:
+    try:
+        cdb = clang.cindex.CompilationDatabase.fromDirectory(cdb_dir)
+        cmds = cdb.getCompileCommands(fname)
+        for c in cmds:
+            if fname in c.filename:
+                cmd = [str(a) for a in c.arguments]
+                wd = c.directory
+                path = c.filename
+                break
+    except clang.cindex.CompilationDatabaseError:
+        cmd = []
+        wd = os.getcwd()
+        path = fname
         logging.warning("No known compile commands or working directory.")
 
     # os.chdir(wd)
 
     # Need to remove first 2 and last 2 strings on the command line, Libclang
     # does not like the --driver-mode=g++, '-- filename' syntax.
-    logging.info("Found compile commands: %s", " ".join(cmd))
-    logging.info("Found workding directory: %s", wd)
-    logging.info("Found file path: %s", path)
+    logging.info("Using compile commands: %s", " ".join(cmd))
+    logging.info("Using workding directory: %s", wd)
+    logging.info("Using file path: %s", path)
 
     # TODO: Speed-up using AST file?
     index = clang.cindex.Index.create()
@@ -143,10 +204,13 @@ def main(args):
         if args.token != n.displayname:
             continue
         # TODO: Run clang-format on region?
-        if n.kind == clang.cindex.CursorKind.ENUM_DECL and n.is_scoped_enum():
-            print(gen_scoped_enum(n))
         if n.kind == clang.cindex.CursorKind.ENUM_DECL:
-            print(gen_enum(n))
+            if is_bitflag_enum(n):
+                print(gen_bitflag_enum(n))
+            elif n.is_scoped_enum():
+                print(gen_scoped_enum(n))
+            else:
+                print(gen_enum(n))
         elif n.kind == clang.cindex.CursorKind.STRUCT_DECL:
             print(gen_struct(n))
         else:
