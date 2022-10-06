@@ -154,11 +154,17 @@ Note that 0 is considered a power of two in this case."
   (let* ((indent "    ")
          (name   (gethash "name" token))
          (nsp    (gethash "containerName" token))
+         (scoped (c++-genostream--is-scoped-enum ast))
          (enums  (c++-genostream--enum-values ast))
          (len    (length enums))
          (fqn    (if (string= nsp "") name (concat nsp "::" name)))
          (sep    (concat ",\n" indent indent))
-         (array  (mapconcat (lambda (v) (format "\"%s\"" (car v))) enums sep)))
+         (enames (mapconcat (lambda (v) (format "\"%s\"" (car v))) enums sep))
+         (econt  (if scoped (concat fqn "::") ""))
+         (evalues (mapconcat
+                   (lambda (v)
+                     (format "static_cast<UInt>(%s)" (concat econt (car v))))
+                   enums sep)))
     (format "std::ostream& operator<<(std::ostream &os, %s bf)
 {
     bool is_first = true;
@@ -169,9 +175,12 @@ Note that 0 is considered a power of two in this case."
     const char * enum_names[] = {
         %s
     };
+    UInt enum_values[] = {
+        %s
+    };
     for (size_t i = 0; i < nenums; i++)
     {
-        bool is_set = u & (static_cast<UInt>(1) << i);
+        bool is_set = u & enum_values[i];
         if (is_set && !is_first)
             os << \" | \";
         if (is_set)
@@ -181,7 +190,7 @@ Note that 0 is considered a power of two in this case."
         }
     }
     return os;
-}" fqn fqn len array fqn)))
+}" fqn fqn len enames evalues fqn)))
 
 
 (defun c++-genostream--enum-scoped (token ast)
