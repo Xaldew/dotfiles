@@ -45,8 +45,16 @@
 
 
 (defun c++-genostream--query-symbols ()
-  "Find or create a `.clang-format' file with style and root directory."
+  "Ask the user for a symbol and identify candidates the user can choose from.
+
+Additionally, if prefix is given, ask the user to specify a
+preference for the generated constructs.  This is primarily used
+to force generation of a bitflag enumeration operator where
+automatic detection is not possible."
   (let* ((token (read-string "Symbol: "))
+         (kinds '("Record" "Enum" "Bitflag"))
+         (kind  (when current-prefix-arg
+                  (completing-read "Prefer: " kinds nil t nil nil kinds)))
          (symbols (c++-genostream--get-symbols token))
          (candidates (c++-genostream--sort-candidates symbols))
          (choice (if (> (length candidates) 1)
@@ -54,7 +62,7 @@
                    (and candidates (car candidates))))
          (position (cl-position choice candidates :test #'string=)))
     (if choice
-        (list (nth position symbols))
+        (list (nth position symbols) kind)
       (error "No symbols found"))))
 
 
@@ -155,7 +163,8 @@ Note that 0 is considered a power of two in this case."
          (name   (gethash "name" token))
          (nsp    (gethash "containerName" token))
          (scoped (c++-genostream--is-scoped-enum ast))
-         (enums  (c++-genostream--enum-values ast))
+         (enums  (seq-filter (lambda (v) (c++-genostream--is-pow2 (cdr v)))
+                             (c++-genostream--enum-values ast)))
          (len    (length enums))
          (fqn    (if (string= nsp "") name (concat nsp "::" name)))
          (sep    (concat ",\n" indent indent))
@@ -284,8 +293,10 @@ Note that 0 is considered a power of two in this case."
       (buffer-string))))
 
 
-(defun c++-genostream--generate (token ast)
-  "Generate an output operator for the given TOKEN with corresponding AST node."
+(defun c++-genostream--generate-default (token ast)
+  "Generate an output operator for the given TOKEN with corresponding AST node.
+
+This is the default when user have not given any preference."
   (let ((type (gethash "kind" ast)))
     (cond
      ((string= type "Enum")
@@ -296,9 +307,45 @@ Note that 0 is considered a power of two in this case."
       (error "Unknown type to generate operator for")))))
 
 
+(defun c++-genostream--generate-with-preference (token ast kind)
+  "Generate an output operator for the given TOKEN with corresponding AST node.
+
+ Prefer KIND when possible."
+  (let ((type (gethash "kind" ast)))
+    (cond
+     ((and (or (string= kind "Enum")
+               (string= kind "Bitflag"))
+           (string= type "Enum"))
+      (cond
+       ((or (string= kind "Bitflag")
+            (c++-genostream--is-bitflag-enum ast))
+        (c++-genostream--enum-bitflag token ast))
+       ((c++-genostream--is-scoped-enum ast)
+        (c++-genostream--enum-scoped token ast))
+       (t
+        (c++-genostream--enum-bare token ast))))
+     ((and (string= kind "Record")
+           (string= type "CXXRecord"))
+      (c++-genostream--struct token ast))
+     (t
+      (error "Mismatched type to generate operator for")))))
+
+
+(defun c++-genostream--generate (token ast &optional kind)
+  "Generate an output operator for the given TOKEN with corresponding AST node.
+
+Optionally, if KIND is non-nil, prefer that kind."
+  (if kind
+      (c++-genostream--generate-with-preference token ast kind)
+    (c++-genostream--generate-default token ast)))
+
+
 ;;;###autoload
-(defun c++-genostream (token)
-  "Generate an output stream operator for the given TOKEN."
+(defun c++-genostream (token &optional kind)
+  "Generate an output stream operator for the given TOKEN.
+
+Optionally, if prefix is used prefer an operator of the given
+KIND."
   (interactive (c++-genostream--query-symbols))
   (let* ((loc (gethash "location" token))
          (nsp (gethash "containerName" token))
@@ -308,7 +355,7 @@ Note that 0 is considered a power of two in this case."
          (ast (c++-genostream--get-ast uri rng))
          (sym (c++-genostream--ast-find-symbol ast nam)))
     (if sym
-        (insert (c++-genostream--generate token sym))
+        (insert (c++-genostream--generate token sym kind))
       (error "Unable to find the given symbol"))))
 
 
