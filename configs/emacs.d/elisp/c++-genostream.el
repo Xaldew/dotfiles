@@ -151,17 +151,25 @@ Note that 0 is considered a power of two in this case."
 
 (defun c++-genostream--enum-bitflag (token ast)
   "Generate an output operator for bitflag enum using the AST node and TOKEN."
-  (let* ((name (gethash "name" token))
-         (nsp  (gethash "containerName" token))
-         (fqn  (if (string= nsp "") name (concat nsp "::" name))))
+  (let* ((indent "    ")
+         (name   (gethash "name" token))
+         (nsp    (gethash "containerName" token))
+         (enums  (c++-genostream--enum-values ast))
+         (len    (length enums))
+         (fqn    (if (string= nsp "") name (concat nsp "::" name)))
+         (sep    (concat ",\n" indent indent))
+         (array  (mapconcat (lambda (v) (format "\"%s\"" (car v))) enums sep)))
     (format "std::ostream& operator<<(std::ostream &os, %s bf)
 {
     bool is_first = true;
-    std::stringstream ss;
     using UnderlyingT = typename std::underlying_type_t<%s>;
     using UInt = typename std::make_unsigned_t<UnderlyingT>;
     UInt u = static_cast<UInt>(bf);
-    for (size_t i = 0; i < std::numeric_limits<UInt>::digits; i++)
+    const size_t nenums = %d;
+    const char * enum_names[] = {
+        %s
+    };
+    for (size_t i = 0; i < nenums; i++)
     {
         bool is_set = u & (static_cast<UInt>(1) << i);
         if (is_set && !is_first)
@@ -169,11 +177,11 @@ Note that 0 is considered a power of two in this case."
         if (is_set)
         {
             is_first = false;
-            ss << u;
+            os << enum_names[i];
         }
     }
-    return os << ss.str();
-}" fqn fqn fqn)))
+    return os;
+}" fqn fqn len array fqn)))
 
 
 (defun c++-genostream--enum-scoped (token ast)
