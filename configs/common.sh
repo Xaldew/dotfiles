@@ -780,3 +780,10 @@ if command_exists global; then
     export GTAGSLABEL=pygments
     export LESSGLOBALTAGS=global
 fi
+
+
+reboot_to_windows()
+{
+    windows_title=`sudo grep -i "^menuentry 'Windows" /boot/grub/grub.cfg|head -n 1|cut -d"'" -f2`
+    sudo grub-reboot "$windows_title" && sudo reboot
+}
