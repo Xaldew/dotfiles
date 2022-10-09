@@ -12,6 +12,8 @@ Description=fx_cast daemon
 User=fx_cast
 ExecStart=/opt/fx_cast/fx_cast_bridge -d
 Restart=always
+RestartSec=15
+KillSignal=SIGKILL
 
 [Install]
 WantedBy=multi-user.target
