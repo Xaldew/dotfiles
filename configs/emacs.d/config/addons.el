@@ -143,6 +143,12 @@ NAME can be used to set the name of the defined function."
     :config
     (yasnippet-radical-snippets-initialize))
 
+  (use-package py-snippets
+    :ensure t
+    :after yasnippet
+    :config
+    (py-snippets-initialize))
+
 
   ;; Activate company-mode for all buffers but Emacs lisp ones.
   (use-package company
