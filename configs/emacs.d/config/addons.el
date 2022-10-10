@@ -1480,7 +1480,9 @@ When `ERC' exits the SSH process is killed from `erc-kill-server-hook'."
     (setq lsp-clangd-version "14.0.0")
     :config
     ;; (setq lsp-clients-clangd-args '("-background-index"))
-    (setq lsp-enable-on-type-formatting nil))
+    (setq lsp-enable-on-type-formatting nil)
+    (setq lsp-warn-no-matched-clients nil)
+    (add-to-list 'lsp-language-id-configuration '(opencl-mode . "OpenCL")))
 
   (use-package lsp-ui
     :ensure t
