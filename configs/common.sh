@@ -781,9 +781,14 @@ if command_exists global; then
     export LESSGLOBALTAGS=global
 fi
 
-
 reboot_to_windows()
 {
     windows_title=`sudo grep -i "^menuentry 'Windows" /boot/grub/grub.cfg|head -n 1|cut -d"'" -f2`
     sudo grub-reboot "$windows_title" && sudo reboot
 }
+
+if command_exists sox; then
+    alias brownnoise="play -n synth brownnoise synth pinknoise mix synth sine amod 0.3 10"
+    alias whitenoise="play -q -c 2 -n synth brownnoise band -n 1600 1500 tremolo 0.1 30"
+    alias pinknoise="play -t sl -r48000 -c2 -n synth -1 pinknoise 0.1 80"
+fi
