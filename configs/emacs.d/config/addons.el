@@ -983,15 +983,6 @@ When `ERC' exits the SSH process is killed from `erc-kill-server-hook'."
     (define-key markdown-mode-map (kbd "M-h") #'backward-kill-word))
 
 
-  (use-package racer
-    :ensure t
-    :defer t
-    :init
-    (add-hook 'rust-mode-hook #'racer-mode)
-    :config
-    (setq racer-rust-src-path (getenv "RUST_SRC_PATH"))
-    (add-hook 'racer-mode-hook #'eldoc-mode))
-
   (use-package cargo
     :ensure t
     :defer t
@@ -1481,7 +1472,7 @@ When `ERC' exits the SSH process is killed from `erc-kill-server-hook'."
             (clang-format-region beg (point))))))
     (add-hook 'c-mode-hook      #'lsp)
     (add-hook 'c++-mode-hook    #'lsp)
-    ;; (add-hook 'rust-mode-hook   #'lsp)
+    (add-hook 'rust-mode-hook   #'lsp)
     (add-hook 'python-mode-hook #'lsp)
     (setq lsp-clangd-version "14.0.0")
     :config
