@@ -8,10 +8,7 @@ fi
 
 # Install various Rust utilities.
 if command -v cargo; then
-    cargo install racer
-    cargo install rustfmt
-    cargo install clippy
-    cargo install cargo-profiler
+    cargo +nightly install --force cargo-profiler
 fi
 
 
@@ -21,10 +18,20 @@ if command -v rustup; then
     rustup update
     rustup install nightly
 
+    rustup component add rustfmt --toolchain nightly
     rustup component add rls --toolchain nightly
     rustup component add clippy --toolchain nightly
     rustup component add rust-analysis --toolchain nightly
     rustup component add rust-src --toolchain nightly
+    rustup component add rustc-dev --toolchain nightly
+
+    # Stable Rust
+    rustup component add rustfmt
+    rustup component add rust-analyzer
+    rustup component add rls
+    rustup component add clippy
+    rustup component add rust-analysis
+    rustup component add rust-src
 
     # Install bash completion file.
     rustup completions bash > $HOME/.bash_completion.d/rustup.bash-completion
