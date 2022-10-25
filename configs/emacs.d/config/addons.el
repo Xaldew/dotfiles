@@ -983,6 +983,18 @@ When `ERC' exits the SSH process is killed from `erc-kill-server-hook'."
     (define-key markdown-mode-map (kbd "M-h") #'backward-kill-word))
 
 
+  (use-package rust-mode
+    :ensure t
+    :defer t
+    :config
+    (define-key rust-mode-map (kbd "C-c DEL")   #'c-hungry-delete-backwards)
+    (define-key rust-mode-map (kbd "C-c C-DEL") #'c-hungry-delete-backwards)
+    (define-key rust-mode-map (kbd "C-c C-h")   #'c-hungry-delete-backwards)
+
+    (define-key rust-mode-map (kbd "C-c DELETE") #'c-hungry-delete-forwards)
+    (define-key rust-mode-map (kbd "C-c C-DEL")  #'c-hungry-delete-forwards)
+    (define-key rust-mode-map (kbd "C-c C-d")    #'c-hungry-delete-forwards))
+
   (use-package cargo
     :ensure t
     :defer t
@@ -1263,7 +1275,6 @@ When `ERC' exits the SSH process is killed from `erc-kill-server-hook'."
   (use-package web-mode          :ensure t :defer t)
   (use-package cuda-mode         :ensure t :defer t)
   (use-package csv-mode          :ensure t :defer t)
-  (use-package rust-mode         :ensure t :defer t)
   (use-package flycheck-rust     :ensure t :defer t)
   (use-package powershell        :ensure t :defer t)
   (use-package ahk-mode          :ensure t :defer t)
