@@ -5,6 +5,13 @@
 ;;
 ;;; Code:
 
+(defvar python-shell-interpreter)
+(defvar python-shell-interpreter-args)
+(defvar python-shell-prompt-regexp)
+(defvar python-shell-prompt-output-regexp)
+(defvar python-shell-setup-codes)
+(defvar python-mode-map)
+
 (defun my/python-mode-hook ()
   "Personal Python-mode hook for buffer local settings."
   (when (executable-find "ipython")
