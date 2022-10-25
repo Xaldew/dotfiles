@@ -1001,7 +1001,8 @@ When `ERC' exits the SSH process is killed from `erc-kill-server-hook'."
     :init
     (add-hook 'rust-mode-hook #'cargo-minor-mode)
     :config
-    (setq cargo-process--command-clippy "clippy"))
+    (setq cargo-process--command-clippy "clippy")
+    (define-key cargo-minor-mode-command-map [f5] #'cargo-process-build))
 
 
   (use-package jenkins
