@@ -24,6 +24,7 @@ if command -v rustup; then
     rustup component add rust-analysis --toolchain nightly
     rustup component add rust-src --toolchain nightly
     rustup component add rustc-dev --toolchain nightly
+    rustup component add rust-analyzer
 
     # Stable Rust
     rustup component add rustfmt
@@ -31,10 +32,14 @@ if command -v rustup; then
     rustup component add rls
     rustup component add clippy
     rustup component add rust-analysis
+    rustup component add rust-analyzer
     rustup component add rust-src
 
     # Install bash completion file.
     rustup completions bash > $HOME/.bash_completion.d/rustup.bash-completion
+
+    # Add link for rust-analyzer to PATH.
+    ln -f -s $(rustup which --toolchain stable rust-analyzer) $HOME/.cargo/bin/rust-analyzer
 
     # Install Cargo bash completion.
     toolchain_dir=$(dirname $(dirname $(rustup which cargo)))
