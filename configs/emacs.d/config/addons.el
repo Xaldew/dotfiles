@@ -991,9 +991,9 @@ When `ERC' exits the SSH process is killed from `erc-kill-server-hook'."
     (define-key rust-mode-map (kbd "C-c C-DEL") #'c-hungry-delete-backwards)
     (define-key rust-mode-map (kbd "C-c C-h")   #'c-hungry-delete-backwards)
 
-    (define-key rust-mode-map (kbd "C-c DELETE") #'c-hungry-delete-forwards)
-    (define-key rust-mode-map (kbd "C-c C-DEL")  #'c-hungry-delete-forwards)
-    (define-key rust-mode-map (kbd "C-c C-d")    #'c-hungry-delete-forwards))
+    (define-key rust-mode-map (kbd "C-c DELETE") #'c-hungry-delete-forward)
+    (define-key rust-mode-map (kbd "C-c C-DEL")  #'c-hungry-delete-forward)
+    (define-key rust-mode-map (kbd "C-c C-d")    #'c-hungry-delete-forward))
 
   (use-package cargo
     :ensure t
