@@ -768,7 +768,7 @@ _s_: Set scale  _o_: Restore original  _R_: Rotate free   _q_: Quit
     "
  Source^^      Assembly^^      Breakpoints^^     Navigate^^    Reverse^^        Server^^
 ------------------------------------------------------------------------------------------------
- [_n_] Next    [_j_] Jump      [_b_] Breakpoint  [_M-p_] Up    [_r_] Record     [_M-r_] Run
+ [_n_] Next    [_j_] Jump      [_b_] Breakpoint  [_M-p_] Up    [_R_] Record     [_r_] Run
  [_s_] Step    [_c_] Continue  [_t_] Tmp Break   [_M-n_] Down  [_D_] Direction  [_M-s_] Stop
  [_u_] Until   [_N_] Next      [_w_] Watch       [_p_] Print   ^   ^            [_C-c_] Interrupt
  [_f_] Finish  [_S_] Step      [_d_] Delete      [_l_] Refresh ^   ^            [_q_] Quit
@@ -791,12 +791,12 @@ _s_: Set scale  _o_: Restore original  _R_: Rotate free   _q_: Quit
     ("M-p" gud-up)
     ("M-n" gud-down)
 
-    ("r" gud-record-toggle)
+    ("R" gud-record-toggle)
     ("D" gud-exec-dir-toggle)
 
     ("p" gud-print)
     ("l" gud-refresh)
-    ("M-r" gud-run)
+    ("r" gud-run)
     ("M-s" gud-stop-subjob)
     ("C-c" gud-stop-subjob)
     ("q" nil)
