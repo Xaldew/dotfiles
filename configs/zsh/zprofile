@@ -3,6 +3,7 @@
 
 alias ls="ls --color=auto"
 
+export ITERM_ENABLE_SHELL_INTEGRATION_WITH_TMUX=YES
 export VISUAL='emacs'
 export PAGER='less'
 
@@ -51,4 +52,8 @@ fi
 # Source .profile for additional settings and PATH changes.
 if [ -f "${HOME}/.profile" ]; then
     source ${HOME}/.profile
+fi
+
+if [ -f "${HOME}/.iterm2_shell_integration.zsh" ]; then
+    source "${HOME}/.iterm2_shell_integration.zsh"
 fi
