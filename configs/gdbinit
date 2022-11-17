@@ -5,6 +5,7 @@ import re
 import sys
 import os.path
 import textwrap
+import gdb
 import gdb.types
 import gdb.printing
 
@@ -43,6 +44,50 @@ def build_array_pp():
     return pp
 
 gdb.printing.register_pretty_printer(gdb.current_objfile(), build_array_pp())
+
+
+class LexicalCast(gdb.Command):
+    def __init__(self):
+        super(LexicalCast, self).__init__("lexical_cast", gdb.COMMAND_DATA)
+
+    def matches(self, symbol, type, exact=True):
+        params = symbol.find('('), symbol.find(')')
+        if -1 in params: return False
+        params = symbol[params[0] + 1 : params[1]]
+        if re.match("^%s, %s( const)?&?$"%(re.escape("std::ostream&"), re.escape(type)), params): return True
+        if not exact and re.match("^%s, .*::%s( const)?&?$"%(re.escape("std::ostream&"), re.escape(type)), params): return True
+        return False
+
+    def invoke(self, arg, from_tty):
+        value = gdb.parse_and_eval(arg)
+        type = str(value.type.strip_typedefs().unqualified())
+        # TODO: Isn't unqualified() supposed to do that already?
+        if type.startswith("const "): type = type[6:]
+        if type.startswith("struct "): type = type[7:]
+        if type.endswith(" &"): type = type[:-2]
+        # TODO: There's probably a better way to browse the list of symbols ...
+        shift_operators = gdb.execute("info functions operator<<", False, True).split('\n')
+        matching_operators = [ op for op in shift_operators if self.matches(op, type)]
+        if not matching_operators:
+              gdb.write("No operator<<(std::ostream&, const %s&) found in the symbols. "
+                        "Trying to find a match with additional namespace qualifiers.\n" % (type,))
+              matching_operators = [ op for op in shift_operators if self.matches(op, type, False)]
+        if not matching_operators:
+              gdb.write("No operator<<(std::ostream&, const .*::%s&) found in the symbols. "
+                        "Did you forget to explicitly instantiate your operator?\n"%(type,))
+        else:
+            if len(matching_operators) > 1:
+                gdb.write("Found multiple operator<< matching this expression; trying to call each one of them...\n")
+            for op in matching_operators:
+                try:
+                    op = op.split('  ', 1)[1][:-4] if op.endswith("@plt") else op.split(':', 1)[1].split('&', 1)[1].strip()[:-1]
+                    gdb.execute("call (void)'%s'((std::cout), (%s))"%(op, arg))
+                    gdb.execute("call (void)std::cout.put('\\n')")
+                    gdb.execute("call (void)std::cout.flush()")
+                    break
+                except Exception as e:
+                    gdb.write("Could not invoke %s: %s\n"%(op, e))
+LexicalCast()
 
 end
 
