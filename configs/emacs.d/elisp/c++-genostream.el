@@ -100,7 +100,7 @@ become harder to specialize."
   "Check if the number V is a power of 2.
 
 Note that 0 is considered a power of two in this case."
-  (= 0 (logand v (- v 1))))
+  (and v (= 0 (logand v (- v 1)))))
 
 
 (defun c++-genostream--is-bitflag-enum (ast)
@@ -109,7 +109,7 @@ Note that 0 is considered a power of two in this case."
         (enums (c++-genostream--enum-values ast)))
     (and (string= kind "Enum")
          enums                          ; Should not be empty.
-         (every (lambda (v) (c++-genostream--is-pow2 (cdr v))) enums))))
+         (cl-every (lambda (v) (c++-genostream--is-pow2 (cdr v))) enums))))
 
 
 (defun c++-genostream--ast-walk (ast)
