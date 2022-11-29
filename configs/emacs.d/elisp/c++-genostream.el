@@ -157,7 +157,7 @@ Note that 0 is considered a power of two in this case."
     (nreverse enums)))
 
 
-(defun c++-genostream--enum-bitflag (token ast)
+(defun c++-genostream--enum-bitflag-loop (token ast)
   "Generate an output operator for bitflag enum using the AST node and TOKEN."
   (let* ((indent "    ")
          (name   (gethash "name" token))
@@ -200,6 +200,42 @@ Note that 0 is considered a power of two in this case."
     }
     return os;
 }" fqn fqn len enames evalues fqn)))
+
+
+(defun c++-genostream--enum-bitflag (token ast)
+  "Generate an output operator for bitflag enum using the AST node and TOKEN."
+  (let* ((indent "    ")
+         (name   (gethash "name" token))
+         (nsp    (gethash "containerName" token))
+         (scoped (c++-genostream--is-scoped-enum ast))
+         ; Remove non-power of two flags - They are assumed to be unions.
+         (enums  (seq-filter (lambda (v) (c++-genostream--is-pow2 (cdr v)))
+                             (c++-genostream--enum-values ast)))
+         (len    (length enums))
+         (fqn    (if (string= nsp "") name (concat nsp "::" name)))
+         (sep    (concat ",\n" indent indent))
+         (enames (mapconcat (lambda (v) (format "\"%s\"" (car v))) enums sep))
+         (econt  (if scoped (concat fqn "::") "")))
+    (with-temp-buffer
+      (insert (format "std::ostream& operator<<(std::ostream &os, %s v)\n" fqn))
+      (insert "{\n")
+      (insert (format "%sbool is_first = true;\n" indent))
+      (insert (format "%susing UnderlyingT = typename std::underlying_type_t<%s>;\n" indent fqn))
+      (insert (format "%susing UInt = typename std::make_unsigned_t<UnderlyingT>;\n" indent))
+      (insert (format "%sconst UInt zero = static_cast<UInt>(0);\n" indent))
+      (insert (format "%sconst UInt u = static_cast<UInt>(v);\n" indent))
+      (dotimes (i len)
+        (let* ((enum (car (nth i enums)))
+               (fqn  (concat (if (string= nsp "") "" (concat nsp "::")) name "::" enum)))
+          (insert (format "%sif ((u & static_cast<UInt>(%s)) != zero)\n" indent fqn))
+          (insert (format "%s{\n" indent))
+          (insert (format "%s%sos << (!is_first ? \" | \" : \"\") << \"%s\";\n" indent indent enum))
+          (insert (format "%s%sis_first = false;\n" indent indent))
+          (insert (format "%s}\n" indent))))
+      (insert (format "%sreturn os;\n" indent))
+      (insert "}\n")
+      (buffer-string))))
+
 
 
 (defun c++-genostream--enum-scoped (token ast)
