@@ -44,7 +44,7 @@ ln -fs $dotfiles_dir/configs/gitattributes "$XDG_CONFIG_HOME"/git/attributes
 ln -fs $dotfiles_dir/configs/hgrc "$XDG_CONFIG_HOME"/hg/hgrc
 
 # Install GDB configurations.
-ln -fs $dotfiles_dir/configs/gdbinit "$XDG_CONFIG_HOME"/gdb/init
+ln -fs $dotfiles_dir/configs/gdbinit "$XDG_CONFIG_HOME"/gdb/gdbinit
 
 # Install tmux configuration and tmux plugin manager.
 create_linkfarm $dotfiles_dir/configs/tmux "$XDG_CONFIG_HOME"/tmux

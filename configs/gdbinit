@@ -13,21 +13,25 @@ home          = os.environ.get("HOME", "~")
 default_path  = os.path.join(home, "git", "installs")
 objects_dir   = os.environ.get("objects_dir", default_path)
 gdb_addons    = os.path.join(objects_dir, "gdb_addons")
-python_addons = os.path.join(gdb_addons, "gdb_python_stl")
+python_addons = os.path.join(objects_dir, "gcc", "libstdc++-v3", "python")
 ue4_addons    = os.path.join(home, ".config", "Epic", "GDBPrinters")
 
 if os.path.isdir(python_addons):
+  print("Installing libstdcxx printers...")
   sys.path.insert(0, python_addons)
   from libstdcxx.v6.printers import register_libstdcxx_printers
+  register_libstdcxx_printers(None)
 
-stl_script = os.path.join(gdb_addons, "gdb_stl_views.gdb")
+stl_script = os.path.join(gdb_addons, "stl_views.gdb")
 if os.path.exists(stl_script):
-  gdb.execute(stl_script)
+  print("Installing stl_script printers...")
+  gdb.execute(open(stl_script).read())
 
 if os.path.isdir(ue4_addons):
+  print("Installing UE4 printers...")
   sys.path.append(ue4_addons)
   from UE4Printers import register_ue4_printers
-  print("Registered pretty printers for UE4 classes")
+  register_ue4_printers(None)
 
 
 class StdArrayPrinter:
@@ -133,5 +137,6 @@ set language auto
 set history save on
 set history size unlimited
 set history remove-duplicates unlimited
+set python print-stack full
 
 show directories
