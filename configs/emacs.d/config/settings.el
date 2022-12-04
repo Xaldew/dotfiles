@@ -219,11 +219,14 @@ Non-stop mode only stops the current thread."
 
 
 ;; Activate line numbers and column markers.
-(setq linum-format "%d ")
-(setq line-number-mode t)
-(setq column-number-mode t)
-(add-hook 'after-init-hook 'global-linum-mode)
+(when (<= emacs-major-version 29)
+  (setq linum-format "%d ")
+  (setq line-number-mode t)
+  (setq column-number-mode t)
+  (add-hook 'after-init-hook 'global-linum-mode))
 
+(when (>= emacs-major-version 29)
+  (add-hook 'after-init-hook 'global-display-line-numbers-mode))
 
 ;; GNUS settings.
 (setq gnus-home-directory (expand-file-name "gnus/" user-emacs-directory)
