@@ -1199,7 +1199,7 @@ When `ERC' exits the SSH process is killed from `erc-kill-server-hook'."
   (use-package powerthesaurus
     :ensure t
     :defer t
-    :bind ("C-c t" . powerthesaurus-lookup))
+    :bind (("C-c t" . powerthesaurus-lookup-dwim)))
 
 
   (use-package eshell
