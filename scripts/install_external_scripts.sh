@@ -59,12 +59,8 @@ if command -v hg > /dev/null 2>&1 && [ ! -d $objects_dir/hg-prompt ]; then
 fi
 
 # Download and install GDB STL beautifiers.
-if command -v svn >/dev/null 2>&1 && [ ! -d $objects_dir/gdb_addons ]; then
+if [ ! -d $objects_dir/gdb_addons ]; then
     mkdir --parents $objects_dir/gdb_addons
-    if [ ! -d $objects_dir/gdb_python_stl ]; then
-	svn co svn://gcc.gnu.org/svn/gcc/trunk/libstdc++-v3/python \
-	    $objects_dir/gdb_addons/gdb_python_stl
-    fi
     url="https://sourceware.org/gdb/wiki/"
     url=$url"STLSupport?action=AttachFile&do=get&target=stl-views-1.0.3.gdb"
     if [ ! -d $objects_dir/gdb_addons/stl_views.gdb ]; then
