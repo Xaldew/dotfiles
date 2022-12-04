@@ -10,15 +10,14 @@ if [ -d $objects_dir/gcc ]; then
     git pull
 else
     git clone git://gcc.gnu.org/git/gcc.git
-    git checkout -B v6.3.0 tags/gcc-6_3_0-release
     $objects_dir/gcc/contrib/contrib/download_prerequisites
 fi
 
 cd $objects_dir/gcc
-./configure --prefix=$local_prefix_dir \
-	    --mandir=$local_prefix_dir/share/man \
-            --program-suffix="-6.3" \
-	    --enable-gold=yes \
-	    --enable-lto
-make -j4
-make install
+./configure \
+    --prefix=$local_prefix_dir \
+    --program-suffix="-master" \
+    --enable-gold=yes \
+    --enable-lto &&
+    make -j4 &&
+    make install
